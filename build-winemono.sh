@@ -61,7 +61,7 @@ function cross_build_mono ()
         rm -rf "$CURDIR/build-cross-$ARCH"
     fi
 
-    if [ ! -d "$CURDIR/build-cross-$ARCH" ]; then
+    if test ! -d "$CURDIR/build-cross-$ARCH"; then
         mkdir "$CURDIR/build-cross-$ARCH"
     fi
 
@@ -73,10 +73,39 @@ function cross_build_mono ()
     rm -rf "$CURDIR/build-cross-$ARCH-install"
     make install || exit 1
     cd "$CURDIR"
+
+    mkdir -p "$CURDIR/image/bin"
+    cp "$CURDIR/build-cross-$ARCH-install/bin/libmono-2.0.dll" "$CURDIR/image/bin/libmono-2.0-$ARCH.dll"
+}
+
+function build_cli ()
+{
+    if test 1 != $REBUILD; then
+        rm -rf "$CURDIR/build-cross-cli"
+    fi
+
+    if test ! -d "$CURDIR/build-cross-cli"; then
+        mkdir "$CURDIR/build-cross-cli"
+    fi
+
+    cd "$CURDIR/build-cross-cli"
+    if test 1 != $REBUILD || test ! -e Makefile; then
+        ../mono/configure --prefix="$CURDIR/build-cross-cli-install" --with-mcs-docs=no --disable-system-aot || exit 1
+    fi
+    make || exit 1
+    rm -rf "$CURDIR/build-cross-cli-install"
+    make install || exit 1
+    cd "$CURDIR"
+
+    mkdir -p "$CURDIR/image/lib"
+    cp -r "$CURDIR/build-cross-cli-install/etc" "$CURDIR/image/"
+    cp -r "$CURDIR/build-cross-cli-install/lib/mono" "$CURDIR/image/lib"
 }
 
 rm -rf image
 mkdir image
 
 cross_build_mono "$MINGW_x86" "$CROSS_DIR_x86" x86
+
+build_cli
 
