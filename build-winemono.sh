@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/sh
 CURDIR="`pwd`"
 MINGW_x86=i386-mingw32msvc
 CROSS_DIR_x86=/opt/cross/$MINGW_x86
@@ -6,7 +6,7 @@ INSTALL_DESTDIR="$CURDIR"
 ORIGINAL_PATH="$PATH"
 REBUILD=0
 
-function usage ()
+usage ()
 {
     cat <<EOF
 Usage: build-winemono.sh [OPTIONS]
@@ -21,8 +21,6 @@ EOF
 
     exit 1
 }
-
-pushd . > /dev/null
 
 while getopts "d:m:trh" opt; do
     case "$opt" in
@@ -51,7 +49,7 @@ fi
 cd "$CURDIR"
 
 
-function cross_build_mono ()
+cross_build_mono ()
 {
     local MINGW=$1
     local CROSS_DIR=$2
@@ -78,7 +76,7 @@ function cross_build_mono ()
     cp "$CURDIR/build-cross-$ARCH-install/bin/libmono-2.0.dll" "$CURDIR/image/bin/libmono-2.0-$ARCH.dll"
 }
 
-function build_cli ()
+build_cli ()
 {
     if test 1 != $REBUILD; then
         rm -rf "$CURDIR/build-cross-cli"
