@@ -5,6 +5,7 @@ CROSS_DIR_x86=/opt/cross/$MINGW_x86
 INSTALL_DESTDIR="$CURDIR"
 ORIGINAL_PATH="$PATH"
 REBUILD=0
+WINE=${WINE:-wine}
 
 usage ()
 {
@@ -100,10 +101,14 @@ build_cli ()
     cp -r "$CURDIR/build-cross-cli-install/lib/mono" "$CURDIR/image/lib"
 }
 
-rm -rf image
+rm -rf image image.cab
 mkdir image
 
 cross_build_mono "$MINGW_x86" "$CROSS_DIR_x86" x86
 
 build_cli
+
+cd image
+"${WINE}" cabarc -m mszip -r -p N ../image.cab *
+cd "${CURDIR}"
 
