@@ -6,6 +6,7 @@ INSTALL_DESTDIR="$CURDIR"
 ORIGINAL_PATH="$PATH"
 REBUILD=0
 WINE=${WINE:-wine}
+MSIFILENAME=winemono.msi
 
 usage ()
 {
@@ -101,7 +102,7 @@ build_cli ()
     cp -r "$CURDIR/build-cross-cli-install/lib/mono" "$CURDIR/image/lib"
 }
 
-rm -rf image image.cab
+rm -rf image image.cab "${MSIFILENAME}"
 mkdir image
 
 cross_build_mono "$MINGW_x86" "$CROSS_DIR_x86" x86
@@ -111,4 +112,7 @@ build_cli
 cd image
 "${WINE}" cabarc -m mszip -r -p N ../image.cab *
 cd "${CURDIR}"
+
+$WINE winemsibuilder -i "${MSIFILENAME}" msi-tables/*.idt
+$WINE winemsibuilder -a "${MSIFILENAME}" image.cab image.cab
 

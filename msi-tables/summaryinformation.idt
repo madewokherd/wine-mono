@@ -1,0 +1,14 @@
+PropertyId	Value
+i2	l255
+_SummaryInformation	PropertyId
+1	1252
+2	Wine Mono Installation Database
+3	Wine Mono
+4	The Wine Project
+5	Installer, Wine, Mono, .NET, Framework
+6	This installer database contains the logic and data required to install Wine Mono
+9	{AEBAEE89-6113-41B1-A5A1-48C433FDB2A3}
+14	200
+15	2
+18	winemsibuilder
+19	2
