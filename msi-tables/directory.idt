@@ -1,8 +1,0 @@
-Directory	Directory_Parent	DefaultDir
-s72	S72	l255
-Directory	Directory
-TARGETDIR		SourceDir
-MONODIR	MONOBASEDIR	mono-2.0
-MONOBASEDIR	WindowsFolder	mono
-WindowsFolder	TARGETDIR	.
-

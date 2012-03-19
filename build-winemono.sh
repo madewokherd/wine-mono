@@ -102,17 +102,148 @@ build_cli ()
     cp -r "$CURDIR/build-cross-cli-install/lib/mono" "$CURDIR/image/lib"
 }
 
-rm -rf image image.cab "${MSIFILENAME}"
+build_directorytable ()
+{
+    echo 'Directory\tDirectory_Parent\tDefaultDir'
+    echo 's72\tS72\tl255'
+    echo 'Directory\tDirectory'
+
+    echo 'TARGETDIR\t\tSourceDir'
+    echo 'MONODIR\tMONOBASEDIR\tmono-2.0:.'
+    echo 'MONOBASEDIR\tWindowsFolder\tmono:.'
+    echo 'WindowsFolder\tTARGETDIR\t.'
+
+    cd "$CURDIR/image"
+
+    for f in `find -type d | cut -d '/' -f2-`; do
+        if test x. = x$f; then
+            continue
+        fi
+        KEY=`echo $f|sed -e 's/\//|/g'`
+        DIRNAME=`dirname $f|sed -e 's/\//|/g'`
+        if test x. = x$DIRNAME; then
+            DIRNAME=MONODIR
+        fi
+        BASENAME=`basename $f`
+        echo $KEY\\t$DIRNAME\\t$BASENAME
+    done
+
+    cd "$CURDIR"
+}
+
+build_componenttable ()
+{
+    echo 'Component\tComponentId\tDirectory_\tAttributes\tCondition\tKeyPath'
+    echo 's72\tS38\ts72\ti2\tS255\tS72'
+    echo 'Component\tComponent'
+
+    echo 'mono\t{ACFBD087-C2FF-432A-AD88-9927F7C33901}\tMONODIR\t0\t\t'
+
+    cd "$CURDIR/image"
+
+    for f in `find -type d | cut -d '/' -f2-`; do
+        if test x. = x$f; then
+            continue
+        fi
+        KEY=`echo $f|sed -e 's/\//|/g'`
+        GUID=`uuidgen | tr [a-z] [A-Z]`
+        KEYPATH=`find "$f" -type f|head -n 1|sed -e 's/\//!/g'`
+        echo $KEY\\t{$GUID}\\t$KEY\\t0\\t\\t
+    done
+
+    cd "$CURDIR"
+}
+
+build_featurecomponentstable ()
+{
+    echo 'Feature_\tComponent_'
+    echo 's38\ts72'
+    echo 'FeatureComponents\tFeature_\tComponent_'
+
+    echo 'wine_mono\tmono'
+
+    cd "$CURDIR/image"
+
+    for f in `find -type d | cut -d '/' -f2-`; do
+        if test x. = x$f; then
+            continue
+        fi
+        KEY=`echo $f|sed -e 's/\//|/g'`
+        echo wine_mono\\t$KEY
+    done
+
+    cd "$CURDIR"
+}
+
+build_filetable ()
+{
+    echo 'File\tComponent_\tFileName\tFileSize\tVersion\tLanguage\tAttributes\tSequence'
+    echo 's72\ts72\tl255\ti4\tS72\tS20\tI2\ti2'
+    echo 'File\tFile'
+
+    SEQ=0
+
+    cd "$CURDIR/image"
+
+    for f in `find -type f | cut -d '/' -f2-`; do
+        SEQ=`expr $SEQ + 1`
+        KEY=`echo $f|sed -e 's/\//!/g'`
+        FILESIZE=`stat --format=%s $f`
+        DIRNAME=`dirname $f|sed -e 's/\//|/g'`
+        BASENAME=`basename $f`
+        echo $KEY\\t$DIRNAME\\t$BASENAME\\t$FILESIZE\\t\\t\\t\\t$SEQ
+    done
+
+    IMAGECAB_SEQ=$SEQ
+
+    cd "$CURDIR"
+}
+
+build_mediatable ()
+{
+    echo 'DiskId\tLastSequence\tDiskPrompt\tCabinet\tVolumeLabel\tSource'
+    echo 'i2\ti4\tL64\tS255\tS32\tS72'
+    echo 'Media\tDiskId'
+
+    echo 1\\t$IMAGECAB_SEQ\\t\\t#image.cab\\t\\t
+}
+
+build_msi ()
+{
+    rm -rf cab-contents
+    rm -f image.cab "${MSIFILENAME}"
+
+    mkdir "$CURDIR/cab-contents"
+
+    cd "$CURDIR/image"
+
+    for f in `find -type f | cut -d '/' -f2-`; do
+        KEY=`echo $f|sed -e 's/\//!/g'`
+        ln -s "$CURDIR/image/$f" "$CURDIR/cab-contents/$KEY"
+    done
+
+    cd "$CURDIR/cab-contents"
+
+    "${WINE}" cabarc -m mszip -r -p N ../image.cab *
+
+    cd "$CURDIR"
+
+    build_directorytable > msi-tables/directory.idt
+    build_componenttable > msi-tables/component.idt
+    build_featurecomponentstable > msi-tables/featurecomponents.idt
+    build_filetable > msi-tables/file.idt
+    build_mediatable > msi-tables/media.idt
+
+    "$WINE" winemsibuilder -i "${MSIFILENAME}" msi-tables/*.idt
+    "$WINE" winemsibuilder -a "${MSIFILENAME}" image.cab image.cab
+}
+
+rm -rf image
 mkdir image
 
 cross_build_mono "$MINGW_x86" "$CROSS_DIR_x86" x86
 
 build_cli
 
-cd image
-"${WINE}" cabarc -m mszip -r -p N ../image.cab *
-cd "${CURDIR}"
-
-$WINE winemsibuilder -i "${MSIFILENAME}" msi-tables/*.idt
-$WINE winemsibuilder -a "${MSIFILENAME}" image.cab image.cab
+build_msi
 

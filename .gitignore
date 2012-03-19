@@ -1,4 +1,12 @@
 /image
 /build-cross-x86
 /build-cross-x86-install
+/msi-tables/directory.idt
+/msi-tables/component.idt
+/msi-tables/featurecomponents.idt
+/msi-tables/file.idt
+/msi-tables/media.idt
+/cab-contents
+/image.cab
+/winemono.msi
 

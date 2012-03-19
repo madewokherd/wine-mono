@@ -7,6 +7,8 @@ CostFinalize		300
 InstallValidate		400
 InstallInitialize		500
 ProcessComponents		600
+RemoveFiles		700
+InstallFiles		800
 RegisterProduct		1000
 PublishFeatures		1100
 PublishProduct		1200
