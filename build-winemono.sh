@@ -203,7 +203,7 @@ build_filetable ()
 
     cd "$CURDIR/image"
 
-    for f in `find -type f | cut -d '/' -f2-`; do
+    for f in `find -type f | cut -d '/' -f2- | sort`; do
         SEQ=`expr $SEQ + 1`
         KEY=`echo $f|sed -e 's/\//!/g'`
         FILESIZE=`stat --format=%s $f`
