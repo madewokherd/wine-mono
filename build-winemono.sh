@@ -166,8 +166,8 @@ build_componenttable ()
         fi
         KEY=`echo $f|sed -e 's/\//|/g'`
         GUID=`uuidgen | tr [a-z] [A-Z]`
-        KEYPATH=`find "$f" -type f|head -n 1|sed -e 's/\//!/g'`
-        echo $KEY\\t{$GUID}\\t$KEY\\t0\\t\\t
+        KEYPATH=`find "$f" -type f|sort|head -n 1|sed -e 's/\//!/g'`
+        echo $KEY\\t{$GUID}\\t$KEY\\t0\\t\\t$KEYPATH
     done
 
     cd "$CURDIR"
