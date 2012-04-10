@@ -156,8 +156,6 @@ build_componenttable ()
     echo 's72\tS38\ts72\ti2\tS255\tS72'
     echo 'Component\tComponent'
 
-    echo 'mono\t{ACFBD087-C2FF-432A-AD88-9927F7C33901}\tMONODIR\t0\t\t'
-
     cd "$CURDIR/image"
 
     for f in `find -type d | cut -d '/' -f2-`; do
@@ -165,7 +163,10 @@ build_componenttable ()
             continue
         fi
         KEY=`echo $f|sed -e 's/\//|/g'`
-        GUID=`uuidgen | tr [a-z] [A-Z]`
+        if test ! -f "$CURDIR/component-guids/${KEY}.guid"; then
+            uuidgen | tr [a-z] [A-Z] > $CURDIR/component-guids/${KEY}.guid
+        fi
+        GUID=`cat "$CURDIR/component-guids/${KEY}.guid"`
         KEYPATH=`find "$f" -type f|sort|head -n 1|sed -e 's/\//!/g'`
         echo $KEY\\t{$GUID}\\t$KEY\\t0\\t\\t$KEYPATH
     done
@@ -178,8 +179,6 @@ build_featurecomponentstable ()
     echo 'Feature_\tComponent_'
     echo 's38\ts72'
     echo 'FeatureComponents\tFeature_\tComponent_'
-
-    echo 'wine_mono\tmono'
 
     cd "$CURDIR/image"
 
