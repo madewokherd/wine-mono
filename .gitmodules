@@ -1,0 +1,6 @@
+[submodule "mono"]
+	path = mono
+	url = ../mono.git
+[submodule "mono-basic"]
+	path = mono-basic
+	url = ../mono-basic.git
