@@ -80,6 +80,7 @@ cross_build_mono ()
 
 build_cli ()
 {
+    # build mono
     if test 1 != $REBUILD; then
         rm -rf "$CURDIR/build-cross-cli"
     fi
@@ -97,6 +98,19 @@ build_cli ()
     make install || exit 1
     cd "$CURDIR"
 
+    # set up for further builds
+    export PATH="$CURDIR/build-cross-cli-install/bin":$PATH
+    export LD_LIBRARY_PATH="$CURDIR/build-cross-cli-install/lib":$LD_LIBRARY_PATH
+    export MONO_GAC_PREFIX="$CURDIR/build-cross-cli-install"
+
+    # build mono-basic
+    cd "$CURDIR/mono-basic"
+    ./configure --prefix="$CURDIR/build-cross-cli-install" || exit 1
+    make || exit 1
+    make install || exit 1
+    cd "$CURDIR"
+
+    # build image/ directory
     mkdir -p "$CURDIR/image/lib"
     cp -r "$CURDIR/build-cross-cli-install/etc" "$CURDIR/image/"
     cp -r "$CURDIR/build-cross-cli-install/lib/mono" "$CURDIR/image/lib"
