@@ -114,6 +114,11 @@ build_cli ()
     mkdir -p "$CURDIR/image/lib"
     cp -r "$CURDIR/build-cross-cli-install/etc" "$CURDIR/image/"
     cp -r "$CURDIR/build-cross-cli-install/lib/mono" "$CURDIR/image/lib"
+
+    # remove debug files
+    for f in `find image|grep '\.mdb$'`; do
+        rm "$f"
+    done
 }
 
 build_directorytable ()
