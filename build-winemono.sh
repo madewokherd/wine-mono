@@ -1,8 +1,8 @@
 #!/bin/sh
 CURDIR="`pwd`"
-MINGW_x86=i386-mingw32msvc
+MINGW_x86=i686-w64-mingw32
 CROSS_DIR_x86=/opt/cross/$MINGW_x86
-MINGW_x86_64=amd64-mingw32msvc
+MINGW_x86_64=x86_64-w64-mingw32
 CROSS_DIR_x86_64=/opt/cross/$MINGW_x86
 INSTALL_DESTDIR="$CURDIR"
 ORIGINAL_PATH="$PATH"
@@ -76,7 +76,7 @@ cross_build_mono ()
         ../mono/configure --prefix="$CURDIR/build-cross-$ARCH-install" --build=$BUILD --target=$MINGW --host=$MINGW --with-tls=none --disable-mcs-build --enable-win32-dllmain=yes --with-libgc-threads=win32 PKG_CONFIG=false mono_cv_clang=no || exit 1
         sed -e 's/-lgcc_s//' -i libtool
     fi
-    WINEPREFIX=/dev/null make || exit 1
+    WINEPREFIX=/dev/null make $MAKEOPTS || exit 1
     rm -rf "$CURDIR/build-cross-$ARCH-install"
     make install || exit 1
     cd "$CURDIR"
@@ -100,7 +100,7 @@ build_cli ()
     if test 1 != $REBUILD || test ! -e Makefile; then
         ../mono/configure --prefix="$CURDIR/build-cross-cli-install" --with-mcs-docs=no --disable-system-aot || exit 1
     fi
-    make || exit 1
+    make $MAKEOPTS || exit 1
     rm -rf "$CURDIR/build-cross-cli-install"
     make install || exit 1
     cd "$CURDIR"
@@ -113,7 +113,7 @@ build_cli ()
     # build mono-basic
     cd "$CURDIR/mono-basic"
     ./configure --prefix="$CURDIR/build-cross-cli-install" || exit 1
-    make || exit 1
+    make $MAKEOPTS || exit 1
     make install || exit 1
     cd "$CURDIR"
 
