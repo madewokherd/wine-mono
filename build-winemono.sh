@@ -122,6 +122,10 @@ build_cli ()
     cp -r "$CURDIR/build-cross-cli-install/etc" "$CURDIR/image/"
     cp -r "$CURDIR/build-cross-cli-install/lib/mono" "$CURDIR/image/lib"
 
+    cp "$CURDIR/build-cross-cli-install/etc/mono/2.0/machine.config" "$CURDIR/image/1.1-machine.config"
+    cp "$CURDIR/build-cross-cli-install/etc/mono/2.0/machine.config" "$CURDIR/image/2.0-machine.config"
+    cp "$CURDIR/build-cross-cli-install/etc/mono/4.0/machine.config" "$CURDIR/image/4.0-machine.config"
+
     # remove debug files
     for f in `find image|grep '\.mdb$'`; do
         rm "$f"
@@ -141,11 +145,14 @@ build_directorytable ()
     echo 'WindowsDotNet\tWindowsFolder\tMicrosoft.NET'
     echo 'WindowsDotNetFramework\tWindowsDotNet\tFramework'
     echo 'WindowsDotNetFramework11\tWindowsDotNetFramework\tv1.1.4322'
+    echo 'WindowsDotNetFramework11Config\tWindowsDotNetFramework11\tCONFIG'
     echo 'WindowsDotNetFramework20\tWindowsDotNetFramework\tv2.0.50727'
+    echo 'WindowsDotNetFramework20Config\tWindowsDotNetFramework20\tCONFIG'
     echo 'WindowsDotNetFramework30\tWindowsDotNetFramework\tv3.0'
     echo 'WindowsDotNetFramework30wcf\tWindowsDotNetFramework30\twindows communication foundation'
     echo 'WindowsDotNetFramework30wpf\tWindowsDotNetFramework30\twpf'
     echo 'WindowsDotNetFramework40\tWindowsDotNetFramework\tv4.0.30319'
+    echo 'WindowsDotNetFramework40Config\tWindowsDotNetFramework40\tCONFIG'
 
     cd "$CURDIR/image"
 
@@ -172,6 +179,9 @@ build_componenttable ()
     echo 'Component\tComponent'
 
     echo 'mono-registry\t{93BE4304-497C-4ACB-A0FD-1C3695C011B4}\tWindowsDotNetFramework\t4\t\tDotNetFrameworkInstallRoot'
+    echo 'config-1.1\t{0DA29B5A-2050-4200-92EE-442D1EE6CF96}\tWindowsDotNetFramework11Config\t0\t\t1.1-machine.config'
+    echo 'config-2.0\t{ABB0BF6A-6610-4E45-8194-64D596667621}\tWindowsDotNetFramework20Config\t0\t\t2.0-machine.config'
+    echo 'config-4.0\t{511C0294-4504-4FC9-B5A7-E85CCEE95C6B}\tWindowsDotNetFramework40Config\t0\t\t4.0-machine.config'
 
     cd "$CURDIR/image"
 
@@ -198,6 +208,9 @@ build_featurecomponentstable ()
     echo 'FeatureComponents\tFeature_\tComponent_'
 
     echo 'wine_mono\tmono-registry'
+    echo 'wine_mono\tconfig-1.1'
+    echo 'wine_mono\tconfig-2.0'
+    echo 'wine_mono\tconfig-4.0'
 
     cd "$CURDIR/image"
 
@@ -226,9 +239,26 @@ build_filetable ()
         SEQ=`expr $SEQ + 1`
         KEY=`echo $f|sed -e 's/\//!/g'`
         FILESIZE=`stat --format=%s $f`
-        DIRNAME=`dirname $f|sed -e 's/\//|/g'`
-        BASENAME=`basename $f`
-        echo $KEY\\t$DIRNAME\\t$BASENAME\\t$FILESIZE\\t\\t\\t\\t$SEQ
+
+        case $f in 1.1-machine.config)
+            COMPONENT=config-1.1
+            BASENAME=machine.config
+        ;;
+        2.0-machine.config)
+            COMPONENT=config-2.0
+            BASENAME=machine.config
+        ;;
+        4.0-machine.config)
+            COMPONENT=config-4.0
+            BASENAME=machine.config
+        ;;
+        *)
+            COMPONENT=`dirname $f|sed -e 's/\//|/g'`
+            BASENAME=`basename $f`
+        ;;
+        esac
+
+        echo $KEY\\t$COMPONENT\\t$BASENAME\\t$FILESIZE\\t\\t\\t\\t$SEQ
     done
 
     IMAGECAB_SEQ=$SEQ
