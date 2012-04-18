@@ -138,6 +138,8 @@ build_directorytable ()
     echo 'MONODIR\tMONOBASEDIR\tmono-2.0:.'
     echo 'MONOBASEDIR\tWindowsFolder\tmono:.'
     echo 'WindowsFolder\tTARGETDIR\t.'
+    echo 'WindowsDotNet\tWindowsFolder\tMicrosoft.NET'
+    echo 'WindowsDotNetFramework\tWindowsDotNet\tFramework'
 
     cd "$CURDIR/image"
 
@@ -163,6 +165,8 @@ build_componenttable ()
     echo 's72\tS38\ts72\ti2\tS255\tS72'
     echo 'Component\tComponent'
 
+    echo 'mono-registry\t{93BE4304-497C-4ACB-A0FD-1C3695C011B4}\tWindowsDotNetFramework\t4\t\tDotNetFrameworkInstallRoot'
+
     cd "$CURDIR/image"
 
     for f in `find -type d | cut -d '/' -f2-`; do
@@ -186,6 +190,8 @@ build_featurecomponentstable ()
     echo 'Feature_\tComponent_'
     echo 's38\ts72'
     echo 'FeatureComponents\tFeature_\tComponent_'
+
+    echo 'wine_mono\tmono-registry'
 
     cd "$CURDIR/image"
 

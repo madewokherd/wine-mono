@@ -9,6 +9,8 @@ InstallInitialize		500
 ProcessComponents		600
 RemoveFiles		700
 InstallFiles		800
+RemoveRegistryValues		900
+WriteRegistryValues		950
 RegisterProduct		1000
 PublishFeatures		1100
 PublishProduct		1200

@@ -1,0 +1,40 @@
+Registry	Root	Key	Name	Value	Component_
+s72	i2	l255	L255	L0	s72
+Registry	Registry
+DotNetFrameworkKey	2	Software\Microsoft\.NETFramework	*		mono-registry
+DotNetFrameworkInstallRoot	2	Software\Microsoft\.NETFramework	InstallRoot	[$mono-registry]	mono-registry
+DotNetFrameworkPolicy10	2	Software\Microsoft\.NETFramework\policy\v1.0	+		mono-registry
+DotNetFrameworkPolicy11	2	Software\Microsoft\.NETFramework\policy\v1.1	+		mono-registry
+DotNetFrameworkPolicy20	2	Software\Microsoft\.NETFramework\policy\v2.0	50727	50727-50727	mono-registry
+DotNetFrameworkPolicy30	2	Software\Microsoft\.NETFramework\policy\v3.0	+		mono-registry
+NDPKey	2	Software\Microsoft\NET Framework Setup	*		mono-registry
+NDP11Install	2	Software\Microsoft\NET Framework Setup\NDP\v1.1.4322	Install	#1	mono-registry
+NDP11SP	2	Software\Microsoft\NET Framework Setup\NDP\v1.1.4322	SP	#1	mono-registry
+NDP20Install	2	Software\Microsoft\NET Framework Setup\NDP\v2.0.50727	Install	#1	mono-registry
+NDP20SP	2	Software\Microsoft\NET Framework Setup\NDP\v2.0.50727	SP	#2	mono-registry
+NDP20Version	2	Software\Microsoft\NET Framework Setup\NDP\v2.0.50727	Version	2.2.30729	mono-registry
+NDP30Install	2	Software\Microsoft\NET Framework Setup\NDP\v3.0	Install	#1	mono-registry
+NDP30SP	2	Software\Microsoft\NET Framework Setup\NDP\v3.0	SP	#2	mono-registry
+NDP30Version	2	Software\Microsoft\NET Framework Setup\NDP\v3.0	Version	3.5.30729.01	mono-registry
+NDP30InstallSuccess	2	Software\Microsoft\NET Framework Setup\NDP\v3.0\Setup	InstallSuccess	#1	mono-registry
+NDP35Install	2	Software\Microsoft\NET Framework Setup\NDP\v3.5	Install	#1	mono-registry
+NDP35SP	2	Software\Microsoft\NET Framework Setup\NDP\v3.5	SP	#1	mono-registry
+NDP35Version	2	Software\Microsoft\NET Framework Setup\NDP\v3.5	Version	3.5.30729.01	mono-registry
+NDP351033Install	2	Software\Microsoft\NET Framework Setup\NDP\v3.5\1033	Install	#1	mono-registry
+NDP4ClientInstall	2	Software\Microsoft\NET Framework Setup\NDP\v4\Client	Install	#1	mono-registry
+NDP4ClientVersion	2	Software\Microsoft\NET Framework Setup\NDP\v4\Client	Version	4.0.30319	mono-registry
+NDP4ClientTargetVersion	2	Software\Microsoft\NET Framework Setup\NDP\v4\Client	TargetVersion	4.0.0	mono-registry
+NDP4FullInstall	2	Software\Microsoft\NET Framework Setup\NDP\v4\Full	Install	#1	mono-registry
+NDP4FullVersion	2	Software\Microsoft\NET Framework Setup\NDP\v4\Full	Version	4.0.30319	mono-registry
+NDP4FullTargetVersion	2	Software\Microsoft\NET Framework Setup\NDP\v4\Full	TargetVersion	4.0.0	mono-registry
+ActiveSetupDotNet20Key	2	SOFTWARE\Microsoft\Active Setup\Installed Components\{7131646D-CD3C-40F4-97B9-CD9E4E6262EF}	*		mono-registry
+ActiveSetupDotNet20Default	2	SOFTWARE\Microsoft\Active Setup\Installed Components\{7131646D-CD3C-40F4-97B9-CD9E4E6262EF}		.NET Framework	mono-registry
+ActiveSetupDotNet20ComponentID	2	SOFTWARE\Microsoft\Active Setup\Installed Components\{7131646D-CD3C-40F4-97B9-CD9E4E6262EF}	ComponentID	.NETFramework	mono-registry
+ActiveSetupDotNet20Locale	2	SOFTWARE\Microsoft\Active Setup\Installed Components\{7131646D-CD3C-40F4-97B9-CD9E4E6262EF}	Locale		mono-registry
+ActiveSetupDotNet20Version	2	SOFTWARE\Microsoft\Active Setup\Installed Components\{7131646D-CD3C-40F4-97B9-CD9E4E6262EF}	Version	2,0,50727,0	mono-registry
+ActiveSetupDotNet10Key	2	SOFTWARE\Microsoft\Active Setup\Installed Components\{CB2F7EDD-9D1F-43C1-90FC-4F52EAE172A1}	*		mono-registry
+ActiveSetupDotNet10Default	2	SOFTWARE\Microsoft\Active Setup\Installed Components\{CB2F7EDD-9D1F-43C1-90FC-4F52EAE172A1}		.NET Framework	mono-registry
+ActiveSetupDotNet10ComponentID	2	SOFTWARE\Microsoft\Active Setup\Installed Components\{CB2F7EDD-9D1F-43C1-90FC-4F52EAE172A1}	ComponentID	.NETFramework	mono-registry
+ActiveSetupDotNet10Locale	2	SOFTWARE\Microsoft\Active Setup\Installed Components\{CB2F7EDD-9D1F-43C1-90FC-4F52EAE172A1}	Locale		mono-registry
+ActiveSetupDotNet10Version	2	SOFTWARE\Microsoft\Active Setup\Installed Components\{CB2F7EDD-9D1F-43C1-90FC-4F52EAE172A1}	Version	1,0,4322,1	mono-registry
+
