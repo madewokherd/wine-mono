@@ -182,6 +182,7 @@ build_componenttable ()
     echo 'config-1.1\t{0DA29B5A-2050-4200-92EE-442D1EE6CF96}\tWindowsDotNetFramework11Config\t0\t\t1.1-machine.config'
     echo 'config-2.0\t{ABB0BF6A-6610-4E45-8194-64D596667621}\tWindowsDotNetFramework20Config\t0\t\t2.0-machine.config'
     echo 'config-4.0\t{511C0294-4504-4FC9-B5A7-E85CCEE95C6B}\tWindowsDotNetFramework40Config\t0\t\t4.0-machine.config'
+    echo 'dotnet-folder\t{22DCE198-F30F-4E74-AEC6-D089B844A878}\tWindowsDotNet\t0\t\t' # needed to remove the folder
 
     cd "$CURDIR/image"
 
@@ -211,6 +212,7 @@ build_featurecomponentstable ()
     echo 'wine_mono\tconfig-1.1'
     echo 'wine_mono\tconfig-2.0'
     echo 'wine_mono\tconfig-4.0'
+    echo 'wine_mono\tdotnet-folder'
 
     cd "$CURDIR/image"
 
