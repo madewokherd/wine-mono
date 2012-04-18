@@ -140,6 +140,12 @@ build_directorytable ()
     echo 'WindowsFolder\tTARGETDIR\t.'
     echo 'WindowsDotNet\tWindowsFolder\tMicrosoft.NET'
     echo 'WindowsDotNetFramework\tWindowsDotNet\tFramework'
+    echo 'WindowsDotNetFramework11\tWindowsDotNetFramework\tv1.1.4322'
+    echo 'WindowsDotNetFramework20\tWindowsDotNetFramework\tv2.0.50727'
+    echo 'WindowsDotNetFramework30\tWindowsDotNetFramework\tv3.0'
+    echo 'WindowsDotNetFramework30wcf\tWindowsDotNetFramework30\twindows communication foundation'
+    echo 'WindowsDotNetFramework30wpf\tWindowsDotNetFramework30\twpf'
+    echo 'WindowsDotNetFramework40\tWindowsDotNetFramework\tv4.0.30319'
 
     cd "$CURDIR/image"
 
