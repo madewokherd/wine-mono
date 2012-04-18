@@ -1,0 +1,4 @@
+Action	Type	Source	Target	ExtendedType
+s72	i2	S72	L0	I4
+CustomAction	Action
+INSTALLFAKEDLLS	34	support	rundll32 setupapi.dll,InstallHinfSection DefaultInstall 128 [$support]dotnetfakedlls.inf	

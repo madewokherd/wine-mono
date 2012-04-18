@@ -278,5 +278,8 @@ cross_build_mono "$MINGW_x86" "$CROSS_DIR_x86" x86
 
 build_cli
 
+mkdir image/support
+cp dotnetfakedlls.inf image/support/
+
 build_msi
 
