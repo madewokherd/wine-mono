@@ -5,6 +5,7 @@
 /build-cross-cli-install
 /msi-tables/directory.idt
 /msi-tables/component.idt
+/msi-tables/createfolder.idt
 /msi-tables/featurecomponents.idt
 /msi-tables/file.idt
 /msi-tables/media.idt

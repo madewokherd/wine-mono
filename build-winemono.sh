@@ -184,6 +184,30 @@ build_componenttable ()
     cd "$CURDIR"
 }
 
+build_createfoldertable ()
+{
+    echo 'Directory_\tComponent_'
+    echo 's72\ts72'
+    echo 'CreateFolder\tDirectory_\tComponent_'
+
+    echo 'WindowsDotNet\tdotnet-folder'
+
+    cd "$CURDIR/image"
+
+    for f in `find -type d | cut -d '/' -f2-`; do
+        if test x. = x$f; then
+            continue
+        fi
+        FILE=`find "$f" -maxdepth 1 -type f`
+        if test ! "$FILE"; then
+            KEY=`echo $f|sed -e 's/\//|/g'`
+            echo $KEY\\t$KEY
+        fi
+    done
+
+    cd "$CURDIR"
+}
+
 build_featurecomponentstable ()
 {
     echo 'Feature_\tComponent_'
@@ -281,6 +305,7 @@ build_msi ()
 
     build_directorytable > msi-tables/directory.idt
     build_componenttable > msi-tables/component.idt
+    build_createfoldertable > msi-tables/createfolder.idt
     build_featurecomponentstable > msi-tables/featurecomponents.idt
     build_filetable > msi-tables/file.idt
     build_mediatable > msi-tables/media.idt
