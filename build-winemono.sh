@@ -177,7 +177,7 @@ build_componenttable ()
             uuidgen | tr [a-z] [A-Z] > $CURDIR/component-guids/${KEY}.guid
         fi
         GUID=`cat "$CURDIR/component-guids/${KEY}.guid"`
-        KEYPATH=`find "$f" -type f|sort|head -n 1|sed -e 's/\//!/g'`
+        KEYPATH=`find "$f" -maxdepth 1 -type f|sort|head -n 1|sed -e 's/\//!/g'`
         echo $KEY\\t{$GUID}\\t$KEY\\t0\\t\\t$KEYPATH
     done
 
