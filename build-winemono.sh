@@ -1,4 +1,7 @@
 #!/bin/sh
+
+# setup
+
 CURDIR="`pwd`"
 MINGW_x86=i686-w64-mingw32
 MINGW_x86_64=x86_64-w64-mingw32
@@ -35,21 +38,7 @@ while getopts "d:m:D:M:trh" opt; do
 done
 
 
-# create configure script and such
-cd "$CURDIR"/mono
-
-if test 1 != $REBUILD || test ! -e configure; then
-    NOCONFIGURE=yes ./autogen.sh || exit 1
-
-    BUILD="`./config.guess`"
-
-    if test -f ./Makefile; then
-    rm -rf autom4te.cache
-    fi
-fi
-
-cd "$CURDIR"
-
+# function definitions
 
 cross_build_mono ()
 {
@@ -299,6 +288,24 @@ build_msi ()
     "$WINE" winemsibuilder -i "${MSIFILENAME}" msi-tables/*.idt
     "$WINE" winemsibuilder -a "${MSIFILENAME}" image.cab image.cab
 }
+
+
+# build
+
+cd "$CURDIR"/mono
+
+if test 1 != $REBUILD || test ! -e configure; then
+    # create configure script and such
+    NOCONFIGURE=yes ./autogen.sh || exit 1
+
+    BUILD="`./config.guess`"
+
+    if test -f ./Makefile; then
+    rm -rf autom4te.cache
+    fi
+fi
+
+cd "$CURDIR"
 
 rm -rf image
 mkdir image
