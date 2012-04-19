@@ -1,9 +1,7 @@
 #!/bin/sh
 CURDIR="`pwd`"
 MINGW_x86=i686-w64-mingw32
-CROSS_DIR_x86=/opt/cross/$MINGW_x86
 MINGW_x86_64=x86_64-w64-mingw32
-CROSS_DIR_x86_64=/opt/cross/$MINGW_x86
 INSTALL_DESTDIR="$CURDIR"
 ORIGINAL_PATH="$PATH"
 REBUILD=0
@@ -17,9 +15,7 @@ Usage: build-winemono.sh [OPTIONS]
 
 where OPTIONS are:
 
- -d DIR     Sets the location of directory where x86 MINGW is installed [$CROSS_DIR_x86]
  -m MINGW   Sets the x86 MINGW target name to be passed to configure [$MINGW_x86]
- -D DIR     Sets the location of directory where amd64 MINGW is installed [$CROSS_DIR_x86_64]
  -M MINGW   Sets the amd64 MINGW target name to be passed to configure [$MINGW_x86_64]
  -t         Build the mono test suite
  -r         Rebuild (skips configure)
@@ -30,9 +26,7 @@ EOF
 
 while getopts "d:m:D:M:trh" opt; do
     case "$opt" in
-	d) CROSS_DIR_x86="$OPTARG" ;;
 	m) MINGW_x86="$OPTARG" ;;
-	D) CROSS_DIR_x86_64="$OPTARG" ;;
 	M) MINGW_x86_64="$OPTARG" ;;
 	t) BUILD_TESTS=1 ;;
 	r) REBUILD=1 ;;
@@ -60,8 +54,7 @@ cd "$CURDIR"
 cross_build_mono ()
 {
     local MINGW=$1
-    local CROSS_DIR=$2
-    local ARCH=$3
+    local ARCH=$2
 
     if test 1 != $REBUILD; then
         rm -rf "$CURDIR/build-cross-$ARCH"
@@ -310,9 +303,9 @@ build_msi ()
 rm -rf image
 mkdir image
 
-cross_build_mono "$MINGW_x86_64" "$CROSS_DIR_x86_64" x86_64
+cross_build_mono "$MINGW_x86_64" x86_64
 
-cross_build_mono "$MINGW_x86" "$CROSS_DIR_x86" x86
+cross_build_mono "$MINGW_x86" x86
 
 build_cli
 
