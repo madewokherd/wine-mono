@@ -165,6 +165,8 @@ build_componenttable ()
     echo 'config-2.0\t{ABB0BF6A-6610-4E45-8194-64D596667621}\tWindowsDotNetFramework20Config\t0\t\t2.0-machine.config'
     echo 'config-4.0\t{511C0294-4504-4FC9-B5A7-E85CCEE95C6B}\tWindowsDotNetFramework40Config\t0\t\t4.0-machine.config'
     echo 'dotnet-folder\t{22DCE198-F30F-4E74-AEC6-D089B844A878}\tWindowsDotNet\t0\t\t' # needed to remove the folder
+    echo 'monobase-folder\t{BE46D94A-7443-4B5C-9B91-6A83815365AB}\tMONOBASEDIR\t0\t\t'
+    echo 'mono-folder\t{FD7F9172-4E35-4DF5-BD6A-FB7B795D9346}\tMONODIR\t0\t\t'
 
     cd "$CURDIR/image"
 
@@ -191,6 +193,8 @@ build_createfoldertable ()
     echo 'CreateFolder\tDirectory_\tComponent_'
 
     echo 'WindowsDotNet\tdotnet-folder'
+    echo 'MONOBASEDIR\tmonobase-folder'
+    echo 'MONODIR\tmono-folder'
 
     cd "$CURDIR/image"
 
@@ -219,6 +223,8 @@ build_featurecomponentstable ()
     echo 'wine_mono\tconfig-2.0'
     echo 'wine_mono\tconfig-4.0'
     echo 'wine_mono\tdotnet-folder'
+    echo 'wine_mono\tmonobase-folder'
+    echo 'wine_mono\tmono-folder'
 
     cd "$CURDIR/image"
 
