@@ -165,6 +165,13 @@ build_componenttable ()
     echo 'config-2.0\t{ABB0BF6A-6610-4E45-8194-64D596667621}\tWindowsDotNetFramework20Config\t0\t\t2.0-machine.config'
     echo 'config-4.0\t{511C0294-4504-4FC9-B5A7-E85CCEE95C6B}\tWindowsDotNetFramework40Config\t0\t\t4.0-machine.config'
     echo 'dotnet-folder\t{22DCE198-F30F-4E74-AEC6-D089B844A878}\tWindowsDotNet\t0\t\t' # needed to remove the folder
+    echo 'framework-folder\t{41B3A67B-63F4-4491-A53C-9E792BE5A889}\tWindowsDotNetFramework\t0\t\t'
+    echo 'framework11-folder\t{20F5741D-4655-400D-8373-7607A84D2478}\tWindowsDotNetFramework11\t0\t\t'
+    echo 'framework20-folder\t{B845FD54-09B7-467C-800F-205A142F2F20}\tWindowsDotNetFramework20\t0\t\t'
+    echo 'framework30-folder\t{C3221C80-F9D2-41B5-91E1-F6ADBB05ABBC}\tWindowsDotNetFramework30\t0\t\t'
+    echo 'framework30wcf-folder\t{1ECAD22C-31C2-4BAC-AC74-78883C396FAB}\tWindowsDotNetFramework30wcf\t0\t\t'
+    echo 'framework30wpf-folder\t{3C146462-0CAF-4F07-83E6-A75A2A5DE961}\tWindowsDotNetFramework30wpf\t0\t\t'
+    echo 'framework40-folder\t{29ECF991-3E9E-4D23-B0B2-874631642B13}\tWindowsDotNetFramework40\t0\t\t'
     echo 'monobase-folder\t{BE46D94A-7443-4B5C-9B91-6A83815365AB}\tMONOBASEDIR\t0\t\t'
     echo 'mono-folder\t{FD7F9172-4E35-4DF5-BD6A-FB7B795D9346}\tMONODIR\t0\t\t'
 
@@ -193,6 +200,13 @@ build_createfoldertable ()
     echo 'CreateFolder\tDirectory_\tComponent_'
 
     echo 'WindowsDotNet\tdotnet-folder'
+    echo 'WindowsDotNetFramework\tframework-folder'
+    echo 'WindowsDotNetFramework11\tframework11-folder'
+    echo 'WindowsDotNetFramework20\tframework20-folder'
+    echo 'WindowsDotNetFramework30\tframework30-folder'
+    echo 'WindowsDotNetFramework30wcf\tframework30wcf-folder'
+    echo 'WindowsDotNetFramework30wpf\tframework30wpf-folder'
+    echo 'WindowsDotNetFramework40\tframework40-folder'
     echo 'MONOBASEDIR\tmonobase-folder'
     echo 'MONODIR\tmono-folder'
 
@@ -223,6 +237,13 @@ build_featurecomponentstable ()
     echo 'wine_mono\tconfig-2.0'
     echo 'wine_mono\tconfig-4.0'
     echo 'wine_mono\tdotnet-folder'
+    echo 'wine_mono\tframework-folder'
+    echo 'wine_mono\tframework11-folder'
+    echo 'wine_mono\tframework20-folder'
+    echo 'wine_mono\tframework30-folder'
+    echo 'wine_mono\tframework30wcf-folder'
+    echo 'wine_mono\tframework30wpf-folder'
+    echo 'wine_mono\tframework40-folder'
     echo 'wine_mono\tmonobase-folder'
     echo 'wine_mono\tmono-folder'
 

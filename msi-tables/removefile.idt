@@ -1,23 +1,15 @@
 FileKey	Component_	FileName	DirProperty	InstallMode
 s72	s72	L255	s72	i2
 RemoveFile	FileKey
-DotNetFolder	support		WindowsDotNet	2
-FrameworkFolder	support		WindowsDotNetFramework	2
-Framework11Folder	support		WindowsDotNetFramework11	2
 Framework11AspnetRegiis	support	aspnet_regiis.exe	WindowsDotNetFramework11	2
 Framework11Ngen	support	ngen.exe	WindowsDotNetFramework11	2
 Framework11Fusion	support	fusion.dll	WindowsDotNetFramework11	2
 Framework11RegSvcs	support	regsvcs.exe	WindowsDotNetFramework11	2
-Framework20Folder	support		WindowsDotNetFramework20	2
 Framework20Ngen	support	ngen.exe	WindowsDotNetFramework20	2
 Framework20Fusion	support	fusion.dll	WindowsDotNetFramework20	2
 Framework20RegAsm	support	regasm.exe	WindowsDotNetFramework20	2
-Framework30Folder	support		WindowsDotNetFramework30	2
-Framework30wcfFolder	support		WindowsDotNetFramework30wcf	2
 Framework30wcfServiceModelReg	support	servicemodelreg.exe	WindowsDotNetFramework30wcf	2
-Framework30wpfFolder	support		WindowsDotNetFramework30wpf	2
 Framework30wpfPresentationFontCache	support	presentationfontcache.exe	WindowsDotNetFramework30wpf	2
-Framework40Folder	support		WindowsDotNetFramework40	2
 Framework40Ngen	support	ngen.exe	WindowsDotNetFramework40	2
 Framework40Fusion	support	fusion.dll	WindowsDotNetFramework40	2
 
