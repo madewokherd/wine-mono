@@ -10,6 +10,7 @@ ORIGINAL_PATH="$PATH"
 REBUILD=0
 WINE=${WINE:-wine}
 MSIFILENAME=winemono.msi
+BUILD_TESTS=0
 
 usage ()
 {
@@ -86,6 +87,28 @@ build_cli ()
     rm -rf "$CURDIR/build-cross-cli-install"
     make install || exit 1
     cd "$CURDIR"
+
+    # build tests if necessary
+    if test x$BUILD_TESTS = x1; then
+        for profile in `ls "$CURDIR/mono/mcs/class/lib"`; do
+            if test -e "$CURDIR/mono/mcs/class/lib/$profile/nunit-console.exe"; then
+                cd "$CURDIR/mono/mcs/class/"
+                make $MAKEOPTS -k test PROFILE=$profile
+
+                rm -rf "$CURDIR/tests-$profile"
+                mkdir "$CURDIR/tests-$profile"
+                cd "$CURDIR/mono/mcs/class"
+                cp */*_test_$profile.dll "$CURDIR/tests-$profile"
+                
+                # System.Drawing test's extra files
+                mkdir -p "$CURDIR/tests-$profile/Test/System.Drawing"
+                cp -r System.Drawing/Test/System.Drawing/bitmaps "$CURDIR/tests-$profile/Test/System.Drawing"
+
+                cd "$CURDIR/mono/mcs/class/lib/$profile"
+                cp nunit* "$CURDIR/tests-$profile"
+            fi
+        done
+    fi
 
     # set up for further builds
     export PATH="$CURDIR/build-cross-cli-install/bin":$PATH
