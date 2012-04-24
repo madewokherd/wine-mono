@@ -1,6 +1,8 @@
 /image
 /build-cross-x86
 /build-cross-x86-install
+/build-cross-x86_64
+/build-cross-x86_64-install
 /build-cross-cli
 /build-cross-cli-install
 /msi-tables/directory.idt
