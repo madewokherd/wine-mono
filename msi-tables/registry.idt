@@ -18,6 +18,7 @@ NDP30Install	2	Software\Microsoft\NET Framework Setup\NDP\v3.0	Install	#1	mono-r
 NDP30SP	2	Software\Microsoft\NET Framework Setup\NDP\v3.0	SP	#2	mono-registry
 NDP30Version	2	Software\Microsoft\NET Framework Setup\NDP\v3.0	Version	3.5.30729.01	mono-registry
 NDP30InstallSuccess	2	Software\Microsoft\NET Framework Setup\NDP\v3.0\Setup	InstallSuccess	#1	mono-registry
+NDP30SetupVersion	2	Software\Microsoft\NET Framework Setup\NDP\v3.0\Setup	Version	3.0.30729.5420	mono-registry
 NDP35Install	2	Software\Microsoft\NET Framework Setup\NDP\v3.5	Install	#1	mono-registry
 NDP35SP	2	Software\Microsoft\NET Framework Setup\NDP\v3.5	SP	#1	mono-registry
 NDP35Version	2	Software\Microsoft\NET Framework Setup\NDP\v3.5	Version	3.5.30729.01	mono-registry
