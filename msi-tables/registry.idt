@@ -12,6 +12,7 @@ NDP11Install	2	Software\Microsoft\NET Framework Setup\NDP\v1.1.4322	Install	#1	m
 NDP11SP	2	Software\Microsoft\NET Framework Setup\NDP\v1.1.4322	SP	#1	mono-registry
 NDP20Install	2	Software\Microsoft\NET Framework Setup\NDP\v2.0.50727	Install	#1	mono-registry
 NDP20SP	2	Software\Microsoft\NET Framework Setup\NDP\v2.0.50727	SP	#2	mono-registry
+NDP20OCM	2	Software\Microsoft\NET Framework Setup\NDP\v2.0.50727	OCM	#1	mono-registry
 NDP20Version	2	Software\Microsoft\NET Framework Setup\NDP\v2.0.50727	Version	2.2.30729	mono-registry
 NDP30Install	2	Software\Microsoft\NET Framework Setup\NDP\v3.0	Install	#1	mono-registry
 NDP30SP	2	Software\Microsoft\NET Framework Setup\NDP\v3.0	SP	#2	mono-registry
