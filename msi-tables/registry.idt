@@ -41,4 +41,7 @@ ActiveSetupDotNet10Version	2	SOFTWARE\Microsoft\Active Setup\Installed Component
 MsiNet20SP1Product	2	Software\Classes\Installer\Products\1F3B805BA42A0C233B0158879691FE82	*		mono-registry
 MsiNet20SP1InstallProps	2	Software\Microsoft\Windows\CurrentVersion\Installer\UserData\S-1-5-18\Products\1F3B805BA42A0C233B0158879691FE82\InstallProperties	*		mono-registry
 MsiNet20SP1Installed	2	Software\Microsoft\Windows\CurrentVersion\Installer\UserData\S-1-5-18\Products\1F3B805BA42A0C233B0158879691FE82\InstallProperties	WindowsInstaller	#1	mono-registry
+MsiNet20SP2Product	2	Software\Classes\Installer\Products\DC3BF90CC0D3D2F398A9A6D1762F70F3	*		mono-registry
+MsiNet20SP2InstallProps	2	Software\Microsoft\Windows\CurrentVersion\Installer\UserData\S-1-5-18\Products\DC3BF90CC0D3D2F398A9A6D1762F70F3\InstallProperties	*		mono-registry
+MsiNet20SP2Installed	2	Software\Microsoft\Windows\CurrentVersion\Installer\UserData\S-1-5-18\Products\DC3BF90CC0D3D2F398A9A6D1762F70F3\InstallProperties	WindowsInstaller	#1	mono-registry
 
