@@ -38,4 +38,7 @@ ActiveSetupDotNet10Default	2	SOFTWARE\Microsoft\Active Setup\Installed Component
 ActiveSetupDotNet10ComponentID	2	SOFTWARE\Microsoft\Active Setup\Installed Components\{CB2F7EDD-9D1F-43C1-90FC-4F52EAE172A1}	ComponentID	.NETFramework	mono-registry
 ActiveSetupDotNet10Locale	2	SOFTWARE\Microsoft\Active Setup\Installed Components\{CB2F7EDD-9D1F-43C1-90FC-4F52EAE172A1}	Locale		mono-registry
 ActiveSetupDotNet10Version	2	SOFTWARE\Microsoft\Active Setup\Installed Components\{CB2F7EDD-9D1F-43C1-90FC-4F52EAE172A1}	Version	1,0,4322,1	mono-registry
+MsiNet20SP1Product	2	Software\Classes\Installer\Products\1F3B805BA42A0C233B0158879691FE82	*		mono-registry
+MsiNet20SP1InstallProps	2	Software\Microsoft\Windows\CurrentVersion\Installer\UserData\S-1-5-18\Products\1F3B805BA42A0C233B0158879691FE82\InstallProperties	*		mono-registry
+MsiNet20SP1Installed	2	Software\Microsoft\Windows\CurrentVersion\Installer\UserData\S-1-5-18\Products\1F3B805BA42A0C233B0158879691FE82\InstallProperties	WindowsInstaller	#1	mono-registry
 
