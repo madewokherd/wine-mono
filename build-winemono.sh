@@ -120,9 +120,16 @@ build_cli ()
     ./configure --prefix="$CURDIR/build-cross-cli-install" || exit 1
     make $MAKEOPTS || exit 1
     make install || exit 1
-    cd "$CURDIR"
+
+    # build OpenTK
+    cd "$CURDIR/opentk"
+    xbuild Source/OpenTK/OpenTK.csproj /p:Configuration=Xna4 || exit 1
+    cp 'Wine.OpenTK, Version=4.0.0.0.dll' Wine.OpenTK.dll
+    gacutil -i Wine.OpenTK.dll
+    ln -s "$CURDIR/opentk/Wine.OpenTK, Version=4.0.0.0.dll" "$CURDIR/build-cross-cli-install/lib/mono/4.0/Wine.OpenTK.dll"
 
     # build image/ directory
+    cd "$CURDIR"
     mkdir -p "$CURDIR/image/lib"
     cp -r "$CURDIR/build-cross-cli-install/etc" "$CURDIR/image/"
     cp -r "$CURDIR/build-cross-cli-install/lib/mono" "$CURDIR/image/lib"
