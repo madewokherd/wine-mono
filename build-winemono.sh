@@ -114,6 +114,7 @@ build_cli ()
     export PATH="$CURDIR/build-cross-cli-install/bin":$PATH
     export LD_LIBRARY_PATH="$CURDIR/build-cross-cli-install/lib":$LD_LIBRARY_PATH
     export MONO_GAC_PREFIX="$CURDIR/build-cross-cli-install"
+    export MONO_CFG_DIR="$CURDIR/build-cross-cli-install/etc"
 
     # build mono-basic
     cd "$CURDIR/mono-basic"
@@ -127,6 +128,14 @@ build_cli ()
     cp 'Wine.OpenTK, Version=4.0.0.0.dll' Wine.OpenTK.dll
     gacutil -i Wine.OpenTK.dll
     ln -s "$CURDIR/opentk/Wine.OpenTK, Version=4.0.0.0.dll" "$CURDIR/build-cross-cli-install/lib/mono/4.0/Wine.OpenTK.dll"
+
+    # build MonoGame
+    cd "$CURDIR/MonoGame"
+    xbuild MonoGame.Framework.Wine.sln /p:Configuration=Release || exit 1
+    for name in Microsoft.Xna.Framework; do
+        sn -R ${name}/bin/Release/${name}.dll ../mono/mcs/class/mono.snk || exit 1
+        gacutil -i ${name}/bin/Release/${name}.dll || exit 1
+    done
 
     # build image/ directory
     cd "$CURDIR"
