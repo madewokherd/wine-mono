@@ -132,7 +132,9 @@ build_cli ()
     # build MonoGame
     cd "$CURDIR/MonoGame"
     xbuild MonoGame.Framework.Wine.sln /p:Configuration=Release || exit 1
-    for name in Microsoft.Xna.Framework; do
+    gacutil -i ThirdParty/Lidgren.Network/bin/Release/Lidgren.Network.Wine.dll || exit 1
+    gacutil -i MonoGame.Framework/bin/Release/MonoGame.Framework.Wine.dll || exit 1
+    for name in Microsoft.Xna.Framework Microsoft.Xna.Framework.Game Microsoft.Xna.Framework.Graphics Microsoft.Xna.Framework.Xact; do
         sn -R ${name}/bin/Release/${name}.dll ../mono/mcs/class/mono.snk || exit 1
         gacutil -i ${name}/bin/Release/${name}.dll || exit 1
     done
