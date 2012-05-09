@@ -1,0 +1,70 @@
+Wine Mono is a package containing Mono and other projects, intended as a replacement for the .NET runtime and class libraries in Wine. It works in conjunction with Wine's builtin mscoree.dll, and it is not intended to be useful for any other purpose.
+
+
+SOURCE CODE
+
+To obtain the source code, clone it from github:
+
+$ git clone --recursive git://github.com/madewokherd/wine-mono.git
+
+To get to the source code for a specific release, check out the appropriate tag, and update the submodules:
+
+$ git checkout wine-mono-0.0.2
+$ git submodule update --recursive
+
+Source tarballs are not currently available.
+
+
+DEPENDENCIES
+
+To build Wine Mono, you will need the following:
+ * All of the dependencies of Mono for your native (presumably Linux) system, such as autotools and a C++ compiler.
+ * Wine, for the winemsibuilder and cabarc commands.
+ * A 32-bit and 64-bit version of Mingw-w64, including a C++ compiler.
+
+
+BUILD
+
+To build Wine Mono, run the build-winemono.sh script.
+
+$ ./build-wine-mono.sh
+
+This will reconfigure and rebuild Mono every time unless the -r switch is passed.
+
+You can set the MAKEOPTS environment variable to use multiple CPUs for some of the build process.
+
+If you supply the -t switch, the Mono test suite will be built and put in directories named like tests-net_*. These directories should be self-contained and work on any .NET implementation, using nunit-console.exe to run the tests. I'm not sure that all of it works, though, since the Mono test suite wasn't designed to be used this way.
+
+
+INSTALL
+
+To install Wine Mono, run the generated msi file with msiexec:
+
+$ msiexec /i winemono.msi
+
+Note that if a Wine Mono with a version number >= to this file is already installed, that command will do nothing, so you may have to remove the existing version (using 'wine uninstaller') first.
+
+
+COMPOSITION
+
+An installed Wine Mono contains the following:
+ * Registry keys and files in C:\windows\Microsoft.NET intended to make it look as if Microsoft .NET is installed, so that applications won't complain that it's missing, and the installers for Microsoft .NET won't install. (Wine Mono should always be removed before installing Microsoft .NET.)
+ * A modified version of the Mono runtime and standard class libraries, in C:\windows\mono\mono-2.0.
+ * A replacement for the Visual Basic calss libraries, in the Mono GAC (C:\windows\mono\mono-2.0\lib\mono\gac).
+ * A replacement for XNA 4.0, also in the Mono GAC and based on MonoGame. OpenTK and Lidgren.Network are included as dependencies for MonoGame. The replacement will not be used if Microsoft's XNA 4.0 is installed.
+
+
+BUGS
+
+For now, bugs involving the use of this package to run Windows programs in Wine should be filed in the Wine bugzilla (http://bugs.winehq.org/) with product set to "Wine" and component set to "mscoree". This arrangement may change in the future.
+
+I can't think of any sort of bug that wouldn't be appropriate for the Wine bugzilla, but if there is one, it can be filed at github as an issue: https://github.com/madewokherd/wine-mono/issues/new
+
+
+PATCHES
+
+Patches should be sent as a pull request to https://github.com/madewokherd/wine-mono or the appropriate submodule, or as a mail to wine-patches.
+
+Before sending a patch for one of Wine Mono's forks, please consider whether it would be more appropriate to send to the upstream project. We'd like to keep the diff from upstream to a minimum, so the changes should either be appropriate for Wine but inappropriate for upstream for some reason, or sufficiently important to bypass the upstream project.
+
+
