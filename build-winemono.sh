@@ -43,6 +43,9 @@ done
 
 cross_build_mono ()
 {
+    # Unset CC, if it is set, otherwise the build scripts will attempt to use the wrong compiler
+    unset CC
+
     local MINGW=$1
     local ARCH=$2
 
