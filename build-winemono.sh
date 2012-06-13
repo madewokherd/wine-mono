@@ -63,12 +63,16 @@ cross_build_mono ()
         sed -e 's/-lgcc_s//' -i libtool
     fi
     WINEPREFIX=/dev/null make $MAKEOPTS || exit 1
+    cd "$CURDIR/build-cross-$ARCH/support"
+    WINEPREFIX=/dev/null make $MAKEOPTS || exit 1
     rm -rf "$CURDIR/build-cross-$ARCH-install"
+    cd "$CURDIR/build-cross-$ARCH"
     make install || exit 1
     cd "$CURDIR"
 
     mkdir -p "$CURDIR/image/bin"
     cp "$CURDIR/build-cross-$ARCH-install/bin/libmono-2.0.dll" "$CURDIR/image/bin/libmono-2.0-$ARCH.dll"
+    cp "$CURDIR/build-cross-$ARCH/support/.libs/libMonoPosixHelper.dll" "$CURDIR/image/bin/MonoPosixHelper-$ARCH.dll"
 }
 
 build_cli ()
