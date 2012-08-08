@@ -358,6 +358,44 @@ build_mediatable ()
     echo 1\\t$IMAGECAB_SEQ\\t\\t#image.cab\\t\\t
 }
 
+hex_to_binary ()
+{
+    HEXCHAR=`head -c 2|tr [a-f] [A-F]`
+
+    while test x != x"$HEXCHAR"; do
+        printf '\'`echo 'ibase=16; obase=8;' $HEXCHAR|bc`
+        HEXCHAR=`head -c 2|tr [a-f] [A-F]`
+    done
+}
+
+format_od_output ()
+{
+    echo $2'\t'$3'\t'$4'\t'$5'\t'
+}
+
+build_msifilehashtable ()
+{
+    echo 'File_\tOptions\tHashPart1\tHashPart2\tHashPart3\tHashPart4'
+    echo 's72\ti2\ti4\ti4\ti4\ti4'
+    echo 'MsiFileHash\tFile_'
+
+    cd "$CURDIR/image"
+
+    for f in `find -type f | cut -d '/' -f2- | sort`; do
+        KEY=`echo $f|sed -e 's/\//!/g'`
+        FILESIZE=`stat --format=%s $f`
+
+        echo -n $KEY\\t0\\t
+        if test $FILESIZE -eq 0; then
+            echo '0\t0\t0\t0'
+        else
+            format_od_output `md5sum $f|head -c 32|hex_to_binary|od -v -t d4`
+        fi
+    done
+
+    cd "$CURDIR"
+}
+
 build_msi ()
 {
     rm -rf cab-contents
@@ -384,6 +422,7 @@ build_msi ()
     build_featurecomponentstable > msi-tables/featurecomponents.idt
     build_filetable > msi-tables/file.idt
     build_mediatable > msi-tables/media.idt
+    build_msifilehashtable > msi-tables/msifilehash.idt
 
     "$WINE" winemsibuilder -i "${MSIFILENAME}" msi-tables/*.idt
     "$WINE" winemsibuilder -a "${MSIFILENAME}" image.cab image.cab
