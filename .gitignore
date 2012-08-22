@@ -11,6 +11,7 @@
 /msi-tables/featurecomponents.idt
 /msi-tables/file.idt
 /msi-tables/media.idt
+/msi-tables/msifilehash.idt
 /cab-contents
 /image.cab
 /winemono.msi
