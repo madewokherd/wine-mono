@@ -45,4 +45,48 @@ MsiNet20SP1Installed	2	Software\Microsoft\Windows\CurrentVersion\Installer\UserD
 MsiNet20SP2Product	2	Software\Classes\Installer\Products\DC3BF90CC0D3D2F398A9A6D1762F70F3	*		mono-registry
 MsiNet20SP2InstallProps	2	Software\Microsoft\Windows\CurrentVersion\Installer\UserData\S-1-5-18\Products\DC3BF90CC0D3D2F398A9A6D1762F70F3\InstallProperties	*		mono-registry
 MsiNet20SP2Installed	2	Software\Microsoft\Windows\CurrentVersion\Installer\UserData\S-1-5-18\Products\DC3BF90CC0D3D2F398A9A6D1762F70F3\InstallProperties	WindowsInstaller	#1	mono-registry
+DotNetFrameworkKey_64	2	Software\Microsoft\.NETFramework	*		mono-registry64
+DotNetFrameworkInstallRoot_64	2	Software\Microsoft\.NETFramework	InstallRoot	[$mono-registry]	mono-registry64
+DotNetFrameworkPolicy10_64	2	Software\Microsoft\.NETFramework\policy\v1.0	+		mono-registry64
+DotNetFrameworkPolicy11_64	2	Software\Microsoft\.NETFramework\policy\v1.1	+		mono-registry64
+DotNetFrameworkPolicy20_64	2	Software\Microsoft\.NETFramework\policy\v2.0	50727	50727-50727	mono-registry64
+DotNetFrameworkPolicy30_64	2	Software\Microsoft\.NETFramework\policy\v3.0	+		mono-registry64
+NDPKey_64	2	Software\Microsoft\NET Framework Setup	*		mono-registry64
+NDP11Install_64	2	Software\Microsoft\NET Framework Setup\NDP\v1.1.4322	Install	#1	mono-registry64
+NDP11SP_64	2	Software\Microsoft\NET Framework Setup\NDP\v1.1.4322	SP	#1	mono-registry64
+NDP20Install_64	2	Software\Microsoft\NET Framework Setup\NDP\v2.0.50727	Install	#1	mono-registry64
+NDP20SP_64	2	Software\Microsoft\NET Framework Setup\NDP\v2.0.50727	SP	#2	mono-registry64
+NDP20OCM_64	2	Software\Microsoft\NET Framework Setup\NDP\v2.0.50727	OCM	#1	mono-registry64
+NDP20Version_64	2	Software\Microsoft\NET Framework Setup\NDP\v2.0.50727	Version	2.2.30729	mono-registry64
+NDP30Install_64	2	Software\Microsoft\NET Framework Setup\NDP\v3.0	Install	#1	mono-registry64
+NDP30SP_64	2	Software\Microsoft\NET Framework Setup\NDP\v3.0	SP	#2	mono-registry64
+NDP30Version_64	2	Software\Microsoft\NET Framework Setup\NDP\v3.0	Version	3.5.30729.01	mono-registry64
+NDP30InstallSuccess_64	2	Software\Microsoft\NET Framework Setup\NDP\v3.0\Setup	InstallSuccess	#1	mono-registry64
+NDP30SetupVersion_64	2	Software\Microsoft\NET Framework Setup\NDP\v3.0\Setup	Version	3.0.30729.5420	mono-registry64
+NDP35Install_64	2	Software\Microsoft\NET Framework Setup\NDP\v3.5	Install	#1	mono-registry64
+NDP35SP_64	2	Software\Microsoft\NET Framework Setup\NDP\v3.5	SP	#1	mono-registry64
+NDP35Version_64	2	Software\Microsoft\NET Framework Setup\NDP\v3.5	Version	3.5.30729.01	mono-registry64
+NDP351033Install_64	2	Software\Microsoft\NET Framework Setup\NDP\v3.5\1033	Install	#1	mono-registry64
+NDP4ClientInstall_64	2	Software\Microsoft\NET Framework Setup\NDP\v4\Client	Install	#1	mono-registry64
+NDP4ClientVersion_64	2	Software\Microsoft\NET Framework Setup\NDP\v4\Client	Version	4.0.30319	mono-registry64
+NDP4ClientTargetVersion_64	2	Software\Microsoft\NET Framework Setup\NDP\v4\Client	TargetVersion	4.0.0	mono-registry64
+NDP4FullInstall_64	2	Software\Microsoft\NET Framework Setup\NDP\v4\Full	Install	#1	mono-registry64
+NDP4FullVersion_64	2	Software\Microsoft\NET Framework Setup\NDP\v4\Full	Version	4.0.30319	mono-registry64
+NDP4FullTargetVersion_64	2	Software\Microsoft\NET Framework Setup\NDP\v4\Full	TargetVersion	4.0.0	mono-registry64
+ActiveSetupDotNet20Key_64	2	SOFTWARE\Microsoft\Active Setup\Installed Components\{7131646D-CD3C-40F4-97B9-CD9E4E6262EF}	*		mono-registry64
+ActiveSetupDotNet20Default_64	2	SOFTWARE\Microsoft\Active Setup\Installed Components\{7131646D-CD3C-40F4-97B9-CD9E4E6262EF}		.NET Framework	mono-registry64
+ActiveSetupDotNet20ComponentID_64	2	SOFTWARE\Microsoft\Active Setup\Installed Components\{7131646D-CD3C-40F4-97B9-CD9E4E6262EF}	ComponentID	.NETFramework	mono-registry64
+ActiveSetupDotNet20Locale_64	2	SOFTWARE\Microsoft\Active Setup\Installed Components\{7131646D-CD3C-40F4-97B9-CD9E4E6262EF}	Locale		mono-registry64
+ActiveSetupDotNet20Version_64	2	SOFTWARE\Microsoft\Active Setup\Installed Components\{7131646D-CD3C-40F4-97B9-CD9E4E6262EF}	Version	2,0,50727,0	mono-registry64
+ActiveSetupDotNet10Key_64	2	SOFTWARE\Microsoft\Active Setup\Installed Components\{CB2F7EDD-9D1F-43C1-90FC-4F52EAE172A1}	*		mono-registry64
+ActiveSetupDotNet10Default_64	2	SOFTWARE\Microsoft\Active Setup\Installed Components\{CB2F7EDD-9D1F-43C1-90FC-4F52EAE172A1}		.NET Framework	mono-registry64
+ActiveSetupDotNet10ComponentID_64	2	SOFTWARE\Microsoft\Active Setup\Installed Components\{CB2F7EDD-9D1F-43C1-90FC-4F52EAE172A1}	ComponentID	.NETFramework	mono-registry64
+ActiveSetupDotNet10Locale_64	2	SOFTWARE\Microsoft\Active Setup\Installed Components\{CB2F7EDD-9D1F-43C1-90FC-4F52EAE172A1}	Locale		mono-registry64
+ActiveSetupDotNet10Version_64	2	SOFTWARE\Microsoft\Active Setup\Installed Components\{CB2F7EDD-9D1F-43C1-90FC-4F52EAE172A1}	Version	1,0,4322,1	mono-registry64
+MsiNet20SP1Product_64	2	Software\Classes\Installer\Products\1F3B805BA42A0C233B0158879691FE82	*		mono-registry64
+MsiNet20SP1InstallProps_64	2	Software\Microsoft\Windows\CurrentVersion\Installer\UserData\S-1-5-18\Products\1F3B805BA42A0C233B0158879691FE82\InstallProperties	*		mono-registry64
+MsiNet20SP1Installed_64	2	Software\Microsoft\Windows\CurrentVersion\Installer\UserData\S-1-5-18\Products\1F3B805BA42A0C233B0158879691FE82\InstallProperties	WindowsInstaller	#1	mono-registry64
+MsiNet20SP2Product_64	2	Software\Classes\Installer\Products\DC3BF90CC0D3D2F398A9A6D1762F70F3	*		mono-registry64
+MsiNet20SP2InstallProps_64	2	Software\Microsoft\Windows\CurrentVersion\Installer\UserData\S-1-5-18\Products\DC3BF90CC0D3D2F398A9A6D1762F70F3\InstallProperties	*		mono-registry64
+MsiNet20SP2Installed_64	2	Software\Microsoft\Windows\CurrentVersion\Installer\UserData\S-1-5-18\Products\DC3BF90CC0D3D2F398A9A6D1762F70F3\InstallProperties	WindowsInstaller	#1	mono-registry64
 
