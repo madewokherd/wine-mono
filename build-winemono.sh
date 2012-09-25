@@ -8,7 +8,7 @@ MINGW_x86_64=x86_64-w64-mingw32
 INSTALL_DESTDIR="$CURDIR"
 ORIGINAL_PATH="$PATH"
 REBUILD=0
-WINE=${WINE:-wine}
+WINE=${WINE:-`which wine`}
 MSIFILENAME=winemono.msi
 BUILD_TESTS=0
 
@@ -430,8 +430,25 @@ build_msi ()
     "$WINE" winemsibuilder -a "${MSIFILENAME}" image.cab image.cab
 }
 
+sanity_checks ()
+{
+    # Make sure a few programs are around, otherwise we'll fail later on:
+    if [ ! -x $WINE ]
+    then
+        echo "You need to have wine installed. You can set the path to it with WINE=/path/to/wine"
+        exit 1
+    fi
+
+    if test ! -x "`which gmcs 2>/dev/null`"
+    then
+        echo "You need to have gmcs from mono installed."
+        exit 1
+    fi
+}
 
 # build
+
+sanity_checks
 
 cd "$CURDIR"/mono
 
