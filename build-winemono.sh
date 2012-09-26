@@ -209,7 +209,7 @@ build_componenttable ()
     echo 'Component\tComponent'
 
     echo 'mono-registry\t{93BE4304-497C-4ACB-A0FD-1C3695C011B4}\tWindowsDotNetFramework\t4\t\tDotNetFrameworkInstallRoot'
-    echo 'mono-registry64\t{E088D122-0696-4137-BC4E-C999303B4BE2}\tWindowsDotNetFramework\t360\t\tDotNetFrameworkInstallRoot'
+    echo 'mono-registry64\t{E088D122-0696-4137-BC4E-C999303B4BE2}\tWindowsDotNetFramework\t260\t\tDotNetFrameworkInstallRoot'
     echo 'config-1.1\t{0DA29B5A-2050-4200-92EE-442D1EE6CF96}\tWindowsDotNetFramework11Config\t0\t\t1.1-machine.config'
     echo 'config-2.0\t{ABB0BF6A-6610-4E45-8194-64D596667621}\tWindowsDotNetFramework20Config\t0\t\t2.0-machine.config'
     echo 'config-4.0\t{511C0294-4504-4FC9-B5A7-E85CCEE95C6B}\tWindowsDotNetFramework40Config\t0\t\t4.0-machine.config'
