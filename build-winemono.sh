@@ -164,25 +164,25 @@ build_cli ()
 
 build_directorytable ()
 {
-    echo 'Directory\tDirectory_Parent\tDefaultDir'
-    echo 's72\tS72\tl255'
-    echo 'Directory\tDirectory'
+    printf 'Directory\tDirectory_Parent\tDefaultDir\n'
+    printf 's72\tS72\tl255\n'
+    printf 'Directory\tDirectory\n'
 
-    echo 'TARGETDIR\t\tSourceDir'
-    echo 'MONODIR\tMONOBASEDIR\tmono-2.0:.'
-    echo 'MONOBASEDIR\tWindowsFolder\tmono:.'
-    echo 'WindowsFolder\tTARGETDIR\t.'
-    echo 'WindowsDotNet\tWindowsFolder\tMicrosoft.NET'
-    echo 'WindowsDotNetFramework\tWindowsDotNet\tFramework'
-    echo 'WindowsDotNetFramework11\tWindowsDotNetFramework\tv1.1.4322'
-    echo 'WindowsDotNetFramework11Config\tWindowsDotNetFramework11\tCONFIG'
-    echo 'WindowsDotNetFramework20\tWindowsDotNetFramework\tv2.0.50727'
-    echo 'WindowsDotNetFramework20Config\tWindowsDotNetFramework20\tCONFIG'
-    echo 'WindowsDotNetFramework30\tWindowsDotNetFramework\tv3.0'
-    echo 'WindowsDotNetFramework30wcf\tWindowsDotNetFramework30\twindows communication foundation'
-    echo 'WindowsDotNetFramework30wpf\tWindowsDotNetFramework30\twpf'
-    echo 'WindowsDotNetFramework40\tWindowsDotNetFramework\tv4.0.30319'
-    echo 'WindowsDotNetFramework40Config\tWindowsDotNetFramework40\tCONFIG'
+    printf 'TARGETDIR\t\tSourceDir\n'
+    printf 'MONODIR\tMONOBASEDIR\tmono-2.0:.\n'
+    printf 'MONOBASEDIR\tWindowsFolder\tmono:.\n'
+    printf 'WindowsFolder\tTARGETDIR\t.\n'
+    printf 'WindowsDotNet\tWindowsFolder\tMicrosoft.NET\n'
+    printf 'WindowsDotNetFramework\tWindowsDotNet\tFramework\n'
+    printf 'WindowsDotNetFramework11\tWindowsDotNetFramework\tv1.1.4322\n'
+    printf 'WindowsDotNetFramework11Config\tWindowsDotNetFramework11\tCONFIG\n'
+    printf 'WindowsDotNetFramework20\tWindowsDotNetFramework\tv2.0.50727\n'
+    printf 'WindowsDotNetFramework20Config\tWindowsDotNetFramework20\tCONFIG\n'
+    printf 'WindowsDotNetFramework30\tWindowsDotNetFramework\tv3.0\n'
+    printf 'WindowsDotNetFramework30wcf\tWindowsDotNetFramework30\twindows communication foundation\n'
+    printf 'WindowsDotNetFramework30wpf\tWindowsDotNetFramework30\twpf\n'
+    printf 'WindowsDotNetFramework40\tWindowsDotNetFramework\tv4.0.30319\n'
+    printf 'WindowsDotNetFramework40Config\tWindowsDotNetFramework40\tCONFIG\n'
 
     cd "$CURDIR/image"
 
@@ -196,7 +196,7 @@ build_directorytable ()
             DIRNAME=MONODIR
         fi
         BASENAME=`basename $f`
-        echo $KEY\\t$DIRNAME\\t$BASENAME
+        printf '%s\t%s\t%s\n' "$KEY" "$DIRNAME" "$BASENAME"
     done
 
     cd "$CURDIR"
@@ -204,25 +204,25 @@ build_directorytable ()
 
 build_componenttable ()
 {
-    echo 'Component\tComponentId\tDirectory_\tAttributes\tCondition\tKeyPath'
-    echo 's72\tS38\ts72\ti2\tS255\tS72'
-    echo 'Component\tComponent'
+    printf 'Component\tComponentId\tDirectory_\tAttributes\tCondition\tKeyPath\n'
+    printf 's72\tS38\ts72\ti2\tS255\tS72\n'
+    printf 'Component\tComponent\n'
 
-    echo 'mono-registry\t{93BE4304-497C-4ACB-A0FD-1C3695C011B4}\tWindowsDotNetFramework\t4\t\tDotNetFrameworkInstallRoot'
-    echo 'mono-registry64\t{E088D122-0696-4137-BC4E-C999303B4BE2}\tWindowsDotNetFramework\t260\t\tDotNetFrameworkInstallRoot'
-    echo 'config-1.1\t{0DA29B5A-2050-4200-92EE-442D1EE6CF96}\tWindowsDotNetFramework11Config\t0\t\t1.1-machine.config'
-    echo 'config-2.0\t{ABB0BF6A-6610-4E45-8194-64D596667621}\tWindowsDotNetFramework20Config\t0\t\t2.0-machine.config'
-    echo 'config-4.0\t{511C0294-4504-4FC9-B5A7-E85CCEE95C6B}\tWindowsDotNetFramework40Config\t0\t\t4.0-machine.config'
-    echo 'dotnet-folder\t{22DCE198-F30F-4E74-AEC6-D089B844A878}\tWindowsDotNet\t0\t\t' # needed to remove the folder
-    echo 'framework-folder\t{41B3A67B-63F4-4491-A53C-9E792BE5A889}\tWindowsDotNetFramework\t0\t\t'
-    echo 'framework11-folder\t{20F5741D-4655-400D-8373-7607A84D2478}\tWindowsDotNetFramework11\t0\t\t'
-    echo 'framework20-folder\t{B845FD54-09B7-467C-800F-205A142F2F20}\tWindowsDotNetFramework20\t0\t\t'
-    echo 'framework30-folder\t{C3221C80-F9D2-41B5-91E1-F6ADBB05ABBC}\tWindowsDotNetFramework30\t0\t\t'
-    echo 'framework30wcf-folder\t{1ECAD22C-31C2-4BAC-AC74-78883C396FAB}\tWindowsDotNetFramework30wcf\t0\t\t'
-    echo 'framework30wpf-folder\t{3C146462-0CAF-4F07-83E6-A75A2A5DE961}\tWindowsDotNetFramework30wpf\t0\t\t'
-    echo 'framework40-folder\t{29ECF991-3E9E-4D23-B0B2-874631642B13}\tWindowsDotNetFramework40\t0\t\t'
-    echo 'monobase-folder\t{BE46D94A-7443-4B5C-9B91-6A83815365AB}\tMONOBASEDIR\t0\t\t'
-    echo 'mono-folder\t{FD7F9172-4E35-4DF5-BD6A-FB7B795D9346}\tMONODIR\t0\t\t'
+    printf 'mono-registry\t{93BE4304-497C-4ACB-A0FD-1C3695C011B4}\tWindowsDotNetFramework\t4\t\tDotNetFrameworkInstallRoot\n'
+    printf 'mono-registry64\t{E088D122-0696-4137-BC4E-C999303B4BE2}\tWindowsDotNetFramework\t260\t\tDotNetFrameworkInstallRoot\n'
+    printf 'config-1.1\t{0DA29B5A-2050-4200-92EE-442D1EE6CF96}\tWindowsDotNetFramework11Config\t0\t\t1.1-machine.config\n'
+    printf 'config-2.0\t{ABB0BF6A-6610-4E45-8194-64D596667621}\tWindowsDotNetFramework20Config\t0\t\t2.0-machine.config\n'
+    printf 'config-4.0\t{511C0294-4504-4FC9-B5A7-E85CCEE95C6B}\tWindowsDotNetFramework40Config\t0\t\t4.0-machine.config\n'
+    printf 'dotnet-folder\t{22DCE198-F30F-4E74-AEC6-D089B844A878}\tWindowsDotNet\t0\t\t\n' # needed to remove the folder
+    printf 'framework-folder\t{41B3A67B-63F4-4491-A53C-9E792BE5A889}\tWindowsDotNetFramework\t0\t\t\n'
+    printf 'framework11-folder\t{20F5741D-4655-400D-8373-7607A84D2478}\tWindowsDotNetFramework11\t0\t\t\n'
+    printf 'framework20-folder\t{B845FD54-09B7-467C-800F-205A142F2F20}\tWindowsDotNetFramework20\t0\t\t\n'
+    printf 'framework30-folder\t{C3221C80-F9D2-41B5-91E1-F6ADBB05ABBC}\tWindowsDotNetFramework30\t0\t\t\n'
+    printf 'framework30wcf-folder\t{1ECAD22C-31C2-4BAC-AC74-78883C396FAB}\tWindowsDotNetFramework30wcf\t0\t\t\n'
+    printf 'framework30wpf-folder\t{3C146462-0CAF-4F07-83E6-A75A2A5DE961}\tWindowsDotNetFramework30wpf\t0\t\t\n'
+    printf 'framework40-folder\t{29ECF991-3E9E-4D23-B0B2-874631642B13}\tWindowsDotNetFramework40\t0\t\t\n'
+    printf 'monobase-folder\t{BE46D94A-7443-4B5C-9B91-6A83815365AB}\tMONOBASEDIR\t0\t\t\n'
+    printf 'mono-folder\t{FD7F9172-4E35-4DF5-BD6A-FB7B795D9346}\tMONODIR\t0\t\t\n'
 
     cd "$CURDIR/image"
 
@@ -236,7 +236,7 @@ build_componenttable ()
         fi
         GUID=`cat "$CURDIR/component-guids/${KEY}.guid"`
         KEYPATH=`find "$f" -maxdepth 1 -type f|sort|head -n 1|sed -e 's/\//!/g'`
-        echo $KEY\\t{$GUID}\\t$KEY\\t0\\t\\t$KEYPATH
+        printf '%s\t{%s}\t%s\t0\t\t%s\n' "$KEY" "$GUID" "$KEY" "$KEYPATH"
     done
 
     cd "$CURDIR"
@@ -244,20 +244,20 @@ build_componenttable ()
 
 build_createfoldertable ()
 {
-    echo 'Directory_\tComponent_'
-    echo 's72\ts72'
-    echo 'CreateFolder\tDirectory_\tComponent_'
+    printf 'Directory_\tComponent_\n'
+    printf 's72\ts72\n'
+    printf 'CreateFolder\tDirectory_\tComponent_\n'
 
-    echo 'WindowsDotNet\tdotnet-folder'
-    echo 'WindowsDotNetFramework\tframework-folder'
-    echo 'WindowsDotNetFramework11\tframework11-folder'
-    echo 'WindowsDotNetFramework20\tframework20-folder'
-    echo 'WindowsDotNetFramework30\tframework30-folder'
-    echo 'WindowsDotNetFramework30wcf\tframework30wcf-folder'
-    echo 'WindowsDotNetFramework30wpf\tframework30wpf-folder'
-    echo 'WindowsDotNetFramework40\tframework40-folder'
-    echo 'MONOBASEDIR\tmonobase-folder'
-    echo 'MONODIR\tmono-folder'
+    printf 'WindowsDotNet\tdotnet-folder\n'
+    printf 'WindowsDotNetFramework\tframework-folder\n'
+    printf 'WindowsDotNetFramework11\tframework11-folder\n'
+    printf 'WindowsDotNetFramework20\tframework20-folder\n'
+    printf 'WindowsDotNetFramework30\tframework30-folder\n'
+    printf 'WindowsDotNetFramework30wcf\tframework30wcf-folder\n'
+    printf 'WindowsDotNetFramework30wpf\tframework30wpf-folder\n'
+    printf 'WindowsDotNetFramework40\tframework40-folder\n'
+    printf 'MONOBASEDIR\tmonobase-folder\n'
+    printf 'MONODIR\tmono-folder\n'
 
     cd "$CURDIR/image"
 
@@ -268,7 +268,7 @@ build_createfoldertable ()
         FILE=`find "$f" -maxdepth 1 -type f`
         if test ! "$FILE"; then
             KEY=`echo $f|sed -e 's/\//|/g'`
-            echo $KEY\\t$KEY
+            printf '%s\t%s\n' "$KEY" "$KEY"
         fi
     done
 
@@ -277,25 +277,25 @@ build_createfoldertable ()
 
 build_featurecomponentstable ()
 {
-    echo 'Feature_\tComponent_'
-    echo 's38\ts72'
-    echo 'FeatureComponents\tFeature_\tComponent_'
+    printf 'Feature_\tComponent_\n'
+    printf 's38\ts72\n'
+    printf 'FeatureComponents\tFeature_\tComponent_\n'
 
-    echo 'wine_mono\tmono-registry'
-    echo 'wine_mono\tmono-registry64'
-    echo 'wine_mono\tconfig-1.1'
-    echo 'wine_mono\tconfig-2.0'
-    echo 'wine_mono\tconfig-4.0'
-    echo 'wine_mono\tdotnet-folder'
-    echo 'wine_mono\tframework-folder'
-    echo 'wine_mono\tframework11-folder'
-    echo 'wine_mono\tframework20-folder'
-    echo 'wine_mono\tframework30-folder'
-    echo 'wine_mono\tframework30wcf-folder'
-    echo 'wine_mono\tframework30wpf-folder'
-    echo 'wine_mono\tframework40-folder'
-    echo 'wine_mono\tmonobase-folder'
-    echo 'wine_mono\tmono-folder'
+    printf 'wine_mono\tmono-registry\n'
+    printf 'wine_mono\tmono-registry64\n'
+    printf 'wine_mono\tconfig-1.1\n'
+    printf 'wine_mono\tconfig-2.0\n'
+    printf 'wine_mono\tconfig-4.0\n'
+    printf 'wine_mono\tdotnet-folder\n'
+    printf 'wine_mono\tframework-folder\n'
+    printf 'wine_mono\tframework11-folder\n'
+    printf 'wine_mono\tframework20-folder\n'
+    printf 'wine_mono\tframework30-folder\n'
+    printf 'wine_mono\tframework30wcf-folder\n'
+    printf 'wine_mono\tframework30wpf-folder\n'
+    printf 'wine_mono\tframework40-folder\n'
+    printf 'wine_mono\tmonobase-folder\n'
+    printf 'wine_mono\tmono-folder\n'
 
     cd "$CURDIR/image"
 
@@ -304,7 +304,7 @@ build_featurecomponentstable ()
             continue
         fi
         KEY=`echo $f|sed -e 's/\//|/g'`
-        echo wine_mono\\t$KEY
+        printf 'wine_mono\t%s\n' "$KEY"
     done
 
     cd "$CURDIR"
@@ -312,9 +312,9 @@ build_featurecomponentstable ()
 
 build_filetable ()
 {
-    echo 'File\tComponent_\tFileName\tFileSize\tVersion\tLanguage\tAttributes\tSequence'
-    echo 's72\ts72\tl255\ti4\tS72\tS20\tI2\ti2'
-    echo 'File\tFile'
+    printf 'File\tComponent_\tFileName\tFileSize\tVersion\tLanguage\tAttributes\tSequence\n'
+    printf 's72\ts72\tl255\ti4\tS72\tS20\tI2\ti2\n'
+    printf 'File\tFile\n'
 
     SEQ=0
 
@@ -343,7 +343,7 @@ build_filetable ()
         ;;
         esac
 
-        echo $KEY\\t$COMPONENT\\t$BASENAME\\t$FILESIZE\\t\\t\\t\\t$SEQ
+        printf '%s\t%s\t%s\t%s\t\t\t\t%s\n' "$KEY" "$COMPONENT" "$BASENAME" "$FILESIZE" "$SEQ"
     done
 
     IMAGECAB_SEQ=$SEQ
@@ -353,11 +353,11 @@ build_filetable ()
 
 build_mediatable ()
 {
-    echo 'DiskId\tLastSequence\tDiskPrompt\tCabinet\tVolumeLabel\tSource'
-    echo 'i2\ti4\tL64\tS255\tS32\tS72'
-    echo 'Media\tDiskId'
+    printf 'DiskId\tLastSequence\tDiskPrompt\tCabinet\tVolumeLabel\tSource\n'
+    printf 'i2\ti4\tL64\tS255\tS32\tS72\n'
+    printf 'Media\tDiskId\n'
 
-    echo 1\\t$IMAGECAB_SEQ\\t\\t#image.cab\\t\\t
+    printf '1\t%s\t\t#image.cab\t\t' "$IMAGECAB_SEQ"
 }
 
 hex_to_binary ()
@@ -372,14 +372,14 @@ hex_to_binary ()
 
 format_od_output ()
 {
-    echo $2'\t'$3'\t'$4'\t'$5'\t'
+    printf '%s\t%s\t%s\t%s\n'
 }
 
 build_msifilehashtable ()
 {
-    echo 'File_\tOptions\tHashPart1\tHashPart2\tHashPart3\tHashPart4'
-    echo 's72\ti2\ti4\ti4\ti4\ti4'
-    echo 'MsiFileHash\tFile_'
+    printf 'File_\tOptions\tHashPart1\tHashPart2\tHashPart3\tHashPart4\n'
+    printf 's72\ti2\ti4\ti4\ti4\ti4\n'
+    printf 'MsiFileHash\tFile_\n'
 
     cd "$CURDIR/image"
 
@@ -387,9 +387,9 @@ build_msifilehashtable ()
         KEY=`echo $f|sed -e 's/\//!/g'`
         FILESIZE=`stat --format=%s $f`
 
-        echo -n $KEY\\t0\\t
+        printf '%s\t0\t' "$KEY"
         if test $FILESIZE -eq 0; then
-            echo '0\t0\t0\t0'
+            printf '0\t0\t0\t0\n'
         else
             format_od_output `md5sum $f|head -c 32|hex_to_binary|od -v -t d4`
         fi
