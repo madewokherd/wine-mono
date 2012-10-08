@@ -372,7 +372,7 @@ hex_to_binary ()
 
 format_od_output ()
 {
-    printf '%s\t%s\t%s\t%s\n'
+    printf '%s\t%s\t%s\t%s\n' $2 $3 $4 $5
 }
 
 build_msifilehashtable ()
