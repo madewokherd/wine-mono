@@ -156,6 +156,10 @@ build_cli ()
     cp "$CURDIR/build-cross-cli-install/etc/mono/2.0/machine.config" "$CURDIR/image/2.0-machine.config"
     cp "$CURDIR/build-cross-cli-install/etc/mono/4.0/machine.config" "$CURDIR/image/4.0-machine.config"
 
+    cp "$CURDIR/build-cross-cli-install/lib/mono/2.0/mscorlib.dll" "$CURDIR/image/1.1-mscorlib.dll"
+    cp "$CURDIR/build-cross-cli-install/lib/mono/2.0/mscorlib.dll" "$CURDIR/image/2.0-mscorlib.dll"
+    cp "$CURDIR/build-cross-cli-install/lib/mono/4.0/mscorlib.dll" "$CURDIR/image/4.0-mscorlib.dll"
+
     # remove debug files
     for f in `find image|grep '\.mdb$'`; do
         rm "$f"
@@ -215,12 +219,12 @@ build_componenttable ()
     printf 'config-4.0\t{511C0294-4504-4FC9-B5A7-E85CCEE95C6B}\tWindowsDotNetFramework40Config\t0\t\t4.0-machine.config\n'
     printf 'dotnet-folder\t{22DCE198-F30F-4E74-AEC6-D089B844A878}\tWindowsDotNet\t0\t\t\n' # needed to remove the folder
     printf 'framework-folder\t{41B3A67B-63F4-4491-A53C-9E792BE5A889}\tWindowsDotNetFramework\t0\t\t\n'
-    printf 'framework11-folder\t{20F5741D-4655-400D-8373-7607A84D2478}\tWindowsDotNetFramework11\t0\t\t\n'
-    printf 'framework20-folder\t{B845FD54-09B7-467C-800F-205A142F2F20}\tWindowsDotNetFramework20\t0\t\t\n'
+    printf 'framework11-folder\t{20F5741D-4655-400D-8373-7607A84D2478}\tWindowsDotNetFramework11\t0\t\tmscorlib.dll\n'
+    printf 'framework20-folder\t{B845FD54-09B7-467C-800F-205A142F2F20}\tWindowsDotNetFramework20\t0\t\tmscorlib.dll\n'
     printf 'framework30-folder\t{C3221C80-F9D2-41B5-91E1-F6ADBB05ABBC}\tWindowsDotNetFramework30\t0\t\t\n'
     printf 'framework30wcf-folder\t{1ECAD22C-31C2-4BAC-AC74-78883C396FAB}\tWindowsDotNetFramework30wcf\t0\t\t\n'
     printf 'framework30wpf-folder\t{3C146462-0CAF-4F07-83E6-A75A2A5DE961}\tWindowsDotNetFramework30wpf\t0\t\t\n'
-    printf 'framework40-folder\t{29ECF991-3E9E-4D23-B0B2-874631642B13}\tWindowsDotNetFramework40\t0\t\t\n'
+    printf 'framework40-folder\t{29ECF991-3E9E-4D23-B0B2-874631642B13}\tWindowsDotNetFramework40\t0\t\tmscorlib.dll\n'
     printf 'monobase-folder\t{BE46D94A-7443-4B5C-9B91-6A83815365AB}\tMONOBASEDIR\t0\t\t\n'
     printf 'mono-folder\t{FD7F9172-4E35-4DF5-BD6A-FB7B795D9346}\tMONODIR\t0\t\t\n'
 
@@ -336,6 +340,18 @@ build_filetable ()
         4.0-machine.config)
             COMPONENT=config-4.0
             BASENAME=machine.config
+        ;;
+        1.1-mscorlib.dll)
+            COMPONENT=framework11-folder
+            BASENAME=mscorlib.dll
+        ;;
+        2.0-mscorlib.dll)
+            COMPONENT=framework20-folder
+            BASENAME=mscorlib.dll
+        ;;
+        4.0-mscorlib.dll)
+            COMPONENT=framework40-folder
+            BASENAME=mscorlib.dll
         ;;
         *)
             COMPONENT=`dirname $f|sed -e 's/\//|/g'`
