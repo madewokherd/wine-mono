@@ -190,7 +190,7 @@ build_directorytable ()
 
     cd "$CURDIR/image"
 
-    for f in `find -type d | cut -d '/' -f2-`; do
+    for f in `find . -type d | cut -d '/' -f2-`; do
         if test x. = x$f; then
             continue
         fi
@@ -230,7 +230,7 @@ build_componenttable ()
 
     cd "$CURDIR/image"
 
-    for f in `find -type d | cut -d '/' -f2-`; do
+    for f in `find . -type d | cut -d '/' -f2-`; do
         if test x. = x$f; then
             continue
         fi
@@ -265,7 +265,7 @@ build_createfoldertable ()
 
     cd "$CURDIR/image"
 
-    for f in `find -type d | cut -d '/' -f2-`; do
+    for f in `find . -type d | cut -d '/' -f2-`; do
         if test x. = x$f; then
             continue
         fi
@@ -303,7 +303,7 @@ build_featurecomponentstable ()
 
     cd "$CURDIR/image"
 
-    for f in `find -type d | cut -d '/' -f2-`; do
+    for f in `find . -type d | cut -d '/' -f2-`; do
         if test x. = x$f; then
             continue
         fi
@@ -324,7 +324,7 @@ build_filetable ()
 
     cd "$CURDIR/image"
 
-    for f in `find -type f | cut -d '/' -f2- | sort`; do
+    for f in `find . -type f | cut -d '/' -f2- | sort`; do
         SEQ=`expr $SEQ + 1`
         KEY=`echo $f|sed -e 's/\//!/g'`
         FILESIZE=`stat --format=%s $f`
@@ -399,7 +399,7 @@ build_msifilehashtable ()
 
     cd "$CURDIR/image"
 
-    for f in `find -type f | cut -d '/' -f2- | sort`; do
+    for f in `find . -type f | cut -d '/' -f2- | sort`; do
         KEY=`echo $f|sed -e 's/\//!/g'`
         FILESIZE=`stat --format=%s $f`
 
@@ -423,7 +423,7 @@ build_msi ()
 
     cd "$CURDIR/image"
 
-    for f in `find -type f | cut -d '/' -f2-`; do
+    for f in `find . -type f | cut -d '/' -f2-`; do
         KEY=`echo $f|sed -e 's/\//!/g'`
         ln -s "$CURDIR/image/$f" "$CURDIR/cab-contents/$KEY"
     done
