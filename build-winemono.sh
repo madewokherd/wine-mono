@@ -376,40 +376,24 @@ build_mediatable ()
     printf '1\t%s\t\t#image.cab\t\t' "$IMAGECAB_SEQ"
 }
 
-hex_to_binary ()
-{
-    HEXCHAR=`head -c 2|tr [a-f] [A-F]`
-
-    while test x != x"$HEXCHAR"; do
-        printf '\'`echo 'ibase=16; obase=8;' $HEXCHAR|bc`
-        HEXCHAR=`head -c 2|tr [a-f] [A-F]`
-    done
-}
-
-format_od_output ()
-{
-    printf '%s\t%s\t%s\t%s\n' $2 $3 $4 $5
-}
-
 build_msifilehashtable ()
 {
     printf 'File_\tOptions\tHashPart1\tHashPart2\tHashPart3\tHashPart4\n'
     printf 's72\ti2\ti4\ti4\ti4\ti4\n'
     printf 'MsiFileHash\tFile_\n'
 
+    export PATH="$CURDIR/build-cross-cli-install/bin":$PATH
+    export LD_LIBRARY_PATH="$CURDIR/build-cross-cli-install/lib":$LD_LIBRARY_PATH
+    export MONO_GAC_PREFIX="$CURDIR/build-cross-cli-install"
+    export MONO_CFG_DIR="$CURDIR/build-cross-cli-install/etc"
+
+    cd "$CURDIR"
+
+    mcs genfilehashes.cs -r:Mono.Posix || exit 1
+
     cd "$CURDIR/image"
 
-    for f in `find . -type f | cut -d '/' -f2- | sort`; do
-        KEY=`echo $f|sed -e 's/\//!/g'`
-        FILESIZE=`stat --format=%s $f`
-
-        printf '%s\t0\t' "$KEY"
-        if test $FILESIZE -eq 0; then
-            printf '0\t0\t0\t0\n'
-        else
-            format_od_output `md5sum $f|head -c 32|hex_to_binary|od -v -t d4`
-        fi
-    done
+    mono "$CURDIR/genfilehashes.exe" || exit 1
 
     cd "$CURDIR"
 }
