@@ -327,7 +327,7 @@ build_filetable ()
     for f in `find . -type f | cut -d '/' -f2- | sort`; do
         SEQ=`expr $SEQ + 1`
         KEY=`echo $f|sed -e 's/\//!/g'`
-        FILESIZE=`stat --format=%s $f`
+        FILESIZE=`ls -l $f | awk '{print $5}'`
 
         case $f in 1.1-machine.config)
             COMPONENT=config-1.1
