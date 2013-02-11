@@ -12,13 +12,13 @@ To get to the source code for a specific release, check out the appropriate tag,
 $ git checkout wine-mono-0.0.2
 $ git submodule update --recursive
 
-Source tarballs are not currently available.
+Source tarballs and binary packages are available at http://sourceforge.net/projects/wine/files/Wine%20Mono/
 
 
 DEPENDENCIES
 
 To build Wine Mono, you will need the following:
- * All of the dependencies of Mono for your native (presumably Linux) system, such as autotools and a C++ compiler.
+ * All of the dependencies of Mono for your native (presumably Linux) system, such as autotools, a C++ compiler, and a C# compiler (so that Mono ban bootstrap its own).
  * Wine, for the winemsibuilder and cabarc commands.
  * A 32-bit and 64-bit version of Mingw-w64, including a C++ compiler.
 
@@ -44,6 +44,8 @@ $ msiexec /i winemono.msi
 
 Note that if a Wine Mono with a version number >= to this file is already installed, that command will do nothing, so you may have to remove the existing version (using 'wine uninstaller') first.
 
+If you are making only a few changes that you need to test, it may be more convenient to copy the individual files from the image/ directory to .wine/drive_c/windows/mono/mono-2.0.
+
 
 COMPOSITION
 
@@ -56,14 +58,12 @@ An installed Wine Mono contains the following:
 
 BUGS
 
-For now, bugs involving the use of this package to run Windows programs in Wine should be filed in the Wine bugzilla (http://bugs.winehq.org/) with product set to "Wine" and component set to "mscoree". This arrangement may change in the future.
-
-I can't think of any sort of bug that wouldn't be appropriate for the Wine bugzilla, but if there is one, it can be filed at github as an issue: https://github.com/madewokherd/wine-mono/issues/new
+Bugs involving the use of this package to run Windows programs in Wine should be filed in the Wine bugzilla (http://bugs.winehq.org/) with product set to "Wine" and component set to "mscoree". Bugs in Wine Mono's build system or packaging can also be filed in Wine's bugzilla, or they can be filed as an issue on the wine-mono github.
 
 
 PATCHES
 
-Patches should be sent as a pull request to https://github.com/madewokherd/wine-mono or the appropriate submodule, or as a mail to wine-patches.
+Patches should be sent as a pull request to https://github.com/madewokherd/wine-mono or the appropriate submodule.
 
 Before sending a patch for one of Wine Mono's forks, please consider whether it would be more appropriate to send to the upstream project. We'd like to keep the diff from upstream to a minimum, so the changes should either be appropriate for Wine but inappropriate for upstream for some reason, or sufficiently important to bypass the upstream project.
 
