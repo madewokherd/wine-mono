@@ -337,6 +337,10 @@ build_filetable ()
             COMPONENT=config-2.0
             BASENAME=machine.config
         ;;
+        2.0-security.config)
+            COMPONENT=config-2.0
+            BASENAME=security.config
+        ;;
         4.0-machine.config)
             COMPONENT=config-4.0
             BASENAME=machine.config
@@ -476,6 +480,7 @@ build_cli
 
 mkdir image/support
 cp dotnetfakedlls.inf image/support/
+cp security.config image/2.0-security.config
 
 build_msi
 
