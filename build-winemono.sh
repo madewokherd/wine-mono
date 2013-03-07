@@ -73,6 +73,14 @@ cross_build_mono ()
     mkdir -p "$CURDIR/image/bin"
     cp "$CURDIR/build-cross-$ARCH-install/bin/libmono-2.0.dll" "$CURDIR/image/bin/libmono-2.0-$ARCH.dll"
     cp "$CURDIR/build-cross-$ARCH/support/.libs/libMonoPosixHelper.dll" "$CURDIR/image/bin/MonoPosixHelper-$ARCH.dll"
+
+    # build libtest.dll for the runtime tests
+    if test x$BUILD_TESTS = x1; then
+        cd "$CURDIR/build-cross-$ARCH/mono/tests"
+        make libtest.la || exit 1
+        mkdir "$CURDIR/tests-runtime-$ARCH"
+        cp .libs/libtest-0.dll "$CURDIR/tests-runtime-$ARCH/libtest.dll" || exit 1
+    fi
 }
 
 build_cli ()
@@ -114,6 +122,14 @@ build_cli ()
                 cd "$CURDIR/mono/mcs/class/lib/$profile"
                 cp nunit* "$CURDIR/tests-$profile"
             fi
+        done
+
+        cd "$CURDIR/build-cross-cli/mono/tests"
+        make tests || exit 1
+
+        # runtime tests
+        for dirname in ls "$CURDIR"/tests-runtime-*; do
+            cp *.exe *.dll "$dirname"
         done
     fi
 
