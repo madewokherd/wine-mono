@@ -71,8 +71,17 @@ cross_build_mono ()
     cd "$CURDIR"
 
     mkdir -p "$CURDIR/image/bin"
-    cp "$CURDIR/build-cross-$ARCH-install/bin/libmono-2.0.dll" "$CURDIR/image/bin/libmono-2.0-$ARCH.dll"
-    cp "$CURDIR/build-cross-$ARCH/support/.libs/libMonoPosixHelper.dll" "$CURDIR/image/bin/MonoPosixHelper-$ARCH.dll"
+    if test -f "$CURDIR/build-cross-$ARCH-install/bin/libmono-2.0.dll"; then
+        cp "$CURDIR/build-cross-$ARCH-install/bin/libmono-2.0.dll" "$CURDIR/image/bin/libmono-2.0-$ARCH.dll"
+    elif test -f "$CURDIR/build-cross-$ARCH-install/bin/libmonosgen-2.0.dll"; then
+        cp "$CURDIR/build-cross-$ARCH-install/bin/libmonosgen-2.0.dll" "$CURDIR/image/bin/libmono-2.0-$ARCH.dll"
+    elif test -f "$CURDIR/build-cross-$ARCH-install/bin/libmonoboehm-2.0.dll"; then
+        cp "$CURDIR/build-cross-$ARCH-install/bin/libmonoboehm-2.0.dll" "$CURDIR/image/bin/libmono-2.0-$ARCH.dll"
+    else
+        echo cannot find libmono dll
+        exit 1
+    fi
+    cp "$CURDIR/build-cross-$ARCH/support/.libs/libMonoPosixHelper.dll" "$CURDIR/image/bin/MonoPosixHelper-$ARCH.dll" || exit 1
 
     # build libtest.dll for the runtime tests
     if test x$BUILD_TESTS = x1; then
