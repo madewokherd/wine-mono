@@ -93,4 +93,9 @@ MsiNet20SP1Installed_64	2	Software\Microsoft\Windows\CurrentVersion\Installer\Us
 MsiNet20SP2Product_64	2	Software\Classes\Installer\Products\DC3BF90CC0D3D2F398A9A6D1762F70F3	*		mono-registry64
 MsiNet20SP2InstallProps_64	2	Software\Microsoft\Windows\CurrentVersion\Installer\UserData\S-1-5-18\Products\DC3BF90CC0D3D2F398A9A6D1762F70F3\InstallProperties	*		mono-registry64
 MsiNet20SP2Installed_64	2	Software\Microsoft\Windows\CurrentVersion\Installer\UserData\S-1-5-18\Products\DC3BF90CC0D3D2F398A9A6D1762F70F3\InstallProperties	WindowsInstaller	#1	mono-registry64
+PostPlatform20	2	Software\Microsoft\Windows\CurrentVersion\Internet Settings\5.0\User Agent\Post Platform	.NET CLR 2.0.50727		mono-registry
+PostPlatform30	2	Software\Microsoft\Windows\CurrentVersion\Internet Settings\5.0\User Agent\Post Platform	.NET CLR 3.0.30729		mono-registry
+PostPlatform35	2	Software\Microsoft\Windows\CurrentVersion\Internet Settings\5.0\User Agent\Post Platform	.NET CLR 3.5.30729		mono-registry
+PostPlatform40C	2	Software\Microsoft\Windows\CurrentVersion\Internet Settings\5.0\User Agent\Post Platform	.NET4.0C		mono-registry
+PostPlatform40E	2	Software\Microsoft\Windows\CurrentVersion\Internet Settings\5.0\User Agent\Post Platform	.NET4.0E		mono-registry
 
