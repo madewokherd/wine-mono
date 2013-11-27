@@ -7,6 +7,7 @@ DotNetFrameworkPolicy10	2	Software\Microsoft\.NETFramework\policy\v1.0	+		mono-r
 DotNetFrameworkPolicy11	2	Software\Microsoft\.NETFramework\policy\v1.1	+		mono-registry
 DotNetFrameworkPolicy20	2	Software\Microsoft\.NETFramework\policy\v2.0	50727	50727-50727	mono-registry
 DotNetFrameworkPolicy30	2	Software\Microsoft\.NETFramework\policy\v3.0	+		mono-registry
+DotNetFrameworkPolicy40	2	Software\Microsoft\.NETFramework\policy\v4.0	30319	30319-30319	mono-registry
 NDPKey	2	Software\Microsoft\NET Framework Setup	*		mono-registry
 NDP11Install	2	Software\Microsoft\NET Framework Setup\NDP\v1.1.4322	Install	#1	mono-registry
 NDP11SP	2	Software\Microsoft\NET Framework Setup\NDP\v1.1.4322	SP	#1	mono-registry
@@ -53,6 +54,7 @@ DotNetFrameworkPolicy10_64	2	Software\Microsoft\.NETFramework\policy\v1.0	+		mon
 DotNetFrameworkPolicy11_64	2	Software\Microsoft\.NETFramework\policy\v1.1	+		mono-registry64
 DotNetFrameworkPolicy20_64	2	Software\Microsoft\.NETFramework\policy\v2.0	50727	50727-50727	mono-registry64
 DotNetFrameworkPolicy30_64	2	Software\Microsoft\.NETFramework\policy\v3.0	+		mono-registry64
+DotNetFrameworkPolicy40_64	2	Software\Microsoft\.NETFramework\policy\v4.0	30319	30319-30319	mono-registry64
 NDPKey_64	2	Software\Microsoft\NET Framework Setup	*		mono-registry64
 NDP11Install_64	2	Software\Microsoft\NET Framework Setup\NDP\v1.1.4322	Install	#1	mono-registry64
 NDP11SP_64	2	Software\Microsoft\NET Framework Setup\NDP\v1.1.4322	SP	#1	mono-registry64
