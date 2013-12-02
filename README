@@ -27,7 +27,7 @@ BUILD
 
 To build Wine Mono, run the build-winemono.sh script.
 
-$ ./build-wine-mono.sh
+$ ./build-winemono.sh
 
 This will reconfigure and rebuild Mono every time unless the -r switch is passed.
 
