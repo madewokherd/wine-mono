@@ -154,23 +154,6 @@ build_cli ()
     make $MAKEOPTS || exit 1
     make install || exit 1
 
-    # build OpenTK
-    cd "$CURDIR/opentk"
-    xbuild Source/OpenTK/OpenTK.csproj /p:Configuration=Xna4 || exit 1
-    cp 'Wine.OpenTK, Version=4.0.0.0.dll' Wine.OpenTK.dll
-    gacutil -i Wine.OpenTK.dll
-    ln -s "$CURDIR/opentk/Wine.OpenTK, Version=4.0.0.0.dll" "$CURDIR/build-cross-cli-install/lib/mono/4.0/Wine.OpenTK.dll"
-
-    # build MonoGame
-    cd "$CURDIR/MonoGame"
-    xbuild MonoGame.Framework.Wine.sln /p:Configuration=Release || exit 1
-    gacutil -i ThirdParty/Lidgren.Network/bin/Release/Lidgren.Network.Wine.dll || exit 1
-    gacutil -i MonoGame.Framework/bin/Release/MonoGame.Framework.Wine.dll || exit 1
-    for name in Microsoft.Xna.Framework Microsoft.Xna.Framework.Game Microsoft.Xna.Framework.Graphics Microsoft.Xna.Framework.Xact; do
-        sn -R ${name}/bin/Release/${name}.dll ../mono/mcs/class/mono.snk || exit 1
-        gacutil -i ${name}/bin/Release/${name}.dll || exit 1
-    done
-
     # build image/ directory
     cd "$CURDIR"
     mkdir -p "$CURDIR/image/lib"

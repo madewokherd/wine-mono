@@ -4,9 +4,3 @@
 [submodule "mono-basic"]
 	path = mono-basic
 	url = ../mono-basic.git
-[submodule "opentk"]
-	path = opentk
-	url = ../opentk.git
-[submodule "MonoGame"]
-	path = MonoGame
-	url = ../MonoGame.git

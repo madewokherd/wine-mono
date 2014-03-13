@@ -53,7 +53,6 @@ An installed Wine Mono contains the following:
  * Registry keys and files in C:\windows\Microsoft.NET intended to make it look as if Microsoft .NET is installed, so that applications won't complain that it's missing, and the installers for Microsoft .NET won't install. (Wine Mono should always be removed before installing Microsoft .NET.)
  * A modified version of the Mono runtime and standard class libraries, in C:\windows\mono\mono-2.0.
  * A replacement for the Visual Basic calss libraries, in the Mono GAC (C:\windows\mono\mono-2.0\lib\mono\gac).
- * A replacement for XNA 4.0, also in the Mono GAC and based on MonoGame. OpenTK and Lidgren.Network are included as dependencies for MonoGame. The replacement will not be used if Microsoft's XNA 4.0 is installed.
 
 
 BUGS
