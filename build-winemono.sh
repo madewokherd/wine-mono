@@ -11,6 +11,7 @@ REBUILD=0
 WINE=${WINE:-`which wine`}
 MSIFILENAME=winemono.msi
 BUILD_TESTS=0
+USE_MONOLITE=0
 
 usage ()
 {
@@ -23,17 +24,19 @@ where OPTIONS are:
  -M MINGW   Sets the amd64 MINGW target name to be passed to configure [$MINGW_x86_64]
  -t         Build the mono test suite
  -r         Rebuild (skips configure)
+ -l         Fetch and use monolite
 EOF
 
     exit 1
 }
 
-while getopts "d:m:D:M:trh" opt; do
+while getopts "d:m:D:M:trhl" opt; do
     case "$opt" in
 	m) MINGW_x86="$OPTARG" ;;
 	M) MINGW_x86_64="$OPTARG" ;;
 	t) BUILD_TESTS=1 ;;
 	r) REBUILD=1 ;;
+	l) USE_MONOLITE=1 ;;
 	*) usage ;;
     esac
 done
@@ -107,7 +110,11 @@ build_cli ()
     if test 1 != $REBUILD || test ! -e Makefile; then
         ../mono/configure --prefix="$CURDIR/build-cross-cli-install" --with-mcs-docs=no --disable-system-aot || exit 1
     fi
-    make $MAKEOPTS || exit 1
+    if test 1 = $USE_MONOLITE; then
+        make get-monolite-latest || exit 1
+        MONOLITE_OPTS="EXTERNAL_MCS=$CURDIR/mono/mcs/class/lib/monolite/basic.exe"
+    fi
+    make $MAKEOPTS $MONOLITE_OPTS || exit 1
     rm -rf "$CURDIR/build-cross-cli-install"
     make install || exit 1
     cd "$CURDIR"
@@ -451,7 +458,7 @@ sanity_checks ()
         exit 1
     fi
 
-    if test ! -x "`which gmcs 2>/dev/null`"
+    if test 1 != $USE_MONOLITE && test ! -x "`which gmcs 2>/dev/null`"
     then
         echo "You need to have gmcs from mono installed."
         exit 1
