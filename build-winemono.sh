@@ -62,7 +62,7 @@ cross_build_mono ()
 
     cd "$CURDIR/build-cross-$ARCH"
     if test 1 != $REBUILD || test ! -e Makefile; then
-        ../mono/configure --prefix="$CURDIR/build-cross-$ARCH-install" --build=$BUILD --target=$MINGW --host=$MINGW --with-tls=none --disable-mcs-build --enable-win32-dllmain=yes --with-libgc-threads=win32 PKG_CONFIG=false mono_cv_clang=no || exit 1
+        CPPFLAGS="-gdwarf-2 -gstrict-dwarf" ../mono/configure --prefix="$CURDIR/build-cross-$ARCH-install" --build=$BUILD --target=$MINGW --host=$MINGW --with-tls=none --disable-mcs-build --enable-win32-dllmain=yes --with-libgc-threads=win32 PKG_CONFIG=false mono_cv_clang=no || exit 1
         sed -e 's/-lgcc_s//' -i libtool
     fi
     WINEPREFIX=/dev/null make $MAKEOPTS || exit 1
