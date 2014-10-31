@@ -460,7 +460,7 @@ sanity_checks ()
 
     if test 1 != $USE_MONOLITE && test ! -x "`which gmcs 2>/dev/null`"
     then
-        echo "You need to have gmcs from mono installed."
+        echo "You need to have gmcs from mono installed or use the -l switch."
         exit 1
     fi
 }
