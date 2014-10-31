@@ -42,6 +42,9 @@ rm -f "$OUTPUT_FILE"
 
 recursivearchivefiles "$PWD" "$1"/ "$1" "$OUTPUT_FILE"
 
+# add monolite
+tar rf "$OUTPUT_FILE" --transform 's:^mono/mcs/class/lib:'"$1"':g' mono/mcs/class/lib/monolite
+
 rm -f "$OUTPUT_FILE.gz"
 gzip "$OUTPUT_FILE"
 
