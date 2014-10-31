@@ -112,9 +112,15 @@ build_cli ()
     fi
     if test 1 = $USE_MONOLITE; then
         make get-monolite-latest || exit 1
-        MONOLITE_OPTS="EXTERNAL_MCS=$CURDIR/mono/mcs/class/lib/monolite/basic.exe"
+        MONOLITE_PATH="$CURDIR/mono/mcs/class/lib/monolite"
+    elif test -e $CURDIR/monolite/basic.exe; then
+        MONOLITE_PATH="$CURDIR/monolite"
     fi
-    make $MAKEOPTS $MONOLITE_OPTS || exit 1
+    if test x != x$MONOLITE_PATH; then
+        make $MAKEOPTS "EXTERNAL_MCS=MONO_PATH=$MONOLITE_PATH $CURDIR/build-cross-cli/mono/mini/mono-sgen $MONOLITE_PATH/basic.exe" || exit 1
+    else
+        make $MAKEOPTS || exit 1
+    fi
     rm -rf "$CURDIR/build-cross-cli-install"
     make install || exit 1
     cd "$CURDIR"
@@ -458,7 +464,9 @@ sanity_checks ()
         exit 1
     fi
 
-    if test 1 != $USE_MONOLITE && test ! -x "`which gmcs 2>/dev/null`"
+    if test 1 != $USE_MONOLITE && \
+       test ! -e $CURDIR/monolite/basic.exe && \
+       test ! -x "`which gmcs 2>/dev/null`"
     then
         echo "You need to have gmcs from mono installed or use the -l switch."
         exit 1
