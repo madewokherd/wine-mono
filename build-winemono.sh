@@ -130,7 +130,7 @@ build_cli ()
         for profile in `ls "$CURDIR/mono/mcs/class/lib"`; do
             if test -e "$CURDIR/mono/mcs/class/lib/$profile/nunit-console.exe"; then
                 cd "$CURDIR/mono/mcs/class/"
-                make $MAKEOPTS test PROFILE=$profile
+                make $MAKEOPTS test PROFILE=$profile || exit 1
 
                 rm -rf "$CURDIR/tests-$profile"
                 mkdir "$CURDIR/tests-$profile"
