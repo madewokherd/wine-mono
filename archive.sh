@@ -36,6 +36,14 @@ recursivearchivefiles ()
     rm "$TEMPFILE"
 }
 
+# check that we have a usable build of monolite
+for f in basic.exe mscorlib.dll System.dll System.Xml.dll Mono.Security.dll System.Core.dll System.Security.dll System.Configuration.dll; do
+    if test ! -e mono/mcs/class/lib/basic/$f; then
+        echo Need a basic mcs build to generate a tarball.
+        exit 1
+    fi
+done
+
 OUTPUT_FILE="$PWD/$1.tar"
 
 rm -f "$OUTPUT_FILE"
@@ -43,7 +51,7 @@ rm -f "$OUTPUT_FILE"
 recursivearchivefiles "$PWD" "$1"/ "$1" "$OUTPUT_FILE"
 
 # add monolite
-tar rf "$OUTPUT_FILE" --transform 's:^mono/mcs/class/lib:'"$1"':g' mono/mcs/class/lib/monolite
+tar rf "$OUTPUT_FILE" --transform 's:^mono/mcs/class/lib/basic:'"$1"'/monolite:g' mono/mcs/class/lib/basic/basic.exe mono/mcs/class/lib/basic/*.dll
 
 rm -f "$OUTPUT_FILE.gz"
 gzip "$OUTPUT_FILE"
