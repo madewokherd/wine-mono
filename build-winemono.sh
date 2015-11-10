@@ -466,9 +466,9 @@ sanity_checks ()
 
     if test 1 != $USE_MONOLITE && \
        test ! -e $CURDIR/monolite/basic.exe && \
-       test ! -x "`which gmcs 2>/dev/null`"
+       test ! -x "`which mcs 2>/dev/null`"
     then
-        echo "You need to have gmcs from mono installed or use the -l switch."
+        echo "You need to have mcs from mono installed or use the -l switch."
         exit 1
     fi
 }
