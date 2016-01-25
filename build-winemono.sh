@@ -112,12 +112,11 @@ build_cli ()
     fi
     if test 1 = $USE_MONOLITE; then
         make get-monolite-latest || exit 1
-        MONOLITE_PATH="$CURDIR/mono/mcs/class/lib/monolite"
     elif test -e $CURDIR/monolite/basic.exe; then
         MONOLITE_PATH="$CURDIR/monolite"
     fi
     if test x != x$MONOLITE_PATH; then
-        make $MAKEOPTS "EXTERNAL_MCS=MONO_PATH=$MONOLITE_PATH $CURDIR/build-cross-cli/mono/mini/mono-sgen $MONOLITE_PATH/basic.exe" || exit 1
+        make $MAKEOPTS "EXTERNAL_RUNTIME=MONO_PATH=$MONOLITE_PATH $CURDIR/build-cross-cli/mono/mini/mono-sgen" "EXTERNAL_MCS=\$(EXTERNAL_RUNTIME) $MONOLITE_PATH/basic.exe" || exit 1
     else
         make $MAKEOPTS || exit 1
     fi
