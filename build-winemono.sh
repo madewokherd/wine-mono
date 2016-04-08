@@ -176,8 +176,8 @@ build_cli ()
     cp "$CURDIR/build-cross-cli-install/etc/mono/2.0/machine.config" "$CURDIR/image/2.0-machine.config"
     cp "$CURDIR/build-cross-cli-install/etc/mono/4.0/machine.config" "$CURDIR/image/4.0-machine.config"
 
-    cp "$CURDIR/build-cross-cli-install/lib/mono/2.0/mscorlib.dll" "$CURDIR/image/1.1-mscorlib.dll"
-    cp "$CURDIR/build-cross-cli-install/lib/mono/2.0/mscorlib.dll" "$CURDIR/image/2.0-mscorlib.dll"
+    cp "$CURDIR/build-cross-cli-install/lib/mono/2.0-api/mscorlib.dll" "$CURDIR/image/1.1-mscorlib.dll"
+    cp "$CURDIR/build-cross-cli-install/lib/mono/2.0-api/mscorlib.dll" "$CURDIR/image/2.0-mscorlib.dll"
     cp "$CURDIR/build-cross-cli-install/lib/mono/4.0/mscorlib.dll" "$CURDIR/image/4.0-mscorlib.dll"
 
     # remove debug files
