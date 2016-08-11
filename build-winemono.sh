@@ -344,10 +344,10 @@ build_filetable ()
 
     cd "$CURDIR/image"
 
-    for f in `find . -type f | cut -d '/' -f2- | sort`; do
+    find . -type f | cut -d '/' -f2- | sort | while read -r f; do
         SEQ=`expr $SEQ + 1`
         KEY=`echo $f|sed -e 's/\//!/g'`
-        FILESIZE=`ls -l $f | awk '{print $5}'`
+        FILESIZE=`ls -l "$f" | awk '{print $5}'`
 
         case $f in 1.1-machine.config)
             COMPONENT=config-1.1
@@ -378,15 +378,13 @@ build_filetable ()
             BASENAME=mscorlib.dll
         ;;
         *)
-            COMPONENT=`dirname $f|sed -e 's/\//|/g'`
-            BASENAME=`basename $f`
+            COMPONENT=`dirname "$f"|sed -e 's/\//|/g'`
+            BASENAME=`basename "$f"`
         ;;
         esac
 
         printf '%s\t%s\t%s\t%s\t\t\t\t%s\n' "$KEY" "$COMPONENT" "$BASENAME" "$FILESIZE" "$SEQ"
     done
-
-    IMAGECAB_SEQ=$SEQ
 
     cd "$CURDIR"
 }
@@ -396,6 +394,8 @@ build_mediatable ()
     printf 'DiskId\tLastSequence\tDiskPrompt\tCabinet\tVolumeLabel\tSource\n'
     printf 'i2\ti4\tL64\tS255\tS32\tS72\n'
     printf 'Media\tDiskId\n'
+
+    IMAGECAB_SEQ=`tail -n 1 msi-tables/file.idt|awk '{print $5}'`
 
     printf '1\t%s\t\t#image.cab\t\t' "$IMAGECAB_SEQ"
 }
@@ -431,7 +431,7 @@ build_msi ()
 
     cd "$CURDIR/image"
 
-    for f in `find . -type f | cut -d '/' -f2-`; do
+    find . -type f | cut -d '/' -f2- | while read -r f; do
         KEY=`echo $f|sed -e 's/\//!/g'`
         ln -s "$CURDIR/image/$f" "$CURDIR/cab-contents/$KEY"
     done
