@@ -12,7 +12,7 @@ To get to the source code for a specific release, check out the appropriate tag,
 $ git checkout wine-mono-0.0.2
 $ git submodule update --recursive
 
-Source tarballs and binary packages are available at http://sourceforge.net/projects/wine/files/Wine%20Mono/
+Source tarballs and binary packages are available at http://dl.winehq.org/wine/wine-mono/
 
 
 DEPENDENCIES
@@ -35,14 +35,23 @@ You can set the MAKEOPTS environment variable to use multiple CPUs for some of t
 
 If you supply the -t switch, the Mono test suite will be built and put in directories named like tests-net_*. These directories should be self-contained and work on any .NET implementation, using nunit-console.exe to run the tests. I'm not sure that all of it works, though, since the Mono test suite wasn't designed to be used this way.
 
+Optionally, a build VM can be automatically set up using the Vagrantfile included with the source distribution. To start the VM, run:
+
+$ vagrant up
+$ vagrant ssh
+
+You can then cd to /vagrant and use the build-winemono.sh script from there.
+
 
 INSTALL
 
 To install Wine Mono, run the generated msi file with msiexec:
 
-$ msiexec /i winemono.msi
+$ wine64 msiexec /i winemono.msi
 
-Note that if a Wine Mono with a version number >= to this file is already installed, that command will do nothing, so you may have to remove the existing version (using 'wine uninstaller') first.
+Note that if a Wine Mono with a version number >= to this file is already installed, that command will do nothing, so you may have to remove the existing version (using 'wine64 uninstaller') first.
+
+In a 32-bit prefix, use wine instead of wine64.
 
 If you are making only a few changes that you need to test, it may be more convenient to copy the individual files from the image/ directory to .wine/drive_c/windows/mono/mono-2.0.
 
