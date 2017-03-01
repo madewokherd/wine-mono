@@ -5,13 +5,18 @@
 CURDIR="`pwd`"
 MINGW_x86=i686-w64-mingw32
 MINGW_x86_64=x86_64-w64-mingw32
-INSTALL_DESTDIR="$CURDIR"
 ORIGINAL_PATH="$PATH"
 REBUILD=0
 WINE=${WINE:-`which wine`}
 MSIFILENAME=winemono.msi
 BUILD_TESTS=0
 USE_MONOLITE=0
+
+if test -f "$HOME/.wine-mono-build-vm"; then
+	BUILDDIR="$HOME"
+else
+	BUILDDIR="$CURDIR"
+fi
 
 usage ()
 {
@@ -24,18 +29,20 @@ where OPTIONS are:
  -M MINGW   Sets the amd64 MINGW target name to be passed to configure [$MINGW_x86_64]
  -t         Build the mono test suite
  -r         Rebuild (skips configure)
+ -b PATH    Sets the directory for intermediate build files [$BUILDDIR]
  -l         Fetch and use monolite
 EOF
 
     exit 1
 }
 
-while getopts "d:m:D:M:trhl" opt; do
+while getopts "d:m:D:M:b:trhl" opt; do
     case "$opt" in
 	m) MINGW_x86="$OPTARG" ;;
 	M) MINGW_x86_64="$OPTARG" ;;
 	t) BUILD_TESTS=1 ;;
 	r) REBUILD=1 ;;
+	b) BUILDDIR="$OPTARG" ;;
 	l) USE_MONOLITE=1 ;;
 	*) usage ;;
     esac
@@ -53,42 +60,42 @@ cross_build_mono ()
     local ARCH=$2
 
     if test 1 != $REBUILD; then
-        rm -rf "$CURDIR/build-cross-$ARCH"
+        rm -rf "$BUILDDIR/build-cross-$ARCH"
     fi
 
-    if test ! -d "$CURDIR/build-cross-$ARCH"; then
-        mkdir "$CURDIR/build-cross-$ARCH"
+    if test ! -d "$BUILDDIR/build-cross-$ARCH"; then
+        mkdir "$BUILDDIR/build-cross-$ARCH"
     fi
 
-    cd "$CURDIR/build-cross-$ARCH"
+    cd "$BUILDDIR/build-cross-$ARCH"
     if test 1 != $REBUILD || test ! -e Makefile; then
-        CPPFLAGS="-gdwarf-2 -gstrict-dwarf" ../mono/configure --prefix="$CURDIR/build-cross-$ARCH-install" --build=$BUILD --target=$MINGW --host=$MINGW --with-tls=none --disable-mcs-build --enable-win32-dllmain=yes --with-libgc-threads=win32 PKG_CONFIG=false mono_cv_clang=no || exit 1
+        CPPFLAGS="-gdwarf-2 -gstrict-dwarf" "$CURDIR"/mono/configure --prefix="$BUILDDIR/build-cross-$ARCH-install" --build=$BUILD --target=$MINGW --host=$MINGW --with-tls=none --disable-mcs-build --enable-win32-dllmain=yes --with-libgc-threads=win32 PKG_CONFIG=false mono_cv_clang=no || exit 1
         sed -e 's/-lgcc_s//' -i libtool
     fi
     WINEPREFIX=/dev/null make $MAKEOPTS || exit 1
-    cd "$CURDIR/build-cross-$ARCH/support"
+    cd "$BUILDDIR/build-cross-$ARCH/support"
     WINEPREFIX=/dev/null make $MAKEOPTS || exit 1
-    rm -rf "$CURDIR/build-cross-$ARCH-install"
-    cd "$CURDIR/build-cross-$ARCH"
+    rm -rf "$BUILDDIR/build-cross-$ARCH-install"
+    cd "$BUILDDIR/build-cross-$ARCH"
     make install || exit 1
     cd "$CURDIR"
 
-    mkdir -p "$CURDIR/image/bin"
-    if test -f "$CURDIR/build-cross-$ARCH-install/bin/libmono-2.0.dll"; then
-        cp "$CURDIR/build-cross-$ARCH-install/bin/libmono-2.0.dll" "$CURDIR/image/bin/libmono-2.0-$ARCH.dll"
-    elif test -f "$CURDIR/build-cross-$ARCH-install/bin/libmonosgen-2.0.dll"; then
-        cp "$CURDIR/build-cross-$ARCH-install/bin/libmonosgen-2.0.dll" "$CURDIR/image/bin/libmono-2.0-$ARCH.dll"
-    elif test -f "$CURDIR/build-cross-$ARCH-install/bin/libmonoboehm-2.0.dll"; then
-        cp "$CURDIR/build-cross-$ARCH-install/bin/libmonoboehm-2.0.dll" "$CURDIR/image/bin/libmono-2.0-$ARCH.dll"
+    mkdir -p "$BUILDDIR/image/bin"
+    if test -f "$BUILDDIR/build-cross-$ARCH-install/bin/libmono-2.0.dll"; then
+        cp "$BUILDDIR/build-cross-$ARCH-install/bin/libmono-2.0.dll" "$BUILDDIR/image/bin/libmono-2.0-$ARCH.dll"
+    elif test -f "$BUILDDIR/build-cross-$ARCH-install/bin/libmonosgen-2.0.dll"; then
+        cp "$BUILDDIR/build-cross-$ARCH-install/bin/libmonosgen-2.0.dll" "$BUILDDIR/image/bin/libmono-2.0-$ARCH.dll"
+    elif test -f "$BUILDDIR/build-cross-$ARCH-install/bin/libmonoboehm-2.0.dll"; then
+        cp "$BUILDDIR/build-cross-$ARCH-install/bin/libmonoboehm-2.0.dll" "$BUILDDIR/image/bin/libmono-2.0-$ARCH.dll"
     else
         echo cannot find libmono dll
         exit 1
     fi
-    cp "$CURDIR/build-cross-$ARCH/support/.libs/libMonoPosixHelper.dll" "$CURDIR/image/bin/MonoPosixHelper-$ARCH.dll" || exit 1
+    cp "$BUILDDIR/build-cross-$ARCH/support/.libs/libMonoPosixHelper.dll" "$BUILDDIR/image/bin/MonoPosixHelper-$ARCH.dll" || exit 1
 
     # build libtest.dll for the runtime tests
     if test x$BUILD_TESTS = x1; then
-        cd "$CURDIR/build-cross-$ARCH/mono/tests"
+        cd "$BUILDDIR/build-cross-$ARCH/mono/tests"
         make libtest.la || exit 1
         mkdir "$CURDIR/tests-runtime-$ARCH"
         cp .libs/libtest-0.dll "$CURDIR/tests-runtime-$ARCH/libtest.dll" || exit 1
@@ -99,16 +106,16 @@ build_cli ()
 {
     # build mono
     if test 1 != $REBUILD; then
-        rm -rf "$CURDIR/build-cross-cli"
+        rm -rf "$BUILDDIR/build-cross-cli"
     fi
 
-    if test ! -d "$CURDIR/build-cross-cli"; then
-        mkdir "$CURDIR/build-cross-cli"
+    if test ! -d "$BUILDDIR/build-cross-cli"; then
+        mkdir "$BUILDDIR/build-cross-cli"
     fi
 
-    cd "$CURDIR/build-cross-cli"
+    cd "$BUILDDIR/build-cross-cli"
     if test 1 != $REBUILD || test ! -e Makefile; then
-        ../mono/configure --prefix="$CURDIR/build-cross-cli-install" --with-mcs-docs=no --disable-system-aot || exit 1
+        "$CURDIR"/mono/configure --prefix="$BUILDDIR/build-cross-cli-install" --with-mcs-docs=no --disable-system-aot || exit 1
     fi
     if test 1 = $USE_MONOLITE; then
         make get-monolite-latest || exit 1
@@ -116,11 +123,11 @@ build_cli ()
         MONOLITE_PATH="$CURDIR/monolite"
     fi
     if test x != x$MONOLITE_PATH; then
-        make $MAKEOPTS "EXTERNAL_RUNTIME=MONO_PATH=$MONOLITE_PATH $CURDIR/build-cross-cli/mono/mini/mono-sgen" "EXTERNAL_MCS=\$(EXTERNAL_RUNTIME) $MONOLITE_PATH/basic.exe" || exit 1
+        make $MAKEOPTS "EXTERNAL_RUNTIME=MONO_PATH=$MONOLITE_PATH $BUILDDIR/build-cross-cli/mono/mini/mono-sgen" "EXTERNAL_MCS=\$(EXTERNAL_RUNTIME) $MONOLITE_PATH/basic.exe" || exit 1
     else
         make $MAKEOPTS || exit 1
     fi
-    rm -rf "$CURDIR/build-cross-cli-install"
+    rm -rf "$BUILDDIR/build-cross-cli-install"
     make install || exit 1
     cd "$CURDIR"
 
@@ -145,7 +152,7 @@ build_cli ()
             fi
         done
 
-        cd "$CURDIR/build-cross-cli/mono/tests"
+        cd "$BUILDDIR/build-cross-cli/mono/tests"
         make tests || exit 1
 
         # runtime tests
@@ -155,35 +162,37 @@ build_cli ()
     fi
 
     # set up for further builds
-    export PATH="$CURDIR/build-cross-cli-install/bin":$PATH
-    export LD_LIBRARY_PATH="$CURDIR/build-cross-cli-install/lib":$LD_LIBRARY_PATH
-    export MONO_GAC_PREFIX="$CURDIR/build-cross-cli-install"
-    export MONO_CFG_DIR="$CURDIR/build-cross-cli-install/etc"
+    export PATH="$BUILDDIR/build-cross-cli-install/bin":$PATH
+    export LD_LIBRARY_PATH="$BUILDDIR/build-cross-cli-install/lib":$LD_LIBRARY_PATH
+    export MONO_GAC_PREFIX="$BUILDDIR/build-cross-cli-install"
+    export MONO_CFG_DIR="$BUILDDIR/build-cross-cli-install/etc"
 
     # build mono-basic
     cd "$CURDIR/mono-basic"
-    ./configure --prefix="$CURDIR/build-cross-cli-install" || exit 1
+    ./configure --prefix="$BUILDDIR/build-cross-cli-install" || exit 1
     make $MAKEOPTS || exit 1
     make install || exit 1
 
     # build image/ directory
     cd "$CURDIR"
-    mkdir -p "$CURDIR/image/lib"
-    cp -r "$CURDIR/build-cross-cli-install/etc" "$CURDIR/image/"
-    cp -r "$CURDIR/build-cross-cli-install/lib/mono" "$CURDIR/image/lib"
+    mkdir -p "$BUILDDIR/image/lib"
+    cp -r "$BUILDDIR/build-cross-cli-install/etc" "$BUILDDIR/image/"
+    cp -r "$BUILDDIR/build-cross-cli-install/lib/mono" "$BUILDDIR/image/lib"
 
-    cp "$CURDIR/build-cross-cli-install/etc/mono/2.0/machine.config" "$CURDIR/image/1.1-machine.config"
-    cp "$CURDIR/build-cross-cli-install/etc/mono/2.0/machine.config" "$CURDIR/image/2.0-machine.config"
-    cp "$CURDIR/build-cross-cli-install/etc/mono/4.0/machine.config" "$CURDIR/image/4.0-machine.config"
+    cp "$BUILDDIR/build-cross-cli-install/etc/mono/2.0/machine.config" "$BUILDDIR/image/1.1-machine.config"
+    cp "$BUILDDIR/build-cross-cli-install/etc/mono/2.0/machine.config" "$BUILDDIR/image/2.0-machine.config"
+    cp "$BUILDDIR/build-cross-cli-install/etc/mono/4.0/machine.config" "$BUILDDIR/image/4.0-machine.config"
 
-    cp "$CURDIR/build-cross-cli-install/lib/mono/2.0-api/mscorlib.dll" "$CURDIR/image/1.1-mscorlib.dll"
-    cp "$CURDIR/build-cross-cli-install/lib/mono/2.0-api/mscorlib.dll" "$CURDIR/image/2.0-mscorlib.dll"
-    cp "$CURDIR/build-cross-cli-install/lib/mono/4.0/mscorlib.dll" "$CURDIR/image/4.0-mscorlib.dll"
+    cp "$BUILDDIR/build-cross-cli-install/lib/mono/2.0-api/mscorlib.dll" "$BUILDDIR/image/1.1-mscorlib.dll"
+    cp "$BUILDDIR/build-cross-cli-install/lib/mono/2.0-api/mscorlib.dll" "$BUILDDIR/image/2.0-mscorlib.dll"
+    cp "$BUILDDIR/build-cross-cli-install/lib/mono/4.0/mscorlib.dll" "$BUILDDIR/image/4.0-mscorlib.dll"
 
     # remove debug files
+	cd "$BUILDDIR"
     for f in `find image|grep '\.mdb$'`; do
         rm "$f"
     done
+	cd "$CURDIR"
 }
 
 build_directorytable ()
@@ -208,7 +217,7 @@ build_directorytable ()
     printf 'WindowsDotNetFramework40\tWindowsDotNetFramework\tv4.0.30319\n'
     printf 'WindowsDotNetFramework40Config\tWindowsDotNetFramework40\tCONFIG\n'
 
-    cd "$CURDIR/image"
+    cd "$BUILDDIR/image"
 
     for f in `find . -type d | cut -d '/' -f2-`; do
         if test x. = x$f; then
@@ -248,7 +257,7 @@ build_componenttable ()
     printf 'monobase-folder\t{BE46D94A-7443-4B5C-9B91-6A83815365AB}\tMONOBASEDIR\t0\t\t\n'
     printf 'mono-folder\t{FD7F9172-4E35-4DF5-BD6A-FB7B795D9346}\tMONODIR\t0\t\t\n'
 
-    cd "$CURDIR/image"
+    cd "$BUILDDIR/image"
 
     for f in `find . -type d | cut -d '/' -f2-`; do
         if test x. = x$f; then
@@ -283,7 +292,7 @@ build_createfoldertable ()
     printf 'MONOBASEDIR\tmonobase-folder\n'
     printf 'MONODIR\tmono-folder\n'
 
-    cd "$CURDIR/image"
+    cd "$BUILDDIR/image"
 
     for f in `find . -type d | cut -d '/' -f2-`; do
         if test x. = x$f; then
@@ -321,7 +330,7 @@ build_featurecomponentstable ()
     printf 'wine_mono\tmonobase-folder\n'
     printf 'wine_mono\tmono-folder\n'
 
-    cd "$CURDIR/image"
+    cd "$BUILDDIR/image"
 
     for f in `find . -type d | cut -d '/' -f2-`; do
         if test x. = x$f; then
@@ -342,7 +351,7 @@ build_filetable ()
 
     SEQ=0
 
-    cd "$CURDIR/image"
+    cd "$BUILDDIR/image"
 
     find . -type f | cut -d '/' -f2- | sort | while read -r f; do
         SEQ=`expr $SEQ + 1`
@@ -406,18 +415,18 @@ build_msifilehashtable ()
     printf 's72\ti2\ti4\ti4\ti4\ti4\n'
     printf 'MsiFileHash\tFile_\n'
 
-    export PATH="$CURDIR/build-cross-cli-install/bin":$PATH
-    export LD_LIBRARY_PATH="$CURDIR/build-cross-cli-install/lib":$LD_LIBRARY_PATH
-    export MONO_GAC_PREFIX="$CURDIR/build-cross-cli-install"
-    export MONO_CFG_DIR="$CURDIR/build-cross-cli-install/etc"
+    export PATH="$BUILDDIR/build-cross-cli-install/bin":$PATH
+    export LD_LIBRARY_PATH="$BUILDDIR/build-cross-cli-install/lib":$LD_LIBRARY_PATH
+    export MONO_GAC_PREFIX="$BUILDDIR/build-cross-cli-install"
+    export MONO_CFG_DIR="$BUILDDIR/build-cross-cli-install/etc"
 
     cd "$CURDIR"
 
-    mcs genfilehashes.cs -r:Mono.Posix || exit 1
+    mcs genfilehashes.cs -out:"$BUILDDIR"/genfilehashes.exe -r:Mono.Posix || exit 1
 
-    cd "$CURDIR/image"
+    cd "$BUILDDIR/image"
 
-    mono "$CURDIR/genfilehashes.exe" || exit 1
+    mono "$BUILDDIR/genfilehashes.exe" || exit 1
 
     cd "$CURDIR"
 }
@@ -425,20 +434,22 @@ build_msifilehashtable ()
 build_msi ()
 {
     rm -rf cab-contents
-    rm -f image.cab "${MSIFILENAME}"
+    rm -f "$BUILDDIR/image.cab" "${MSIFILENAME}"
 
-    mkdir "$CURDIR/cab-contents"
+    mkdir "$BUILDDIR/cab-contents"
 
-    cd "$CURDIR/image"
+    cd "$BUILDDIR/image"
 
     find . -type f | cut -d '/' -f2- | while read -r f; do
         KEY=`echo $f|sed -e 's/\//!/g'`
-        ln -s "$CURDIR/image/$f" "$CURDIR/cab-contents/$KEY"
+        ln -s "$BUILDDIR/image/$f" "$BUILDDIR/cab-contents/$KEY"
     done
 
-    cd "$CURDIR/cab-contents"
+    cd "$BUILDDIR/cab-contents"
 
-    "${WINE}" cabarc -m mszip -r -p N ../image.cab *
+    IMAGECABWINPATH=`"${WINE}" winepath -w "$BUILDDIR"/image.cab`
+
+    "${WINE}" cabarc -m mszip -r -p N "$IMAGECABWINPATH" *
 
     cd "$CURDIR"
 
@@ -451,7 +462,7 @@ build_msi ()
     build_msifilehashtable > msi-tables/msifilehash.idt
 
     "$WINE" winemsibuilder -i "${MSIFILENAME}" msi-tables/*.idt
-    "$WINE" winemsibuilder -a "${MSIFILENAME}" image.cab image.cab
+    "$WINE" winemsibuilder -a "${MSIFILENAME}" image.cab "$IMAGECABWINPATH"
 }
 
 sanity_checks ()
@@ -491,8 +502,8 @@ fi
 
 cd "$CURDIR"
 
-rm -rf image
-mkdir image
+rm -rf "$BUILDDIR"/image
+mkdir "$BUILDDIR"/image
 
 cross_build_mono "$MINGW_x86_64" x86_64
 
@@ -500,9 +511,9 @@ cross_build_mono "$MINGW_x86" x86
 
 build_cli
 
-mkdir image/support
-cp dotnetfakedlls.inf image/support/
-cp security.config image/2.0-security.config
+mkdir "$BUILDDIR"/image/support
+cp dotnetfakedlls.inf "$BUILDDIR"/image/support/
+cp security.config "$BUILDDIR"/image/2.0-security.config
 
 build_msi
 
