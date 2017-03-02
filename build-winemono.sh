@@ -3,19 +3,19 @@
 # setup
 
 CURDIR="`pwd`"
+BUILDDIR="$CURDIR"
+SRCDIR="$CURDIR"
+OUTDIR="$CURDIR"
 MINGW_x86=i686-w64-mingw32
 MINGW_x86_64=x86_64-w64-mingw32
 ORIGINAL_PATH="$PATH"
 REBUILD=0
 WINE=${WINE:-`which wine`}
-MSIFILENAME=winemono.msi
 BUILD_TESTS=0
 USE_MONOLITE=0
 
-if test -f "$HOME/.wine-mono-build-vm"; then
-	BUILDDIR="$HOME"
-else
-	BUILDDIR="$CURDIR"
+if test -d "$CURDIR/output"; then
+    OUTDIR="$CURDIR/output"
 fi
 
 usage ()
@@ -30,19 +30,21 @@ where OPTIONS are:
  -t         Build the mono test suite
  -r         Rebuild (skips configure)
  -b PATH    Sets the directory for intermediate build files [$BUILDDIR]
+ -o PATH    Sets the directory for output files [$OUTDIR]
  -l         Fetch and use monolite
 EOF
 
     exit 1
 }
 
-while getopts "d:m:D:M:b:trhl" opt; do
+while getopts "d:m:D:M:b:o:trhl" opt; do
     case "$opt" in
 	m) MINGW_x86="$OPTARG" ;;
 	M) MINGW_x86_64="$OPTARG" ;;
 	t) BUILD_TESTS=1 ;;
 	r) REBUILD=1 ;;
 	b) BUILDDIR="$OPTARG" ;;
+	o) OUTDIR="$OPTARG" ;;
 	l) USE_MONOLITE=1 ;;
 	*) usage ;;
     esac
@@ -69,7 +71,7 @@ cross_build_mono ()
 
     cd "$BUILDDIR/build-cross-$ARCH"
     if test 1 != $REBUILD || test ! -e Makefile; then
-        CPPFLAGS="-gdwarf-2 -gstrict-dwarf" "$CURDIR"/mono/configure --prefix="$BUILDDIR/build-cross-$ARCH-install" --build=$BUILD --target=$MINGW --host=$MINGW --with-tls=none --disable-mcs-build --enable-win32-dllmain=yes --with-libgc-threads=win32 PKG_CONFIG=false mono_cv_clang=no || exit 1
+        CPPFLAGS="-gdwarf-2 -gstrict-dwarf" "$SRCDIR"/mono/configure --prefix="$BUILDDIR/build-cross-$ARCH-install" --build=$BUILD --target=$MINGW --host=$MINGW --with-tls=none --disable-mcs-build --enable-win32-dllmain=yes --with-libgc-threads=win32 PKG_CONFIG=false mono_cv_clang=no || exit 1
         sed -e 's/-lgcc_s//' -i libtool
     fi
     WINEPREFIX=/dev/null make $MAKEOPTS || exit 1
@@ -97,8 +99,8 @@ cross_build_mono ()
     if test x$BUILD_TESTS = x1; then
         cd "$BUILDDIR/build-cross-$ARCH/mono/tests"
         make libtest.la || exit 1
-        mkdir "$CURDIR/tests-runtime-$ARCH"
-        cp .libs/libtest-0.dll "$CURDIR/tests-runtime-$ARCH/libtest.dll" || exit 1
+        mkdir "$OUTDIR/tests-runtime-$ARCH"
+        cp .libs/libtest-0.dll "$OUTDIR/tests-runtime-$ARCH/libtest.dll" || exit 1
     fi
 }
 
@@ -115,15 +117,15 @@ build_cli ()
 
     cd "$BUILDDIR/build-cross-cli"
     if test 1 != $REBUILD || test ! -e Makefile; then
-        "$CURDIR"/mono/configure --prefix="$BUILDDIR/build-cross-cli-install" --with-mcs-docs=no --disable-system-aot || exit 1
+        "$SRCDIR"/mono/configure --prefix="$BUILDDIR/build-cross-cli-install" --with-mcs-docs=no --disable-system-aot || exit 1
     fi
     if test 1 = $USE_MONOLITE; then
         make get-monolite-latest || exit 1
-    elif test -e $CURDIR/monolite/basic.exe; then
-        MONOLITE_PATH="$CURDIR/monolite"
+    elif test -e $SRCDIR/monolite/mcs.exe; then
+        MONOLITE_PATH="$SRCDIR/monolite"
     fi
     if test x != x$MONOLITE_PATH; then
-        make $MAKEOPTS "EXTERNAL_RUNTIME=MONO_PATH=$MONOLITE_PATH $BUILDDIR/build-cross-cli/mono/mini/mono-sgen" "EXTERNAL_MCS=\$(EXTERNAL_RUNTIME) $MONOLITE_PATH/basic.exe" || exit 1
+        make $MAKEOPTS "EXTERNAL_RUNTIME=MONO_PATH=$MONOLITE_PATH $BUILDDIR/build-cross-cli/mono/mini/mono-sgen" "EXTERNAL_MCS=\$(EXTERNAL_RUNTIME) $MONOLITE_PATH/mcs.exe" || exit 1
     else
         make $MAKEOPTS || exit 1
     fi
@@ -133,22 +135,22 @@ build_cli ()
 
     # build tests if necessary
     if test x$BUILD_TESTS = x1; then
-        for profile in `ls "$CURDIR/mono/mcs/class/lib"`; do
-            if test -e "$CURDIR/mono/mcs/class/lib/$profile/nunit-console.exe"; then
-                cd "$CURDIR/mono/mcs/class/"
+        for profile in `ls "$SRCDIR/mono/mcs/class/lib"`; do
+            if test -e "$SRCDIR/mono/mcs/class/lib/$profile/nunit-console.exe"; then
+                cd "$SRCDIR/mono/mcs/class/"
                 make $MAKEOPTS test PROFILE=$profile || exit 1
 
-                rm -rf "$CURDIR/tests-$profile"
-                mkdir "$CURDIR/tests-$profile"
-                cd "$CURDIR/mono/mcs/class"
-                cp */*_test_$profile.dll "$CURDIR/tests-$profile"
+                rm -rf "$OUTDIR/tests-$profile"
+                mkdir "$OUTDIR/tests-$profile"
+                cd "$SRCDIR/mono/mcs/class"
+                cp */*_test_$profile.dll "$OUTDIR/tests-$profile"
                 
                 # System.Drawing test's extra files
-                mkdir -p "$CURDIR/tests-$profile/Test/System.Drawing"
-                cp -r System.Drawing/Test/System.Drawing/bitmaps "$CURDIR/tests-$profile/Test/System.Drawing"
+                mkdir -p "$OUTDIR/tests-$profile/Test/System.Drawing"
+                cp -r System.Drawing/Test/System.Drawing/bitmaps "$OUTDIR/tests-$profile/Test/System.Drawing"
 
-                cd "$CURDIR/mono/mcs/class/lib/$profile"
-                cp nunit* "$CURDIR/tests-$profile"
+                cd "$SRCDIR/mono/mcs/class/lib/$profile"
+                cp nunit* "$OUTDIR/tests-$profile"
             fi
         done
 
@@ -156,7 +158,7 @@ build_cli ()
         make tests || exit 1
 
         # runtime tests
-        for dirname in ls "$CURDIR"/tests-runtime-*; do
+        for dirname in ls "$OUTDIR"/tests-runtime-*; do
             cp *.exe *.dll "$dirname"
         done
     fi
@@ -168,13 +170,12 @@ build_cli ()
     export MONO_CFG_DIR="$BUILDDIR/build-cross-cli-install/etc"
 
     # build mono-basic
-    cd "$CURDIR/mono-basic"
+    cd "$SRCDIR/mono-basic"
     ./configure --prefix="$BUILDDIR/build-cross-cli-install" || exit 1
     make $MAKEOPTS || exit 1
     make install || exit 1
 
     # build image/ directory
-    cd "$CURDIR"
     mkdir -p "$BUILDDIR/image/lib"
     cp -r "$BUILDDIR/build-cross-cli-install/etc" "$BUILDDIR/image/"
     cp -r "$BUILDDIR/build-cross-cli-install/lib/mono" "$BUILDDIR/image/lib"
@@ -264,10 +265,10 @@ build_componenttable ()
             continue
         fi
         KEY=`echo $f|sed -e 's/\//|/g'`
-        if test ! -f "$CURDIR/component-guids/${KEY}.guid"; then
-            uuidgen | tr [a-z] [A-Z] > $CURDIR/component-guids/${KEY}.guid
+        if test ! -f "$SRCDIR/component-guids/${KEY}.guid"; then
+            uuidgen | tr [a-z] [A-Z] > $SRCDIR/component-guids/${KEY}.guid
         fi
-        GUID=`cat "$CURDIR/component-guids/${KEY}.guid"`
+        GUID=`cat "$SRCDIR/component-guids/${KEY}.guid"`
         KEYPATH=`find "$f" -maxdepth 1 -type f|sort|head -n 1|sed -e 's/\//!/g'`
         printf '%s\t{%s}\t%s\t0\t\t%s\n' "$KEY" "$GUID" "$KEY" "$KEYPATH"
     done
@@ -420,7 +421,7 @@ build_msifilehashtable ()
     export MONO_GAC_PREFIX="$BUILDDIR/build-cross-cli-install"
     export MONO_CFG_DIR="$BUILDDIR/build-cross-cli-install/etc"
 
-    cd "$CURDIR"
+    cd "$SRCDIR"
 
     mcs genfilehashes.cs -out:"$BUILDDIR"/genfilehashes.exe -r:Mono.Posix || exit 1
 
@@ -433,6 +434,7 @@ build_msifilehashtable ()
 
 build_msi ()
 {
+	MSIFILENAME=$OUTDIR/winemono.msi
     rm -rf cab-contents
     rm -f "$BUILDDIR/image.cab" "${MSIFILENAME}"
 
@@ -448,6 +450,7 @@ build_msi ()
     cd "$BUILDDIR/cab-contents"
 
     IMAGECABWINPATH=`"${WINE}" winepath -w "$BUILDDIR"/image.cab`
+    MSIWINPATH=`"${WINE}" winepath -w "$MSIFILENAME"`
 
     "${WINE}" cabarc -m mszip -r -p N "$IMAGECABWINPATH" *
 
@@ -461,8 +464,8 @@ build_msi ()
     build_mediatable > msi-tables/media.idt
     build_msifilehashtable > msi-tables/msifilehash.idt
 
-    "$WINE" winemsibuilder -i "${MSIFILENAME}" msi-tables/*.idt
-    "$WINE" winemsibuilder -a "${MSIFILENAME}" image.cab "$IMAGECABWINPATH"
+    "$WINE" winemsibuilder -i "${MSIWINPATH}" msi-tables/*.idt
+    "$WINE" winemsibuilder -a "${MSIWINPATH}" image.cab "$IMAGECABWINPATH"
 }
 
 sanity_checks ()
@@ -475,7 +478,7 @@ sanity_checks ()
     fi
 
     if test 1 != $USE_MONOLITE && \
-       test ! -e $CURDIR/monolite/basic.exe && \
+       test ! -e $SRCDIR/monolite/mcs.exe && \
        test ! -x "`which mcs 2>/dev/null`"
     then
         echo "You need to have mcs from mono installed or use the -l switch."
@@ -487,7 +490,7 @@ sanity_checks ()
 
 sanity_checks
 
-cd "$CURDIR"/mono
+cd "$SRCDIR"/mono
 
 if test 1 != $REBUILD || test ! -e configure; then
     # create configure script and such
@@ -512,8 +515,8 @@ cross_build_mono "$MINGW_x86" x86
 build_cli
 
 mkdir "$BUILDDIR"/image/support
-cp dotnetfakedlls.inf "$BUILDDIR"/image/support/
-cp security.config "$BUILDDIR"/image/2.0-security.config
+cp "$SRCDIR"/dotnetfakedlls.inf "$BUILDDIR"/image/support/
+cp "$SRCDIR"/security.config "$BUILDDIR"/image/2.0-security.config
 
 build_msi
 
