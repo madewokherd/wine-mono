@@ -135,7 +135,7 @@ build_cli ()
 
     # build tests if necessary
     if test x$BUILD_TESTS = x1; then
-        for profile in `ls "$SRCDIR/mono/mcs/class/lib"`; do
+        for profile in "$SRCDIR"/mono/mcs/class/lib/net_?_?; do
             if test -e "$SRCDIR/mono/mcs/class/lib/$profile/nunit-console.exe"; then
                 cd "$SRCDIR/mono/mcs/class/"
                 make $MAKEOPTS test PROFILE=$profile || exit 1
