@@ -494,7 +494,12 @@ cd "$SRCDIR"/mono
 
 if test 1 != $REBUILD || test ! -e configure; then
     # create configure script and such
-    NOCONFIGURE=yes ./autogen.sh || exit 1
+    if test ! -f ./autogen.sh; then
+        echo "./autogen.sh was not found! Did you forget to use --recursive when cloning?"
+        exit 1
+    else
+        NOCONFIGURE=yes ./autogen.sh || exit 1
+    fi
 
     BUILD="`./config.guess`"
 
