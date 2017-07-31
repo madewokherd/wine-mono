@@ -190,7 +190,7 @@ build_cli ()
 
     # remove debug files
 	cd "$BUILDDIR"
-    for f in `find image|grep '\.mdb$'`; do
+    for f in `find image|grep -E '\.(mdb|pdb)$'`; do
         rm "$f"
     done
 	cd "$CURDIR"
