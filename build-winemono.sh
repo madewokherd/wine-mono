@@ -136,6 +136,7 @@ build_cli ()
     # build tests if necessary
     if test x$BUILD_TESTS = x1; then
         for profile in "$SRCDIR"/mono/mcs/class/lib/net_?_?; do
+			profile=`basename "$profile"`
             if test -e "$SRCDIR/mono/mcs/class/lib/$profile/nunit-console.exe"; then
                 cd "$SRCDIR/mono/mcs/class/"
                 make $MAKEOPTS test PROFILE=$profile || exit 1
@@ -143,7 +144,7 @@ build_cli ()
                 rm -rf "$OUTDIR/tests-$profile"
                 mkdir "$OUTDIR/tests-$profile"
                 cd "$SRCDIR/mono/mcs/class"
-                cp */*_test_$profile.dll "$OUTDIR/tests-$profile"
+                cp */${profile}_*_test.dll "$OUTDIR/tests-$profile"
                 
                 # System.Drawing test's extra files
                 mkdir -p "$OUTDIR/tests-$profile/Test/System.Drawing"
