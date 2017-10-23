@@ -146,9 +146,10 @@ build_cli ()
                 cd "$SRCDIR/mono/mcs/class"
                 cp */${profile}_*_test.dll "$OUTDIR/tests-$profile"
                 
-                # System.Drawing test's extra files
+                # extra files used by tests
                 mkdir -p "$OUTDIR/tests-$profile/Test/System.Drawing"
                 cp -r System.Drawing/Test/System.Drawing/bitmaps "$OUTDIR/tests-$profile/Test/System.Drawing"
+				cp System.Windows.Forms/M.gif "$OUTDIR/tests-$profile"
 
                 cd "$SRCDIR/mono/mcs/class/lib/$profile"
                 cp nunit* "$OUTDIR/tests-$profile"
