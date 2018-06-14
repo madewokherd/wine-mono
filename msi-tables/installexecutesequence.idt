@@ -1,10 +1,12 @@
 Action	Condition	Sequence
 s72	S255	I2
 InstallExecuteSequence	Action
+FindRelatedProducts		50
 CostInitialize		100
 FileCost		200
 CostFinalize		300
 InstallValidate		400
+RemoveExistingProducts		450
 InstallInitialize		500
 ProcessComponents		600
 RemoveFiles		700
