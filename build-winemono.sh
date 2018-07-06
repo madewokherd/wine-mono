@@ -527,3 +527,17 @@ cp "$SRCDIR"/security.config "$BUILDDIR"/image/2.0-security.config
 
 build_msi
 
+if test -e "$SRCDIR"/.git; then
+	cd "$SRCDIR/component-guids"
+    for f in `find . -type f`; do
+		BASENAME=`basename "$f" .guid|sed -e 's/|/\//g'`
+
+        if test ! -d "$BUILDDIR/image/$BASENAME"; then
+			rm "$f"
+		fi
+	done
+
+	cd "$SRCDIR"
+	git add component-guids
+fi
+
