@@ -190,6 +190,9 @@ build_cli ()
     cp "$BUILDDIR/build-cross-cli-install/lib/mono/2.0-api/mscorlib.dll" "$BUILDDIR/image/2.0-mscorlib.dll"
     cp "$BUILDDIR/build-cross-cli-install/lib/mono/4.0/mscorlib.dll" "$BUILDDIR/image/4.0-mscorlib.dll"
 
+	mcs "$SRCDIR/csc-wrapper.cs" /d:VERSION40 -out:"$BUILDDIR"/image/4.0-csc.exe -r:Mono.Posix || exit 1
+	mcs "$SRCDIR/csc-wrapper.cs" /d:VERSION20 -out:"$BUILDDIR"/image/2.0-csc.exe -r:Mono.Posix || exit 1
+
     # remove debug files
 	cd "$BUILDDIR"
     for f in `find image|grep -E '\.(mdb|pdb)$'`; do
@@ -388,6 +391,14 @@ build_filetable ()
         4.0-mscorlib.dll)
             COMPONENT=framework40-folder
             BASENAME=mscorlib.dll
+        ;;
+		2.0-csc.exe)
+            COMPONENT=framework20-folder
+            BASENAME=csc.exe
+        ;;
+		4.0-csc.exe)
+            COMPONENT=framework40-folder
+            BASENAME=csc.exe
         ;;
         *)
             COMPONENT=`dirname "$f"|sed -e 's/\//|/g'`
