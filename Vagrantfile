@@ -4,7 +4,7 @@
 # Vagrant file for setting up a build environment for Wine Mono.
 
 Vagrant.configure(2) do |config|
-  config.vm.box = "ubuntu/xenial64"
+  config.vm.box = "ubuntu/bionic64"
 
   # Uncomment to increase guest resources from the default
   #config.vm.provider "virtualbox" do |v|
@@ -20,7 +20,7 @@ Vagrant.configure(2) do |config|
     dpkg --add-architecture i386
     apt-get update
 	# --no-install-recommends to avoid corefonts which needs eula
-    apt-get install -y --no-install-recommends wine
+    apt-get install -y --no-install-recommends wine-stable
 	apt-get install -y mono-mcs autoconf libtool gettext gcc-mingw-w64-x86-64 gcc-mingw-w64-i686 g++-mingw-w64-x86-64 g++-mingw-w64-i686 python libtool-bin cmake
   SHELL
 end
