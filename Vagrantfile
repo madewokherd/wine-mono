@@ -13,7 +13,7 @@ Vagrant.configure(2) do |config|
   #end
 
   # Use virtualbox shared folders only for build output.
-  config.vm.synced_folder ".", "/vagrant", type: "rsync", rsync__exclude: [".git/", "/build-*/", "/image/", "/tests-*/", "/winemono.msi", "/output/"]
+  config.vm.synced_folder ".", "/vagrant", type: "rsync", rsync__exclude: [".git/", "/build-*/", "/image/", "/tests-*/", "/winemono.msi", "/output/"], rsync__args: ["--verbose", "--archive", "-z", "--links", "--update"]
   config.vm.synced_folder ".", "/vagrant/output", create: "true"
 
   config.vm.provision "shell", privileged: "true", inline: <<-SHELL
