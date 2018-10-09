@@ -42,6 +42,14 @@ $ vagrant ssh
 
 You can then cd to /vagrant and use the build-winemono.sh script from there.
 
+Note that the source code will be rsynced into the VM when it is first created. If you edit the source code on the host, you can update the VM by running:
+
+$ vagrant rsync
+
+Or, to have vagrant watch for changes:
+
+$ vagrant rsync-auto
+
 
 INSTALL
 
