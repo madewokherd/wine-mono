@@ -143,21 +143,22 @@ build_cli ()
 
                 rm -rf "$OUTDIR/tests-$profile"
                 mkdir "$OUTDIR/tests-$profile"
-                cd "$SRCDIR/mono/mcs/class"
-                cp */${profile}_*_test.dll "$OUTDIR/tests-$profile"
+                cd "$SRCDIR/mono/mcs/class/lib/$profile"*/tests
+                cp ${profile}_*_test.dll "$OUTDIR/tests-$profile" || exit 1
                 
                 # extra files used by tests
+                cd "$SRCDIR/mono/mcs/class"
                 mkdir -p "$OUTDIR/tests-$profile/Test/System.Drawing"
-                cp -r System.Drawing/Test/System.Drawing/bitmaps "$OUTDIR/tests-$profile/Test/System.Drawing"
-				cp System.Windows.Forms/M.gif "$OUTDIR/tests-$profile"
+                cp -r System.Drawing/Test/System.Drawing/bitmaps "$OUTDIR/tests-$profile/Test/System.Drawing" || exit 1
+                cp -r System.Windows.Forms/Test/resources "$OUTDIR/tests-$profile/Test" || exit 1
 
                 cd "$SRCDIR/mono/mcs/class/lib/$profile"
-                cp nunit* "$OUTDIR/tests-$profile"
+                cp nunit* "$OUTDIR/tests-$profile" || exit 1
             fi
         done
 
         cd "$BUILDDIR/build-cross-cli/mono/tests"
-        make tests || exit 1
+        make all || exit 1
 
         # runtime tests
         for dirname in ls "$OUTDIR"/tests-runtime-*; do
