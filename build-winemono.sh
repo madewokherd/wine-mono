@@ -126,10 +126,15 @@ build_cli ()
     fi
     if test x != x$MONOLITE_PATH; then
         make $MAKEOPTS "EXTERNAL_RUNTIME=MONO_PATH=$MONOLITE_PATH $BUILDDIR/build-cross-cli/mono/mini/mono-sgen" "EXTERNAL_MCS=\$(EXTERNAL_RUNTIME) $MONOLITE_PATH/mcs.exe" || exit 1
+        make HOST_PLATFORM=win32 $MAKEOPTS "EXTERNAL_RUNTIME=MONO_PATH=$MONOLITE_PATH $BUILDDIR/build-cross-cli/mono/mini/mono-sgen" "EXTERNAL_MCS=\$(EXTERNAL_RUNTIME) $MONOLITE_PATH/mcs.exe" || exit 1
     else
         make $MAKEOPTS || exit 1
+        make HOST_PLATFORM=win32 $MAKEOPTS || exit 1
     fi
     rm -rf "$BUILDDIR/build-cross-cli-install"
+    rm -rf "$BUILDDIR/build-cross-cli-win32-install"
+    make HOST_PLATFORM=win32 install || exit 1
+    mv "$BUILDDIR/build-cross-cli-install" "$BUILDDIR/build-cross-cli-win32-install" || exit 1
     make install || exit 1
     cd "$CURDIR"
 
@@ -174,22 +179,22 @@ build_cli ()
 
     # build mono-basic
     cd "$SRCDIR/mono-basic"
-    ./configure --prefix="$BUILDDIR/build-cross-cli-install" || exit 1
+    ./configure --prefix="$BUILDDIR/build-cross-cli-win32-install" || exit 1
     make $MAKEOPTS || exit 1
     make install || exit 1
 
     # build image/ directory
     mkdir -p "$BUILDDIR/image/lib"
-    cp -r "$BUILDDIR/build-cross-cli-install/etc" "$BUILDDIR/image/"
-    cp -r "$BUILDDIR/build-cross-cli-install/lib/mono" "$BUILDDIR/image/lib"
+    cp -r "$BUILDDIR/build-cross-cli-win32-install/etc" "$BUILDDIR/image/"
+    cp -r "$BUILDDIR/build-cross-cli-win32-install/lib/mono" "$BUILDDIR/image/lib"
 
-    cp "$BUILDDIR/build-cross-cli-install/etc/mono/2.0/machine.config" "$BUILDDIR/image/1.1-machine.config"
-    cp "$BUILDDIR/build-cross-cli-install/etc/mono/2.0/machine.config" "$BUILDDIR/image/2.0-machine.config"
-    cp "$BUILDDIR/build-cross-cli-install/etc/mono/4.0/machine.config" "$BUILDDIR/image/4.0-machine.config"
+    cp "$BUILDDIR/build-cross-cli-win32-install/etc/mono/2.0/machine.config" "$BUILDDIR/image/1.1-machine.config"
+    cp "$BUILDDIR/build-cross-cli-win32-install/etc/mono/2.0/machine.config" "$BUILDDIR/image/2.0-machine.config"
+    cp "$BUILDDIR/build-cross-cli-win32-install/etc/mono/4.0/machine.config" "$BUILDDIR/image/4.0-machine.config"
 
-    cp "$BUILDDIR/build-cross-cli-install/lib/mono/2.0-api/mscorlib.dll" "$BUILDDIR/image/1.1-mscorlib.dll"
-    cp "$BUILDDIR/build-cross-cli-install/lib/mono/2.0-api/mscorlib.dll" "$BUILDDIR/image/2.0-mscorlib.dll"
-    cp "$BUILDDIR/build-cross-cli-install/lib/mono/4.0/mscorlib.dll" "$BUILDDIR/image/4.0-mscorlib.dll"
+    cp "$BUILDDIR/build-cross-cli-win32-install/lib/mono/2.0-api/mscorlib.dll" "$BUILDDIR/image/1.1-mscorlib.dll"
+    cp "$BUILDDIR/build-cross-cli-win32-install/lib/mono/2.0-api/mscorlib.dll" "$BUILDDIR/image/2.0-mscorlib.dll"
+    cp "$BUILDDIR/build-cross-cli-win32-install/lib/mono/4.0/mscorlib.dll" "$BUILDDIR/image/4.0-mscorlib.dll"
 
 	mcs "$SRCDIR/csc-wrapper.cs" /d:VERSION40 -out:"$BUILDDIR"/image/4.0-csc.exe -r:Mono.Posix || exit 1
 	mcs "$SRCDIR/csc-wrapper.cs" /d:VERSION20 -out:"$BUILDDIR"/image/2.0-csc.exe -r:Mono.Posix || exit 1
