@@ -286,7 +286,7 @@ build_componenttable ()
     printf 'framework30wcf-folder\t{1ECAD22C-31C2-4BAC-AC74-78883C396FAB}\tWindowsDotNetFramework30wcf\t0\t\t\n'
     printf 'framework30wpf-folder\t{3C146462-0CAF-4F07-83E6-A75A2A5DE961}\tWindowsDotNetFramework30wpf\t0\t\t\n'
     printf 'framework40-folder\t{29ECF991-3E9E-4D23-B0B2-874631642B13}\tWindowsDotNetFramework40\t0\t\tmscorlib.dll\n'
-    printf 'mono-registry64\t{E088D122-0696-4137-BC4E-C999303B4BE2}\tWindowsDotNetFramework64\t260\t\tDotNetFrameworkInstallRoot\n'
+    printf 'mono-registry64\t{E088D122-0696-4137-BC4E-C999303B4BE2}\tWindowsDotNetFramework64\t260\t(VersionNT64)\tDotNetFrameworkInstallRoot\n'
     printf 'config-1.1_64\t{0DA29B5A-2050-4200-92EE-442D1EE6CF96}\tWindowsDotNetFramework11Config64\t0\t(VersionNT64)\t1.1-machine.config\n'
     printf 'config-2.0_64\t{ABB0BF6A-6610-4E45-8194-64D596667621}\tWindowsDotNetFramework20Config64\t0\t(VersionNT64)\t2.0-machine.config\n'
     printf 'config-4.0_64\t{511C0294-4504-4FC9-B5A7-E85CCEE95C6B}\tWindowsDotNetFramework40Config64\t0\t(VersionNT64)\t4.0-machine.config\n'
