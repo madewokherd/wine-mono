@@ -188,9 +188,17 @@ build_cli ()
     cp -r "$BUILDDIR/build-cross-cli-win32-install/etc" "$BUILDDIR/image/"
     cp -r "$BUILDDIR/build-cross-cli-win32-install/lib/mono" "$BUILDDIR/image/lib"
 
+    cp "$BUILDDIR/build-cross-cli-win32-install/etc/mono/2.0/machine.config" "$BUILDDIR/image/1.1-machine.config64"
+    cp "$BUILDDIR/build-cross-cli-win32-install/etc/mono/2.0/machine.config" "$BUILDDIR/image/2.0-machine.config64"
+    cp "$BUILDDIR/build-cross-cli-win32-install/etc/mono/4.0/machine.config" "$BUILDDIR/image/4.0-machine.config64"
+
     cp "$BUILDDIR/build-cross-cli-win32-install/etc/mono/2.0/machine.config" "$BUILDDIR/image/1.1-machine.config"
     cp "$BUILDDIR/build-cross-cli-win32-install/etc/mono/2.0/machine.config" "$BUILDDIR/image/2.0-machine.config"
     cp "$BUILDDIR/build-cross-cli-win32-install/etc/mono/4.0/machine.config" "$BUILDDIR/image/4.0-machine.config"
+
+    cp "$BUILDDIR/build-cross-cli-win32-install/lib/mono/2.0-api/mscorlib.dll" "$BUILDDIR/image/1.1-mscorlib.dll64"
+    cp "$BUILDDIR/build-cross-cli-win32-install/lib/mono/2.0-api/mscorlib.dll" "$BUILDDIR/image/2.0-mscorlib.dll64"
+    cp "$BUILDDIR/build-cross-cli-win32-install/lib/mono/4.0/mscorlib.dll" "$BUILDDIR/image/4.0-mscorlib.dll64"
 
     cp "$BUILDDIR/build-cross-cli-win32-install/lib/mono/2.0-api/mscorlib.dll" "$BUILDDIR/image/1.1-mscorlib.dll"
     cp "$BUILDDIR/build-cross-cli-win32-install/lib/mono/2.0-api/mscorlib.dll" "$BUILDDIR/image/2.0-mscorlib.dll"
@@ -198,6 +206,9 @@ build_cli ()
 
 	mcs "$SRCDIR/csc-wrapper.cs" /d:VERSION40 -out:"$BUILDDIR"/image/4.0-csc.exe -r:Mono.Posix || exit 1
 	mcs "$SRCDIR/csc-wrapper.cs" /d:VERSION20 -out:"$BUILDDIR"/image/2.0-csc.exe -r:Mono.Posix || exit 1
+
+	cp "$BUILDDIR"/image/4.0-csc.exe "$BUILDDIR"/image/4.0-csc.exe64
+	cp "$BUILDDIR"/image/2.0-csc.exe "$BUILDDIR"/image/2.0-csc.exe64
 
     # remove debug files
 	cd "$BUILDDIR"
@@ -228,6 +239,16 @@ build_directorytable ()
     printf 'WindowsDotNetFramework30wpf\tWindowsDotNetFramework30\twpf\n'
     printf 'WindowsDotNetFramework40\tWindowsDotNetFramework\tv4.0.30319\n'
     printf 'WindowsDotNetFramework40Config\tWindowsDotNetFramework40\tCONFIG\n'
+    printf 'WindowsDotNetFramework64\tWindowsDotNet\tFramework64\n'
+    printf 'WindowsDotNetFramework11_64\tWindowsDotNetFramework64\tv1.1.4322\n'
+    printf 'WindowsDotNetFramework11Config64\tWindowsDotNetFramework11_64\tCONFIG\n'
+    printf 'WindowsDotNetFramework20_64\tWindowsDotNetFramework64\tv2.0.50727\n'
+    printf 'WindowsDotNetFramework20Config64\tWindowsDotNetFramework20_64\tCONFIG\n'
+    printf 'WindowsDotNetFramework30_64\tWindowsDotNetFramework64\tv3.0\n'
+    printf 'WindowsDotNetFramework30wcf64\tWindowsDotNetFramework30_64\twindows communication foundation\n'
+    printf 'WindowsDotNetFramework30wpf64\tWindowsDotNetFramework30_64\twpf\n'
+    printf 'WindowsDotNetFramework40_64\tWindowsDotNetFramework64\tv4.0.30319\n'
+    printf 'WindowsDotNetFramework40Config64\tWindowsDotNetFramework40_64\tCONFIG\n'
 
     cd "$BUILDDIR/image"
 
@@ -254,7 +275,6 @@ build_componenttable ()
     printf 'Component\tComponent\n'
 
     printf 'mono-registry\t{93BE4304-497C-4ACB-A0FD-1C3695C011B4}\tWindowsDotNetFramework\t4\t\tDotNetFrameworkInstallRoot\n'
-    printf 'mono-registry64\t{E088D122-0696-4137-BC4E-C999303B4BE2}\tWindowsDotNetFramework\t260\t\tDotNetFrameworkInstallRoot\n'
     printf 'config-1.1\t{0DA29B5A-2050-4200-92EE-442D1EE6CF96}\tWindowsDotNetFramework11Config\t0\t\t1.1-machine.config\n'
     printf 'config-2.0\t{ABB0BF6A-6610-4E45-8194-64D596667621}\tWindowsDotNetFramework20Config\t0\t\t2.0-machine.config\n'
     printf 'config-4.0\t{511C0294-4504-4FC9-B5A7-E85CCEE95C6B}\tWindowsDotNetFramework40Config\t0\t\t4.0-machine.config\n'
@@ -266,6 +286,17 @@ build_componenttable ()
     printf 'framework30wcf-folder\t{1ECAD22C-31C2-4BAC-AC74-78883C396FAB}\tWindowsDotNetFramework30wcf\t0\t\t\n'
     printf 'framework30wpf-folder\t{3C146462-0CAF-4F07-83E6-A75A2A5DE961}\tWindowsDotNetFramework30wpf\t0\t\t\n'
     printf 'framework40-folder\t{29ECF991-3E9E-4D23-B0B2-874631642B13}\tWindowsDotNetFramework40\t0\t\tmscorlib.dll\n'
+    printf 'mono-registry64\t{E088D122-0696-4137-BC4E-C999303B4BE2}\tWindowsDotNetFramework64\t260\t\tDotNetFrameworkInstallRoot\n'
+    printf 'config-1.1_64\t{0DA29B5A-2050-4200-92EE-442D1EE6CF96}\tWindowsDotNetFramework11Config64\t0\t(VersionNT64)\t1.1-machine.config\n'
+    printf 'config-2.0_64\t{ABB0BF6A-6610-4E45-8194-64D596667621}\tWindowsDotNetFramework20Config64\t0\t(VersionNT64)\t2.0-machine.config\n'
+    printf 'config-4.0_64\t{511C0294-4504-4FC9-B5A7-E85CCEE95C6B}\tWindowsDotNetFramework40Config64\t0\t(VersionNT64)\t4.0-machine.config\n'
+    printf 'framework-folder64\t{41B3A67B-63F4-4491-A53C-9E792BE5A889}\tWindowsDotNetFramework64\t0\t(VersionNT64)\t\n'
+    printf 'framework11-folder64\t{1D62EE73-2E84-4B96-BBB4-6439D5AECA11}\tWindowsDotNetFramework11_64\t0\t(VersionNT64)\tmscorlib.dll\n'
+    printf 'framework20-folder64\t{FFFB78E1-C0E2-438E-82FB-6FD6A897B9A6}\tWindowsDotNetFramework20_64\t0\t(VersionNT64)\tmscorlib.dll\n'
+    printf 'framework30-folder64\t{382F2EFD-0770-453C-BE85-B4437DB7F596}\tWindowsDotNetFramework30_64\t0\t(VersionNT64)\t\n'
+    printf 'framework30wcf-folder64\t{1E3E0042-917F-4ADD-B52F-83B47643C1FD}\tWindowsDotNetFramework30wcf64\t0\t(VersionNT64)\t\n'
+    printf 'framework30wpf-folder64\t{98A7F632-7B5F-4E51-A7E0-BBECAD55ED2E}\tWindowsDotNetFramework30wpf64\t0\t(VersionNT64)\t\n'
+    printf 'framework40-folder64\t{D796E473-D76E-46E3-8FEF-F04617D98C7C}\tWindowsDotNetFramework40_64\t0\t(VersionNT64)\tmscorlib.dll\n'
     printf 'monobase-folder\t{BE46D94A-7443-4B5C-9B91-6A83815365AB}\tMONOBASEDIR\t0\t\t\n'
     printf 'mono-folder\t{FD7F9172-4E35-4DF5-BD6A-FB7B795D9346}\tMONODIR\t0\t\t\n'
 
@@ -339,6 +370,16 @@ build_featurecomponentstable ()
     printf 'wine_mono\tframework30wcf-folder\n'
     printf 'wine_mono\tframework30wpf-folder\n'
     printf 'wine_mono\tframework40-folder\n'
+    printf 'wine_mono\tconfig-1.1_64\n'
+    printf 'wine_mono\tconfig-2.0_64\n'
+    printf 'wine_mono\tconfig-4.0_64\n'
+    printf 'wine_mono\tframework-folder64\n'
+    printf 'wine_mono\tframework11-folder64\n'
+    printf 'wine_mono\tframework20-folder64\n'
+    printf 'wine_mono\tframework30-folder64\n'
+    printf 'wine_mono\tframework30wcf-folder64\n'
+    printf 'wine_mono\tframework30wpf-folder64\n'
+    printf 'wine_mono\tframework40-folder64\n'
     printf 'wine_mono\tmonobase-folder\n'
     printf 'wine_mono\tmono-folder\n'
 
@@ -404,6 +445,42 @@ build_filetable ()
         ;;
 		4.0-csc.exe)
             COMPONENT=framework40-folder
+            BASENAME=csc.exe
+        ;;
+        1.1-machine.config64)
+            COMPONENT=config-1.1_64
+            BASENAME=machine.config
+        ;;
+        2.0-machine.config64)
+            COMPONENT=config-2.0_64
+            BASENAME=machine.config
+        ;;
+        2.0-security.config64)
+            COMPONENT=config-2.0_64
+            BASENAME=security.config
+        ;;
+        4.0-machine.config64)
+            COMPONENT=config-4.0_64
+            BASENAME=machine.config
+        ;;
+        1.1-mscorlib.dll64)
+            COMPONENT=framework11-folder64
+            BASENAME=mscorlib.dll
+        ;;
+        2.0-mscorlib.dll64)
+            COMPONENT=framework20-folder64
+            BASENAME=mscorlib.dll
+        ;;
+        4.0-mscorlib.dll64)
+            COMPONENT=framework40-folder64
+            BASENAME=mscorlib.dll
+        ;;
+		2.0-csc.exe64)
+            COMPONENT=framework20-folder64
+            BASENAME=csc.exe
+        ;;
+		4.0-csc.exe64)
+            COMPONENT=framework40-folder64
             BASENAME=csc.exe
         ;;
         *)
@@ -541,6 +618,7 @@ build_cli
 mkdir "$BUILDDIR"/image/support
 cp "$SRCDIR"/dotnetfakedlls.inf "$BUILDDIR"/image/support/
 cp "$SRCDIR"/security.config "$BUILDDIR"/image/2.0-security.config
+cp "$SRCDIR"/security.config "$BUILDDIR"/image/2.0-security.config64
 
 build_msi
 

@@ -21,6 +21,9 @@ signature="$CHICAGO$"
 [DefaultInstall]
 WineFakeDlls=FakeDlls
 
+[DefaultInstall.ntamd64]
+WineFakeDlls=FakeDlls64
+
 [FakeDlls]
 10,Microsoft.NET\Framework\v1.1.4322,aspnet_regiis.exe
 10,Microsoft.NET\Framework\v1.1.4322,ngen.exe
@@ -33,4 +36,17 @@ WineFakeDlls=FakeDlls
 10,Microsoft.NET\Framework\v3.0\wpf,presentationfontcache.exe
 10,Microsoft.NET\Framework\v4.0.30319,ngen.exe
 10,Microsoft.NET\Framework\v4.0.30319,fusion.dll
+
+[FakeDlls64]
+10,Microsoft.NET\Framework64\v1.1.4322,aspnet_regiis.exe
+10,Microsoft.NET\Framework64\v1.1.4322,ngen.exe
+10,Microsoft.NET\Framework64\v1.1.4322,fusion.dll
+10,Microsoft.NET\Framework64\v1.1.4322,regsvcs.exe
+10,Microsoft.NET\Framework64\v2.0.50727,ngen.exe
+10,Microsoft.NET\Framework64\v2.0.50727,fusion.dll
+10,Microsoft.NET\Framework64\v2.0.50727,regasm.exe
+10,Microsoft.NET\Framework64\v3.0\windows communication foundation,servicemodelreg.exe
+10,Microsoft.NET\Framework64\v3.0\wpf,presentationfontcache.exe
+10,Microsoft.NET\Framework64\v4.0.30319,ngen.exe
+10,Microsoft.NET\Framework64\v4.0.30319,fusion.dll
 
