@@ -25,7 +25,7 @@ To build Wine Mono, you will need the following:
 
 BUILD
 
-To build Wine Mono, run the build-winemono.sh script.
+To build Wine Mono, run the build-winemono.sh script on Linux.
 
 $ ./build-winemono.sh
 
