@@ -104,6 +104,18 @@ cross_build_mono ()
         mkdir "$OUTDIR/tests-runtime-$ARCH"
         cp .libs/libtest-0.dll "$OUTDIR/tests-runtime-$ARCH/libtest.dll" || exit 1
     fi
+
+	# build FNA deps
+    if test ! -d "$BUILDDIR/build-cross-$ARCH/SDL2"; then
+        mkdir "$BUILDDIR/build-cross-$ARCH/SDL2"
+    fi
+
+    cd "$BUILDDIR/build-cross-$ARCH/SDL2"
+    if test 1 != $REBUILD || test ! -e Makefile; then
+        CC="${MINGW}-gcc -static-libgcc" CXX="${MINGW}-g++ -static-libgcc -static-libstdc++" "$SRCDIR"/SDL2/configure --build=$BUILD --target=$MINGW --host=$MINGW PKG_CONFIG=false || exit 1
+    fi
+    make $MAKEOPTS TARGET=libSDL2-$ARCH.la || exit 1
+    cp "$BUILDDIR/build-cross-$ARCH/SDL2/build/.libs/SDL2-$ARCH.dll" "$BUILDDIR/image/lib/SDL2-$ARCH.dll" || exit 1
 }
 
 build_cli ()
