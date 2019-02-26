@@ -235,6 +235,22 @@ build_cli ()
     make $MAKEOPTS || exit 1
     make install || exit 1
 
+	cd "$SRCDIR/FNA"
+	make release || exit 1
+	gacutil -i "$SRCDIR/FNA/bin/Release/FNA.dll" -root "$BUILDDIR/build-cross-cli-win32-install/lib" || exit 1
+
+	# build FNA.NetStub
+	cd "$SRCDIR/FNA.NetStub"
+	make || exit 1
+	gacutil -i "$SRCDIR/FNA.NetStub/bin/Strongname/FNA.NetStub.dll" -root "$BUILDDIR/build-cross-cli-win32-install/lib" || exit 1
+
+	# build XNA forwarding libraries
+	cd "$SRCDIR/FNA/abi"
+	make || exit 1
+	for dll in "$SRCDIR"/FNA/abi/Microsoft.Xna.*.dll; do
+		gacutil -i "$dll" -root "$BUILDDIR/build-cross-cli-win32-install/lib" || exit 1
+	done
+
     # build image/ directory
     mkdir -p "$BUILDDIR/image/lib"
     cp -r "$BUILDDIR/build-cross-cli-win32-install/etc" "$BUILDDIR/image/"
