@@ -6,11 +6,11 @@
 Vagrant.configure(2) do |config|
   config.vm.box = "ubuntu/bionic64"
 
-  # Uncomment to increase guest resources from the default
-  #config.vm.provider "virtualbox" do |v|
-  #  v.memory = 2048
-  #  v.cpus = 4
-  #end
+  config.vm.provider "virtualbox" do |v|
+    v.cpus = `nproc`.to_i
+    # meminfo shows KB and we need to convert to MB
+    v.memory = `grep 'MemTotal' /proc/meminfo | sed -e 's/MemTotal://' -e 's/ kB//'`.to_i / 1024 / 4
+  end
 
   # Use virtualbox shared folders only for build output.
   config.vm.synced_folder ".", "/vagrant", type: "rsync", rsync__exclude: [".git/", "/build-*/", "/image/", "/tests-*/", "/winemono.msi", "/output/"], rsync__args: ["--verbose", "--archive", "-z", "--links", "--update"]
