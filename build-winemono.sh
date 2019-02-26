@@ -135,6 +135,17 @@ cross_build_mono ()
 	cd "$BUILDDIR/build-cross-$ARCH/Theorafile"
 	make $MAKEOPTS "CC=${MINGW}-gcc" -f "$SRCDIR/FNA/lib/Theorafile/Makefile" || exit 1
     cp "$BUILDDIR/build-cross-$ARCH/Theorafile/libtheorafile.dll" "$BUILDDIR/image/lib/libtheorafile-$ARCH.dll" || exit 1
+	
+    if test ! -d "$BUILDDIR/build-cross-$ARCH/MojoShader"; then
+        mkdir "$BUILDDIR/build-cross-$ARCH/MojoShader"
+    fi
+
+	cd "$BUILDDIR/build-cross-$ARCH/MojoShader"
+    if test 1 != $REBUILD || test ! -e Makefile; then
+        cmake -DCMAKE_TOOLCHAIN_FILE="$BUILDDIR/toolchain-$ARCH.cmake" -DCMAKE_C_COMPILER="${MINGW}-gcc" -DCMAKE_CXX_COMPILER="${MINGW}-g++" -DBUILD_SHARED=ON -DPROFILE_D3D=OFF -DPROFILE_BYTECODE=OFF -DPROFILE_ARB1=OFF -DPROFILE_ARB1_NV=OFF -DPROFILE_METAL=OFF -DCOMPILER_SUPPORT=OFF -DFLIP_VIEWPORT=ON -DDEPTH_CLIPPING=ON -DXNA4_VERTEXTEXTURE=ON "$SRCDIR"/FNA/lib/MojoShader || exit 1
+    fi
+    make $MAKEOPTS || exit 1
+    cp "$BUILDDIR/build-cross-$ARCH/MojoShader/libmojoshader.dll" "$BUILDDIR/image/lib/libmojoshader-$ARCH.dll" || exit 1
 }
 
 build_cli ()
