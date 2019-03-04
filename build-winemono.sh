@@ -119,6 +119,14 @@ build_cli ()
     if test 1 != $REBUILD || test ! -e Makefile; then
         "$SRCDIR"/mono/configure --prefix="$BUILDDIR/build-cross-cli-install" --with-mcs-docs=no --disable-system-aot || exit 1
     fi
+
+	# put a System.Native library somewhere monolite can find it during the build
+	cd "$BUILDDIR/build-cross-cli/mono/native"
+	make $MAKEOPTS || exit 1
+	mkdir "$BUILDDIR/build-cross-cli/mono/lib/"
+	cp .libs/libmono-native.so "$BUILDDIR/build-cross-cli/mono/lib/libSystem.Native.so" || exit 1
+
+    cd "$BUILDDIR/build-cross-cli"
     if test 1 = $USE_MONOLITE; then
         make get-monolite-latest || exit 1
     elif test -e $SRCDIR/monolite/mcs.exe; then
