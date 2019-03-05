@@ -7,3 +7,6 @@
 [submodule "FNA"]
 	path = FNA
 	url = ../FNA.git
+[submodule "FNA.NetStub"]
+	path = FNA.NetStub
+	url = ../FNA.NetStub.git
