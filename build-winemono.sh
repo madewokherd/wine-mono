@@ -93,7 +93,8 @@ cross_build_mono ()
         echo cannot find libmono dll
         exit 1
     fi
-    cp "$BUILDDIR/build-cross-$ARCH/support/.libs/libMonoPosixHelper.dll" "$BUILDDIR/image/bin/MonoPosixHelper-$ARCH.dll" || exit 1
+    mkdir -p "$BUILDDIR/image/lib"
+    cp "$BUILDDIR/build-cross-$ARCH/support/.libs/libMonoPosixHelper.dll" "$BUILDDIR/image/lib/MonoPosixHelper-$ARCH.dll" || exit 1
 
     # build libtest.dll for the runtime tests
     if test x$BUILD_TESTS = x1; then
