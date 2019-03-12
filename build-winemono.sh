@@ -537,6 +537,15 @@ build_msifilehashtable ()
     cd "$CURDIR"
 }
 
+build_fakedotnet4_32_msi ()
+{
+	MSIFILENAME=$BUILDDIR/image/support/fakedotnet4_32.msi
+
+    MSIWINPATH=`"${WINE}" winepath -w "$MSIFILENAME"`
+
+    "$WINE" winemsibuilder -i "${MSIWINPATH}" msi-tables/fakedotnet4_32/*.idt
+}
+
 build_fakedotnet4_64_msi ()
 {
 	MSIFILENAME=$BUILDDIR/image/support/fakedotnet4_64.msi
@@ -637,6 +646,8 @@ mkdir "$BUILDDIR"/image/support
 cp "$SRCDIR"/dotnetfakedlls.inf "$BUILDDIR"/image/support/
 cp "$SRCDIR"/security.config "$BUILDDIR"/image/2.0-security.config
 cp "$SRCDIR"/security.config "$BUILDDIR"/image/2.0-security.config64
+
+build_fakedotnet4_32_msi
 
 build_fakedotnet4_64_msi
 
