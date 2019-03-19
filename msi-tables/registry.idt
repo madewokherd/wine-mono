@@ -25,15 +25,15 @@ NDP35SP	2	Software\Microsoft\NET Framework Setup\NDP\v3.5	SP	#1	mono-registry
 NDP35Version	2	Software\Microsoft\NET Framework Setup\NDP\v3.5	Version	3.5.30729.4926	mono-registry
 NDP351033Install	2	Software\Microsoft\NET Framework Setup\NDP\v3.5\1033	Install	#1	mono-registry
 NDP4ClientInstall	2	Software\Microsoft\NET Framework Setup\NDP\v4\Client	Install	#1	mono-registry
-NDP4ClientRelease	2	Software\Microsoft\NET Framework Setup\NDP\v4\Client	Release	#460798	mono-registry
-NDP4ClientVersion	2	Software\Microsoft\NET Framework Setup\NDP\v4\Client	Version	4.7.02046	mono-registry
+NDP4ClientRelease	2	Software\Microsoft\NET Framework Setup\NDP\v4\Client	Release	#461814	mono-registry
+NDP4ClientVersion	2	Software\Microsoft\NET Framework Setup\NDP\v4\Client	Version	4.7.03190	mono-registry
 NDP4ClientTargetVersion	2	Software\Microsoft\NET Framework Setup\NDP\v4\Client	TargetVersion	4.0.0	mono-registry
 NDP4FullInstall	2	Software\Microsoft\NET Framework Setup\NDP\v4\Full	Install	#1	mono-registry
-NDP4FullRelease	2	Software\Microsoft\NET Framework Setup\NDP\v4\Full	Release	#460798	mono-registry
-NDP4FullVersion	2	Software\Microsoft\NET Framework Setup\NDP\v4\Full	Version	4.7.02046	mono-registry
+NDP4FullRelease	2	Software\Microsoft\NET Framework Setup\NDP\v4\Full	Release	#461814	mono-registry
+NDP4FullVersion	2	Software\Microsoft\NET Framework Setup\NDP\v4\Full	Version	4.7.03190	mono-registry
 NDP4FullTargetVersion	2	Software\Microsoft\NET Framework Setup\NDP\v4\Full	TargetVersion	4.0.0	mono-registry
 NDP4Full1033Install	2	Software\Microsoft\NET Framework Setup\NDP\v4\Full\1033	Install	#1	mono-registry
-NDP4Full1033Release	2	Software\Microsoft\NET Framework Setup\NDP\v4\Full\1033	Release	#460798	mono-registry
+NDP4Full1033Release	2	Software\Microsoft\NET Framework Setup\NDP\v4\Full\1033	Release	#461814	mono-registry
 ActiveSetupDotNet20Key	2	SOFTWARE\Microsoft\Active Setup\Installed Components\{7131646D-CD3C-40F4-97B9-CD9E4E6262EF}	*		mono-registry
 ActiveSetupDotNet20Default	2	SOFTWARE\Microsoft\Active Setup\Installed Components\{7131646D-CD3C-40F4-97B9-CD9E4E6262EF}		.NET Framework	mono-registry
 ActiveSetupDotNet20ComponentID	2	SOFTWARE\Microsoft\Active Setup\Installed Components\{7131646D-CD3C-40F4-97B9-CD9E4E6262EF}	ComponentID	.NETFramework	mono-registry
@@ -74,15 +74,15 @@ NDP35SP_64	2	Software\Microsoft\NET Framework Setup\NDP\v3.5	SP	#1	mono-registry
 NDP35Version_64	2	Software\Microsoft\NET Framework Setup\NDP\v3.5	Version	3.5.30729.4926	mono-registry64
 NDP351033Install_64	2	Software\Microsoft\NET Framework Setup\NDP\v3.5\1033	Install	#1	mono-registry64
 NDP4ClientInstall_64	2	Software\Microsoft\NET Framework Setup\NDP\v4\Client	Install	#1	mono-registry64
-NDP4ClientRelease_64	2	Software\Microsoft\NET Framework Setup\NDP\v4\Client	Release	#460798	mono-registry64
-NDP4ClientVersion_64	2	Software\Microsoft\NET Framework Setup\NDP\v4\Client	Version	4.7.02046	mono-registry64
+NDP4ClientRelease_64	2	Software\Microsoft\NET Framework Setup\NDP\v4\Client	Release	#461814	mono-registry64
+NDP4ClientVersion_64	2	Software\Microsoft\NET Framework Setup\NDP\v4\Client	Version	4.7.03190	mono-registry64
 NDP4ClientTargetVersion_64	2	Software\Microsoft\NET Framework Setup\NDP\v4\Client	TargetVersion	4.0.0	mono-registry64
 NDP4FullInstall_64	2	Software\Microsoft\NET Framework Setup\NDP\v4\Full	Install	#1	mono-registry64
-NDP4FullRelease_64	2	Software\Microsoft\NET Framework Setup\NDP\v4\Full	Release	#460798	mono-registry64
-NDP4FullVersion_64	2	Software\Microsoft\NET Framework Setup\NDP\v4\Full	Version	4.7.02046	mono-registry64
+NDP4FullRelease_64	2	Software\Microsoft\NET Framework Setup\NDP\v4\Full	Release	#461814	mono-registry64
+NDP4FullVersion_64	2	Software\Microsoft\NET Framework Setup\NDP\v4\Full	Version	4.7.03190	mono-registry64
 NDP4FullTargetVersion_64	2	Software\Microsoft\NET Framework Setup\NDP\v4\Full	TargetVersion	4.0.0	mono-registry64
 NDP4Full1033Install_64	2	Software\Microsoft\NET Framework Setup\NDP\v4\Full\1033	Install	#1	mono-registry64
-NDP4Full1033Release_64	2	Software\Microsoft\NET Framework Setup\NDP\v4\Full\1033	Release	#460798	mono-registry64
+NDP4Full1033Release_64	2	Software\Microsoft\NET Framework Setup\NDP\v4\Full\1033	Release	#461814	mono-registry64
 ActiveSetupDotNet20Key_64	2	SOFTWARE\Microsoft\Active Setup\Installed Components\{7131646D-CD3C-40F4-97B9-CD9E4E6262EF}	*		mono-registry64
 ActiveSetupDotNet20Default_64	2	SOFTWARE\Microsoft\Active Setup\Installed Components\{7131646D-CD3C-40F4-97B9-CD9E4E6262EF}		.NET Framework	mono-registry64
 ActiveSetupDotNet20ComponentID_64	2	SOFTWARE\Microsoft\Active Setup\Installed Components\{7131646D-CD3C-40F4-97B9-CD9E4E6262EF}	ComponentID	.NETFramework	mono-registry64
