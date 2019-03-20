@@ -537,15 +537,6 @@ build_msifilehashtable ()
     cd "$CURDIR"
 }
 
-build_stubmsi ()
-{
-	MSIFILENAME=$BUILDDIR/image/support/$1.msi
-
-    MSIWINPATH=`"${WINE}" winepath -w "$MSIFILENAME"`
-
-    "$WINE" winemsibuilder -i "${MSIWINPATH}" msi-tables/$1/*.idt
-}
-
 build_msi ()
 {
 	MSIFILENAME=$OUTDIR/winemono.msi
@@ -637,10 +628,6 @@ mkdir "$BUILDDIR"/image/support
 cp "$SRCDIR"/dotnetfakedlls.inf "$BUILDDIR"/image/support/
 cp "$SRCDIR"/security.config "$BUILDDIR"/image/2.0-security.config
 cp "$SRCDIR"/security.config "$BUILDDIR"/image/2.0-security.config64
-
-build_stubmsi fakedotnet4_32
-build_stubmsi fakedotnet4_64
-build_stubmsi fakedotnet4cl_32
 
 build_msi
 
