@@ -1,11 +1,5 @@
 Action	Type	Source	Target	ExtendedType
 s72	i2	S72	L0	I4
 CustomAction	Action
-INSTALLFAKEDOTNET4_32	1058	support	msiexec /i [$support]fakedotnet4_32.msi	
-REMOVEFAKEDOTNET4_32	1122	support	msiexec /x {0A0CADCF-78DA-33C4-A350-CD51849B9702}	
-INSTALLFAKEDOTNET4_64	1058	support	msiexec /i [$support]fakedotnet4_64.msi	
-REMOVEFAKEDOTNET4_64	1122	support	msiexec /x {8E34682C-8118-31F1-BC4C-98CD9675E1C2}	
-INSTALLFAKEDOTNET4CL_32	1058	support	msiexec /i [$support]fakedotnet4cl_32.msi	
-REMOVEFAKEDOTNET4CL_32	1122	support	msiexec /x {3C3901C5-3455-3E0A-A214-0B093A5070A6}	
 INSTALLFAKEDLLS	1058	support	rundll32 setupapi.dll,InstallHinfSection DefaultInstall 128 [$support]dotnetfakedlls.inf	
 INSTALLFAKEDLLSWOW64	1058	support	[SystemFolder]\rundll32.exe setupapi.dll,InstallHinfSection DefaultInstall 128 [$support]dotnetfakedlls.inf	
