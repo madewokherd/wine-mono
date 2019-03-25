@@ -1,0 +1,5 @@
+Directory	Directory_Parent	DefaultDir
+s72	S72	l255
+Directory	Directory
+TARGETDIR		SourceDir
+WindowsFolder	TARGETDIR	.

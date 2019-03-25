@@ -1,11 +1,8 @@
 Property	Value
 s72	l0
 Property	Property
-ProductCode	{333C036A-028B-4C78-92DE-2BCEA293CFD4}
-ProductName	Wine Mono
-ProductVersion	4.8.0
+ProductName	Wine Mono Windows Support
 ProductLanguage	0
 Manufacturer	The Wine Project
 UpgradeCode	{DE624609-C6B5-486A-9274-EF0B854F6BC5}
 SecureCustomProperties	OLDERVERSIONBEINGUPGRADED
-

@@ -47,7 +47,7 @@ class GetFileHashes
                 Console.WriteLine("{0}\t0\t{1}", id, hash);
                 break;
             case FileTypes.Directory:
-                ScanPath((UnixDirectoryInfo)fileinfo, string.Concat(id, "!"));
+                ScanPath((UnixDirectoryInfo)fileinfo, string.Concat(id, "\\"));
                 break;
             default:
                 /* Do nothing for symlinks or other weird things. */

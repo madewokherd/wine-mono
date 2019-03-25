@@ -13,6 +13,7 @@ REBUILD=0
 WINE=${WINE:-`which wine`}
 BUILD_TESTS=0
 USE_MONOLITE=0
+MSI_VERSION=4.8.0
 
 if test -d "$CURDIR/output"; then
     OUTDIR="$CURDIR/output"
@@ -172,7 +173,7 @@ build_cli ()
         done
 
         cd "$BUILDDIR/build-cross-cli/mono/tests"
-        make all || exit 1
+        make $MAKEOPTS test-local || exit 1
 
         # runtime tests
         for dirname in ls "$OUTDIR"/tests-runtime-*; do
@@ -197,27 +198,27 @@ build_cli ()
     cp -r "$BUILDDIR/build-cross-cli-win32-install/etc" "$BUILDDIR/image/"
     cp -r "$BUILDDIR/build-cross-cli-win32-install/lib/mono" "$BUILDDIR/image/lib"
 
-    cp "$BUILDDIR/build-cross-cli-win32-install/etc/mono/2.0/machine.config" "$BUILDDIR/image/1.1-machine.config64"
-    cp "$BUILDDIR/build-cross-cli-win32-install/etc/mono/2.0/machine.config" "$BUILDDIR/image/2.0-machine.config64"
-    cp "$BUILDDIR/build-cross-cli-win32-install/etc/mono/4.0/machine.config" "$BUILDDIR/image/4.0-machine.config64"
+    cp "$BUILDDIR/build-cross-cli-win32-install/etc/mono/2.0/machine.config" "$BUILDDIR/image-support/Microsoft.NET/Framework64/v1.1.4322/CONFIG/machine.config"
+    cp "$BUILDDIR/build-cross-cli-win32-install/etc/mono/2.0/machine.config" "$BUILDDIR/image-support/Microsoft.NET/Framework64/v2.0.50727/CONFIG/machine.config"
+    cp "$BUILDDIR/build-cross-cli-win32-install/etc/mono/4.0/machine.config" "$BUILDDIR/image-support/Microsoft.NET/Framework64/v4.0.30319/CONFIG/machine.config"
 
-    cp "$BUILDDIR/build-cross-cli-win32-install/etc/mono/2.0/machine.config" "$BUILDDIR/image/1.1-machine.config"
-    cp "$BUILDDIR/build-cross-cli-win32-install/etc/mono/2.0/machine.config" "$BUILDDIR/image/2.0-machine.config"
-    cp "$BUILDDIR/build-cross-cli-win32-install/etc/mono/4.0/machine.config" "$BUILDDIR/image/4.0-machine.config"
+    cp "$BUILDDIR/build-cross-cli-win32-install/etc/mono/2.0/machine.config" "$BUILDDIR/image-support/Microsoft.NET/Framework/v1.1.4322/CONFIG/machine.config"
+    cp "$BUILDDIR/build-cross-cli-win32-install/etc/mono/2.0/machine.config" "$BUILDDIR/image-support/Microsoft.NET/Framework/v2.0.50727/CONFIG/machine.config"
+    cp "$BUILDDIR/build-cross-cli-win32-install/etc/mono/4.0/machine.config" "$BUILDDIR/image-support/Microsoft.NET/Framework/v4.0.30319/CONFIG/machine.config"
 
-    cp "$BUILDDIR/build-cross-cli-win32-install/lib/mono/2.0-api/mscorlib.dll" "$BUILDDIR/image/1.1-mscorlib.dll64"
-    cp "$BUILDDIR/build-cross-cli-win32-install/lib/mono/2.0-api/mscorlib.dll" "$BUILDDIR/image/2.0-mscorlib.dll64"
-    cp "$BUILDDIR/build-cross-cli-win32-install/lib/mono/4.0/mscorlib.dll" "$BUILDDIR/image/4.0-mscorlib.dll64"
+    cp "$BUILDDIR/build-cross-cli-win32-install/lib/mono/2.0-api/mscorlib.dll" "$BUILDDIR/image-support/Microsoft.NET/Framework64/v1.1.4322/mscorlib.dll"
+    cp "$BUILDDIR/build-cross-cli-win32-install/lib/mono/2.0-api/mscorlib.dll" "$BUILDDIR/image-support/Microsoft.NET/Framework64/v2.0.50727/mscorlib.dll"
+    cp "$BUILDDIR/build-cross-cli-win32-install/lib/mono/4.0/mscorlib.dll" "$BUILDDIR/image-support/Microsoft.NET/Framework64/v4.0.30319/mscorlib.dll"
 
-    cp "$BUILDDIR/build-cross-cli-win32-install/lib/mono/2.0-api/mscorlib.dll" "$BUILDDIR/image/1.1-mscorlib.dll"
-    cp "$BUILDDIR/build-cross-cli-win32-install/lib/mono/2.0-api/mscorlib.dll" "$BUILDDIR/image/2.0-mscorlib.dll"
-    cp "$BUILDDIR/build-cross-cli-win32-install/lib/mono/4.0/mscorlib.dll" "$BUILDDIR/image/4.0-mscorlib.dll"
+    cp "$BUILDDIR/build-cross-cli-win32-install/lib/mono/2.0-api/mscorlib.dll" "$BUILDDIR/image-support/Microsoft.NET/Framework/v1.1.4322/mscorlib.dll"
+    cp "$BUILDDIR/build-cross-cli-win32-install/lib/mono/2.0-api/mscorlib.dll" "$BUILDDIR/image-support/Microsoft.NET/Framework/v2.0.50727/mscorlib.dll"
+    cp "$BUILDDIR/build-cross-cli-win32-install/lib/mono/4.0/mscorlib.dll" "$BUILDDIR/image-support/Microsoft.NET/Framework/v4.0.30319/mscorlib.dll"
 
-	mcs "$SRCDIR/csc-wrapper.cs" /d:VERSION40 -out:"$BUILDDIR"/image/4.0-csc.exe -r:Mono.Posix || exit 1
-	mcs "$SRCDIR/csc-wrapper.cs" /d:VERSION20 -out:"$BUILDDIR"/image/2.0-csc.exe -r:Mono.Posix || exit 1
+	mcs "$SRCDIR/csc-wrapper.cs" /d:VERSION40 -out:"$BUILDDIR"/image-support/Microsoft.NET/Framework/v4.0.30319/csc.exe -r:Mono.Posix || exit 1
+	mcs "$SRCDIR/csc-wrapper.cs" /d:VERSION20 -out:"$BUILDDIR"/image-support/Microsoft.NET/Framework/v2.0.50727/csc.exe -r:Mono.Posix || exit 1
 
-	cp "$BUILDDIR"/image/4.0-csc.exe "$BUILDDIR"/image/4.0-csc.exe64
-	cp "$BUILDDIR"/image/2.0-csc.exe "$BUILDDIR"/image/2.0-csc.exe64
+	cp "$BUILDDIR"/image-support/Microsoft.NET/Framework/v4.0.30319/csc.exe "$BUILDDIR"/image-support/Microsoft.NET/Framework64/v4.0.30319/csc.exe
+	cp "$BUILDDIR"/image-support/Microsoft.NET/Framework/v2.0.50727/csc.exe "$BUILDDIR"/image-support/Microsoft.NET/Framework64/v2.0.50727/csc.exe
 
     # remove debug files
 	cd "$BUILDDIR"
@@ -227,350 +228,145 @@ build_cli ()
 	cd "$CURDIR"
 }
 
-build_directorytable ()
+build_msi_filesystem ()
 {
-    printf 'Directory\tDirectory_Parent\tDefaultDir\n'
-    printf 's72\tS72\tl255\n'
-    printf 'Directory\tDirectory\n'
-
-    printf 'TARGETDIR\t\tSourceDir\n'
-    printf 'MONODIR\tMONOBASEDIR\tmono-2.0:.\n'
-    printf 'MONOBASEDIR\tWindowsFolder\tmono:.\n'
-    printf 'WindowsFolder\tTARGETDIR\t.\n'
-    printf 'WindowsDotNet\tWindowsFolder\tMicrosoft.NET\n'
-    printf 'WindowsDotNetFramework\tWindowsDotNet\tFramework\n'
-    printf 'WindowsDotNetFramework11\tWindowsDotNetFramework\tv1.1.4322\n'
-    printf 'WindowsDotNetFramework11Config\tWindowsDotNetFramework11\tCONFIG\n'
-    printf 'WindowsDotNetFramework20\tWindowsDotNetFramework\tv2.0.50727\n'
-    printf 'WindowsDotNetFramework20Config\tWindowsDotNetFramework20\tCONFIG\n'
-    printf 'WindowsDotNetFramework30\tWindowsDotNetFramework\tv3.0\n'
-    printf 'WindowsDotNetFramework30wcf\tWindowsDotNetFramework30\twindows communication foundation\n'
-    printf 'WindowsDotNetFramework30wpf\tWindowsDotNetFramework30\twpf\n'
-    printf 'WindowsDotNetFramework40\tWindowsDotNetFramework\tv4.0.30319\n'
-    printf 'WindowsDotNetFramework40Config\tWindowsDotNetFramework40\tCONFIG\n'
-    printf 'WindowsDotNetFramework64\tWindowsDotNet\tFramework64\n'
-    printf 'WindowsDotNetFramework11_64\tWindowsDotNetFramework64\tv1.1.4322\n'
-    printf 'WindowsDotNetFramework11Config64\tWindowsDotNetFramework11_64\tCONFIG\n'
-    printf 'WindowsDotNetFramework20_64\tWindowsDotNetFramework64\tv2.0.50727\n'
-    printf 'WindowsDotNetFramework20Config64\tWindowsDotNetFramework20_64\tCONFIG\n'
-    printf 'WindowsDotNetFramework30_64\tWindowsDotNetFramework64\tv3.0\n'
-    printf 'WindowsDotNetFramework30wcf64\tWindowsDotNetFramework30_64\twindows communication foundation\n'
-    printf 'WindowsDotNetFramework30wpf64\tWindowsDotNetFramework30_64\twpf\n'
-    printf 'WindowsDotNetFramework40_64\tWindowsDotNetFramework64\tv4.0.30319\n'
-    printf 'WindowsDotNetFramework40Config64\tWindowsDotNetFramework40_64\tCONFIG\n'
-
-    cd "$BUILDDIR/image"
-
-    for f in `find . -type d | cut -d '/' -f2-`; do
-        if test x. = x$f; then
-            continue
-        fi
-        KEY=`echo $f|sed -e 's/\//|/g'`
-        DIRNAME=`dirname $f|sed -e 's/\//|/g'`
-        if test x. = x$DIRNAME; then
-            DIRNAME=MONODIR
-        fi
-        BASENAME=`basename $f`
-        printf '%s\t%s\t%s\n' "$KEY" "$DIRNAME" "$BASENAME"
-    done
-
-    cd "$CURDIR"
-}
-
-build_componenttable ()
-{
-    printf 'Component\tComponentId\tDirectory_\tAttributes\tCondition\tKeyPath\n'
-    printf 's72\tS38\ts72\ti2\tS255\tS72\n'
-    printf 'Component\tComponent\n'
-
-    printf 'mono-registry\t{93BE4304-497C-4ACB-A0FD-1C3695C011B4}\tWindowsDotNetFramework\t4\t\tDotNetFrameworkInstallRoot\n'
-    printf 'config-1.1\t{0DA29B5A-2050-4200-92EE-442D1EE6CF96}\tWindowsDotNetFramework11Config\t0\t\t1.1-machine.config\n'
-    printf 'config-2.0\t{ABB0BF6A-6610-4E45-8194-64D596667621}\tWindowsDotNetFramework20Config\t0\t\t2.0-machine.config\n'
-    printf 'config-4.0\t{511C0294-4504-4FC9-B5A7-E85CCEE95C6B}\tWindowsDotNetFramework40Config\t0\t\t4.0-machine.config\n'
-    printf 'dotnet-folder\t{22DCE198-F30F-4E74-AEC6-D089B844A878}\tWindowsDotNet\t0\t\t\n' # needed to remove the folder
-    printf 'framework-folder\t{41B3A67B-63F4-4491-A53C-9E792BE5A889}\tWindowsDotNetFramework\t0\t\t\n'
-    printf 'framework11-folder\t{20F5741D-4655-400D-8373-7607A84D2478}\tWindowsDotNetFramework11\t0\t\tmscorlib.dll\n'
-    printf 'framework20-folder\t{B845FD54-09B7-467C-800F-205A142F2F20}\tWindowsDotNetFramework20\t0\t\tmscorlib.dll\n'
-    printf 'framework30-folder\t{C3221C80-F9D2-41B5-91E1-F6ADBB05ABBC}\tWindowsDotNetFramework30\t0\t\t\n'
-    printf 'framework30wcf-folder\t{1ECAD22C-31C2-4BAC-AC74-78883C396FAB}\tWindowsDotNetFramework30wcf\t0\t\t\n'
-    printf 'framework30wpf-folder\t{3C146462-0CAF-4F07-83E6-A75A2A5DE961}\tWindowsDotNetFramework30wpf\t0\t\t\n'
-    printf 'framework40-folder\t{29ECF991-3E9E-4D23-B0B2-874631642B13}\tWindowsDotNetFramework40\t0\t\tmscorlib.dll\n'
-    printf 'mono-registry64\t{E088D122-0696-4137-BC4E-C999303B4BE2}\tWindowsDotNetFramework64\t260\t(VersionNT64)\tDotNetFrameworkInstallRoot\n'
-    printf 'config-1.1_64\t{0DA29B5A-2050-4200-92EE-442D1EE6CF96}\tWindowsDotNetFramework11Config64\t0\t(VersionNT64)\t1.1-machine.config\n'
-    printf 'config-2.0_64\t{ABB0BF6A-6610-4E45-8194-64D596667621}\tWindowsDotNetFramework20Config64\t0\t(VersionNT64)\t2.0-machine.config\n'
-    printf 'config-4.0_64\t{511C0294-4504-4FC9-B5A7-E85CCEE95C6B}\tWindowsDotNetFramework40Config64\t0\t(VersionNT64)\t4.0-machine.config\n'
-    printf 'framework-folder64\t{41B3A67B-63F4-4491-A53C-9E792BE5A889}\tWindowsDotNetFramework64\t0\t(VersionNT64)\t\n'
-    printf 'framework11-folder64\t{1D62EE73-2E84-4B96-BBB4-6439D5AECA11}\tWindowsDotNetFramework11_64\t0\t(VersionNT64)\tmscorlib.dll\n'
-    printf 'framework20-folder64\t{FFFB78E1-C0E2-438E-82FB-6FD6A897B9A6}\tWindowsDotNetFramework20_64\t0\t(VersionNT64)\tmscorlib.dll\n'
-    printf 'framework30-folder64\t{382F2EFD-0770-453C-BE85-B4437DB7F596}\tWindowsDotNetFramework30_64\t0\t(VersionNT64)\t\n'
-    printf 'framework30wcf-folder64\t{1E3E0042-917F-4ADD-B52F-83B47643C1FD}\tWindowsDotNetFramework30wcf64\t0\t(VersionNT64)\t\n'
-    printf 'framework30wpf-folder64\t{98A7F632-7B5F-4E51-A7E0-BBECAD55ED2E}\tWindowsDotNetFramework30wpf64\t0\t(VersionNT64)\t\n'
-    printf 'framework40-folder64\t{D796E473-D76E-46E3-8FEF-F04617D98C7C}\tWindowsDotNetFramework40_64\t0\t(VersionNT64)\tmscorlib.dll\n'
-    printf 'monobase-folder\t{BE46D94A-7443-4B5C-9B91-6A83815365AB}\tMONOBASEDIR\t0\t\t\n'
-    printf 'mono-folder\t{FD7F9172-4E35-4DF5-BD6A-FB7B795D9346}\tMONODIR\t0\t\t\n'
-
-    cd "$BUILDDIR/image"
-
-    for f in `find . -type d | cut -d '/' -f2-`; do
-        if test x. = x$f; then
-            continue
-        fi
-        KEY=`echo $f|sed -e 's/\//|/g'`
-        if test ! -f "$SRCDIR/component-guids/${KEY}.guid"; then
-            uuidgen | tr [a-z] [A-Z] > $SRCDIR/component-guids/${KEY}.guid
-        fi
-        GUID=`cat "$SRCDIR/component-guids/${KEY}.guid"`
-        KEYPATH=`find "$f" -maxdepth 1 -type f|sort|head -n 1|sed -e 's/\//!/g'`
-        printf '%s\t{%s}\t%s\t0\t\t%s\n' "$KEY" "$GUID" "$KEY" "$KEYPATH"
-    done
-
-    cd "$CURDIR"
-}
-
-build_createfoldertable ()
-{
-    printf 'Directory_\tComponent_\n'
-    printf 's72\ts72\n'
-    printf 'CreateFolder\tDirectory_\tComponent_\n'
-
-    printf 'WindowsDotNet\tdotnet-folder\n'
-    printf 'WindowsDotNetFramework\tframework-folder\n'
-    printf 'WindowsDotNetFramework11\tframework11-folder\n'
-    printf 'WindowsDotNetFramework20\tframework20-folder\n'
-    printf 'WindowsDotNetFramework30\tframework30-folder\n'
-    printf 'WindowsDotNetFramework30wcf\tframework30wcf-folder\n'
-    printf 'WindowsDotNetFramework30wpf\tframework30wpf-folder\n'
-    printf 'WindowsDotNetFramework40\tframework40-folder\n'
-    printf 'MONOBASEDIR\tmonobase-folder\n'
-    printf 'MONODIR\tmono-folder\n'
-
-    cd "$BUILDDIR/image"
-
-    for f in `find . -type d | cut -d '/' -f2-`; do
-        if test x. = x$f; then
-            continue
-        fi
-        FILE=`find "$f" -maxdepth 1 -type f`
-        if test ! "$FILE"; then
-            KEY=`echo $f|sed -e 's/\//|/g'`
-            printf '%s\t%s\n' "$KEY" "$KEY"
-        fi
-    done
-
-    cd "$CURDIR"
-}
-
-build_featurecomponentstable ()
-{
-    printf 'Feature_\tComponent_\n'
-    printf 's38\ts72\n'
-    printf 'FeatureComponents\tFeature_\tComponent_\n'
-
-    printf 'wine_mono\tmono-registry\n'
-    printf 'wine_mono\tmono-registry64\n'
-    printf 'wine_mono\tconfig-1.1\n'
-    printf 'wine_mono\tconfig-2.0\n'
-    printf 'wine_mono\tconfig-4.0\n'
-    printf 'wine_mono\tdotnet-folder\n'
-    printf 'wine_mono\tframework-folder\n'
-    printf 'wine_mono\tframework11-folder\n'
-    printf 'wine_mono\tframework20-folder\n'
-    printf 'wine_mono\tframework30-folder\n'
-    printf 'wine_mono\tframework30wcf-folder\n'
-    printf 'wine_mono\tframework30wpf-folder\n'
-    printf 'wine_mono\tframework40-folder\n'
-    printf 'wine_mono\tconfig-1.1_64\n'
-    printf 'wine_mono\tconfig-2.0_64\n'
-    printf 'wine_mono\tconfig-4.0_64\n'
-    printf 'wine_mono\tframework-folder64\n'
-    printf 'wine_mono\tframework11-folder64\n'
-    printf 'wine_mono\tframework20-folder64\n'
-    printf 'wine_mono\tframework30-folder64\n'
-    printf 'wine_mono\tframework30wcf-folder64\n'
-    printf 'wine_mono\tframework30wpf-folder64\n'
-    printf 'wine_mono\tframework40-folder64\n'
-    printf 'wine_mono\tmonobase-folder\n'
-    printf 'wine_mono\tmono-folder\n'
-
-    cd "$BUILDDIR/image"
-
-    for f in `find . -type d | cut -d '/' -f2-`; do
-        if test x. = x$f; then
-            continue
-        fi
-        KEY=`echo $f|sed -e 's/\//|/g'`
-        printf 'wine_mono\t%s\n' "$KEY"
-    done
-
-    cd "$CURDIR"
-}
-
-build_filetable ()
-{
-    printf 'File\tComponent_\tFileName\tFileSize\tVersion\tLanguage\tAttributes\tSequence\n'
-    printf 's72\ts72\tl255\ti4\tS72\tS20\tI2\ti2\n'
-    printf 'File\tFile\n'
-
-    SEQ=0
-
-    cd "$BUILDDIR/image"
-
-    find . -type f | cut -d '/' -f2- | sort | while read -r f; do
-        SEQ=`expr $SEQ + 1`
-        KEY=`echo $f|sed -e 's/\//!/g'`
-        FILESIZE=`ls -l "$f" | awk '{print $5}'`
-
-        case $f in 1.1-machine.config)
-            COMPONENT=config-1.1
-            BASENAME=machine.config
-        ;;
-        2.0-machine.config)
-            COMPONENT=config-2.0
-            BASENAME=machine.config
-        ;;
-        2.0-security.config)
-            COMPONENT=config-2.0
-            BASENAME=security.config
-        ;;
-        4.0-machine.config)
-            COMPONENT=config-4.0
-            BASENAME=machine.config
-        ;;
-        1.1-mscorlib.dll)
-            COMPONENT=framework11-folder
-            BASENAME=mscorlib.dll
-        ;;
-        2.0-mscorlib.dll)
-            COMPONENT=framework20-folder
-            BASENAME=mscorlib.dll
-        ;;
-        4.0-mscorlib.dll)
-            COMPONENT=framework40-folder
-            BASENAME=mscorlib.dll
-        ;;
-		2.0-csc.exe)
-            COMPONENT=framework20-folder
-            BASENAME=csc.exe
-        ;;
-		4.0-csc.exe)
-            COMPONENT=framework40-folder
-            BASENAME=csc.exe
-        ;;
-        1.1-machine.config64)
-            COMPONENT=config-1.1_64
-            BASENAME=machine.config
-        ;;
-        2.0-machine.config64)
-            COMPONENT=config-2.0_64
-            BASENAME=machine.config
-        ;;
-        2.0-security.config64)
-            COMPONENT=config-2.0_64
-            BASENAME=security.config
-        ;;
-        4.0-machine.config64)
-            COMPONENT=config-4.0_64
-            BASENAME=machine.config
-        ;;
-        1.1-mscorlib.dll64)
-            COMPONENT=framework11-folder64
-            BASENAME=mscorlib.dll
-        ;;
-        2.0-mscorlib.dll64)
-            COMPONENT=framework20-folder64
-            BASENAME=mscorlib.dll
-        ;;
-        4.0-mscorlib.dll64)
-            COMPONENT=framework40-folder64
-            BASENAME=mscorlib.dll
-        ;;
-		2.0-csc.exe64)
-            COMPONENT=framework20-folder64
-            BASENAME=csc.exe
-        ;;
-		4.0-csc.exe64)
-            COMPONENT=framework40-folder64
-            BASENAME=csc.exe
-        ;;
-        *)
-            COMPONENT=`dirname "$f"|sed -e 's/\//|/g'`
-            BASENAME=`basename "$f"`
-        ;;
-        esac
-
-        printf '%s\t%s\t%s\t%s\t\t\t\t%s\n' "$KEY" "$COMPONENT" "$BASENAME" "$FILESIZE" "$SEQ"
-    done
-
-    cd "$CURDIR"
-}
-
-build_mediatable ()
-{
-    printf 'DiskId\tLastSequence\tDiskPrompt\tCabinet\tVolumeLabel\tSource\n'
-    printf 'i2\ti4\tL64\tS255\tS32\tS72\n'
-    printf 'Media\tDiskId\n'
-
-    IMAGECAB_SEQ=`tail -n 1 msi-tables/file.idt|awk '{print $5}'`
-
-    printf '1\t%s\t\t#image.cab\t\t' "$IMAGECAB_SEQ"
-}
-
-build_msifilehashtable ()
-{
-    printf 'File_\tOptions\tHashPart1\tHashPart2\tHashPart3\tHashPart4\n'
-    printf 's72\ti2\ti4\ti4\ti4\ti4\n'
-    printf 'MsiFileHash\tFile_\n'
+	CABFILENAME=$1
+	IMAGEDIR=$2
+	TABLEDIR=$3
+	ROOTDIR=$4
+	CABINET=$5
 
     export PATH="$BUILDDIR/build-cross-cli-install/bin":$PATH
     export LD_LIBRARY_PATH="$BUILDDIR/build-cross-cli-install/lib":$LD_LIBRARY_PATH
     export MONO_GAC_PREFIX="$BUILDDIR/build-cross-cli-install"
     export MONO_CFG_DIR="$BUILDDIR/build-cross-cli-install/etc"
 
-    cd "$SRCDIR"
+    mcs "$SRCDIR"/genfilehashes.cs -out:"$BUILDDIR"/genfilehashes.exe -r:Mono.Posix || exit 1
 
-    mcs genfilehashes.cs -out:"$BUILDDIR"/genfilehashes.exe -r:Mono.Posix || exit 1
+    IMAGECABWINPATH=`"${WINE}" winepath -w "$CABFILENAME"`
 
-    cd "$BUILDDIR/image"
+	cd "${IMAGEDIR}"
 
-    mono "$BUILDDIR/genfilehashes.exe" || exit 1
+	FILEKEY_EXPR='s/\//\\/g'
+	FILEKEY_REV_EXPR='s/\\/\//g'
+	DIRKEY_EXPR='s/\//|/g'
 
-    cd "$CURDIR"
-}
+    find . | cut -d '/' -f2- | while read -r f; do
+        if test . = "$f"; then
+            continue
+        fi
+        FILEKEY=`echo $f|sed -e "$FILEKEY_EXPR"`
+		DIRKEY=`echo $f|sed -e "$DIRKEY_EXPR"`
+		PARENT=`dirname "$f"`
+		BASENAME=`basename "$f"`
 
-build_msi ()
-{
-	MSIFILENAME=$OUTDIR/winemono.msi
-    rm -rf cab-contents
-    rm -f "$BUILDDIR/image.cab" "${MSIFILENAME}"
+		if test $PARENT = .; then
+			PARENTKEY=$ROOTDIR
+		else
+			PARENTKEY=`echo $PARENT|sed -e "$DIRKEY_EXPR"`
+		fi
 
-    mkdir "$BUILDDIR/cab-contents"
+		if test -d "$f"; then
+			GUID=`uuidgen -s -n 26a7bdb4-1612-4e2b-a26e-e548a12e4d48 -N "$f" | tr [a-z] [A-Z]`
+			KEYPATH=`find "$f" -maxdepth 1 -type f|sort|head -n 1|sed -e "$FILEKEY_EXPR"`
 
-    cd "$BUILDDIR/image"
+			case "$f" in
+			Microsoft.NET/Framework64*) CONDITION='(VersionNT64)';;
+			*) CONDITION=;;
+			esac
 
-    find . -type f | cut -d '/' -f2- | while read -r f; do
-        KEY=`echo $f|sed -e 's/\//!/g'`
-        ln -s "$BUILDDIR/image/$f" "$BUILDDIR/cab-contents/$KEY"
+			printf '%s\t{%s}\t%s\t0\t%s\t%s\n' "$DIRKEY" "$GUID" "$DIRKEY" "$CONDITION" "$KEYPATH" >> ${TABLEDIR}/component.idt
+			printf "%s\t%s\n" "$DIRKEY" "$DIRKEY" >> ${TABLEDIR}/createfolder.idt
+			printf "%s\t%s\t%s\n" "$DIRKEY" "$PARENTKEY" "$BASENAME" >> ${TABLEDIR}/directory.idt
+			printf "wine_mono\t%s\n" "$DIRKEY" >> ${TABLEDIR}/featurecomponents.idt
+		elif test -f "$f"; then
+			true
+		else
+			# Don't include symlinks
+			rm "$f" || exit 1
+		fi
     done
 
-    cd "$BUILDDIR/cab-contents"
+	mono "$BUILDDIR/genfilehashes.exe" >> ${TABLEDIR}/msifilehash.idt
 
-    IMAGECABWINPATH=`"${WINE}" winepath -w "$BUILDDIR"/image.cab`
+	"${WINE}" cabarc -m mszip -r -p N "$IMAGECABWINPATH" * || exit 1
+
+	# We can't dictate the order of files in the cab, so read it back to find the sequence numbers.
+	SEQ=0
+	rm -f "${TABLEDIR}/sequence"
+
+    "${WINE}" cabarc L "$IMAGECABWINPATH" | sed -e "$FILEKEY_REV_EXPR" | while read -r f; do
+        FILEKEY=`echo $f|sed -e "$FILEKEY_EXPR"`
+		FILESIZE=`ls -l "$f" | awk '{print $5}'`
+		PARENT=`dirname "$f"`
+		BASENAME=`basename "$f"`
+		SEQ=`expr $SEQ + 1`
+
+		if test $PARENT = .; then
+			PARENTKEY=$ROOTDIR
+		else
+			PARENTKEY=`echo $PARENT|sed -e "$DIRKEY_EXPR"`
+		fi
+
+		printf '%s\t%s\t%s\t%s\t\t\t\t%s\n' "$FILEKEY" "$PARENTKEY" "$BASENAME" "$FILESIZE" "$SEQ" >> ${TABLEDIR}/file.idt
+		printf "%s" "$SEQ" > ${TABLEDIR}/sequence
+	done
+
+	printf '1\t%s\t\t%s\t\t\n' `cat "${TABLEDIR}/sequence"` "$CABINET" >> ${TABLEDIR}/media.idt
+}
+
+build_support_msi ()
+{
+	MSIFILENAME=$BUILDDIR/image/support/winemono-support.msi
+	CABFILENAME=$BUILDDIR/image/support/winemono-support.cab
+	TABLEDIR=$BUILDDIR/build-msi-tables/support/
+
+    rm -f "${CABFILENAME}" "${MSIFILENAME}" "${TABLEDIR}"/*.idt || exit 1
+
+	mkdir -p "${TABLEDIR}"
+	cp "${BUILDDIR}"/msi-tables/support/*.idt "${TABLEDIR}"
+
+	build_msi_filesystem "$CABFILENAME" "$BUILDDIR/image-support" "$TABLEDIR" WindowsFolder 'winemono-support.cab'
+
+	PRODUCTCODE=`uuidgen -s -n 27ec5e1a-7f2f-445c-9e78-76ae42a51b6d -N "$MSI_VERSION" | tr [a-z] [A-Z]`
+	printf 'ProductCode\t{%s}\n' $PRODUCTCODE >> "$TABLEDIR"/property.idt
+	printf 'ProductVersion\t%s\n' $MSI_VERSION >> "$TABLEDIR"/property.idt
+	printf '{DE624609-C6B5-486A-9274-EF0B854F6BC5}\t\t%s\t\t0\t\tOLDERVERSIONBEINGUPGRADED\n' $MSI_VERSION >> "$TABLEDIR"/upgrade.idt
+
     MSIWINPATH=`"${WINE}" winepath -w "$MSIFILENAME"`
 
-    "${WINE}" cabarc -m mszip -r -p N "$IMAGECABWINPATH" *
+	cd "${BUILDDIR}"
 
-    cd "$CURDIR"
+    "$WINE" winemsibuilder -i "${MSIWINPATH}" build-msi-tables/support/*.idt || exit 1
+}
 
-    build_directorytable > msi-tables/directory.idt
-    build_componenttable > msi-tables/component.idt
-    build_createfoldertable > msi-tables/createfolder.idt
-    build_featurecomponentstable > msi-tables/featurecomponents.idt
-    build_filetable > msi-tables/file.idt
-    build_mediatable > msi-tables/media.idt
-    build_msifilehashtable > msi-tables/msifilehash.idt
+build_runtime_msi ()
+{
+	MSIFILENAME=$OUTDIR/winemono.msi
+	CABFILENAME=$BUILDDIR/image.cab
+	TABLEDIR=$BUILDDIR/build-msi-tables/runtime/
 
-    "$WINE" winemsibuilder -i "${MSIWINPATH}" msi-tables/*.idt
-    "$WINE" winemsibuilder -a "${MSIWINPATH}" image.cab "$IMAGECABWINPATH"
+    rm -f "${CABFILENAME}" "${MSIFILENAME}" "${TABLEDIR}"/*.idt || exit 1
+
+	mkdir -p "${TABLEDIR}"
+	cp "${BUILDDIR}"/msi-tables/runtime/*.idt "${TABLEDIR}"
+
+	build_msi_filesystem "$CABFILENAME" "$BUILDDIR/image" "$TABLEDIR" MONODIR '#image.cab'
+
+	SUPPORT_PRODUCTCODE=`uuidgen -s -n 27ec5e1a-7f2f-445c-9e78-76ae42a51b6d -N "$MSI_VERSION" | tr [a-z] [A-Z]`
+	PRODUCTCODE=`uuidgen -s -n e3d60378-6160-4d62-9105-1a321b78891e -N "$MSI_VERSION" | tr [a-z] [A-Z]`
+	printf 'ProductCode\t{%s}\n' $PRODUCTCODE >> "$TABLEDIR"/property.idt
+	printf 'ProductVersion\t%s\n' $MSI_VERSION >> "$TABLEDIR"/property.idt
+	printf '{DF105CC2-8FA2-4367-B1D3-95C63C0941FC}\t4.8.0\t%s\t\t0\t\tOLDERVERSIONBEINGUPGRADED\n' $MSI_VERSION >> "$TABLEDIR"/upgrade.idt
+	printf 'REMOVESUPPORT\t1122\tWindowsFolder\tmsiexec /x {%s}\t\n' $SUPPORT_PRODUCTCODE >> "$TABLEDIR"/customaction.idt
+
+    IMAGECABWINPATH=`"${WINE}" winepath -w "$CABFILENAME"`
+    MSIWINPATH=`"${WINE}" winepath -w "$MSIFILENAME"`
+
+	cd "${BUILDDIR}"
+
+    "$WINE" winemsibuilder -i "${MSIWINPATH}" build-msi-tables/runtime/*.idt || exit 1
+    "$WINE" winemsibuilder -a "${MSIWINPATH}" image.cab "$IMAGECABWINPATH" || exit 1
 }
 
 sanity_checks ()
@@ -617,6 +413,17 @@ cd "$CURDIR"
 
 rm -rf "$BUILDDIR"/image
 mkdir "$BUILDDIR"/image
+rm -rf "$BUILDDIR"/image-support
+mkdir -p "$BUILDDIR"/image-support/Microsoft.NET/Framework/v1.1.4322/CONFIG
+mkdir -p "$BUILDDIR"/image-support/Microsoft.NET/Framework/v2.0.50727/CONFIG
+mkdir -p "$BUILDDIR"/image-support/Microsoft.NET/Framework/v4.0.30319/CONFIG
+mkdir -p "$BUILDDIR"/image-support/Microsoft.NET/Framework/v3.0/"windows communication foundation"
+mkdir -p "$BUILDDIR"/image-support/Microsoft.NET/Framework/v3.0/wpf
+mkdir -p "$BUILDDIR"/image-support/Microsoft.NET/Framework64/v1.1.4322/CONFIG
+mkdir -p "$BUILDDIR"/image-support/Microsoft.NET/Framework64/v2.0.50727/CONFIG
+mkdir -p "$BUILDDIR"/image-support/Microsoft.NET/Framework64/v4.0.30319/CONFIG
+mkdir -p "$BUILDDIR"/image-support/Microsoft.NET/Framework64/v3.0/"windows communication foundation"
+mkdir -p "$BUILDDIR"/image-support/Microsoft.NET/Framework64/v3.0/wpf
 
 cross_build_mono "$MINGW_x86_64" x86_64
 
@@ -624,24 +431,12 @@ cross_build_mono "$MINGW_x86" x86
 
 build_cli
 
-mkdir "$BUILDDIR"/image/support
-cp "$SRCDIR"/dotnetfakedlls.inf "$BUILDDIR"/image/support/
-cp "$SRCDIR"/security.config "$BUILDDIR"/image/2.0-security.config
-cp "$SRCDIR"/security.config "$BUILDDIR"/image/2.0-security.config64
+mkdir "$BUILDDIR"/image/support || exit 1
+cp "$SRCDIR"/dotnetfakedlls.inf "$BUILDDIR"/image/support/ || exit 1
+cp "$SRCDIR"/security.config "$BUILDDIR"/image-support/Microsoft.NET/Framework/v2.0.50727/CONFIG/security.config || exit 1
+cp "$SRCDIR"/security.config "$BUILDDIR"/image-support/Microsoft.NET/Framework64/v2.0.50727/CONFIG/security.config || exit 1
 
-build_msi
+build_support_msi
 
-if test -e "$SRCDIR"/.git; then
-	cd "$SRCDIR/component-guids"
-    for f in `find . -type f`; do
-		BASENAME=`basename "$f" .guid|sed -e 's/|/\//g'`
-
-        if test ! -d "$BUILDDIR/image/$BASENAME"; then
-			rm "$f"
-		fi
-	done
-
-	cd "$SRCDIR"
-	git add component-guids
-fi
+build_runtime_msi
 
