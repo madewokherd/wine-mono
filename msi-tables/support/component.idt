@@ -1,0 +1,5 @@
+Component	ComponentId	Directory_	Attributes	Condition	KeyPath
+s72	S38	s72	i2	S255	S72
+Component	Component
+mono-registry	{93BE4304-497C-4ACB-A0FD-1C3695C011B4}	Microsoft.NET|Framework	4		DotNetFrameworkInstallRoot
+mono-registry64	{E088D122-0696-4137-BC4E-C999303B4BE2}	Microsoft.NET|Framework64	260	(VersionNT64)	DotNetFrameworkInstallRoot_64

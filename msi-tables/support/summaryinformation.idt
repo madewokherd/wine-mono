@@ -2,8 +2,8 @@ PropertyId	Value
 i2	l255
 _SummaryInformation	PropertyId
 1	1252
-2	Wine Mono Installation Database
-3	Wine Mono
+2	Wine Mono Windows Support Installation Database
+3	Wine Mono Windows Support
 4	The Wine Project
 5	Installer, Wine, Mono, .NET, Framework
 6	This installer database contains the logic and data required to install Wine Mono

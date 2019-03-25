@@ -1,0 +1,4 @@
+Action	Type	Source	Target	ExtendedType
+s72	i2	S72	L0	I4
+CustomAction	Action
+INSTALLSUPPORT	1122	support	msiexec /i [$support]\winemono-support.msi	
