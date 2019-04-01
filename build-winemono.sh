@@ -369,6 +369,13 @@ build_runtime_msi ()
     "$WINE" winemsibuilder -a "${MSIWINPATH}" image.cab "$IMAGECABWINPATH" || exit 1
 }
 
+build_runtime_archive ()
+{
+	cd "$BUILDDIR"
+
+	tar czf wine-mono-bin.tar.gz --transform 's:^image:wine-mono-'$MSI_VERSION':g' image
+}
+
 sanity_checks ()
 {
     # Make sure a few programs are around, otherwise we'll fail later on:
@@ -439,4 +446,6 @@ cp "$SRCDIR"/security.config "$BUILDDIR"/image-support/Microsoft.NET/Framework64
 build_support_msi
 
 build_runtime_msi
+
+build_runtime_archive
 
