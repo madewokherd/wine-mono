@@ -435,7 +435,7 @@ build_runtime_archive ()
 {
 	cd "$BUILDDIR"
 
-	tar czf wine-mono-bin.tar.gz --transform 's:^image:wine-mono-'$MSI_VERSION':g' image
+	tar czf "$OUTDIR"/wine-mono-bin.tar.gz --transform 's:^image:wine-mono-'$MSI_VERSION':g' image
 }
 
 sanity_checks ()
