@@ -387,8 +387,10 @@ build_support_msi ()
 	build_msi_filesystem "$CABFILENAME" "$BUILDDIR/image-support" "$TABLEDIR" WindowsFolder 'winemono-support.cab'
 
 	PRODUCTCODE=`uuidgen -s -n 27ec5e1a-7f2f-445c-9e78-76ae42a51b6d -N "$MSI_VERSION" | tr [a-z] [A-Z]`
+	PACKAGECODE=`uuidgen -s -n 5b2a0add-9ec1-4c3c-b749-2c7d96db4656 -N "$MSI_VERSION" | tr [a-z] [A-Z]`
 	printf 'ProductCode\t{%s}\n' $PRODUCTCODE >> "$TABLEDIR"/property.idt
 	printf 'ProductVersion\t%s\n' $MSI_VERSION >> "$TABLEDIR"/property.idt
+	printf '9\t{%s}\n' $PACKAGECODE >> "$TABLEDIR"/summaryinformation.idt
 	printf '{DE624609-C6B5-486A-9274-EF0B854F6BC5}\t\t%s\t\t0\t\tOLDERVERSIONBEINGUPGRADED\n' $MSI_VERSION >> "$TABLEDIR"/upgrade.idt
 
     MSIWINPATH=`"${WINE}" winepath -w "$MSIFILENAME"`
@@ -413,8 +415,10 @@ build_runtime_msi ()
 
 	SUPPORT_PRODUCTCODE=`uuidgen -s -n 27ec5e1a-7f2f-445c-9e78-76ae42a51b6d -N "$MSI_VERSION" | tr [a-z] [A-Z]`
 	PRODUCTCODE=`uuidgen -s -n e3d60378-6160-4d62-9105-1a321b78891e -N "$MSI_VERSION" | tr [a-z] [A-Z]`
+	PACKAGECODE=`uuidgen -s -n 27abb979-e12d-4a3a-95d8-f42c2027a693 -N "$MSI_VERSION" | tr [a-z] [A-Z]`
 	printf 'ProductCode\t{%s}\n' $PRODUCTCODE >> "$TABLEDIR"/property.idt
 	printf 'ProductVersion\t%s\n' $MSI_VERSION >> "$TABLEDIR"/property.idt
+	printf '9\t{%s}\n' $PACKAGECODE >> "$TABLEDIR"/summaryinformation.idt
 	printf '{DF105CC2-8FA2-4367-B1D3-95C63C0941FC}\t4.8.0\t%s\t\t0\t\tOLDERVERSIONBEINGUPGRADED\n' $MSI_VERSION >> "$TABLEDIR"/upgrade.idt
 	printf 'REMOVESUPPORT\t1122\tWindowsFolder\tmsiexec /x {%s}\t\n' $SUPPORT_PRODUCTCODE >> "$TABLEDIR"/customaction.idt
 

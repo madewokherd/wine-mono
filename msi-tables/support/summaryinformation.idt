@@ -7,7 +7,6 @@ _SummaryInformation	PropertyId
 4	The Wine Project
 5	Installer, Wine, Mono, .NET, Framework
 6	This installer database contains the logic and data required to install Wine Mono
-9	{A9AA72A4-F97A-4E39-9778-0B65DA95B120}
 14	200
 15	2
 18	winemsibuilder
