@@ -13,7 +13,7 @@ REBUILD=0
 WINE=${WINE:-`which wine`}
 BUILD_TESTS=0
 USE_MONOLITE=0
-MSI_VERSION=4.8.0
+MSI_VERSION=4.8.1
 
 if test -d "$CURDIR/output"; then
     OUTDIR="$CURDIR/output"
