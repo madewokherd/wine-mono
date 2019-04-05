@@ -33,6 +33,7 @@ class CscWrapper
 		string current_lib = Path.GetDirectoryName(corlib);
 		string api_lib = Path.Combine(Path.GetDirectoryName(current_lib), VERSION_STRING);
 		string mcs_name = Path.Combine(current_lib, "mcs.exe");
+		corlib = Path.Combine(api_lib, "mscorlib.dll");
 
 		var versionArguments = "";
 		if (addStdlib)
