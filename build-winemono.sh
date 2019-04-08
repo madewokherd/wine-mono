@@ -123,7 +123,7 @@ cross_build_mono ()
 
 	cd "$BUILDDIR/build-cross-$ARCH/FAudio"
     if test 1 != $REBUILD || test ! -e Makefile; then
-        cmake -DCMAKE_TOOLCHAIN_FILE="$BUILDDIR/toolchain-$ARCH.cmake" -DCMAKE_C_COMPILER="${MINGW}-gcc" -DCMAKE_CXX_COMPILER="${MINGW}-g++" -DSDL2_INCLUDE_DIRS="$BUILDDIR/build-cross-$ARCH/SDL2/include;$SRCDIR/SDL2/include" -DSDL2_LIBRARIES="$BUILDDIR/build-cross-$ARCH/SDL2/build/.libs/libSDL2-$ARCH.dll.a" "$SRCDIR"/FNA/lib/FAudio || exit 1
+        cmake -DCMAKE_TOOLCHAIN_FILE="$SRCDIR/toolchain-$ARCH.cmake" -DCMAKE_C_COMPILER="${MINGW}-gcc" -DCMAKE_CXX_COMPILER="${MINGW}-g++" -DSDL2_INCLUDE_DIRS="$BUILDDIR/build-cross-$ARCH/SDL2/include;$SRCDIR/SDL2/include" -DSDL2_LIBRARIES="$BUILDDIR/build-cross-$ARCH/SDL2/build/.libs/libSDL2-$ARCH.dll.a" "$SRCDIR"/FNA/lib/FAudio || exit 1
     fi
     make $MAKEOPTS || exit 1
     cp "$BUILDDIR/build-cross-$ARCH/FAudio/FAudio.dll" "$BUILDDIR/image/lib/FAudio-$ARCH.dll" || exit 1
