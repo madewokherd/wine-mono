@@ -12,6 +12,9 @@ ORIGINAL_PATH="$PATH"
 REBUILD=0
 WINE=${WINE:-`which wine`}
 BUILD_TESTS=0
+BUILD_IMAGE=0
+BUILD_TAR=0
+BUILD_MSI=0
 USE_MONOLITE=0
 MSI_VERSION=4.8.99
 
@@ -33,16 +36,22 @@ where OPTIONS are:
  -b PATH    Sets the directory for intermediate build files [$BUILDDIR]
  -o PATH    Sets the directory for output files [$OUTDIR]
  -l         Fetch and use monolite
+ -i         Build the image/ directory only
+ -a         Build the -bin tarball
+ -I         Build the .msi installer
 EOF
 
     exit 1
 }
 
-while getopts "d:m:D:M:b:o:trhl" opt; do
+while getopts "d:m:D:M:b:o:trhliaI" opt; do
     case "$opt" in
 	m) MINGW_x86="$OPTARG" ;;
 	M) MINGW_x86_64="$OPTARG" ;;
 	t) BUILD_TESTS=1 ;;
+	i) BUILD_IMAGE=1 ;;
+	a) BUILD_TAR=1 ;;
+	I) BUILD_MSI=1 ;;
 	r) REBUILD=1 ;;
 	b) BUILDDIR="$OPTARG" ;;
 	o) OUTDIR="$OPTARG" ;;
@@ -51,6 +60,11 @@ while getopts "d:m:D:M:b:o:trhl" opt; do
     esac
 done
 
+if test $BUILD_IMAGE = 0 -a $BUILD_TAR = 0 -a $BUILD_MSI = 0; then
+	BUILD_IMAGE=1
+	BUILD_TAR=1
+	BUILD_MSI=1
+fi
 
 # function definitions
 
@@ -507,7 +521,11 @@ cp "$SRCDIR"/security.config "$BUILDDIR"/image-support/Microsoft.NET/Framework64
 
 build_support_msi
 
-build_runtime_msi
+if test $BUILD_MSI = 1; then
+	build_runtime_msi
+fi
 
-build_runtime_archive
+if test $BUILD_TAR = 1; then
+	build_runtime_archive
+fi
 
