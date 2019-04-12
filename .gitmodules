@@ -10,3 +10,6 @@
 [submodule "FNA.NetStub"]
 	path = FNA.NetStub
 	url = ../FNA.NetStub.git
+[submodule "SDL_image_compact"]
+	path = SDL_image_compact
+	url = git://github.com/FNA-XNA/SDL_image_compact.git

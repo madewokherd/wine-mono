@@ -142,6 +142,14 @@ cross_build_mono ()
     make $MAKEOPTS || exit 1
     cp "$BUILDDIR/build-cross-$ARCH/FAudio/FAudio.dll" "$BUILDDIR/image/lib/FAudio-$ARCH.dll" || exit 1
 	
+    if test ! -d "$BUILDDIR/build-cross-$ARCH/SDL_image_compact"; then
+        mkdir "$BUILDDIR/build-cross-$ARCH/SDL_image_compact"
+    fi
+
+	cd "$BUILDDIR/build-cross-$ARCH/SDL_image_compact"
+	make $MAKEOPTS "CC=${MINGW}-gcc" SDL_LDFLAGS="$BUILDDIR/build-cross-$ARCH/SDL2/build/.libs/libSDL2-$ARCH.dll.a" SDL_CFLAGS="-I$BUILDDIR/build-cross-$ARCH/SDL2/include -I$SRCDIR/SDL2/include" WICBUILD=1 -f "$SRCDIR/SDL_image_compact/Makefile" || exit 1
+    cp "$BUILDDIR/build-cross-$ARCH/SDL_image_compact/SDL2_image.dll" "$BUILDDIR/image/lib/SDL2_image-$ARCH.dll" || exit 1
+	
     if test ! -d "$BUILDDIR/build-cross-$ARCH/Theorafile"; then
         mkdir "$BUILDDIR/build-cross-$ARCH/Theorafile"
     fi
