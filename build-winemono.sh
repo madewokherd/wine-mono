@@ -413,7 +413,8 @@ build_support_msi ()
 	printf 'ProductCode\t{%s}\n' $PRODUCTCODE >> "$TABLEDIR"/property.idt
 	printf 'ProductVersion\t%s\n' $MSI_VERSION >> "$TABLEDIR"/property.idt
 	printf '9\t{%s}\n' $PACKAGECODE >> "$TABLEDIR"/summaryinformation.idt
-	printf '{DE624609-C6B5-486A-9274-EF0B854F6BC5}\t\t%s\t\t0\t\tOLDERVERSIONBEINGUPGRADED\n' $MSI_VERSION >> "$TABLEDIR"/upgrade.idt
+	printf '{DE624609-C6B5-486A-9274-EF0B854F6BC5}\t\t%s\t\t0\t\tOLDSUPPORTVERSION\n' $MSI_VERSION >> "$TABLEDIR"/upgrade.idt
+	printf '{DF105CC2-8FA2-4367-B1D3-95C63C0941FC}\t4.8.0\t%s\t\t0\t\tOLDRUNTIMEVERSION\n' $MSI_VERSION >> "$TABLEDIR"/upgrade.idt
 
     MSIWINPATH=`"${WINE}" winepath -w "$MSIFILENAME"`
 
@@ -441,7 +442,7 @@ build_runtime_msi ()
 	printf 'ProductCode\t{%s}\n' $PRODUCTCODE >> "$TABLEDIR"/property.idt
 	printf 'ProductVersion\t%s\n' $MSI_VERSION >> "$TABLEDIR"/property.idt
 	printf '9\t{%s}\n' $PACKAGECODE >> "$TABLEDIR"/summaryinformation.idt
-	printf '{DF105CC2-8FA2-4367-B1D3-95C63C0941FC}\t4.8.0\t%s\t\t0\t\tOLDERVERSIONBEINGUPGRADED\n' $MSI_VERSION >> "$TABLEDIR"/upgrade.idt
+	printf '{DF105CC2-8FA2-4367-B1D3-95C63C0941FC}\t4.8.0\t%s\t\t0\t\tOLDRUNTIMEVERSION\n' $MSI_VERSION >> "$TABLEDIR"/upgrade.idt
 	printf 'REMOVESUPPORT\t1122\tWindowsFolder\tmsiexec /x {%s}\t\n' $SUPPORT_PRODUCTCODE >> "$TABLEDIR"/customaction.idt
 
     IMAGECABWINPATH=`"${WINE}" winepath -w "$CABFILENAME"`
