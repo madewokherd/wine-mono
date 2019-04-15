@@ -5,4 +5,4 @@ ProductName	Wine Mono Runtime
 ProductLanguage	0
 Manufacturer	The Wine Project
 UpgradeCode	{DF105CC2-8FA2-4367-B1D3-95C63C0941FC}
-SecureCustomProperties	OLDERVERSIONBEINGUPGRADED
+SecureCustomProperties	OLDRUNTIMEVERSION;OLDSUPPORTVERSION
