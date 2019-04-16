@@ -10,3 +10,6 @@
 [submodule "FNA.NetStub"]
 	path = FNA.NetStub
 	url = ../FNA.NetStub.git
+[submodule "winforms"]
+	path = winforms
+	url = git://github.com/madewokherd/winforms.git
