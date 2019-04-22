@@ -24,6 +24,10 @@ $(SRCDIR)/mono/configure: $(SRCDIR)/mono/autogen.sh $(SRCDIR)/mono/configure.ac 
 $(BUILDDIR):
 	mkdir $@
 
+clean-build:
+	rmdir $(BUILDDIR)
+clean: clean-build
+
 define MINGW_TEMPLATE =
 $$(BUILDDIR)/mono-$(1): $$(BUILDDIR)
 	mkdir $$@
@@ -31,6 +35,10 @@ $$(BUILDDIR)/mono-$(1): $$(BUILDDIR)
 $$(BUILDDIR)/mono-$(1)/Makefile: $$(BUILDDIR)/mono-$(1) $$(SRCDIR)/mono/configure
 	cd $$(BUILDDIR)/mono-$(1); CPPFLAGS="-gdwarf-2 -gstrict-dwarf" $$(SRCDIR_ABS)/mono/configure --prefix="$$(BUILDDIR_ABS)/build-cross-$(1)-install" --build=$(shell $(SRCDIR)/mono/config.guess) --target=$$(MINGW_$(1)) --host=$$(MINGW_$(1)) --with-tls=none --disable-mcs-build --enable-win32-dllmain=yes --with-libgc-threads=win32 PKG_CONFIG=false mono_cv_clang=no
 	sed -e 's/-lgcc_s//' -i $$(BUILDDIR)/mono-$(1)/libtool
+
+clean-build-mono-$(1):
+	rm -rf $$(BUILDDIR)/mono-$(1)
+clean-build: clean-build-mono-$(1)
 endef
 
 $(eval $(call MINGW_TEMPLATE,x86))
