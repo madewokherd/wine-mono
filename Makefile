@@ -17,23 +17,24 @@ MONO_MAKEFILES=$(shell cd $(SRCDIR); find mono -name Makefile.am)
 all:
 	echo *** The makefile is a work in progress, please use build-winemono.sh for now ***
 	false
+.PHONY: all clean
 
 $(SRCDIR)/mono/configure: $(SRCDIR)/mono/autogen.sh $(SRCDIR)/mono/configure.ac $(SRCDIR)/mono/libgc/autogen.sh $(SRCDIR)/mono/libgc/configure.ac $(MONO_MAKEFILES)
 	cd $(SRCDIR)/mono; NOCONFIGURE=yes ./autogen.sh
 
-$(BUILDDIR):
-	mkdir $@
+$(BUILDDIR)/.dir:
+	mkdir -p $(BUILDDIR)
+	touch $(BUILDDIR)/.dir
 
 clean-build:
 	rmdir $(BUILDDIR)
 clean: clean-build
+.PHONY: clean-build
 
 define MINGW_TEMPLATE =
-$$(BUILDDIR)/mono-$(1): $$(BUILDDIR)
-	mkdir $$@
-
-$$(BUILDDIR)/mono-$(1)/Makefile: $$(BUILDDIR)/mono-$(1) $$(SRCDIR)/mono/configure
-	cd $$(BUILDDIR)/mono-$(1); CPPFLAGS="-gdwarf-2 -gstrict-dwarf" $$(SRCDIR_ABS)/mono/configure --prefix="$$(BUILDDIR_ABS)/build-cross-$(1)-install" --build=$(shell $(SRCDIR)/mono/config.guess) --target=$$(MINGW_$(1)) --host=$$(MINGW_$(1)) --with-tls=none --disable-mcs-build --enable-win32-dllmain=yes --with-libgc-threads=win32 PKG_CONFIG=false mono_cv_clang=no
+$$(BUILDDIR)/mono-$(1)/Makefile: $$(SRCDIR)/mono/configure $$(BUILDDIR)/.dir
+	mkdir -p $$(@D)
+	cd $$(BUILDDIR)/mono-$(1); CPPFLAGS="-gdwarf-2 -gstrict-dwarf" $$(SRCDIR_ABS)/mono/configure --prefix="$$(BUILDDIR_ABS)/build-cross-$(1)-install" --build=$$(shell $(SRCDIR)/mono/config.guess) --target=$$(MINGW_$(1)) --host=$$(MINGW_$(1)) --with-tls=none --disable-mcs-build --enable-win32-dllmain=yes --with-libgc-threads=win32 PKG_CONFIG=false mono_cv_clang=no
 	sed -e 's/-lgcc_s//' -i $$(BUILDDIR)/mono-$(1)/libtool
 
 clean-build-mono-$(1):
