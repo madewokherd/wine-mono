@@ -13,3 +13,6 @@
 [submodule "SDL_image_compact"]
 	path = SDL_image_compact
 	url = git://github.com/FNA-XNA/SDL_image_compact.git
+[submodule "winforms"]
+	path = winforms
+	url = git://github.com/madewokherd/winforms.git
