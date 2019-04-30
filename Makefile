@@ -14,6 +14,8 @@ OUTDIR_ABS=$(shell cd $(OUTDIR); pwd)
 
 MONO_MAKEFILES=$(shell cd $(SRCDIR); find mono -name Makefile.am)
 
+MONO_MONO_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/mono/mono $(SRCDIR)/mono/libgc)
+
 all:
 	echo *** The makefile is a work in progress, please use build-winemono.sh for now ***
 	false
@@ -37,6 +39,10 @@ $$(BUILDDIR)/mono-$(1)/Makefile: $$(SRCDIR)/mono/configure $$(BUILDDIR)/.dir
 	mkdir -p $$(@D)
 	cd $$(BUILDDIR)/mono-$(1); CPPFLAGS="-gdwarf-2 -gstrict-dwarf" $$(SRCDIR_ABS)/mono/configure --prefix="$$(BUILDDIR_ABS)/build-cross-$(1)-install" --build=$$(shell $(SRCDIR)/mono/config.guess) --target=$$(MINGW_$(1)) --host=$$(MINGW_$(1)) --with-tls=none --disable-mcs-build --enable-win32-dllmain=yes --with-libgc-threads=win32 PKG_CONFIG=false mono_cv_clang=no
 	sed -e 's/-lgcc_s//' -i $$(BUILDDIR)/mono-$(1)/libtool
+
+$$(BUILDDIR)/mono-$(1)/.built: $$(BUILDDIR)/mono-$(1)/Makefile $$(MONO_MONO_SRCS)
+	+$$(MAKE) -C $$(BUILDDIR)/mono-$(1)
+	touch "$$@"
 
 clean-build-mono-$(1):
 	rm -rf $$(BUILDDIR)/mono-$(1)

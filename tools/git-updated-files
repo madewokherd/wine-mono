@@ -1,0 +1,68 @@
+#!/bin/bash
+
+"""true"
+
+if which python3 >/dev/null; then
+	exec python3 "$0" "$@"
+else
+	exec python "$0" "$@"
+fi
+
+"""
+
+import os
+import subprocess
+import sys
+
+if len(sys.argv) <= 1:
+	print("Usage: git-updated-files directory [directory2 [...]]")
+	sys.exit(1)
+
+def get_updated_files(path):
+	result = set()
+
+	res = subprocess.run(['git', 'rev-parse', '--git-path', 'index'],
+		stdout=subprocess.PIPE,
+		stderr=subprocess.PIPE,
+		encoding=sys.getfilesystemencoding(),
+		cwd=path)
+	if res.returncode == 128:
+		# not in a git repository
+		return set()
+	elif res.returncode != 0:
+		print(res.stderr, file=sys.stderr)
+		sys.exit(2)
+	index_file = res.stdout.strip('\n')
+	result.add(index_file)
+
+	res = subprocess.run(['git', 'rev-parse', '--show-toplevel'],
+		stdout=subprocess.PIPE,
+		encoding=sys.getfilesystemencoding(),
+		check=True,
+		cwd=path)
+	toplevel = res.stdout.strip('\n')
+
+	res = subprocess.run(['git', 'diff', '--name-only', '.'],
+		stdout=subprocess.PIPE,
+		encoding=sys.getfilesystemencoding(),
+		check=True,
+		cwd=path)
+
+	diff_files = set()
+
+	for line in res.stdout.strip('\n').splitlines():
+		filename = os.path.join(toplevel, line)
+		if os.path.isdir(filename):
+			diff_files.update(get_updated_files(filename))
+		else:
+			diff_files.add(filename)
+
+	result.update(diff_files)
+
+	return result
+
+result = set()
+for path in sys.argv[1:]:
+	result.update(get_updated_files(path))
+for line in result:
+	print(line)
