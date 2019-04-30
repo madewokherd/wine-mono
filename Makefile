@@ -45,12 +45,24 @@ $$(BUILDDIR)/mono-$(1)/Makefile: $$(SRCDIR)/mono/configure $$(BUILDDIR)/.dir
 $$(BUILDDIR)/mono-$(1)/.built: $$(BUILDDIR)/mono-$(1)/Makefile $$(MONO_MONO_SRCS)
 	+$$(MAKE) -C $$(BUILDDIR)/mono-$(1)
 	touch "$$@"
+IMAGEDIR_BUILD_TARGETS += $$(BUILDDIR)/mono-$(1)/.built
+
+$$(BUILDDIR)/mono-$(1)/support/.built: $$(BUILDDIR)/mono-$(1)/.built
+	+$$(MAKE) -C $$(BUILDDIR)/mono-$(1)/support
+	touch "$$@"
+IMAGEDIR_BUILD_TARGETS += $$(BUILDDIR)/mono-$(1)/support/.built
 
 libmono-2.0-$(1).dll: $$(BUILDDIR)/mono-$(1)/.built
 	mkdir -p "$$(IMAGEDIR)/bin"
 	cp "$$(BUILDDIR)/mono-$(1)/mono/mini/.libs/libmonosgen-2.0.dll" "$$(IMAGEDIR)/bin/libmono-2.0-$(1).dll"
 .PHONY: libmono-2.0-$(1).dll
 imagedir-targets: libmono-2.0-$(1).dll
+
+MonoPosixHelper-$(1).dll: $$(BUILDDIR)/mono-$(1)/support/.built
+	mkdir -p "$$(IMAGEDIR)/bin"
+	cp "$$(BUILDDIR)/mono-$(1)/support/.libs/libMonoPosixHelper.dll" "$$(IMAGEDIR)/bin/MonoPosixHelper-$(1).dll"
+.PHONY: MonoPosixHelper-$(1).dll
+imagedir-targets: MonoPosixHelper-$(1).dll
 
 clean-build-mono-$(1):
 	rm -rf $$(BUILDDIR)/mono-$(1)
@@ -61,9 +73,16 @@ endef
 $(eval $(call MINGW_TEMPLATE,x86))
 $(eval $(call MINGW_TEMPLATE,x86_64))
 
-image:
+$(BUILDDIR)/.imagedir-built: $(IMAGEDIR_BUILD_TARGETS)
 	rm -rf "$(IMAGEDIR)"
 	+$(MAKE) imagedir-targets
+	touch "$@"
+clean-imagedir-built:
+	rm -f $(BUILDDIR)/.imagedir-built
+.PHONY: clean-imagedir-built
+clean-build: clean-imagedir-built
+
+image: $(BUILDDIR)/.imagedir-built
 .PHONY: image
 
 clean-image:
