@@ -1,6 +1,7 @@
 
 SRCDIR=$(dir $(MAKEFILE_LIST))
 BUILDDIR=$(SRCDIR)/build
+IMAGEDIR=$(SRCDIR)/image
 OUTDIR=$(SRCDIR)
 
 MINGW_x86=i686-w64-mingw32
@@ -10,6 +11,7 @@ MSI_VERSION=4.8.99
 
 SRCDIR_ABS=$(shell cd $(SRCDIR); pwd)
 BUILDDIR_ABS=$(shell cd $(BUILDDIR); pwd)
+IMAGEDIR_ABS=$(shell cd $(IMAGEDIR); pwd)
 OUTDIR_ABS=$(shell cd $(OUTDIR); pwd)
 
 MONO_MAKEFILES=$(shell cd $(SRCDIR); find mono -name Makefile.am)
@@ -19,7 +21,7 @@ MONO_MONO_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/mono/mono $(S
 all:
 	echo *** The makefile is a work in progress, please use build-winemono.sh for now ***
 	false
-.PHONY: all clean
+.PHONY: all clean imagedir-targets
 
 $(SRCDIR)/mono/configure: $(SRCDIR)/mono/autogen.sh $(SRCDIR)/mono/configure.ac $(SRCDIR)/mono/libgc/autogen.sh $(SRCDIR)/mono/libgc/configure.ac $(MONO_MAKEFILES)
 	cd $(SRCDIR)/mono; NOCONFIGURE=yes ./autogen.sh
@@ -44,10 +46,27 @@ $$(BUILDDIR)/mono-$(1)/.built: $$(BUILDDIR)/mono-$(1)/Makefile $$(MONO_MONO_SRCS
 	+$$(MAKE) -C $$(BUILDDIR)/mono-$(1)
 	touch "$$@"
 
+libmono-2.0-$(1).dll: $$(BUILDDIR)/mono-$(1)/.built
+	mkdir -p "$$(IMAGEDIR)/bin"
+	cp "$$(BUILDDIR)/mono-$(1)/mono/mini/.libs/libmonosgen-2.0.dll" "$$(IMAGEDIR)/bin/libmono-2.0-$(1).dll"
+.PHONY: libmono-2.0-$(1).dll
+imagedir-targets: libmono-2.0-$(1).dll
+
 clean-build-mono-$(1):
 	rm -rf $$(BUILDDIR)/mono-$(1)
+.PHONY: clean-build-mono-$(1)
 clean-build: clean-build-mono-$(1)
 endef
 
 $(eval $(call MINGW_TEMPLATE,x86))
 $(eval $(call MINGW_TEMPLATE,x86_64))
+
+image:
+	rm -rf "$(IMAGEDIR)"
+	+$(MAKE) imagedir-targets
+.PHONY: image
+
+clean-image:
+	rm -rf "$(IMAGEDIR)"
+.PHONY: clean-image
+clean: clean-image
