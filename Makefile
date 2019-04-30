@@ -17,6 +17,7 @@ OUTDIR_ABS=$(shell cd $(OUTDIR); pwd)
 MONO_MAKEFILES=$(shell cd $(SRCDIR); find mono -name Makefile.am)
 
 MONO_MONO_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/mono/mono $(SRCDIR)/mono/libgc)
+SDL2_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/SDL2)
 
 all:
 	echo *** The makefile is a work in progress, please use build-winemono.sh for now ***
@@ -39,7 +40,7 @@ clean: clean-build
 define MINGW_TEMPLATE =
 $$(BUILDDIR)/mono-$(1)/Makefile: $$(SRCDIR)/mono/configure $$(BUILDDIR)/.dir
 	mkdir -p $$(@D)
-	cd $$(BUILDDIR)/mono-$(1); CPPFLAGS="-gdwarf-2 -gstrict-dwarf" $$(SRCDIR_ABS)/mono/configure --prefix="$$(BUILDDIR_ABS)/build-cross-$(1)-install" --build=$$(shell $(SRCDIR)/mono/config.guess) --target=$$(MINGW_$(1)) --host=$$(MINGW_$(1)) --with-tls=none --disable-mcs-build --enable-win32-dllmain=yes --with-libgc-threads=win32 PKG_CONFIG=false mono_cv_clang=no
+	cd $$(BUILDDIR)/mono-$(1); CPPFLAGS="-gdwarf-2 -gstrict-dwarf" $$(SRCDIR_ABS)/mono/configure --prefix="$$(BUILDDIR_ABS)/build-cross-$(1)-install" --build=$$(shell $$(SRCDIR)/mono/config.guess) --target=$$(MINGW_$(1)) --host=$$(MINGW_$(1)) --with-tls=none --disable-mcs-build --enable-win32-dllmain=yes --with-libgc-threads=win32 PKG_CONFIG=false mono_cv_clang=no
 	sed -e 's/-lgcc_s//' -i $$(BUILDDIR)/mono-$(1)/libtool
 
 $$(BUILDDIR)/mono-$(1)/.built: $$(BUILDDIR)/mono-$(1)/Makefile $$(MONO_MONO_SRCS)
@@ -80,6 +81,25 @@ clean-tests-$(1):
 .PHONY: clean-tests-$(1)
 clean: clean-tests-$(1)
 
+$$(BUILDDIR)/SDL2-$(1)/Makefile: $$(SRCDIR)/SDL2/configure $$(SRCDIR)/mono/configure
+	mkdir -p $$(@D)
+	cd $$(BUILDDIR)/SDL2-$(1); CC="$$(MINGW_$(1))-gcc -static-libgcc" CXX="$$(MINGW_$(1))-g++ -static-libgcc -static-libstdc++" $$(SRCDIR_ABS)/SDL2/configure --build=$$(shell $$(SRCDIR)/mono/config.guess) --target=$$(MINGW_$(1)) --host=$$(MINGW_$(1)) PKG_CONFIG=false
+
+$$(BUILDDIR)/SDL2-$(1)/.built: $$(BUILDDIR)/SDL2-$(1)/Makefile $$(SDL2_SRCS)
+	+$$(MAKE) -C $$(BUILDDIR)/SDL2-$(1) TARGET=libSDL2-$(1).la
+	touch "$$@"
+IMAGEDIR_BUILD_TARGETS += $$(BUILDDIR)/SDL2-$(1)/.built
+
+SDL2-$(1).dll: $$(BUILDDIR)/SDL2-$(1)/.built
+	mkdir -p "$$(IMAGEDIR)/lib"
+	cp "$$(BUILDDIR)/SDL2-$(1)/build/.libs/SDL2-$(1).dll" "$$(IMAGEDIR)/lib/SDL2-$(1).dll"
+.PHONY: SDL2-$(1).dll
+imagedir-targets: SDL2-$(1).dll
+
+clean-build-SDL2-$(1):
+	rm -rf $$(BUILDDIR)/SDL2-$(1)
+.PHONY: clean-build-SDL2-$(1)
+clean-build: clean-build-SDL2-$(1)
 endef
 
 $(eval $(call MINGW_TEMPLATE,x86))

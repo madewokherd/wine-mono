@@ -32,7 +32,7 @@ def get_updated_files(path):
 	elif res.returncode != 0:
 		print(res.stderr, file=sys.stderr)
 		sys.exit(2)
-	index_file = res.stdout.strip('\n')
+	index_file = os.path.join(path, res.stdout.strip('\n'))
 	result.add(index_file)
 
 	res = subprocess.run(['git', 'rev-parse', '--show-toplevel'],
