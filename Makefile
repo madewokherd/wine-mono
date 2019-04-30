@@ -21,7 +21,7 @@ MONO_MONO_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/mono/mono $(S
 all:
 	echo *** The makefile is a work in progress, please use build-winemono.sh for now ***
 	false
-.PHONY: all clean imagedir-targets
+.PHONY: all clean imagedir-targets tests
 
 $(SRCDIR)/mono/configure: $(SRCDIR)/mono/autogen.sh $(SRCDIR)/mono/configure.ac $(SRCDIR)/mono/libgc/autogen.sh $(SRCDIR)/mono/libgc/configure.ac $(MONO_MAKEFILES)
 	cd $(SRCDIR)/mono; NOCONFIGURE=yes ./autogen.sh
@@ -68,6 +68,18 @@ clean-build-mono-$(1):
 	rm -rf $$(BUILDDIR)/mono-$(1)
 .PHONY: clean-build-mono-$(1)
 clean-build: clean-build-mono-$(1)
+
+$$(OUTDIR)/tests-$(1)/libmono.dll: $$(BUILDDIR)/mono-$(1)/.built
+	+$$(MAKE) -C $$(BUILDDIR)/mono-$(1)/mono/tests libtest.la
+	mkdir -p $$(@D)
+	cp $$(BUILDDIR)/mono-$(1)/mono/tests/.libs/libtest-0.dll $$@
+tests: $$(OUTDIR)/tests-$(1)/libmono.dll
+
+clean-tests-$(1):
+	rm -rf $$(OUTDIR)/tests-$(1)
+.PHONY: clean-tests-$(1)
+clean: clean-tests-$(1)
+
 endef
 
 $(eval $(call MINGW_TEMPLATE,x86))
