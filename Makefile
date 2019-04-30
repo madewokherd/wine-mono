@@ -27,6 +27,7 @@ $(BUILDDIR)/.dir:
 	touch $(BUILDDIR)/.dir
 
 clean-build:
+	rm -f $(BUILDDIR)/.dir
 	rmdir $(BUILDDIR)
 clean: clean-build
 .PHONY: clean-build
