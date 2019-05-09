@@ -20,6 +20,7 @@ MONO_MONO_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/mono/mono $(S
 SDL2_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/SDL2)
 FAUDIO_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/FNA/lib/FAudio)
 SDLIMAGE_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/SDL_image_compact)
+THEORAFILE_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/FNA/lib/Theorafile)
 
 all:
 	echo *** The makefile is a work in progress, please use build-winemono.sh for now ***
@@ -139,6 +140,23 @@ clean-build-SDL_image_compact-$(1):
 	rm -rf $$(BUILDDIR)/SDL_image_compact-$(1)
 .PHONY: clean-build-SDL_image_compact-$(1)
 clean-build: clean-build-SDL_image_compact-$(1)
+
+$$(BUILDDIR)/Theorafile-$(1)/.built: $$(THEORAFILE_SRCS)
+	mkdir -p $$(BUILDDIR)/Theorafile-$(1)
+	+$$(MAKE) -C $$(BUILDDIR_ABS)/Theorafile-$(1) "CC=$$(MINGW_$(1))-gcc" -f $$(SRCDIR_ABS)/FNA/lib/Theorafile/Makefile
+	touch "$$@"
+IMAGEDIR_BUILD_TARGETS += $$(BUILDDIR)/Theorafile-$(1)/.built
+
+libtheorafile-$(1).dll: $$(BUILDDIR)/Theorafile-$(1)/.built
+	mkdir -p "$$(IMAGEDIR)/lib"
+	cp "$$(BUILDDIR)/Theorafile-$(1)/libtheorafile.dll" "$$(IMAGEDIR)/lib/libtheorafile-$(1).dll"
+.PHONY: libtheorafile-$(1).dll
+imagedir-targets: libtheorafile-$(1).dll
+
+clean-build-Theorafile-$(1):
+	rm -rf $$(BUILDDIR)/Theorafile-$(1)
+.PHONY: clean-build-Theorafile-$(1)
+clean-build: clean-build-Theorafile-$(1)
 endef
 
 $(eval $(call MINGW_TEMPLATE,x86))
