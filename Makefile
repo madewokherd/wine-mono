@@ -18,6 +18,7 @@ MONO_MAKEFILES=$(shell cd $(SRCDIR); find mono -name Makefile.am)
 
 MONO_MONO_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/mono/mono $(SRCDIR)/mono/libgc)
 SDL2_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/SDL2)
+FAUDIO_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/FNA/lib/FAudio)
 
 all:
 	echo *** The makefile is a work in progress, please use build-winemono.sh for now ***
@@ -100,6 +101,26 @@ clean-build-SDL2-$(1):
 	rm -rf $$(BUILDDIR)/SDL2-$(1)
 .PHONY: clean-build-SDL2-$(1)
 clean-build: clean-build-SDL2-$(1)
+
+$$(BUILDDIR)/FAudio-$(1)/Makefile: $$(SRCDIR)/FNA/lib/FAudio/CMakeLists.txt $$(BUILDDIR)/SDL2-$(1)/.built
+	mkdir -p $$(@D)
+	cd $$(@D); cmake -DCMAKE_TOOLCHAIN_FILE="$$(SRCDIR_ABS)/toolchain-$(1).cmake" -DCMAKE_C_COMPILER=$$(MINGW_$(1))-gcc -DCMAKE_CXX_COMPILER=$$(MINGW_$(1))-g++ -DSDL2_INCLUDE_DIRS="$$(BUILDDIR_ABS)/SDL2-$(1)/include;$$(SRCDIR_ABS)/SDL2/include" -DSDL2_LIBRARIES="$$(BUILDDIR_ABS)/SDL2-$(1)/build/.libs/libSDL2-$(1).dll.a" $$(SRCDIR_ABS)/FNA/lib/FAudio
+
+$$(BUILDDIR)/FAudio-$(1)/.built: $$(BUILDDIR)/FAudio-$(1)/Makefile $$(FAUDIO_SRCS)
+	+$$(MAKE) -C $$(BUILDDIR)/FAudio-$(1)
+	touch "$$@"
+IMAGEDIR_BUILD_TARGETS += $$(BUILDDIR)/FAudio-$(1)/.built
+
+FAudio-$(1).dll: $$(BUILDDIR)/FAudio-$(1)/.built
+	mkdir -p "$$(IMAGEDIR)/lib"
+	cp "$$(BUILDDIR)/FAudio-$(1)/FAudio.dll" "$$(IMAGEDIR)/lib/FAudio-$(1).dll"
+.PHONY: FAudio-$(1).dll
+imagedir-targets: FAudio-$(1).dll
+
+clean-build-FAudio-$(1):
+	rm -rf $$(BUILDDIR)/FAudio-$(1)
+.PHONY: clean-build-FAudio-$(1)
+clean-build: clean-build-FAudio-$(1)
 endef
 
 $(eval $(call MINGW_TEMPLATE,x86))
