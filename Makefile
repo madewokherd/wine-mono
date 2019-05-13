@@ -238,6 +238,19 @@ mono-image: $(BUILDDIR)/mono-unix/.installed
 .PHONY: mono-image
 imagedir-targets: mono-image
 
+$(BUILDDIR)/mono-unix/.built-clr-tests: $(BUILDDIR)/mono-unix/.built
+	+$(MAKE) -C $(SRCDIR_ABS)/mono/mcs/class test
+	touch $@
+
+tests-clr: $(BUILDDIR)/mono-unix/.built-clr-tests
+	mkdir -p $(OUTDIR)/tests-clr
+	cp $(SRCDIR)/mono/mcs/class/lib/net_4_x/tests/*_test.dll $(SRCDIR)/mono/mcs/class/lib/net_4_x/nunit* $(OUTDIR)/tests-clr
+	mkdir -p $(OUTDIR)/tests-clr/Test/System.Drawing
+	cp -r $(SRCDIR)/mono/mcs/class/System.Drawing/Test/System.Drawing/bitmaps $(OUTDIR)/tests-clr/Test/System.Drawing
+	cp -r $(SRCDIR)/mono/mcs/class/System.Windows.Forms/Test/resources $(OUTDIR)/tests-clr/Test
+.PHONY: tests-clr
+tests: tests-clr
+
 clean-build-mono-unix:
 	rm -rf $(BUILDDIR)/mono-unix $(BUILDDIR)/mono-unix-install $(BUILDDIR)/mono-win32-install
 .PHONY: clean-build-mono-unix
