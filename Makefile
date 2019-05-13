@@ -14,9 +14,13 @@ BUILDDIR_ABS=$(shell cd $(BUILDDIR); pwd)
 IMAGEDIR_ABS=$(shell cd $(IMAGEDIR); pwd)
 OUTDIR_ABS=$(shell cd $(OUTDIR); pwd)
 
+HAVE_MONOLITE=$(shell test -e $(SRCDIR)/monolite/mcs.exe && echo 1 || echo 0)
+
 MONO_MAKEFILES=$(shell cd $(SRCDIR); find mono -name Makefile.am)
 
+MONO_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/mono)
 MONO_MONO_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/mono/mono $(SRCDIR)/mono/libgc)
+MONO_LIBNATIVE_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/mono/native)
 SDL2_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/SDL2)
 FAUDIO_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/FNA/lib/FAudio)
 SDLIMAGE_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/SDL_image_compact)
@@ -182,6 +186,50 @@ endef
 
 $(eval $(call MINGW_TEMPLATE,x86))
 $(eval $(call MINGW_TEMPLATE,x86_64))
+
+$(BUILDDIR)/mono-unix/Makefile: $(SRCDIR)/mono/configure
+	mkdir -p $(@D)
+	cd $(@D) && $(SRCDIR_ABS)/mono/configure --prefix="$(BUILDDIR_ABS)/mono-unix-install" --with-mcs-docs=no --disable-system-aot
+
+$(BUILDDIR)/mono-unix/mono/lib/libSystem.Native.so: $(BUILDDIR)/mono-unix/Makefile $(MONO_LIBNATIVE_SRCS)
+	mkdir -p $(@D)
+	+$(MAKE) -C $(BUILDDIR_ABS)/mono-unix/mono/native
+	cp $(BUILDDIR)/mono-unix/mono/native/.libs/libmono-native.so $@
+
+ifeq ($(HAVE_MONOLITE),1)
+	MONOLITE_PATH=$(SRCDIR_ABS)/monolite
+	MONOLITE_OPTS="EXTERNAL_RUNTIME=MONO_PATH=$(MONOLITE_PATH) $(BUILDDIR_ABS)/mono-unix/mono/mini/mono-sgen" "EXTERNAL_MCS=\$(EXTERNAL_RUNTIME) $(MONOLITE_PATH)/mcs.exe"
+else
+	MONOLITE_OPTS=
+endif
+
+$(BUILDDIR)/mono-unix/.built: $(BUILDDIR)/mono-unix/Makefile $(BUILDDIR)/mono-unix/mono/lib/libSystem.Native.so
+	+$(MAKE) -C $(BUILDDIR_ABS)/mono-unix $(MONOLITE_OPTS)
+	touch $@
+
+$(BUILDDIR)/mono-unix/.built-win32: $(BUILDDIR)/mono-unix/.built
+	+$(MAKE) -C $(BUILDDIR_ABS)/mono-unix $(MONOLITE_OPTS) HOST_PLATFORM=win32
+	touch $@
+
+$(BUILDDIR)/mono-unix/.installed: $(BUILDDIR)/mono-unix/.built $(BUILDDIR)/mono-unix/.built-win32
+	rm -rf $(BUILDDIR)/mono-unix-install $(BUILDDIR)/mono-win32-install
+	+$(MAKE) -C $(BUILDDIR_ABS)/mono-unix $(MONOLIST_OPTS) HOST_PLATFORM=win32 install
+	mv $(BUILDDIR)/mono-unix-install $(BUILDDIR)/mono-win32-install
+	+$(MAKE) -C $(BUILDDIR_ABS)/mono-unix $(MONOLIST_OPTS) install
+	for f in `find $(BUILDDIR)/mono-win32-install|grep -E '\.(mdb|pdb)$$'`; do rm "$$f"; done
+	touch $@
+
+mono-image: $(BUILDDIR)/mono-unix/.installed
+	mkdir -p $(IMAGEDIR)/lib
+	cp -r $(BUILDDIR)/mono-win32-install/etc $(IMAGEDIR)
+	cp -r $(BUILDDIR)/mono-win32-install/lib/mono $(IMAGEDIR)/lib
+.PHONY: mono-image
+imagedir-targets: mono-image
+
+clean-build-mono-unix:
+	rm -rf $(BUILDDIR)/mono-unix $(BUILDDIR)/mono-unix-install $(BUILDDIR)/mono-win32-install
+.PHONY: clean-build-mono-unix
+clean-build: clean-build-mono-unix
 
 $(BUILDDIR)/.imagedir-built: $(IMAGEDIR_BUILD_TARGETS)
 	rm -rf "$(IMAGEDIR)"
