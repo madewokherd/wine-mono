@@ -1,4 +1,5 @@
 
+# configuration
 SRCDIR=$(dir $(MAKEFILE_LIST))
 BUILDDIR=$(SRCDIR)/build
 IMAGEDIR=$(SRCDIR)/image
@@ -9,6 +10,7 @@ MINGW_x86_64=x86_64-w64-mingw32
 
 MSI_VERSION=4.8.99
 
+# variables
 SRCDIR_ABS=$(shell cd $(SRCDIR); pwd)
 BUILDDIR_ABS=$(shell cd $(BUILDDIR); pwd)
 IMAGEDIR_ABS=$(shell cd $(IMAGEDIR); pwd)
@@ -45,7 +47,9 @@ clean-build:
 clean: clean-build
 .PHONY: clean-build
 
+# mingw targets
 define MINGW_TEMPLATE =
+# libmono dll's
 $$(BUILDDIR)/mono-$(1)/Makefile: $$(SRCDIR)/mono/configure $$(BUILDDIR)/.dir
 	mkdir -p $$(@D)
 	cd $$(BUILDDIR)/mono-$(1); CPPFLAGS="-gdwarf-2 -gstrict-dwarf" $$(SRCDIR_ABS)/mono/configure --prefix="$$(BUILDDIR_ABS)/build-cross-$(1)-install" --build=$$(shell $$(SRCDIR)/mono/config.guess) --target=$$(MINGW_$(1)) --host=$$(MINGW_$(1)) --with-tls=none --disable-mcs-build --enable-win32-dllmain=yes --with-libgc-threads=win32 PKG_CONFIG=false mono_cv_clang=no
@@ -78,17 +82,20 @@ clean-build-mono-$(1):
 .PHONY: clean-build-mono-$(1)
 clean-build: clean-build-mono-$(1)
 
-$$(OUTDIR)/tests-$(1)/libmono.dll: $$(BUILDDIR)/mono-$(1)/.built
+# mono libtest.dll
+$$(OUTDIR)/tests-$(1)/libtest.dll: $$(BUILDDIR)/mono-$(1)/.built
 	+$$(MAKE) -C $$(BUILDDIR)/mono-$(1)/mono/tests libtest.la
 	mkdir -p $$(@D)
 	cp $$(BUILDDIR)/mono-$(1)/mono/tests/.libs/libtest-0.dll $$@
-tests: $$(OUTDIR)/tests-$(1)/libmono.dll
+tests: $$(OUTDIR)/tests-$(1)/libtest.dll
 
 clean-tests-$(1):
 	rm -rf $$(OUTDIR)/tests-$(1)
 .PHONY: clean-tests-$(1)
 clean: clean-tests-$(1)
 
+# FNA native deps
+# SDL2
 $$(BUILDDIR)/SDL2-$(1)/Makefile: $$(SRCDIR)/SDL2/configure $$(SRCDIR)/mono/configure
 	mkdir -p $$(@D)
 	cd $$(BUILDDIR)/SDL2-$(1); CC="$$(MINGW_$(1))-gcc -static-libgcc" CXX="$$(MINGW_$(1))-g++ -static-libgcc -static-libstdc++" $$(SRCDIR_ABS)/SDL2/configure --build=$$(shell $$(SRCDIR)/mono/config.guess) --target=$$(MINGW_$(1)) --host=$$(MINGW_$(1)) PKG_CONFIG=false
@@ -109,6 +116,7 @@ clean-build-SDL2-$(1):
 .PHONY: clean-build-SDL2-$(1)
 clean-build: clean-build-SDL2-$(1)
 
+# FAudio
 $$(BUILDDIR)/FAudio-$(1)/Makefile: $$(SRCDIR)/FNA/lib/FAudio/CMakeLists.txt $$(BUILDDIR)/SDL2-$(1)/.built
 	mkdir -p $$(@D)
 	cd $$(@D); cmake -DCMAKE_TOOLCHAIN_FILE="$$(SRCDIR_ABS)/toolchain-$(1).cmake" -DCMAKE_C_COMPILER=$$(MINGW_$(1))-gcc -DCMAKE_CXX_COMPILER=$$(MINGW_$(1))-g++ -DSDL2_INCLUDE_DIRS="$$(BUILDDIR_ABS)/SDL2-$(1)/include;$$(SRCDIR_ABS)/SDL2/include" -DSDL2_LIBRARIES="$$(BUILDDIR_ABS)/SDL2-$(1)/build/.libs/libSDL2-$(1).dll.a" $$(SRCDIR_ABS)/FNA/lib/FAudio
@@ -129,6 +137,7 @@ clean-build-FAudio-$(1):
 .PHONY: clean-build-FAudio-$(1)
 clean-build: clean-build-FAudio-$(1)
 
+# SDL2_image
 $$(BUILDDIR)/SDL_image_compact-$(1)/.built: $$(BUILDDIR)/SDL2-$(1)/.built $$(SDLIMAGE_SRCS)
 	mkdir -p $$(BUILDDIR)/SDL_image_compact-$(1)
 	+$$(MAKE) -C $$(BUILDDIR_ABS)/SDL_image_compact-$(1) "CC=$$(MINGW_$(1))-gcc" SDL_LDFLAGS="$$(BUILDDIR_ABS)/SDL2-$(1)/build/.libs/libSDL2-$(1).dll.a" SDL_CFLAGS="-I$$(BUILDDIR_ABS)/SDL2-$(1)/include -I$$(SRCDIR_ABS)/SDL2/include" WICBUILD=1 -f $$(SRCDIR_ABS)/SDL_image_compact/Makefile
@@ -146,6 +155,7 @@ clean-build-SDL_image_compact-$(1):
 .PHONY: clean-build-SDL_image_compact-$(1)
 clean-build: clean-build-SDL_image_compact-$(1)
 
+# libtheorafile
 $$(BUILDDIR)/Theorafile-$(1)/.built: $$(THEORAFILE_SRCS)
 	mkdir -p $$(BUILDDIR)/Theorafile-$(1)
 	+$$(MAKE) -C $$(BUILDDIR_ABS)/Theorafile-$(1) "CC=$$(MINGW_$(1))-gcc" -f $$(SRCDIR_ABS)/FNA/lib/Theorafile/Makefile
@@ -163,6 +173,7 @@ clean-build-Theorafile-$(1):
 .PHONY: clean-build-Theorafile-$(1)
 clean-build: clean-build-Theorafile-$(1)
 
+# libmojoshader
 $$(BUILDDIR)/MojoShader-$(1)/Makefile: $$(SRCDIR)/FNA/lib/MojoShader/CMakeLists.txt
 	mkdir -p $$(@D)
 	cd $$(@D); cmake -DCMAKE_TOOLCHAIN_FILE="$$(SRCDIR_ABS)/toolchain-$(1).cmake" -DCMAKE_C_COMPILER=$$(MINGW_$(1))-gcc -DCMAKE_CXX_COMPILER=$$(MINGW_$(1))-g++ -DBUILD_SHARED=ON -DPROFILE_D3D=OFF -DPROFILE_BYTECODE=OFF -DPROFILE_ARB1=OFF -DPROFILE_ARB1_NV=OFF -DPROFILE_METAL=OFF -DCOMPILER_SUPPORT=OFF -DFLIP_VIEWPORT=ON -DDEPTH_CLIPPING=ON -DXNA4_VERTEXTEXTURE=ON $$(SRCDIR_ABS)/FNA/lib/MojoShader
@@ -187,6 +198,7 @@ endef
 $(eval $(call MINGW_TEMPLATE,x86))
 $(eval $(call MINGW_TEMPLATE,x86_64))
 
+# mono native/classlib build
 $(BUILDDIR)/mono-unix/Makefile: $(SRCDIR)/mono/configure
 	mkdir -p $(@D)
 	cd $(@D) && $(SRCDIR_ABS)/mono/configure --prefix="$(BUILDDIR_ABS)/mono-unix-install" --with-mcs-docs=no --disable-system-aot
