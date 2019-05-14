@@ -94,6 +94,11 @@ clean-tests-$(1):
 .PHONY: clean-tests-$(1)
 clean: clean-tests-$(1)
 
+tests-runtime-$(1): $$(BUILDDIR)/mono-unix/mono/tests/.built
+	mkdir -p $$(OUTDIR)/tests-$(1)
+	cp $$(BUILDDIR)/mono-unix/mono/tests/*.exe $$(BUILDDIR)/mono-unix/mono/tests/*.dll $$(OUTDIR)/tests-$(1)
+tests: tests-runtime-$(1)
+
 # FNA native deps
 # SDL2
 $$(BUILDDIR)/SDL2-$(1)/Makefile: $$(SRCDIR)/SDL2/configure $$(SRCDIR)/mono/configure
@@ -250,6 +255,15 @@ tests-clr: $(BUILDDIR)/mono-unix/.built-clr-tests
 	cp -r $(SRCDIR)/mono/mcs/class/System.Windows.Forms/Test/resources $(OUTDIR)/tests-clr/Test
 .PHONY: tests-clr
 tests: tests-clr
+
+clean-tests-clr:
+	rm -rf $(OUTDIR)/tests-clr
+.PHONY: clean-tests-clr
+clean: clean-tests-clr
+
+$(BUILDDIR)/mono-unix/mono/tests/.built: $(BUILDDIR)/mono-unix/.built
+	+$(MAKE) -C $(@D) test-local
+	touch $@
 
 clean-build-mono-unix:
 	rm -rf $(BUILDDIR)/mono-unix $(BUILDDIR)/mono-unix-install $(BUILDDIR)/mono-win32-install
