@@ -26,6 +26,7 @@ MONO_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/mono)
 MONO_MONO_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/mono/mono $(SRCDIR)/mono/libgc)
 MONO_LIBNATIVE_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/mono/native)
 MONO_BASIC_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/mono-basic)
+FNA_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/FNA)
 SDL2_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/SDL2)
 FAUDIO_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/FNA/lib/FAudio)
 SDLIMAGE_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/SDL_image_compact)
@@ -329,6 +330,21 @@ System.Windows.Forms.dll: $(SRCDIR)/winforms/src/System.Windows.Forms/src/System
 .PHONY: System.Windows.Forms.dll
 imagedir-targets: System.Windows.Forms.dll
 endif
+
+# FNA
+$(SRCDIR)/FNA/bin/Release/FNA.dll: $(BUILDDIR)/mono-unix/.installed $(FNA_SRCS)
+	+$(MONO_ENV) $(MAKE) -C $(SRCDIR)/FNA release
+IMAGEDIR_BUILD_TARGETS += $(SRCDIR)/FNA/bin/Release/FNA.dll
+
+FNA.dll: $(SRCDIR)/FNA/bin/Release/FNA.dll
+	$(MONO_ENV) gacutil -i $(SRCDIR)/FNA/bin/Release/FNA.dll -root $(IMAGEDIR)/lib
+.PHONY: FNA.dll
+imagedir-targets: FNA.dll
+
+clean-FNA:
+	+$(MAKE) -C $(SRCDIR)/FNA clean
+.PHONY: clean-FNA
+clean: clean-FNA
 
 $(BUILDDIR)/.imagedir-built: $(IMAGEDIR_BUILD_TARGETS)
 	rm -rf "$(IMAGEDIR)"
