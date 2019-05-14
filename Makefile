@@ -376,6 +376,33 @@ clean-FNA-abi:
 .PHONY: clean-FNA-abi
 clean: clean-FNA-abi
 
+# support file structure
+# machine.config
+$(foreach arch,Framework Framework64,$(foreach version,v1.1.4322 v2.0.50727,$(BUILDDIR)/image-support/Microsoft.NET/$(arch)/$(version)/CONFIG/machine.config)): $(BUILDDIR)/mono-unix/.installed
+	mkdir -p $(@D)
+	cp $(BUILDDIR)/mono-unix-install/etc/mono/2.0/machine.config $@
+IMAGE_SUPPORT_FILES += $(foreach arch,Framework Framework64,$(foreach version,v1.1.4322 v2.0.50727,$(BUILDDIR)/image-support/Microsoft.NET/$(arch)/$(version)/CONFIG/machine.config))
+
+$(foreach arch,Framework Framework64,$(BUILDDIR)/image-support/Microsoft.NET/$(arch)/v4.0.30319/CONFIG/machine.config): $(BUILDDIR)/mono-unix/.installed
+	mkdir -p $(@D)
+	cp $(BUILDDIR)/mono-unix-install/etc/mono/4.0/machine.config $@
+IMAGE_SUPPORT_FILES += $(foreach arch,Framework Framework64,$(BUILDDIR)/image-support/Microsoft.NET/$(arch)/v4.0.30319/CONFIG/machine.config)
+
+# mscorlib.dll
+$(foreach arch,Framework Framework64,$(foreach version,v1.1.4322 v2.0.50727,$(BUILDDIR)/image-support/Microsoft.NET/$(arch)/$(version)/mscorlib.dll)): $(BUILDDIR)/mono-unix/.installed
+	mkdir -p $(@D)
+	cp $(BUILDDIR)/mono-unix-install/lib/mono/2.0-api/mscorlib.dll $@
+IMAGE_SUPPORT_FILES += $(foreach arch,Framework Framework64,$(foreach version,v1.1.4322 v2.0.50727,$(BUILDDIR)/image-support/Microsoft.NET/$(arch)/$(version)/mscorlib.dll))
+
+$(foreach arch,Framework Framework64,$(BUILDDIR)/image-support/Microsoft.NET/$(arch)/v4.0.30319/mscorlib.dll): $(BUILDDIR)/mono-unix/.installed
+	mkdir -p $(@D)
+	cp $(BUILDDIR)/mono-unix-install/lib/mono/4.0/mscorlib.dll $@
+IMAGE_SUPPORT_FILES += $(foreach arch,Framework Framework64,$(BUILDDIR)/image-support/Microsoft.NET/$(arch)/v4.0.30319/mscorlib.dll)
+
+# temporary target so the targets can be tested
+image-support: $(IMAGE_SUPPORT_FILES)
+.PHONY: image-support
+
 $(BUILDDIR)/.imagedir-built: $(IMAGEDIR_BUILD_TARGETS)
 	rm -rf "$(IMAGEDIR)"
 	+$(MAKE) imagedir-targets
