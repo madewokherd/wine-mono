@@ -8,6 +8,8 @@ OUTDIR=$(SRCDIR)
 MINGW_x86=i686-w64-mingw32
 MINGW_x86_64=x86_64-w64-mingw32
 
+ENABLE_DOTNET_CORE_WINFORMS=1
+
 MSI_VERSION=4.8.99
 
 # variables
@@ -29,6 +31,7 @@ FAUDIO_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/FNA/lib/FAudio)
 SDLIMAGE_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/SDL_image_compact)
 THEORAFILE_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/FNA/lib/Theorafile)
 MOJOSHADER_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/FNA/lib/MojoShader)
+WINFORMS_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/winforms)
 
 MONO_BIN_PATH=$(BUILDDIR_ABS)/mono-unix-install/bin
 MONO_LD_PATH=$(BUILDDIR_ABS)/mono-unix-install/lib
@@ -241,7 +244,12 @@ $(BUILDDIR)/mono-unix/.installed: $(BUILDDIR)/mono-unix/.built $(BUILDDIR)/mono-
 	mv $(BUILDDIR)/mono-unix-install $(BUILDDIR)/mono-win32-install
 	+$(MAKE) -C $(BUILDDIR_ABS)/mono-unix $(MONOLIST_OPTS) install
 	for f in `find $(BUILDDIR)/mono-win32-install|grep -E '\.(mdb|pdb)$$'`; do rm "$$f"; done
+ifeq (1,$(ENABLE_DOTNET_CORE_WINFORMS))
+	rm -rf $(BUILDDIR)/mono-win32-install/lib/mono/gac/Accessibility
+	rm -rf $(BUILDDIR)/mono-win32-install/lib/mono/gac/System.Windows.Forms
+endif
 	touch $@
+IMAGEDIR_BUILD_TARGETS += $(BUILDDIR)/mono-unix/.installed
 
 mono-image: $(BUILDDIR)/mono-unix/.installed
 	mkdir -p $(IMAGEDIR)/lib
@@ -300,6 +308,27 @@ clean-build-mono-basic:
 	rm -rf $(BUILDDIR)/mono-basic-install
 .PHONY: clean-build-mono-basic
 clean-build: clean-build-mono-basic
+
+# dotnet core winforms
+$(SRCDIR)/winforms/src/Accessibility/src/Accessibility.dll: $(BUILDDIR)/mono-unix/.installed $(WINFORMS_SRCS)
+	+$(MONO_ENV) $(MAKE) -C $(@D) MONO_PREFIX=$(BUILDDIR_ABS)/mono-unix-install WINE_MONO_SRCDIR=$(SRCDIR_ABS)
+
+$(SRCDIR)/winforms/src/System.Windows.Forms/src/System.Windows.Forms.dll: $(BUILDDIR)/mono-unix/.installed $(WINFORMS_SRCS)
+	+$(MONO_ENV) $(MAKE) -C $(@D) MONO_PREFIX=$(BUILDDIR_ABS)/mono-unix-install WINE_MONO_SRCDIR=$(SRCDIR_ABS)
+
+ifeq (1,$(ENABLE_DOTNET_CORE_WINFORMS))
+IMAGEDIR_BUILD_TARGETS += $(SRCDIR)/winforms/src/System.Windows.Forms/src/System.Windows.Forms.dll
+
+Accessibility.dll: $(SRCDIR)/winforms/src/Accessibility/src/Accessibility.dll
+	$(MONO_ENV) gacutil -i $(SRCDIR)/winforms/src/Accessibility/src/Accessibility.dll -root $(IMAGEDIR)/lib
+.PHONY: Accessibility.dll
+imagedir-targets: Accessibility.dll
+
+System.Windows.Forms.dll: $(SRCDIR)/winforms/src/System.Windows.Forms/src/System.Windows.Forms.dll
+	$(MONO_ENV) gacutil -i $(SRCDIR)/winforms/src/System.Windows.Forms/src/System.Windows.Forms.dll -root $(IMAGEDIR)/lib
+.PHONY: System.Windows.Forms.dll
+imagedir-targets: System.Windows.Forms.dll
+endif
 
 $(BUILDDIR)/.imagedir-built: $(IMAGEDIR_BUILD_TARGETS)
 	rm -rf "$(IMAGEDIR)"

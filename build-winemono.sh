@@ -259,10 +259,10 @@ build_cli ()
 
 	# build .NET Core winforms
 	cd "$SRCDIR/winforms/src/Accessibility/src"
-	make WINE_MONO_BUILDDIR="$BUILDDIR" WINE_MONO_SRCDIR="$SRCDIR" || exit 1
+	make MONO_PREFIX="$BUILDDIR"/build-cross-cli-install WINE_MONO_SRCDIR="$SRCDIR" || exit 1
 	gacutil -i Accessibility.dll -root "$BUILDDIR/build-cross-cli-win32-install/lib" || exit 1
 	cd "$SRCDIR/winforms/src/System.Windows.Forms/src"
-	make WINE_MONO_BUILDDIR="$BUILDDIR" WINE_MONO_SRCDIR="$SRCDIR" || exit 1
+	make MONO_PREFIX="$BUILDDIR"/build-cross-cli-install WINE_MONO_SRCDIR="$SRCDIR" || exit 1
 	gacutil -i System.Windows.Forms.dll -root "$BUILDDIR/build-cross-cli-win32-install/lib" || exit 1
 
 	# build FNA
