@@ -361,6 +361,21 @@ clean-FNA.NetStub:
 .PHONY: clean-FNA.NetStub
 clean: clean-FNA.NetStub
 
+$(SRCDIR)/FNA/abi/.built: $(SRCDIR)/FNA/bin/Release/FNA.dll $(SRCDIR)/FNA.NetStub/bin/Strongname/FNA.NetStub.dll
+	+$(MONO_ENV) $(MAKE) -C $(SRCDIR)/FNA/abi
+	touch $@
+IMAGEDIR_BUILD_TARGETS += $(SRCDIR)/FNA/abi/.built
+
+Microsoft.Xna.Framework.dll: $(SRCDIR)/FNA/abi/.built
+	for i in $(SRCDIR)/FNA/abi/Microsoft.Xna.*.dll; do $(MONO_ENV) gacutil -i $$i -root $(IMAGEDIR)/lib; done
+.PHONY: Microsoft.Xna.Framework.dll
+imagedir-targets: Microsoft.Xna.Framework.dll
+
+clean-FNA-abi:
+	+$(MAKE) -C $(SRCDIR)/FNA/abi clean
+.PHONY: clean-FNA-abi
+clean: clean-FNA-abi
+
 $(BUILDDIR)/.imagedir-built: $(IMAGEDIR_BUILD_TARGETS)
 	rm -rf "$(IMAGEDIR)"
 	+$(MAKE) imagedir-targets
