@@ -23,11 +23,18 @@ MONO_MAKEFILES=$(shell cd $(SRCDIR); find mono -name Makefile.am)
 MONO_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/mono)
 MONO_MONO_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/mono/mono $(SRCDIR)/mono/libgc)
 MONO_LIBNATIVE_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/mono/native)
+MONO_BASIC_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/mono-basic)
 SDL2_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/SDL2)
 FAUDIO_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/FNA/lib/FAudio)
 SDLIMAGE_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/SDL_image_compact)
 THEORAFILE_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/FNA/lib/Theorafile)
 MOJOSHADER_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/FNA/lib/MojoShader)
+
+MONO_BIN_PATH=$(BUILDDIR_ABS)/mono-unix-install/bin
+MONO_LD_PATH=$(BUILDDIR_ABS)/mono-unix-install/lib
+MONO_GAC_PREFIX=$(BUILDDIR_ABS)/mono-unix-install
+MONO_CFG_DIR=$(BUILDDIR_ABS)/mono-unix-install/etc
+MONO_ENV=PATH="$(MONO_BIN_PATH):$$PATH" LD_LIBRARY_PATH="$(MONO_LD_PATH):$$LD_LIBRARY_PATH" MONO_GAC_PREFIX="$(MONO_GAC_PREFIX)" MONO_CFG_DIR="$(MONO_CFG_DIR)"
 
 all:
 	echo *** The makefile is a work in progress, please use build-winemono.sh for now ***
@@ -269,6 +276,30 @@ clean-build-mono-unix:
 	rm -rf $(BUILDDIR)/mono-unix $(BUILDDIR)/mono-unix-install $(BUILDDIR)/mono-win32-install
 .PHONY: clean-build-mono-unix
 clean-build: clean-build-mono-unix
+
+$(SRCDIR)/mono-basic/build/config.make: $(SRCDIR)/mono-basic/configure $(BUILDDIR)/mono-unix/.installed
+	cd $(SRCDIR)/mono-basic && $(MONO_ENV) ./configure --prefix=$(BUILDDIR_ABS)/mono-basic-install
+
+$(SRCDIR)/mono-basic/.built: $(SRCDIR)/mono-basic/build/config.make $(MONO_BASIC_SRCS)
+	+$(MONO_ENV) $(MAKE) -C $(SRCDIR)/mono-basic PROFILE_VBNC_FLAGS=/sdkpath:$(BUILDDIR_ABS)/mono-unix-install/lib/mono/4.5-api
+	touch $@
+
+$(SRCDIR)/mono-basic/.installed: $(SRCDIR)/mono-basic/.built
+	+$(MONO_ENV) $(MAKE) -C $(SRCDIR)/mono-basic PROFILE_VBNC_FLAGS=/sdkpath:$(BUILDDIR_ABS)/mono-unix-install/lib/mono/4.5-api install
+	touch $@
+IMAGEDIR_BUILD_TARGETS += $(SRCDIR)/mono-basic/.installed
+
+mono-basic-image: $(SRCDIR)/mono-basic/.installed
+	mkdir -p $(IMAGEDIR)/lib
+	cp -r $(BUILDDIR)/mono-basic-install/lib/mono $(IMAGEDIR)/lib
+.PHONY: mono-basic-image
+imagedir-targets: mono-basic-image
+
+# FIXME: make clean for mono-basic source tree?
+clean-build-mono-basic:
+	rm -rf $(BUILDDIR)/mono-basic-install
+.PHONY: clean-build-mono-basic
+clean-build: clean-build-mono-basic
 
 $(BUILDDIR)/.imagedir-built: $(IMAGEDIR_BUILD_TARGETS)
 	rm -rf "$(IMAGEDIR)"
