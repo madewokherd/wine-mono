@@ -27,6 +27,7 @@ MONO_MONO_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/mono/mono $(S
 MONO_LIBNATIVE_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/mono/native)
 MONO_BASIC_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/mono-basic)
 FNA_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/FNA)
+FNA_NETSTUB_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/FNA.NetStub)
 SDL2_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/SDL2)
 FAUDIO_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/FNA/lib/FAudio)
 SDLIMAGE_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/SDL_image_compact)
@@ -345,6 +346,20 @@ clean-FNA:
 	+$(MAKE) -C $(SRCDIR)/FNA clean
 .PHONY: clean-FNA
 clean: clean-FNA
+
+$(SRCDIR)/FNA.NetStub/bin/Strongname/FNA.NetStub.dll: $(BUILDDIR)/mono-unix/.installed $(SRCDIR)/FNA/bin/Release/FNA.dll $(FNA_SRCS)
+	+$(MONO_ENV) $(MAKE) -C $(SRCDIR)/FNA.NetStub
+IMAGEDIR_BUILD_TARGETS += $(SRCDIR)/FNA.NetStub/bin/Strongname/FNA.NetStub.dll
+
+FNA.NetStub.dll: $(SRCDIR)/FNA.NetStub/bin/Strongname/FNA.NetStub.dll
+	$(MONO_ENV) gacutil -i $(SRCDIR)/FNA.NetStub/bin/Strongname/FNA.NetStub.dll -root $(IMAGEDIR)/lib
+.PHONY: FNA.NetStub.dll
+imagedir-targets: FNA.NetStub.dll
+
+clean-FNA.NetStub:
+	+$(MAKE) -C $(SRCDIR)/FNA.NetStub clean
+.PHONY: clean-FNA.NetStub
+clean: clean-FNA.NetStub
 
 $(BUILDDIR)/.imagedir-built: $(IMAGEDIR_BUILD_TARGETS)
 	rm -rf "$(IMAGEDIR)"
