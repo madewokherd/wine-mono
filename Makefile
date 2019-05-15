@@ -259,6 +259,16 @@ $(BUILDDIR)/mono-unix/.built-win32: $(BUILDDIR)/mono-unix/.built
 	+$(MAKE) -C $(BUILDDIR_ABS)/mono-unix $(MONOLITE_OPTS) HOST_PLATFORM=win32
 	touch $@
 
+mscorlib.dll: $(BUILDDIR)/mono-unix/Makefile
+	+$(MAKE) -C $(SRCDIR_ABS)/mono/mcs/class/corlib $(MONOLITE_OPTS) HOST_PLATFORM=win32
+	cp $(SRCDIR)/mono/mcs/class/lib/net_4_x-win32/mscorlib.dll $(IMAGEDIR)/lib/mono/4.5
+.PHONY: mscorlib.dll
+
+%.dll: $(SRCDIR)/mono/mcs/class/%/Makefile $(BUILDDIR)/mono-unix/Makefile
+	+$(MAKE) -C $(SRCDIR_ABS)/mono/mcs/class/$(basename $@) $(MONOLITE_OPTS) HOST_PLATFORM=win32
+	$(MONO_ENV) gacutil -i $(SRCDIR)/mono/mcs/class/lib/net_4_x-win32/$@ -root $(IMAGEDIR)/lib
+.PHONY: mscorlib.dll
+
 $(BUILDDIR)/mono-unix/.installed: $(BUILDDIR)/mono-unix/.built $(BUILDDIR)/mono-unix/.built-win32
 	rm -rf $(BUILDDIR)/mono-unix-install $(BUILDDIR)/mono-win32-install
 	+$(MAKE) -C $(BUILDDIR_ABS)/mono-unix $(MONOLIST_OPTS) HOST_PLATFORM=win32 install
