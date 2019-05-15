@@ -8,6 +8,8 @@ OUTDIR=$(SRCDIR)
 MINGW_x86=i686-w64-mingw32
 MINGW_x86_64=x86_64-w64-mingw32
 
+WINE=wine
+
 ENABLE_DOTNET_CORE_WINFORMS=1
 
 MSI_VERSION=4.8.99
@@ -388,6 +390,12 @@ $(foreach arch,Framework Framework64,$(BUILDDIR)/image-support/Microsoft.NET/$(a
 	cp $(BUILDDIR)/mono-unix-install/etc/mono/4.0/machine.config $@
 IMAGE_SUPPORT_FILES += $(foreach arch,Framework Framework64,$(BUILDDIR)/image-support/Microsoft.NET/$(arch)/v4.0.30319/CONFIG/machine.config)
 
+# security.config
+$(foreach arch,Framework Framework64,$(BUILDDIR)/image-support/Microsoft.NET/$(arch)/v2.0.50727/CONFIG/security.config): $(SRCDIR)/security.config
+	mkdir -p $(@D)
+	cp $(SRCDIR)/security.config $@
+IMAGE_SUPPORT_FILES += $(foreach arch,Framework Framework64,$(BUILDDIR)/image-support/Microsoft.NET/$(arch)/v2.0.50727/CONFIG/security.config)
+
 # mscorlib.dll
 $(foreach arch,Framework Framework64,$(foreach version,v1.1.4322 v2.0.50727,$(BUILDDIR)/image-support/Microsoft.NET/$(arch)/$(version)/mscorlib.dll)): $(BUILDDIR)/mono-unix/.installed
 	mkdir -p $(@D)
@@ -410,9 +418,35 @@ $(foreach arch,Framework Framework64,$(BUILDDIR)/image-support/Microsoft.NET/$(a
 	$(MONO_ENV) mcs $(SRCDIR)/tools/csc-wrapper/csc-wrapper.cs /d:VERSION40 -out:$@ -r:Mono.Posix
 IMAGE_SUPPORT_FILES += $(foreach arch,Framework Framework64,$(BUILDDIR)/image-support/Microsoft.NET/$(arch)/v4.0.30319/csc.exe)
 
-# temporary target so the targets can be tested
-image-support: $(IMAGE_SUPPORT_FILES)
-.PHONY: image-support
+$(BUILDDIR)/.supportemptydirs: $(SRCDIR)/Makefile
+	mkdir -p $(BUILDDIR)/image-support/Microsoft.NET/Framework/v3.0/wpf
+	mkdir -p $(BUILDDIR)/image-support/Microsoft.NET/Framework/v3.0/"windows communication foundation"
+	mkdir -p $(BUILDDIR)/image-support/Microsoft.NET/Framework64/v3.0/wpf
+	mkdir -p $(BUILDDIR)/image-support/Microsoft.NET/Framework64/v3.0/"windows communication foundation"
+	touch $@
+IMAGE_SUPPORT_FILES += $(BUILDDIR)/.supportemptydirs
+
+$(BUILDDIR)/genfilehashes.exe: $(BUILDDIR)/mono-unix/.installed $(SRCDIR)/tools/genfilehashes/genfilehashes.cs
+	$(MONO_ENV) mcs $(SRCDIR)/tools/genfilehashes/genfilehashes.cs -out:$@ -r:Mono.Posix
+
+clean-genfilehashes:
+	rm -rf $(BUILDDIR)/genfilehashes.exe
+.PHONY: clean-genfilehashes
+clean-build: clean-genfilehashes
+
+clean-image-support:
+	rm -rf $(BUILDDIR)/image-support $(BUILDDIR)/.supportemptydirs
+.PHONY: clean-image-support
+clean-build: clean-image-support
+
+$(BUILDDIR)/.supportmsitables-built: $(IMAGE_SUPPORT_FILES) $(SRCDIR)/msi-tables/support/*.idt $(SRCDIR)/tools/build-msi-tables.sh $(BUILDDIR)/genfilehashes.exe $(SRCDIR)/Makefile
+	$(MONO_ENV) WHICHMSI=support MSI_VERSION=$(MSI_VERSION) CABFILENAME=$(BUILDDIR_ABS)/winemono-support.cab TABLEDIR=$(BUILDDIR_ABS)/msi-tables/support TABLESRCDIR=$(SRCDIR_ABS)/msi-tables/support IMAGEDIR=$(BUILDDIR_ABS)/image-support ROOTDIR=WindowsFolder CABINET=winemono-support.cab GENFILEHASHES=$(BUILDDIR_ABS)/genfilehashes.exe WINE=$(WINE) sh $(SRCDIR)/tools/build-msi-tables.sh
+	touch $@
+
+clean-msi-tables:
+	rm -rf $(BUILDDIR)/msi-tables $(BUILDDIR)/.supportmsitables-built
+.PHONY: clean-msi-tables
+clean-build: clean-msi-tables
 
 $(BUILDDIR)/.imagedir-built: $(IMAGEDIR_BUILD_TARGETS)
 	rm -rf "$(IMAGEDIR)"
