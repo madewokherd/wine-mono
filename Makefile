@@ -448,6 +448,22 @@ clean-msi-tables:
 .PHONY: clean-msi-tables
 clean-build: clean-msi-tables
 
+$(BUILDDIR)/winemono-support.msi: $(BUILDDIR)/.supportmsitables-built
+	rm -f "$@"
+	$(WINE) winemsibuilder -i '$(shell $(WINE) winepath -w $@)' $(BUILDDIR)/msi-tables/support/*.idt
+IMAGEDIR_BUILD_TARGETS += $(BUILDDIR)/winemono-support.msi
+
+clean-support-msi:
+	rm -rf $(BUILDDIR)/winemono-support.msi
+.PHONY: clean-support-msi
+clean-build: clean-support-msi
+
+winemono-support.msi winemono-support.cab: $(BUILDDIR)/winemono-support.msi
+	mkdir -p $(IMAGEDIR)/support/
+	cp $(BUILDDIR)/winemono-support.cab $(BUILDDIR)/winemono-support.msi $(IMAGEDIR)/support/
+.PHONY: winemono-support.msi winemono-support.cab
+imagedir-targets: winemono-support.msi
+
 $(BUILDDIR)/.imagedir-built: $(IMAGEDIR_BUILD_TARGETS)
 	rm -rf "$(IMAGEDIR)"
 	+$(MAKE) imagedir-targets
