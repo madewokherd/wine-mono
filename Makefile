@@ -65,7 +65,7 @@ define newline =
 endef
 
 help:
-	@echo -e '$(subst $(newline),\n,$(HELP_TEXT))'
+	@echo -e '$(subst $(newline),\n,$(call HELP_TEXT))'
 
 dev-setup:
 	for i in `$(WINE) uninstaller --list|grep '|||Wine Mono'|sed -e 's/|||.*$$//'`; do $(WINE) uninstaller --remove "$$i"; done
