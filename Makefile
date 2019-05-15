@@ -48,6 +48,23 @@ CP_R=python $(SRCDIR_ABS)/tools/copy_recursive.py
 all: image targz msi
 .PHONY: all clean imagedir-targets tests
 
+define HELP_TEXT =
+The following targets are defined:
+	image:        Build the image/ directory, for direct use as a runtime by Wine.
+	msi:	      Build wine-mono-$(MSI_VERSION).msi
+	targz:	      Build wine-mono-bin-$(MSI_VERSION).tar.gz
+	tests:        Build the mono tests.
+	System.dll:   Build a single dll and add it to the image/ directory.
+endef
+
+define newline =
+
+
+endef
+
+help:
+	@echo -e '$(subst $(newline),\n,$(HELP_TEXT))'
+
 $(SRCDIR)/mono/configure: $(SRCDIR)/mono/autogen.sh $(SRCDIR)/mono/configure.ac $(SRCDIR)/mono/libgc/autogen.sh $(SRCDIR)/mono/libgc/configure.ac $(MONO_MAKEFILES)
 	cd $(SRCDIR)/mono; NOCONFIGURE=yes ./autogen.sh
 
