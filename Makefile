@@ -464,6 +464,13 @@ winemono-support.msi winemono-support.cab: $(BUILDDIR)/winemono-support.msi
 .PHONY: winemono-support.msi winemono-support.cab
 imagedir-targets: winemono-support.msi
 
+support-fakedllsinf: $(SRCDIR)/dotnetfakedlls.inf
+	mkdir -p $(IMAGEDIR)/support/
+	cp $(SRCDIR)/dotnetfakedlls.inf $(IMAGEDIR)/support/
+.PHONY: support-fakedllsinf
+imagedir-targets: support-fakedllsinf
+IMAGEDIR_BUILD_TARGETS += $(SRCDIR)/dotnetfakedlls.inf
+
 $(BUILDDIR)/.imagedir-built: $(IMAGEDIR_BUILD_TARGETS)
 	rm -rf "$(IMAGEDIR)"
 	+$(MAKE) imagedir-targets
@@ -480,3 +487,21 @@ clean-image:
 	rm -rf "$(IMAGEDIR)"
 .PHONY: clean-image
 clean: clean-image
+
+$(BUILDDIR)/.runtimemsitables-built: $(BUILDDIR)/.imagedir-built $(SRCDIR)/msi-tables/runtime/*.idt $(SRCDIR)/tools/build-msi-tables.sh $(BUILDDIR)/genfilehashes.exe $(SRCDIR)/Makefile
+	$(MONO_ENV) WHICHMSI=runtime MSI_VERSION=$(MSI_VERSION) CABFILENAME=$(BUILDDIR_ABS)/image.cab TABLEDIR=$(BUILDDIR_ABS)/msi-tables/runtime TABLESRCDIR=$(SRCDIR_ABS)/msi-tables/runtime IMAGEDIR=$(IMAGEDIR_ABS) ROOTDIR=MONODIR CABINET='#image.cab' GENFILEHASHES=$(BUILDDIR_ABS)/genfilehashes.exe WINE=$(WINE) sh $(SRCDIR)/tools/build-msi-tables.sh
+	touch $@
+
+$(OUTDIR)/wine-mono-$(MSI_VERSION).msi: $(BUILDDIR)/.runtimemsitables-built
+	rm -f "$@"
+	$(WINE) winemsibuilder -i '$(shell $(WINE) winepath -w $@)' $(BUILDDIR)/msi-tables/runtime/*.idt
+	$(WINE) winemsibuilder -a '$(shell $(WINE) winepath -w $@)' image.cab '$(shell $(WINE) winepath -w $(BUILDDIR)/image.cab)'
+
+msi: $(OUTDIR)/wine-mono-$(MSI_VERSION).msi
+.PHONY: msi
+
+clean-msi:
+	rm -f $(OUTDIR)/wine-mono-$(MSI_VERSION).msi
+.PHONY: clean-msi
+clean: clean-msi
+
