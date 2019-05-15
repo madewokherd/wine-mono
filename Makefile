@@ -43,6 +43,8 @@ MONO_GAC_PREFIX=$(BUILDDIR_ABS)/mono-unix-install
 MONO_CFG_DIR=$(BUILDDIR_ABS)/mono-unix-install/etc
 MONO_ENV=PATH="$(MONO_BIN_PATH):$$PATH" LD_LIBRARY_PATH="$(MONO_LD_PATH):$$LD_LIBRARY_PATH" MONO_GAC_PREFIX="$(MONO_GAC_PREFIX)" MONO_CFG_DIR="$(MONO_CFG_DIR)"
 
+CP_R=python $(SRCDIR_ABS)/tools/copy_recursive.py
+
 all:
 	echo *** The makefile is a work in progress, please use build-winemono.sh for now ***
 	false
@@ -257,8 +259,8 @@ IMAGEDIR_BUILD_TARGETS += $(BUILDDIR)/mono-unix/.installed
 
 mono-image: $(BUILDDIR)/mono-unix/.installed
 	mkdir -p $(IMAGEDIR)/lib
-	cp -r $(BUILDDIR)/mono-win32-install/etc $(IMAGEDIR)
-	cp -r $(BUILDDIR)/mono-win32-install/lib/mono $(IMAGEDIR)/lib
+	$(CP_R) $(BUILDDIR)/mono-win32-install/etc $(IMAGEDIR)
+	$(CP_R) $(BUILDDIR)/mono-win32-install/lib/mono $(IMAGEDIR)/lib
 .PHONY: mono-image
 imagedir-targets: mono-image
 
@@ -303,7 +305,7 @@ IMAGEDIR_BUILD_TARGETS += $(SRCDIR)/mono-basic/.installed
 
 mono-basic-image: $(SRCDIR)/mono-basic/.installed
 	mkdir -p $(IMAGEDIR)/lib
-	cp -r $(BUILDDIR)/mono-basic-install/lib/mono $(IMAGEDIR)/lib
+	$(CP_R) $(BUILDDIR)/mono-basic-install/lib/mono $(IMAGEDIR)/lib
 .PHONY: mono-basic-image
 imagedir-targets: mono-basic-image
 
@@ -317,18 +319,19 @@ clean-build: clean-build-mono-basic
 $(SRCDIR)/winforms/src/Accessibility/src/Accessibility.dll: $(BUILDDIR)/mono-unix/.installed $(WINFORMS_SRCS)
 	+$(MONO_ENV) $(MAKE) -C $(@D) MONO_PREFIX=$(BUILDDIR_ABS)/mono-unix-install WINE_MONO_SRCDIR=$(SRCDIR_ABS)
 
-$(SRCDIR)/winforms/src/System.Windows.Forms/src/System.Windows.Forms.dll: $(BUILDDIR)/mono-unix/.installed $(WINFORMS_SRCS)
-	+$(MONO_ENV) $(MAKE) -C $(@D) MONO_PREFIX=$(BUILDDIR_ABS)/mono-unix-install WINE_MONO_SRCDIR=$(SRCDIR_ABS)
+$(SRCDIR)/winforms/.built: $(BUILDDIR)/mono-unix/.installed $(WINFORMS_SRCS)
+	+$(MONO_ENV) $(MAKE) -C $(SRCDIR)/winforms/src/System.Windows.Forms/src MONO_PREFIX=$(BUILDDIR_ABS)/mono-unix-install WINE_MONO_SRCDIR=$(SRCDIR_ABS)
+	touch $@
 
 ifeq (1,$(ENABLE_DOTNET_CORE_WINFORMS))
-IMAGEDIR_BUILD_TARGETS += $(SRCDIR)/winforms/src/System.Windows.Forms/src/System.Windows.Forms.dll
+IMAGEDIR_BUILD_TARGETS += $(SRCDIR)/winforms/.built
 
 Accessibility.dll: $(SRCDIR)/winforms/src/Accessibility/src/Accessibility.dll
 	$(MONO_ENV) gacutil -i $(SRCDIR)/winforms/src/Accessibility/src/Accessibility.dll -root $(IMAGEDIR)/lib
 .PHONY: Accessibility.dll
-imagedir-targets: Accessibility.dll
 
-System.Windows.Forms.dll: $(SRCDIR)/winforms/src/System.Windows.Forms/src/System.Windows.Forms.dll
+System.Windows.Forms.dll: $(SRCDIR)/winforms/.built
+	$(MONO_ENV) gacutil -i $(SRCDIR)/winforms/src/Accessibility/src/Accessibility.dll -root $(IMAGEDIR)/lib
 	$(MONO_ENV) gacutil -i $(SRCDIR)/winforms/src/System.Windows.Forms/src/System.Windows.Forms.dll -root $(IMAGEDIR)/lib
 .PHONY: System.Windows.Forms.dll
 imagedir-targets: System.Windows.Forms.dll
@@ -504,4 +507,15 @@ clean-msi:
 	rm -f $(OUTDIR)/wine-mono-$(MSI_VERSION).msi
 .PHONY: clean-msi
 clean: clean-msi
+
+$(OUTDIR)/wine-mono-bin-$(MSI_VERSION).tar.gz: $(BUILDDIR)/.imagedir-built
+	cd $(IMAGEDIR)/..; tar czf $(OUTDIR_ABS)/wine-mono-bin-$(MSI_VERSION).tar.gz --transform 's:^$(notdir $(IMAGEDIR_ABS)):wine-mono-$(MSI_VERSION):g' $(notdir $(IMAGEDIR_ABS))
+
+targz: $(OUTDIR)/wine-mono-bin-$(MSI_VERSION).tar.gz
+.PHONY: targz
+
+clean-targz:
+	rm -f $(OUTDIR)/wine-mono-bin-$(MSI_VERSION).tar.gz
+.PHONY: clean-targz
+clean: clean-targz
 
