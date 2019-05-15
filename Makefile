@@ -50,11 +50,13 @@ all: image targz msi
 
 define HELP_TEXT =
 The following targets are defined:
-	image:        Build the image/ directory, for direct use as a runtime by Wine.
 	msi:	      Build wine-mono-$(MSI_VERSION).msi
 	targz:	      Build wine-mono-bin-$(MSI_VERSION).tar.gz
 	tests:        Build the mono tests.
-	System.dll:   Build a single dll and add it to the image/ directory.
+	dev:          Build the runtime locally in image/ and configure $$WINEPREFIX to use it.
+	System.dll:   Build a single dll and place it in the image/ directory.
+	image:        Build the runtime locally image/ directory.
+	dev-setup:    Configure $$WINEPREFIX to use the image/ directory.
 endef
 
 define newline =
@@ -64,6 +66,14 @@ endef
 
 help:
 	@echo -e '$(subst $(newline),\n,$(HELP_TEXT))'
+
+dev-setup:
+	for i in `$(WINE) uninstaller --list|grep '|||Wine Mono'|sed -e 's/|||.*$$//'`; do $(WINE) uninstaller --remove "$$i"; done
+	$(WINE) msiexec /i '$(shell winepath -w $(IMAGEDIR)/support/winemono-support.msi)'
+	$(WINE) reg add 'HKCU\Software\Wine\Mono' /v RuntimePath /d '$(shell winepath -w $(IMAGEDIR))' /f
+
+dev: image
+	+$(MAKE) dev-setup
 
 $(SRCDIR)/mono/configure: $(SRCDIR)/mono/autogen.sh $(SRCDIR)/mono/configure.ac $(SRCDIR)/mono/libgc/autogen.sh $(SRCDIR)/mono/libgc/configure.ac $(MONO_MAKEFILES)
 	cd $(SRCDIR)/mono; NOCONFIGURE=yes ./autogen.sh
