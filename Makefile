@@ -45,9 +45,7 @@ MONO_ENV=PATH="$(MONO_BIN_PATH):$$PATH" LD_LIBRARY_PATH="$(MONO_LD_PATH):$$LD_LI
 
 CP_R=python $(SRCDIR_ABS)/tools/copy_recursive.py
 
-all:
-	echo *** The makefile is a work in progress, please use build-winemono.sh for now ***
-	false
+all: image targz msi
 .PHONY: all clean imagedir-targets tests
 
 $(SRCDIR)/mono/configure: $(SRCDIR)/mono/autogen.sh $(SRCDIR)/mono/configure.ac $(SRCDIR)/mono/libgc/autogen.sh $(SRCDIR)/mono/libgc/configure.ac $(MONO_MAKEFILES)
