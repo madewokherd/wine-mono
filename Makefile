@@ -45,6 +45,11 @@ MONO_ENV=PATH="$(MONO_BIN_PATH):$$PATH" LD_LIBRARY_PATH="$(MONO_LD_PATH):$$LD_LI
 
 CP_R=python $(SRCDIR_ABS)/tools/copy_recursive.py
 
+# dependency checks
+ifeq (,$(shell which $(WINE)))
+$(error '$(WINE)' command not found. Please install wine or specify its location in the WINE variable)
+endif
+
 all: image targz msi
 .PHONY: all clean imagedir-targets tests
 
