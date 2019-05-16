@@ -69,8 +69,8 @@ help:
 
 dev-setup:
 	for i in `$(WINE) uninstaller --list|grep '|||Wine Mono'|sed -e 's/|||.*$$//'`; do $(WINE) uninstaller --remove "$$i"; done
-	$(WINE) msiexec /i '$(shell winepath -w $(IMAGEDIR)/support/winemono-support.msi)'
-	$(WINE) reg add 'HKCU\Software\Wine\Mono' /v RuntimePath /d '$(shell winepath -w $(IMAGEDIR))' /f
+	$(WINE) msiexec /i '$(shell $(WINE) winepath -w $(IMAGEDIR)/support/winemono-support.msi)'
+	$(WINE) reg add 'HKCU\Software\Wine\Mono' /v RuntimePath /d '$(shell $(WINE) winepath -w $(IMAGEDIR))' /f
 
 dev: image
 	+$(MAKE) dev-setup
