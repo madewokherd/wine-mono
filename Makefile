@@ -123,8 +123,8 @@ libmono-2.0-$(1).dll: $$(BUILDDIR)/mono-$(1)/.built
 imagedir-targets: libmono-2.0-$(1).dll
 
 MonoPosixHelper-$(1).dll: $$(BUILDDIR)/mono-$(1)/support/.built
-	mkdir -p "$$(IMAGEDIR)/bin"
-	cp "$$(BUILDDIR)/mono-$(1)/support/.libs/libMonoPosixHelper.dll" "$$(IMAGEDIR)/bin/MonoPosixHelper-$(1).dll"
+	mkdir -p "$$(IMAGEDIR)/lib"
+	cp "$$(BUILDDIR)/mono-$(1)/support/.libs/libMonoPosixHelper.dll" "$$(IMAGEDIR)/lib/MonoPosixHelper-$(1).dll"
 .PHONY: MonoPosixHelper-$(1).dll
 imagedir-targets: MonoPosixHelper-$(1).dll
 
