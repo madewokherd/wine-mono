@@ -3,7 +3,12 @@
 SRCDIR=$(dir $(MAKEFILE_LIST))
 BUILDDIR=$(SRCDIR)/build
 IMAGEDIR=$(SRCDIR)/image
+
+ifeq ($(shell test -d $(SRCDIR)/output && echo y),y)
+OUTDIR=$(SRCDIR)/output
+else
 OUTDIR=$(SRCDIR)
+endif
 
 MINGW_x86=i686-w64-mingw32
 MINGW_x86_64=x86_64-w64-mingw32
