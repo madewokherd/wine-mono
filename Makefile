@@ -97,12 +97,12 @@ $$(BUILDDIR)/mono-$(1)/Makefile: $$(SRCDIR)/mono/configure $$(BUILDDIR)/.dir
 	sed -e 's/-lgcc_s//' -i $$(BUILDDIR)/mono-$(1)/libtool
 
 $$(BUILDDIR)/mono-$(1)/.built: $$(BUILDDIR)/mono-$(1)/Makefile $$(MONO_MONO_SRCS)
-	+$$(MAKE) -C $$(BUILDDIR)/mono-$(1)
+	+WINEPREFIX=/dev/null $$(MAKE) -C $$(BUILDDIR)/mono-$(1)
 	touch "$$@"
 IMAGEDIR_BUILD_TARGETS += $$(BUILDDIR)/mono-$(1)/.built
 
 $$(BUILDDIR)/mono-$(1)/support/.built: $$(BUILDDIR)/mono-$(1)/.built
-	+$$(MAKE) -C $$(BUILDDIR)/mono-$(1)/support
+	+WINEPREFIX=/dev/null $$(MAKE) -C $$(BUILDDIR)/mono-$(1)/support
 	touch "$$@"
 IMAGEDIR_BUILD_TARGETS += $$(BUILDDIR)/mono-$(1)/support/.built
 
@@ -125,7 +125,7 @@ clean-build: clean-build-mono-$(1)
 
 # mono libtest.dll
 $$(OUTDIR)/tests-$(1)/libtest.dll: $$(BUILDDIR)/mono-$(1)/.built
-	+$$(MAKE) -C $$(BUILDDIR)/mono-$(1)/mono/tests libtest.la
+	+WINEPREFIX=/dev/null $$(MAKE) -C $$(BUILDDIR)/mono-$(1)/mono/tests libtest.la
 	mkdir -p $$(@D)
 	cp $$(BUILDDIR)/mono-$(1)/mono/tests/.libs/libtest-0.dll $$@
 tests: $$(OUTDIR)/tests-$(1)/libtest.dll
@@ -147,7 +147,7 @@ $$(BUILDDIR)/SDL2-$(1)/Makefile: $$(SRCDIR)/SDL2/configure $$(SRCDIR)/mono/confi
 	cd $$(BUILDDIR)/SDL2-$(1); CC="$$(MINGW_$(1))-gcc -static-libgcc" CXX="$$(MINGW_$(1))-g++ -static-libgcc -static-libstdc++" $$(SRCDIR_ABS)/SDL2/configure --build=$$(shell $$(SRCDIR)/mono/config.guess) --target=$$(MINGW_$(1)) --host=$$(MINGW_$(1)) PKG_CONFIG=false
 
 $$(BUILDDIR)/SDL2-$(1)/.built: $$(BUILDDIR)/SDL2-$(1)/Makefile $$(SDL2_SRCS)
-	+$$(MAKE) -C $$(BUILDDIR)/SDL2-$(1) TARGET=libSDL2-$(1).la
+	+WINEPREFIX=/dev/null $$(MAKE) -C $$(BUILDDIR)/SDL2-$(1) TARGET=libSDL2-$(1).la
 	touch "$$@"
 IMAGEDIR_BUILD_TARGETS += $$(BUILDDIR)/SDL2-$(1)/.built
 
