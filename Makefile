@@ -212,7 +212,7 @@ clean-build-SDL_image_compact-$(1):
 clean-build: clean-build-SDL_image_compact-$(1)
 
 # libtheorafile
-$$(BUILDDIR)/Theorafile-$(1)/.built: $$(THEORAFILE_SRCS)
+$$(BUILDDIR)/Theorafile-$(1)/.built: $$(THEORAFILE_SRCS) $$(BUILDDIR)/.dir
 	mkdir -p $$(BUILDDIR)/Theorafile-$(1)
 	+$$(MAKE) -C $$(BUILDDIR_ABS)/Theorafile-$(1) "CC=$$(MINGW_$(1))-gcc" -f $$(SRCDIR_ABS)/FNA/lib/Theorafile/Makefile
 	touch "$$@"
@@ -255,7 +255,7 @@ $(eval $(call MINGW_TEMPLATE,x86))
 $(eval $(call MINGW_TEMPLATE,x86_64))
 
 # mono native/classlib build
-$(BUILDDIR)/mono-unix/Makefile: $(SRCDIR)/mono/configure
+$(BUILDDIR)/mono-unix/Makefile: $(SRCDIR)/mono/configure $$(BUILDDIR)/.dir
 	mkdir -p $(@D)
 	cd $(@D) && $(SRCDIR_ABS)/mono/configure --prefix="$(BUILDDIR_ABS)/mono-unix-install" --with-mcs-docs=no --disable-system-aot
 
@@ -339,11 +339,11 @@ clean-build: clean-build-mono-unix
 $(SRCDIR)/mono-basic/build/config.make: $(SRCDIR)/mono-basic/configure $(BUILDDIR)/mono-unix/.installed
 	cd $(SRCDIR)/mono-basic && $(MONO_ENV) ./configure --prefix=$(BUILDDIR_ABS)/mono-basic-install
 
-$(SRCDIR)/mono-basic/.built: $(SRCDIR)/mono-basic/build/config.make $(MONO_BASIC_SRCS)
+$(SRCDIR)/mono-basic/.built: $(SRCDIR)/mono-basic/build/config.make $(MONO_BASIC_SRCS) $$(BUILDDIR)/.dir
 	+$(MONO_ENV) $(MAKE) -C $(SRCDIR)/mono-basic PROFILE_VBNC_FLAGS=/sdkpath:$(BUILDDIR_ABS)/mono-unix-install/lib/mono/4.5-api
 	touch $@
 
-$(SRCDIR)/mono-basic/.installed: $(SRCDIR)/mono-basic/.built
+$(SRCDIR)/mono-basic/.installed: $(SRCDIR)/mono-basic/.built $$(BUILDDIR)/.dir
 	+$(MONO_ENV) $(MAKE) -C $(SRCDIR)/mono-basic PROFILE_VBNC_FLAGS=/sdkpath:$(BUILDDIR_ABS)/mono-unix-install/lib/mono/4.5-api install
 	touch $@
 IMAGEDIR_BUILD_TARGETS += $(SRCDIR)/mono-basic/.installed
