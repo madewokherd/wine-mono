@@ -1,6 +1,6 @@
 
 # configuration
-SRCDIR=$(dir $(MAKEFILE_LIST))
+SRCDIR:=$(dir $(MAKEFILE_LIST))
 BUILDDIR=$(SRCDIR)/build
 IMAGEDIR=$(SRCDIR)/image
 
@@ -16,6 +16,8 @@ MINGW_x86_64=x86_64-w64-mingw32
 WINE=wine
 
 ENABLE_DOTNET_CORE_WINFORMS=1
+
+-include user-config.make
 
 MSI_VERSION=4.8.99
 

@@ -1,0 +1,16 @@
+# Directory for build trees and intermediate build files:
+# BUILDDIR=$(SRCDIR)/build
+
+# Directory for the runtime:
+# IMAGEDIR=$(SRCDIR)/image
+
+# Directory for output files:
+# OUTDIR=$(SRCDIR)/output
+
+# Commands:
+# MINGW_x86=i686-w64-mingw32
+# MINGW_x86_64=x86_64-w64-mingw32
+# WINE=wine
+
+# Set to 0 to use Mono's winforms.
+# ENABLE_DOTNET_CORE_WINFORMS=1
