@@ -378,6 +378,7 @@ IMAGEDIR_BUILD_TARGETS += $(SRCDIR)/winforms/src/System.Windows.Forms/src/.built
 Accessibility.dll: $(SRCDIR)/winforms/src/Accessibility/src/.built
 	$(MONO_ENV) gacutil -i $(SRCDIR)/winforms/src/Accessibility/src/Accessibility.dll -root $(IMAGEDIR)/lib
 .PHONY: Accessibility.dll
+imagedir-targets: Accessibility.dll
 
 System.Windows.Forms.dll: $(SRCDIR)/winforms/src/System.Windows.Forms/src/.built
 	$(MONO_ENV) gacutil -i $(SRCDIR)/winforms/src/System.Windows.Forms/src/System.Windows.Forms.dll -root $(IMAGEDIR)/lib
