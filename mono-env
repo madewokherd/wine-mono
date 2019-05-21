@@ -3,10 +3,5 @@
 BINPATH=`which "$0"`
 CURDIR=`dirname $BINPATH`
 
-export PATH="$CURDIR/build-cross-cli-install/bin":$PATH
-export LD_LIBRARY_PATH="$CURDIR/build-cross-cli-install/lib":$LD_LIBRARY_PATH
-export MONO_GAC_PREFIX="$CURDIR/build-cross-cli-install"
-export MONO_CFG_DIR="$CURDIR/build-cross-cli-install/etc"
-
-exec "$@"
+exec env `cd ${CURDIR}; make print-env` "$@"
 

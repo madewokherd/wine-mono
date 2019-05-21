@@ -571,3 +571,5 @@ clean: clean-targz
 source: $(BUILDDIR)/mono-unix/.built
 	$(SRCDIR)/tools/archive.sh `git describe` $(OUTDIR_ABS)
 
+print-env:
+	@echo $(MONO_ENV)
