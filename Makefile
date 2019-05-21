@@ -267,10 +267,10 @@ $(BUILDDIR)/mono-unix/mono/lib/libSystem.Native.so: $(BUILDDIR)/mono-unix/Makefi
 	cp $(BUILDDIR)/mono-unix/mono/native/.libs/libmono-native.so $@
 
 ifeq ($(HAVE_MONOLITE),1)
-	MONOLITE_PATH=$(SRCDIR_ABS)/monolite
-	MONOLITE_OPTS="EXTERNAL_RUNTIME=MONO_PATH=$(MONOLITE_PATH) $(BUILDDIR_ABS)/mono-unix/mono/mini/mono-sgen" "EXTERNAL_MCS=\$(EXTERNAL_RUNTIME) $(MONOLITE_PATH)/mcs.exe"
+MONOLITE_PATH=$(SRCDIR_ABS)/monolite
+MONOLITE_OPTS="EXTERNAL_RUNTIME=MONO_PATH=$(MONOLITE_PATH) $(BUILDDIR_ABS)/mono-unix/mono/mini/mono-sgen" "EXTERNAL_MCS=\$$(EXTERNAL_RUNTIME) $(MONOLITE_PATH)/mcs.exe"
 else
-	MONOLITE_OPTS=
+MONOLITE_OPTS=
 endif
 
 $(BUILDDIR)/mono-unix/.built: $(BUILDDIR)/mono-unix/Makefile $(BUILDDIR)/mono-unix/mono/lib/libSystem.Native.so
