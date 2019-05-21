@@ -568,3 +568,6 @@ clean-targz:
 .PHONY: clean-targz
 clean: clean-targz
 
+source: $(BUILDDIR)/mono-unix/.built
+	$(SRCDIR)/tools/archive.sh `git describe` $(OUTDIR_ABS)
+

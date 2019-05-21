@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# usage: sh archive.sh tree-ish
+# usage: sh archive.sh tree-ish outdir
 # Archives a Git revision with all of its submodules.
 
 recursivearchivefiles ()
@@ -53,7 +53,7 @@ if test ! -e mono/mcs/class/lib/net_4_x/mcs.exe; then
 fi
 MONOLITE_FILES="$MONOLITE_FILES mono/mcs/class/lib/net_4_x/mcs.exe"
 
-OUTPUT_FILE="$PWD/$1.tar"
+OUTPUT_FILE="$2/$1.tar"
 
 rm -f "$OUTPUT_FILE"
 
