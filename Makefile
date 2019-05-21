@@ -57,7 +57,7 @@ ifeq (,$(shell which $(WINE)))
 $(error '$(WINE)' command not found. Please install wine or specify its location in the WINE variable)
 endif
 
-all: image targz msi
+all: image targz msi tests
 .PHONY: all clean imagedir-targets tests
 
 define HELP_TEXT =
