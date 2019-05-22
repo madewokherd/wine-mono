@@ -18,6 +18,49 @@ if len(sys.argv) <= 1:
 	print("Usage: git-updated-files directory [directory2 [...]]")
 	sys.exit(1)
 
+_source_suffixes = (
+	'/configure',
+	'/Makefile',
+	'.in',
+	'.am',
+	'.ac',
+	'.make',
+	'.sources',
+	'.list',
+	'CMakeLists.txt',
+	'.cmake',
+	'.c',
+	'.h',
+	'.cpp',
+	'.cc',
+	'.cs',
+	'.vb',
+	'.il',
+	'.config',
+)
+
+_ignore_suffixes = (
+	'.git',
+	'.libs',
+	'output',
+)
+
+def get_latest_source_file(path):
+	latest_file = ''
+	latest_mtime = 0
+	for dirpath, dirnames, filenames in os.walk(path):
+		for i in range(len(dirnames)-1, -1, -1):
+			if dirnames[i].endswith(_ignore_suffixes):
+				del dirnames[i]
+		for file in filenames:
+			if file.endswith(_source_suffixes):
+				file = os.path.join(dirpath, file)
+				st = os.stat(file, follow_symlinks=False)
+				if st.st_mtime > latest_mtime:
+					latest_file = file
+					latest_mtime = st.st_mtime
+	return {latest_file}
+
 def get_updated_files(path):
 	result = set()
 
@@ -28,7 +71,7 @@ def get_updated_files(path):
 		cwd=path)
 	if res.returncode == 128:
 		# not in a git repository
-		return set()
+		return get_latest_source_file(path)
 	elif res.returncode != 0:
 		print(res.stderr, file=sys.stderr)
 		sys.exit(2)
