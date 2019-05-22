@@ -42,7 +42,7 @@ def get_updated_files(path):
 		cwd=path)
 	toplevel = res.stdout.strip('\n')
 
-	res = subprocess.run(['git', 'diff', '--name-only', '.'],
+	res = subprocess.run(['git', 'diff', '--name-only', '--ignore-submodules=untracked', '.'],
 		stdout=subprocess.PIPE,
 		encoding=sys.getfilesystemencoding(),
 		check=True,
