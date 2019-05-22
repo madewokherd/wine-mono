@@ -25,22 +25,16 @@ To build Wine Mono, you will need the following:
 
 BUILD
 
-To build Wine Mono, run the build-winemono.sh script on Linux.
+To build Wine Mono, use the msi or targz target.
 
-$ ./build-winemono.sh
-
-This will reconfigure and rebuild Mono every time unless the -r switch is passed.
-
-You can set the MAKEOPTS environment variable to use multiple CPUs for some of the build process.
-
-If you supply the -t switch, the Mono test suite will be built and put in directories named like tests-net_*. These directories should be self-contained and work on any .NET implementation, using nunit-console.exe to run the tests. I'm not sure that all of it works, though, since the Mono test suite wasn't designed to be used this way.
+$ make msi
 
 Optionally, a build VM can be automatically set up using the Vagrantfile included with the source distribution. To start the VM, run:
 
 $ vagrant up
 $ vagrant ssh
 
-You can then cd to /vagrant and use the build-winemono.sh script from there.
+You can then cd to /vagrant and build from there.
 
 Note that the source code will be rsynced into the VM when it is first created. If you edit the source code on the host, you can update the VM by running:
 
@@ -59,17 +53,14 @@ $ wine64 msiexec /i winemono.msi
 
 Note that if a Wine Mono with a version number >= to this file is already installed, that command will do nothing, so you may have to remove the existing version (using 'wine64 uninstaller') first.
 
-In a 32-bit prefix, use wine instead of wine64.
-
-If you are making only a few changes that you need to test, it may be more convenient to copy the individual files from the image/ directory to .wine/drive_c/windows/mono/mono-2.0.
+If you are building for development, you may find it more convenient to use the dev target, which build a runtime in image/ and configures a wine prefix to use it. You can then rebuild individual dlls using their filename with no path. See 'make help' for details.
 
 
 COMPOSITION
 
 An installed Wine Mono contains the following:
- * Registry keys and files in C:\windows\Microsoft.NET intended to make it look as if Microsoft .NET is installed, so that applications won't complain that it's missing, and the installers for Microsoft .NET won't install. (Wine Mono should always be removed before installing Microsoft .NET.)
- * A modified version of the Mono runtime and standard class libraries, in C:\windows\mono\mono-2.0.
- * A replacement for the Visual Basic calss libraries, in the Mono GAC (C:\windows\mono\mono-2.0\lib\mono\gac).
+ * Registry keys and files in C:\windows\Microsoft.NET intended to make it look as if Microsoft .NET is installed, so that applications won't complain that it's missing, and the installers for Microsoft .NET won't install. This is part of an msi package named "Wine Mono Windows Support". (Wine Mono should always be removed before installing Microsoft .NET.)
+ * A modified version of the Mono runtime and class libraries, in the "Wine Mono Runtime" msi or a shared location outside the prefix.
 
 
 BUGS
