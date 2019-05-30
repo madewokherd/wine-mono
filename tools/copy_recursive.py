@@ -7,7 +7,7 @@ import os
 import shutil
 import sys
 
-if sys.version >= (3,):
+if sys.version_info.major >= 3:
 	file_exists_error = FileExistsError
 	def is_file_exists_error(e):
 		return True
