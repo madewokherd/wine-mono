@@ -496,7 +496,7 @@ $(BUILDDIR)/.supportmsitables-built: $(IMAGE_SUPPORT_FILES) $(SRCDIR)/msi-tables
 	touch $@
 
 clean-msi-tables:
-	rm -rf $(BUILDDIR)/msi-tables $(BUILDDIR)/.supportmsitables-built
+	rm -rf $(BUILDDIR)/msi-tables $(BUILDDIR)/.supportmsitables-built $(BUILDDIR)/winemono-support.cab
 .PHONY: clean-msi-tables
 clean-build: clean-msi-tables
 
