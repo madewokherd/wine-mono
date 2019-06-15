@@ -18,7 +18,7 @@ Source tarballs and binary packages are available at http://dl.winehq.org/wine/w
 DEPENDENCIES
 
 To build Wine Mono, you will need the following:
- * All of the dependencies of Mono for your native (presumably Linux) system, such as autotools, a C++ compiler, and a C# compiler (so that Mono ban bootstrap its own).
+ * All of the dependencies of Mono for your native (presumably Linux) system, such as autotools and a C++ compiler.
  * Wine, for the winemsibuilder and cabarc commands.
  * A 32-bit and 64-bit version of Mingw-w64, including a C++ compiler.
 
