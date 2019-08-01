@@ -2,4 +2,4 @@ Action	Type	Source	Target	ExtendedType
 s72	i2	S72	L0	I4
 CustomAction	Action
 INSTALLFAKEDLLS	1058	WindowsFolder	[SystemFolder]\rundll32.exe setupapi.dll,InstallHinfSection DefaultInstall 128 [SourceDir]\dotnetfakedlls.inf	
-INSTALLFAKEDLLS64	1058	WindowsFolder	[System64Folder]\rundll32.exe setupapi.dll,InstallHinfSection DefaultInstall 128 [SourceDir]\dotnetfakedlls.inf	
+INSTALLFAKEDLLS64	1058	WindowsFolder	[WindowsFolder]\SysNative\rundll32.exe setupapi.dll,InstallHinfSection DefaultInstall 128 [SourceDir]\dotnetfakedlls.inf	
