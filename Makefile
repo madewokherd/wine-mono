@@ -316,9 +316,13 @@ $(BUILDDIR)/mono-unix/.built-clr-tests: $(BUILDDIR)/mono-unix/.built
 	+$(MAKE) -C $(SRCDIR_ABS)/mono/mcs/class test
 	touch $@
 
-tests-clr: $(BUILDDIR)/mono-unix/.built-clr-tests
+$(BUILDDIR)/nunitlite.dll: $(BUILDDIR)/mono-unix/.installed
+	cd $(SRCDIR)/mono/mcs/tools/nunit-lite/NUnitLite/ && $(MONO_ENV) csc /nostdlib /r:$(BUILDDIR_ABS)/mono-unix-install/lib/mono/4.0-api/mscorlib.dll /r:$(BUILDDIR_ABS)/mono-unix-install/lib/mono/4.0-api/System.dll /lib:$(BUILDDIR_ABS)/mono-unix-install/lib/mono/4.0-api /codepage:65001 /deterministic /target:library /define:"__MOBILE__;TRACE;DEBUG;NET_4_0;CLR_4_0,NUNITLITE" /warn:4 -d:NET_4_0 -d:MONO -d:WIN_PLATFORM -nowarn:1699 /debug:portable -optimize /features:peverify-compat /langversion:latest /keyfile:$(SRCDIR_ABS)/mono/mcs/class/mono.snk  -target:library -out:$(BUILDDIR_ABS)/nunitlite.dll @nunitlite.dll.sources
+
+tests-clr: $(BUILDDIR)/mono-unix/.built-clr-tests $(BUILDDIR)/nunitlite.dll
 	mkdir -p $(OUTDIR)/tests-clr
 	cp $(SRCDIR)/mono/mcs/class/lib/net_4_x/tests/*_test.dll $(SRCDIR)/mono/mcs/class/lib/net_4_x/nunit* $(OUTDIR)/tests-clr
+	cp $(BUILDDIR)/nunitlite.* $(OUTDIR)/tests-clr
 	mkdir -p $(OUTDIR)/tests-clr/Test/System.Drawing
 	cp -r $(SRCDIR)/mono/mcs/class/System.Drawing/Test/System.Drawing/bitmaps $(OUTDIR)/tests-clr/Test/System.Drawing
 	cp -r $(SRCDIR)/mono/mcs/class/System.Windows.Forms/Test/resources $(OUTDIR)/tests-clr/Test
