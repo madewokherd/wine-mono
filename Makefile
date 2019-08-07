@@ -12,6 +12,8 @@ else
 OUTDIR=$(SRCDIR)
 endif
 
+TESTS_OUTDIR=$(OUTDIR)/tests
+
 MINGW_x86=i686-w64-mingw32
 MINGW_x86_64=x86_64-w64-mingw32
 
@@ -138,21 +140,21 @@ clean-build-mono-$(1):
 clean-build: clean-build-mono-$(1)
 
 # mono libtest.dll
-$$(OUTDIR)/tests-$(1)/libtest.dll: $$(BUILDDIR)/mono-$(1)/.built
+$$(TESTS_OUTDIR)/tests-$(1)/libtest.dll: $$(BUILDDIR)/mono-$(1)/.built
 	+WINEPREFIX=/dev/null $$(MAKE) -C $$(BUILDDIR)/mono-$(1)/mono/tests libtest.la
 	mkdir -p $$(@D)
 	cp $$(BUILDDIR)/mono-$(1)/mono/tests/.libs/libtest-0.dll $$@
-tests: $$(OUTDIR)/tests-$(1)/libtest.dll
+tests: $$(TESTS_OUTDIR)/tests-$(1)/libtest.dll
 
 clean-tests-$(1):
-	rm -rf $$(OUTDIR)/tests-$(1)
+	rm -rf $$(TESTS_OUTDIR)/tests-$(1)
 .PHONY: clean-tests-$(1)
-clean: clean-tests-$(1)
+clean-tests: clean-tests-$(1)
 
 tests-runtime-$(1): $$(BUILDDIR)/mono-unix/mono/tests/.built $$(BUILDDIR)/set32only.exe
-	mkdir -p $$(OUTDIR)/tests-$(1)
-	cp $$(BUILDDIR)/mono-unix/mono/tests/*.exe $$(BUILDDIR)/mono-unix/mono/tests/*.dll $$(OUTDIR)/tests-$(1)
-	if test $(1) = x86; then cd $$(OUTDIR)/tests-$(1); $$(WINE) $$(BUILDDIR_ABS)/set32only.exe *.exe; fi
+	mkdir -p $$(TESTS_OUTDIR)/tests-$(1)
+	cp $$(BUILDDIR)/mono-unix/mono/tests/*.exe $$(BUILDDIR)/mono-unix/mono/tests/*.dll $$(TESTS_OUTDIR)/tests-$(1)
+	if test $(1) = x86; then cd $$(TESTS_OUTDIR)/tests-$(1); $$(WINE) $$(BUILDDIR_ABS)/set32only.exe *.exe; fi
 tests: tests-runtime-$(1)
 
 # FNA native deps
@@ -326,21 +328,26 @@ $(BUILDDIR)/nunitlite.dll: $(BUILDDIR)/mono-unix/.installed
 	cd $(SRCDIR)/mono/mcs/tools/nunit-lite/NUnitLite/ && $(MONO_ENV) csc /nostdlib /r:$(BUILDDIR_ABS)/mono-unix-install/lib/mono/4.0-api/mscorlib.dll /r:$(BUILDDIR_ABS)/mono-unix-install/lib/mono/4.0-api/System.dll /lib:$(BUILDDIR_ABS)/mono-unix-install/lib/mono/4.0-api /codepage:65001 /deterministic /target:library /define:"__MOBILE__;TRACE;DEBUG;NET_4_0;CLR_4_0,NUNITLITE" /warn:4 -d:NET_4_0 -d:MONO -d:WIN_PLATFORM -nowarn:1699 /debug:portable -optimize /features:peverify-compat /langversion:latest /keyfile:$(SRCDIR_ABS)/mono/mcs/class/mono.snk  -target:library -out:$(BUILDDIR_ABS)/nunitlite.dll @nunitlite.dll.sources
 
 tests-clr: $(BUILDDIR)/mono-unix/.built-clr-tests $(BUILDDIR)/nunitlite.dll $(BUILDDIR)/set32only.exe
-	mkdir -p $(OUTDIR)/tests-clr
-	cp $(SRCDIR)/mono/mcs/class/lib/net_4_x/tests/*_test.dll $(SRCDIR)/mono/mcs/class/lib/net_4_x/nunit* $(OUTDIR)/tests-clr
-	cp $(BUILDDIR)/nunitlite.* $(OUTDIR)/tests-clr
-	mkdir -p $(OUTDIR)/tests-clr/Test/System.Drawing
-	cp -r $(SRCDIR)/mono/mcs/class/System.Drawing/Test/System.Drawing/bitmaps $(OUTDIR)/tests-clr/Test/System.Drawing
-	cp -r $(SRCDIR)/mono/mcs/class/System.Windows.Forms/Test/resources $(OUTDIR)/tests-clr/Test
-	cp $(OUTDIR)/tests-clr/nunit-lite-console.exe $(OUTDIR)/tests-clr/nunit-lite-console32.exe
-	cd $(OUTDIR)/tests-clr; $(WINE) $(BUILDDIR_ABS)/set32only.exe nunit-lite-console32.exe
+	mkdir -p $(TESTS_OUTDIR)/tests-clr
+	cp $(SRCDIR)/mono/mcs/class/lib/net_4_x/tests/*_test.dll $(SRCDIR)/mono/mcs/class/lib/net_4_x/nunit* $(TESTS_OUTDIR)/tests-clr
+	cp $(BUILDDIR)/nunitlite.* $(TESTS_OUTDIR)/tests-clr
+	mkdir -p $(TESTS_OUTDIR)/tests-clr/Test/System.Drawing
+	cp -r $(SRCDIR)/mono/mcs/class/System.Drawing/Test/System.Drawing/bitmaps $(TESTS_OUTDIR)/tests-clr/Test/System.Drawing
+	cp -r $(SRCDIR)/mono/mcs/class/System.Windows.Forms/Test/resources $(TESTS_OUTDIR)/tests-clr/Test
+	cp $(TESTS_OUTDIR)/tests-clr/nunit-lite-console.exe $(TESTS_OUTDIR)/tests-clr/nunit-lite-console32.exe
+	cd $(TESTS_OUTDIR)/tests-clr; $(WINE) $(BUILDDIR_ABS)/set32only.exe nunit-lite-console32.exe
 .PHONY: tests-clr
 tests: tests-clr
 
 clean-tests-clr:
-	rm -rf $(OUTDIR)/tests-clr
+	rm -rf $(TESTS_OUTDIR)/tests-clr
 .PHONY: clean-tests-clr
-clean: clean-tests-clr
+clean-tests: clean-tests-clr
+
+clean-tests:
+	-rmdir $(TESTS_OUTDIR)
+.PHONY: clean-tests
+clean: clean-tests
 
 $(BUILDDIR)/mono-unix/mono/tests/.built: $(BUILDDIR)/mono-unix/.built
 	+$(MAKE) -C $(@D) test-local
