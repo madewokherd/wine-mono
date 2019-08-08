@@ -95,7 +95,8 @@ class RunTests
 			passing_tests.Add(fulltestname);
 			Console.WriteLine("Test succeeded: {0}", fulltestname);
 		}
-		else if (passing_tests[passing_tests.Count-1].StartsWith(fulltestname+":"))
+		else if (passing_tests.Count != 0 &&
+			passing_tests[passing_tests.Count-1].StartsWith(fulltestname+":"))
 		{
 			Console.WriteLine("Some tests succeeded: {0}", fulltestname);
 		}
