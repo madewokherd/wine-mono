@@ -21,6 +21,8 @@ class RunTests
 	List<string> passing_tests = new List<string> ();
 	List<string> failing_tests = new List<string> ();
 
+	bool test_timed_out;
+
 	RunTests ()
 	{
 		ExePath = Environment.GetCommandLineArgs()[0];
@@ -34,6 +36,8 @@ class RunTests
 		string test_assembly = t.Item2;
 		string line;
 		string current_test = null;
+		bool any_passed = false;
+		bool any_failed = false;
 
 		while ((line = p.StandardOutput.ReadLine ()) != null)
 		{
@@ -43,6 +47,7 @@ class RunTests
 				if (current_test != null)
 				{
 					passing_tests.Add(String.Format("{0}:{1}", test_assembly, current_test));
+					any_passed = true;
 				}
 				current_test = line.Substring(9, line.Length - 14);
 			}
@@ -50,20 +55,44 @@ class RunTests
 			{
 				failing_tests.Add(String.Format("{0}:{1}", test_assembly, current_test));
 				current_test = null;
+				any_failed = true;
+			}
+			else if (line.StartsWith("Regression tests: ") &&
+				line.Contains(" ran, ") && line.Contains(" failed in "))
+			{
+				if (current_test != null)
+				{
+					passing_tests.Add(String.Format("{0}:{1}", test_assembly, current_test));
+					any_passed = true;
+					current_test = null;
+				}
 			}
 		}
 
 		if (current_test != null)
 		{
 			p.WaitForExit();
-			if (p.ExitCode == 0)
-			{
-				passing_tests.Add(String.Format("{0}:{1}", test_assembly, current_test));
-			}
-			else
-			{
-				failing_tests.Add(String.Format("{0}:{1}", test_assembly, current_test));
-			}
+			failing_tests.Add(String.Format("{0}:{1}", test_assembly, current_test));
+		}
+
+		if (test_timed_out)
+		{
+			failing_tests.Add(test_assembly);
+			Console.WriteLine("Test timed out: {0}", test_assembly);
+		}
+		else if (p.ExitCode == 0 && !any_failed)
+		{
+			passing_tests.Add(test_assembly);
+			Console.WriteLine("Test succeeded: {0}", test_assembly);
+		}
+		else if (any_passed)
+		{
+			Console.WriteLine("Some tests succeeded: {0}", test_assembly);
+		}
+		else
+		{
+			failing_tests.Add(test_assembly);
+			Console.WriteLine("Test failed: {0}", test_assembly);
 		}
 	}
 
@@ -71,7 +100,7 @@ class RunTests
 	{
 		string testname = Path.GetFileNameWithoutExtension(path);
 		string fulltestname = String.Format("{0}.{1}", arch, testname);
-		bool timeout = false;
+		test_timed_out = false;
 
 		// TODO: check skip list
 
@@ -86,28 +115,10 @@ class RunTests
 		p.WaitForExit(5 * 60 * 1000); // 5 minutes
 		if (!p.HasExited)
 		{
+			test_timed_out = true;
 			p.Kill();
-			timeout = true;
 		}
 		t.Join();
-		if (p.ExitCode == 0)
-		{
-			passing_tests.Add(fulltestname);
-			Console.WriteLine("Test succeeded: {0}", fulltestname);
-		}
-		else if (passing_tests.Count != 0 &&
-			passing_tests[passing_tests.Count-1].StartsWith(fulltestname+":"))
-		{
-			Console.WriteLine("Some tests succeeded: {0}", fulltestname);
-		}
-		else
-		{
-			failing_tests.Add(fulltestname);
-			if (timeout)
-				Console.WriteLine("Test timed out: {0}", fulltestname);
-			else
-				Console.WriteLine("Test failed: {0}", fulltestname);
-		}
 	}
 
 	void run_mono_test_dir(string path, string arch)
