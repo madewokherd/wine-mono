@@ -92,7 +92,7 @@ class RunTests
 		else
 		{
 			failing_tests.Add(test_assembly);
-			Console.WriteLine("Test failed: {0}", test_assembly);
+			Console.WriteLine("Test failed{0}: {1}", p.ExitCode, test_assembly);
 		}
 	}
 
@@ -109,6 +109,7 @@ class RunTests
 		p.StartInfo = new ProcessStartInfo (path, "--verbose");
 		p.StartInfo.UseShellExecute = false;
 		p.StartInfo.RedirectStandardOutput = true;
+		p.StartInfo.WorkingDirectory = Path.GetDirectoryName(path);
 		p.Start();
 		Thread t = new Thread(process_mono_test_output);
 		t.Start(Tuple.Create(p, fulltestname));
@@ -118,7 +119,12 @@ class RunTests
 			test_timed_out = true;
 			p.Kill();
 		}
-		t.Join();
+		t.Join(10 * 1000);
+		if (t.IsAlive)
+		{
+			p.StandardOutput.Close();
+			t.Join();
+		}
 	}
 
 	void run_mono_test_dir(string path, string arch)
