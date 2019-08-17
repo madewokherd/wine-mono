@@ -4,6 +4,9 @@
 [submodule "mono-basic"]
 	path = mono-basic
 	url = ../mono-basic.git
+[submodule "MMI"]
+	path = MMI
+	url = ../MMI.git
 [submodule "FNA"]
 	path = FNA
 	url = ../FNA.git

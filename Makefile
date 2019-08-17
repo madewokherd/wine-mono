@@ -35,6 +35,7 @@ MONO_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/mono)
 MONO_MONO_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/mono/mono $(SRCDIR)/mono/libgc)
 MONO_LIBNATIVE_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/mono/mono/native)
 MONO_BASIC_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/mono-basic)
+MMI_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/MMI)
 FNA_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/FNA)
 FNA_NETSTUB_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/FNA.NetStub)
 SDL2_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/SDL2)
@@ -396,6 +397,24 @@ System.Windows.Forms.dll: $(SRCDIR)/winforms/src/System.Windows.Forms/src/.built
 .PHONY: System.Windows.Forms.dll
 imagedir-targets: System.Windows.Forms.dll
 endif
+
+# MMI
+$(SRCDIR)/MMI/src/Microsoft.Management.Infrastructure/.built: $(BUILDDIR)/mono-unix/.installed $(MMI_SRCS)
+	+$(MONO_ENV) $(MAKE) -C $(@D) MONO_PREFIX=$(BUILDDIR_ABS)/mono-unix-install
+	touch $@
+
+IMAGEDIR_BUILD_TARGETS += $(SRCDIR)/MMI/src/Microsoft.Management.Infrastructure/.built
+
+Microsoft.Management.Infrastructure.dll: $(SRCDIR)/MMI/src/Microsoft.Management.Infrastructure/.built
+	$(MONO_ENV) gacutil -i $(SRCDIR)/MMI/src/Microsoft.Management.Infrastructure/Microsoft.Management.Infrastructure.dll -root $(IMAGEDIR)/lib
+.PHONY: Microsoft.Management.Infrastructure.dll
+imagedir-targets: Microsoft.Management.Infrastructure.dll
+
+clean-MMI:
+	rm -f $(SRCDIR)/MMI/src/Microsoft.Management.Infrastructure/.built
+	+$(MAKE) -C $(SRCDIR)/MMI/src/Microsoft.Management.Infrastructure/ clean
+.PHONY: clean-MMI
+clean: clean-MMI
 
 # FNA
 $(SRCDIR)/FNA/bin/Release/FNA.dll: $(BUILDDIR)/mono-unix/.installed $(FNA_SRCS)
