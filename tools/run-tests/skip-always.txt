@@ -1,0 +1,30 @@
+# stress tests aren't run correctly - perl required
+abort-stress-1
+abort-stress-2
+abort-stress-3
+assembly-load-stress
+domain-stress
+gc-copy-stress
+gc-graystack-stress
+gc-stress
+gchandle-stress
+monitor-stress
+process-stress
+spinlock-stress
+thread-stress
+# benchmark tests
+ackermann
+# uses mono-specific api's:
+allow-synchronous-major
+install_eh_callback:test_0_setjmp_exn_handler
+install_eh_callback
+thunks
+# helpers for other test cases
+appdomain-client
+bug-462592-result
+reflection
+# timed out (windows)
+abort-cctor
+block_guard_restore_aligment_on_exit
+bug-10127
+finally_block_ending_in_dead_bb

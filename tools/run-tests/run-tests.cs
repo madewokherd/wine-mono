@@ -15,7 +15,7 @@ class RunTests
 	// expected results
 	//HashSet<string> pass_list;
 	//HashSet<string> todo_list;
-	//Dictionary<string, List<string>> skip_list;
+	Dictionary<string, List<string>> skip_list = new Dictionary<string, List<string>> ();
 
 	// actual results
 	List<string> passing_tests = new List<string> ();
@@ -102,11 +102,35 @@ class RunTests
 		string fulltestname = String.Format("{0}.{1}", arch, testname);
 		test_timed_out = false;
 
-		// TODO: check skip list
+		List<string> skips = new List<string> ();
+		if (skip_list.ContainsKey(testname))
+		{
+			if (skip_list[testname] == null)
+			{
+				Console.WriteLine("Skipping {0}", fulltestname);
+				return;
+			}
+			skips.AddRange(skip_list[testname]);
+		}
+		if (skip_list.ContainsKey(fulltestname))
+		{
+			if (skip_list[fulltestname] == null)
+			{
+				Console.WriteLine("Skipping {0}", fulltestname);
+				return;
+			}
+			skips.AddRange(skip_list[fulltestname]);
+		}
 
 		Console.WriteLine("Starting test: {0}", fulltestname);
 		Process p = new Process ();
-		p.StartInfo = new ProcessStartInfo (path, "--verbose");
+		p.StartInfo = new ProcessStartInfo (path);
+		p.StartInfo.Arguments = "--verbose";
+		foreach (string test in skips)
+		{
+			p.StartInfo.Arguments = String.Format("{0} --exclude-test \"{1}\"",
+				p.StartInfo.Arguments, test);
+		}
 		p.StartInfo.UseShellExecute = false;
 		p.StartInfo.RedirectStandardOutput = true;
 		p.StartInfo.WorkingDirectory = Path.GetDirectoryName(path);
@@ -135,6 +159,47 @@ class RunTests
 		}
 	}
 
+	void add_skip(string skip)
+	{
+		if (skip.Contains(":"))
+		{
+			int index = skip.IndexOf(':');
+			string assembly = skip.Substring(0, index);
+			string test = skip.Substring(index+1);
+			List <string> l;
+			if (!skip_list.TryGetValue(assembly, out l) || l == null)
+			{
+				l = skip_list[assembly] = new List<string>();
+			}
+			l.Add(test);
+		}
+		else
+		{
+			skip_list.TryAdd(skip, null);
+		}
+	}
+
+	void read_skiplist(string filename)
+	{
+		using (StreamReader sr = new StreamReader(filename))
+		{
+			string line;
+			while ((line = sr.ReadLine()) != null)
+			{
+				if (line.Contains("#"))
+				{
+					line = line.Substring(0, line.IndexOf('#'));
+				}
+				foreach (string test in line.Split(new char[] {' '}))
+				{
+					string trtest = test.Trim();
+					if (trtest != "")
+						add_skip(trtest);
+				}
+			}
+		}
+	}
+
 	int main(string[] arguments)
 	{
 		foreach (string argument in arguments)
@@ -143,6 +208,10 @@ class RunTests
 				passing_output_path = argument.Substring(15);
 			else if (argument.StartsWith("-write-failing:"))
 				failing_output_path = argument.Substring(15);
+			else if (argument.StartsWith("-skip:"))
+				add_skip(argument.Substring(6));
+			else if (argument.StartsWith("-skip-list:"))
+				read_skiplist(argument.Substring(11));
 			else
 			{
 				Console.WriteLine("Unrecognized argument: {0}", argument);
