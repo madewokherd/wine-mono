@@ -16,6 +16,7 @@ class RunTests
 	//HashSet<string> pass_list;
 	//HashSet<string> todo_list;
 	Dictionary<string, List<string>> skip_list = new Dictionary<string, List<string>> ();
+	Dictionary<string, List<string>> run_list = new Dictionary<string, List<string>> ();
 
 	// actual results
 	List<string> passing_tests = new List<string> ();
@@ -102,6 +103,30 @@ class RunTests
 		string fulltestname = String.Format("{0}.{1}", arch, testname);
 		test_timed_out = false;
 
+		List<string> runs = new List<string> ();
+		if (run_list.Count != 0)
+		{
+			bool run=false;
+			if (run_list.ContainsKey(testname))
+			{
+				run = true;
+				if (run_list[testname] != null)
+				{
+					runs.AddRange(run_list[testname]);
+				}
+			}
+			if (run_list.ContainsKey(fulltestname))
+			{
+				run = true;
+				if (run_list[fulltestname] != null)
+				{
+					runs.AddRange(run_list[fulltestname]);
+				}
+			}
+			if (!run)
+				return;
+		}
+
 		List<string> skips = new List<string> ();
 		if (skip_list.ContainsKey(testname))
 		{
@@ -129,6 +154,11 @@ class RunTests
 		foreach (string test in skips)
 		{
 			p.StartInfo.Arguments = String.Format("{0} --exclude-test \"{1}\"",
+				p.StartInfo.Arguments, test);
+		}
+		foreach (string test in runs)
+		{
+			p.StartInfo.Arguments = String.Format("{0} --run-only \"{1}\"",
 				p.StartInfo.Arguments, test);
 		}
 		p.StartInfo.UseShellExecute = false;
@@ -159,27 +189,27 @@ class RunTests
 		}
 	}
 
-	void add_skip(string skip)
+	void add_to_testlist(string str, Dictionary<string, List<string>> testlist)
 	{
-		if (skip.Contains(":"))
+		if (str.Contains(":"))
 		{
-			int index = skip.IndexOf(':');
-			string assembly = skip.Substring(0, index);
-			string test = skip.Substring(index+1);
+			int index = str.IndexOf(':');
+			string assembly = str.Substring(0, index);
+			string test = str.Substring(index+1);
 			List <string> l;
-			if (!skip_list.TryGetValue(assembly, out l) || l == null)
+			if (!testlist.TryGetValue(assembly, out l) || l == null)
 			{
-				l = skip_list[assembly] = new List<string>();
+				l = testlist[assembly] = new List<string>();
 			}
 			l.Add(test);
 		}
 		else
 		{
-			skip_list.TryAdd(skip, null);
+			testlist.TryAdd(str, null);
 		}
 	}
 
-	void read_skiplist(string filename)
+	void read_testlist(string filename, Dictionary<string, List<string>> testlist)
 	{
 		using (StreamReader sr = new StreamReader(filename))
 		{
@@ -194,7 +224,7 @@ class RunTests
 				{
 					string trtest = test.Trim();
 					if (trtest != "")
-						add_skip(trtest);
+						add_to_testlist(trtest, testlist);
 				}
 			}
 		}
@@ -209,9 +239,13 @@ class RunTests
 			else if (argument.StartsWith("-write-failing:"))
 				failing_output_path = argument.Substring(15);
 			else if (argument.StartsWith("-skip:"))
-				add_skip(argument.Substring(6));
+				add_to_testlist(argument.Substring(6), skip_list);
 			else if (argument.StartsWith("-skip-list:"))
-				read_skiplist(argument.Substring(11));
+				read_testlist(argument.Substring(11), skip_list);
+			else if (argument.StartsWith("-run:"))
+				add_to_testlist(argument.Substring(5), run_list);
+			else if (argument.StartsWith("-run-list:"))
+				read_testlist(argument.Substring(10), run_list);
 			else
 			{
 				Console.WriteLine("Unrecognized argument: {0}", argument);
