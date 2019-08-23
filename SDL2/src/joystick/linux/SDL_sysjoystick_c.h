@@ -1,6 +1,6 @@
 /*
   Simple DirectMedia Layer
-  Copyright (C) 1997-2018 Sam Lantinga <slouken@libsdl.org>
+  Copyright (C) 1997-2019 Sam Lantinga <slouken@libsdl.org>
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any damages
@@ -62,6 +62,11 @@ struct joystick_hwdata
 
     /* Steam Controller support */
     SDL_bool m_bSteamController;
+    /* 4 = (ABS_HAT3X-ABS_HAT0X)/2 (see input-event-codes.h in kernel) */
+    int hats_indices[4];
+
+    /* Set when gamepad is pending removal due to ENODEV read error */
+    SDL_bool gone;
 };
 
 #endif /* SDL_sysjoystick_c_h_ */

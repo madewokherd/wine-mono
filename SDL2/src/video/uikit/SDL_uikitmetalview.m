@@ -1,6 +1,6 @@
 /*
  Simple DirectMedia Layer
- Copyright (C) 1997-2018 Sam Lantinga <slouken@libsdl.org>
+ Copyright (C) 1997-2019 Sam Lantinga <slouken@libsdl.org>
  
  This software is provided 'as-is', without any express or implied
  warranty.  In no event will the authors be held liable for any damages
@@ -90,12 +90,9 @@ UIKit_Mtl_AddMetalView(SDL_Window* window)
          * dimensions of the screen rather than the dimensions in points
          * yielding high resolution on retine displays.
          */
-#ifdef __IPHONE_8_0
         if ([data.uiwindow.screen respondsToSelector:@selector(nativeScale)]) {
             scale = data.uiwindow.screen.nativeScale;
-        } else
-#endif
-        {
+        } else {
             scale = data.uiwindow.screen.scale;
         }
     }

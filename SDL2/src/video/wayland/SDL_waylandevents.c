@@ -1,6 +1,6 @@
 /*
   Simple DirectMedia Layer
-  Copyright (C) 1997-2018 Sam Lantinga <slouken@libsdl.org>
+  Copyright (C) 1997-2019 Sam Lantinga <slouken@libsdl.org>
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any damages
@@ -399,15 +399,14 @@ touch_handler_down(void *data, struct wl_touch *touch, unsigned int serial,
                    unsigned int timestamp, struct wl_surface *surface,
                    int id, wl_fixed_t fx, wl_fixed_t fy)
 {
-    float x, y;
-    SDL_WindowData* window;
-
-    window = (SDL_WindowData *)wl_surface_get_user_data(surface);
-
-    x = wl_fixed_to_double(fx) / window->sdlwindow->w;
-    y = wl_fixed_to_double(fy) / window->sdlwindow->h;
+    SDL_WindowData *window_data = (SDL_WindowData *)wl_surface_get_user_data(surface);
+    const double dblx = wl_fixed_to_double(fx);
+    const double dbly = wl_fixed_to_double(fy);
+    const float x = dblx / window_data->sdlwindow->w;
+    const float y = dbly / window_data->sdlwindow->h;
 
     touch_add(id, x, y, surface);
+
     SDL_SendTouch(1, (SDL_FingerID)id, SDL_TRUE, x, y, 1.0f);
 }
 
@@ -425,13 +424,11 @@ static void
 touch_handler_motion(void *data, struct wl_touch *touch, unsigned int timestamp,
                      int id, wl_fixed_t fx, wl_fixed_t fy)
 {
-    float x, y;
-    SDL_WindowData* window;
-
-    window = (SDL_WindowData *)wl_surface_get_user_data(touch_surface(id));
-
-    x = wl_fixed_to_double(fx) / window->sdlwindow->w;
-    y = wl_fixed_to_double(fy) / window->sdlwindow->h;
+    SDL_WindowData *window_data = (SDL_WindowData *)wl_surface_get_user_data(touch_surface(id));
+    const double dblx = wl_fixed_to_double(fx);
+    const double dbly = wl_fixed_to_double(fy);
+    const float x = dblx / window_data->sdlwindow->w;
+    const float y = dbly / window_data->sdlwindow->h;
 
     touch_update(id, x, y);
     SDL_SendTouchMotion(1, (SDL_FingerID)id, x, y, 1.0f);
@@ -614,7 +611,7 @@ seat_handle_capabilities(void *data, struct wl_seat *seat,
     }
 
     if ((caps & WL_SEAT_CAPABILITY_TOUCH) && !input->touch) {
-        SDL_AddTouch(1, "wayland_touch");
+        SDL_AddTouch(1, SDL_TOUCH_DEVICE_DIRECT, "wayland_touch");
         input->touch = wl_seat_get_touch(seat);
         wl_touch_set_user_data(input->touch, input);
         wl_touch_add_listener(input->touch, &touch_listener,
@@ -1088,6 +1085,9 @@ int Wayland_input_lock_pointer(struct SDL_WaylandInput *input)
         return -1;
 
     if (!d->pointer_constraints)
+        return -1;
+
+    if (!input->pointer)
         return -1;
 
     if (!input->relative_pointer) {

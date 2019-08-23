@@ -1,6 +1,6 @@
 /*
   Simple DirectMedia Layer
-  Copyright (C) 1997-2018 Sam Lantinga <slouken@libsdl.org>
+  Copyright (C) 1997-2019 Sam Lantinga <slouken@libsdl.org>
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any damages
@@ -93,6 +93,8 @@ typedef struct
     Uint32 double_click_time;
     int double_click_radius;
     SDL_bool touch_mouse_events;
+    SDL_bool mouse_touch_events;
+    SDL_bool was_touch_mouse_events; /* Was a touch-mouse event pending? */
 
     /* Data for double-click tracking */
     int num_clickstates;

@@ -1,6 +1,6 @@
 /*
   Simple DirectMedia Layer
-  Copyright (C) 1997-2018 Sam Lantinga <slouken@libsdl.org>
+  Copyright (C) 1997-2019 Sam Lantinga <slouken@libsdl.org>
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any damages
@@ -216,7 +216,6 @@ static void kbd_cleanup(void)
     }
     kbd_cleanup_state = NULL;
 
-    fprintf(stderr, "(SDL restoring keyboard) ");
     ioctl(kbd->console_fd, KDSKBMODE, kbd->old_kbd_mode);
 }
 
@@ -345,7 +344,7 @@ SDL_EVDEV_kbd_init(void)
     SDL_EVDEV_keyboard_state *kbd;
     int i;
     char flag_state;
-    char shift_state[2] = {TIOCL_GETSHIFTSTATE, 0};
+    char shift_state[ sizeof (long) ] = {TIOCL_GETSHIFTSTATE, 0};
 
     kbd = (SDL_EVDEV_keyboard_state *)SDL_calloc(1, sizeof(*kbd));
     if (!kbd) {
@@ -510,17 +509,19 @@ static unsigned int handle_diacr(SDL_EVDEV_keyboard_state *kbd, unsigned int ch)
 
 static int vc_kbd_led(SDL_EVDEV_keyboard_state *kbd, int flag)
 {
-    return ((kbd->ledflagstate >> flag) & 1);
+    return (kbd->ledflagstate & flag) != 0;
 }
 
 static void set_vc_kbd_led(SDL_EVDEV_keyboard_state *kbd, int flag)
 {
-    kbd->ledflagstate |= 1 << flag;
+    kbd->ledflagstate |= flag;
+    ioctl(kbd->console_fd, KDSETLED, (unsigned long)(kbd->ledflagstate));
 }
 
 static void clr_vc_kbd_led(SDL_EVDEV_keyboard_state *kbd, int flag)
 {
-    kbd->ledflagstate &= ~(1 << flag);
+    kbd->ledflagstate &= ~flag;
+    ioctl(kbd->console_fd, KDSETLED, (unsigned long)(kbd->ledflagstate));
 }
 
 static void chg_vc_kbd_lock(SDL_EVDEV_keyboard_state *kbd, int flag)
@@ -535,7 +536,8 @@ static void chg_vc_kbd_slock(SDL_EVDEV_keyboard_state *kbd, int flag)
 
 static void chg_vc_kbd_led(SDL_EVDEV_keyboard_state *kbd, int flag)
 {
-    kbd->ledflagstate ^= 1 << flag;
+    kbd->ledflagstate ^= flag;
+    ioctl(kbd->console_fd, KDSETLED, (unsigned long)(kbd->ledflagstate));
 }
 
 /*

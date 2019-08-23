@@ -1,6 +1,6 @@
 /*
   Simple DirectMedia Layer
-  Copyright (C) 1997-2018 Sam Lantinga <slouken@libsdl.org>
+  Copyright (C) 1997-2019 Sam Lantinga <slouken@libsdl.org>
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any damages
@@ -323,6 +323,7 @@ SDL_JoystickOpen(int device_index)
     joystick->instance_id = instance_id;
     joystick->attached = SDL_TRUE;
     joystick->player_index = -1;
+    joystick->epowerlevel = SDL_JOYSTICK_POWER_UNKNOWN;
 
     if (driver->Open(joystick, device_index) < 0) {
         SDL_free(joystick);
@@ -360,7 +361,6 @@ SDL_JoystickOpen(int device_index)
         SDL_UnlockJoysticks();
         return NULL;
     }
-    joystick->epowerlevel = SDL_JOYSTICK_POWER_UNKNOWN;
 
     /* If this joystick is known to have all zero centered axes, skip the auto-centering code */
     if (SDL_JoystickAxesCenteredAtZero(joystick)) {
@@ -699,9 +699,12 @@ SDL_JoystickQuit(void)
     int i;
 
     /* Make sure we're not getting called in the middle of updating joysticks */
-    SDL_assert(!SDL_updating_joystick);
-
     SDL_LockJoysticks();
+    while (SDL_updating_joystick) {
+        SDL_UnlockJoysticks();
+        SDL_Delay(1);
+        SDL_LockJoysticks();
+    }
 
     /* Stop the event polling */
     while (SDL_joysticks) {
@@ -724,8 +727,9 @@ SDL_JoystickQuit(void)
                         SDL_JoystickAllowBackgroundEventsChanged, NULL);
 
     if (SDL_joystick_lock) {
-        SDL_DestroyMutex(SDL_joystick_lock);
+        SDL_mutex *mutex = SDL_joystick_lock;
         SDL_joystick_lock = NULL;
+        SDL_DestroyMutex(mutex);
     }
 
     SDL_GameControllerQuitMappings();
@@ -777,13 +781,14 @@ static void UpdateEventsForDeviceRemoval()
 {
     int i, num_events;
     SDL_Event *events;
+    SDL_bool isstack;
 
     num_events = SDL_PeepEvents(NULL, 0, SDL_PEEKEVENT, SDL_JOYDEVICEADDED, SDL_JOYDEVICEADDED);
     if (num_events <= 0) {
         return;
     }
 
-    events = SDL_stack_alloc(SDL_Event, num_events);
+    events = SDL_small_alloc(SDL_Event, num_events, &isstack);
     if (!events) {
         return;
     }
@@ -794,7 +799,7 @@ static void UpdateEventsForDeviceRemoval()
     }
     SDL_PeepEvents(events, num_events, SDL_ADDEVENT, 0, 0);
 
-    SDL_stack_free(events);
+    SDL_small_free(events, isstack);
 }
 
 void SDL_PrivateJoystickRemoved(SDL_JoystickID device_instance)
@@ -1015,6 +1020,10 @@ SDL_JoystickUpdate(void)
     int i;
     SDL_Joystick *joystick;
 
+    if (!SDL_WasInit(SDL_INIT_JOYSTICK)) {
+        return;
+    }
+
     SDL_LockJoysticks();
 
     if (SDL_updating_joystick) {
@@ -1030,7 +1039,10 @@ SDL_JoystickUpdate(void)
 
     for (joystick = SDL_joysticks; joystick; joystick = joystick->next) {
         if (joystick->attached) {
-            joystick->driver->Update(joystick);
+            /* This should always be true, but seeing a crash in the wild...? */
+            if (joystick->driver) {
+                joystick->driver->Update(joystick);
+            }
 
             if (joystick->delayed_guide_button) {
                 SDL_GameControllerHandleDelayedGuideButton(joystick);
@@ -1154,13 +1166,17 @@ SDL_IsJoystickPS4(Uint16 vendor, Uint16 product)
 SDL_bool
 SDL_IsJoystickNintendoSwitchPro(Uint16 vendor, Uint16 product)
 {
-    return (GuessControllerType(vendor, product) == k_eControllerType_SwitchProController);
+    EControllerType eType = GuessControllerType(vendor, product);
+    return (eType == k_eControllerType_SwitchProController ||
+            eType == k_eControllerType_SwitchInputOnlyController);
 }
 
 SDL_bool
 SDL_IsJoystickSteamController(Uint16 vendor, Uint16 product)
 {
-    return BIsSteamController(GuessControllerType(vendor, product));
+    EControllerType eType = GuessControllerType(vendor, product);
+    return (eType == k_eControllerType_SteamController ||
+            eType == k_eControllerType_SteamControllerV2);
 }
 
 SDL_bool
@@ -1342,10 +1358,120 @@ static SDL_bool SDL_IsPS4RemapperRunning(void)
 
 SDL_bool SDL_ShouldIgnoreJoystick(const char *name, SDL_JoystickGUID guid)
 {
+    /* This list is taken from:
+       https://raw.githubusercontent.com/denilsonsa/udev-joystick-blacklist/master/generate_rules.py
+     */
+    static Uint32 joystick_blacklist[] = {
+        /* Microsoft Microsoft Wireless Optical Desktop® 2.10 */
+        /* Microsoft Wireless Desktop - Comfort Edition */
+        MAKE_VIDPID(0x045e, 0x009d),
+
+        /* Microsoft Microsoft® Digital Media Pro Keyboard */
+        /* Microsoft Corp. Digital Media Pro Keyboard */
+        MAKE_VIDPID(0x045e, 0x00b0),
+
+        /* Microsoft Microsoft® Digital Media Keyboard */
+        /* Microsoft Corp. Digital Media Keyboard 1.0A */
+        MAKE_VIDPID(0x045e, 0x00b4),
+
+        /* Microsoft Microsoft® Digital Media Keyboard 3000 */
+        MAKE_VIDPID(0x045e, 0x0730),
+
+        /* Microsoft Microsoft® 2.4GHz Transceiver v6.0 */
+        /* Microsoft Microsoft® 2.4GHz Transceiver v8.0 */
+        /* Microsoft Corp. Nano Transceiver v1.0 for Bluetooth */
+        /* Microsoft Wireless Mobile Mouse 1000 */
+        /* Microsoft Wireless Desktop 3000 */
+        MAKE_VIDPID(0x045e, 0x0745),
+
+        /* Microsoft® SideWinder(TM) 2.4GHz Transceiver */
+        MAKE_VIDPID(0x045e, 0x0748),
+
+        /* Microsoft Corp. Wired Keyboard 600 */
+        MAKE_VIDPID(0x045e, 0x0750),
+
+        /* Microsoft Corp. Sidewinder X4 keyboard */
+        MAKE_VIDPID(0x045e, 0x0768),
+
+        /* Microsoft Corp. Arc Touch Mouse Transceiver */
+        MAKE_VIDPID(0x045e, 0x0773),
+
+        /* Microsoft® 2.4GHz Transceiver v9.0 */
+        /* Microsoft® Nano Transceiver v2.1 */
+        /* Microsoft Sculpt Ergonomic Keyboard (5KV-00001) */
+        MAKE_VIDPID(0x045e, 0x07a5),
+
+        /* Microsoft® Nano Transceiver v1.0 */
+        /* Microsoft Wireless Keyboard 800 */
+        MAKE_VIDPID(0x045e, 0x07b2),
+
+        /* Microsoft® Nano Transceiver v2.0 */
+        MAKE_VIDPID(0x045e, 0x0800),
+
+        MAKE_VIDPID(0x046d, 0xc30a),  /* Logitech, Inc. iTouch Composite keboard */
+
+        MAKE_VIDPID(0x04d9, 0xa0df),  /* Tek Syndicate Mouse (E-Signal USB Gaming Mouse) */
+
+        /* List of Wacom devices at: http://linuxwacom.sourceforge.net/wiki/index.php/Device_IDs */
+        MAKE_VIDPID(0x056a, 0x0010),  /* Wacom ET-0405 Graphire */
+        MAKE_VIDPID(0x056a, 0x0011),  /* Wacom ET-0405A Graphire2 (4x5) */
+        MAKE_VIDPID(0x056a, 0x0012),  /* Wacom ET-0507A Graphire2 (5x7) */
+        MAKE_VIDPID(0x056a, 0x0013),  /* Wacom CTE-430 Graphire3 (4x5) */
+        MAKE_VIDPID(0x056a, 0x0014),  /* Wacom CTE-630 Graphire3 (6x8) */
+        MAKE_VIDPID(0x056a, 0x0015),  /* Wacom CTE-440 Graphire4 (4x5) */
+        MAKE_VIDPID(0x056a, 0x0016),  /* Wacom CTE-640 Graphire4 (6x8) */
+        MAKE_VIDPID(0x056a, 0x0017),  /* Wacom CTE-450 Bamboo Fun (4x5) */
+        MAKE_VIDPID(0x056a, 0x0018),  /* Wacom CTE-650 Bamboo Fun 6x8 */
+        MAKE_VIDPID(0x056a, 0x0019),  /* Wacom CTE-631 Bamboo One */
+        MAKE_VIDPID(0x056a, 0x00d1),  /* Wacom Bamboo Pen and Touch CTH-460 */
+        MAKE_VIDPID(0x056a, 0x030e),  /* Wacom Intuos Pen (S) CTL-480 */
+
+        MAKE_VIDPID(0x09da, 0x054f),  /* A4 Tech Co., G7 750 mouse */
+        MAKE_VIDPID(0x09da, 0x1410),  /* A4 Tech Co., Ltd Bloody AL9 mouse */
+        MAKE_VIDPID(0x09da, 0x3043),  /* A4 Tech Co., Ltd Bloody R8A Gaming Mouse */
+        MAKE_VIDPID(0x09da, 0x31b5),  /* A4 Tech Co., Ltd Bloody TL80 Terminator Laser Gaming Mouse */
+        MAKE_VIDPID(0x09da, 0x3997),  /* A4 Tech Co., Ltd Bloody RT7 Terminator Wireless */
+        MAKE_VIDPID(0x09da, 0x3f8b),  /* A4 Tech Co., Ltd Bloody V8 mouse */
+        MAKE_VIDPID(0x09da, 0x51f4),  /* Modecom MC-5006 Keyboard */
+        MAKE_VIDPID(0x09da, 0x5589),  /* A4 Tech Co., Ltd Terminator TL9 Laser Gaming Mouse */
+        MAKE_VIDPID(0x09da, 0x7b22),  /* A4 Tech Co., Ltd Bloody V5 */
+        MAKE_VIDPID(0x09da, 0x7f2d),  /* A4 Tech Co., Ltd Bloody R3 mouse */
+        MAKE_VIDPID(0x09da, 0x8090),  /* A4 Tech Co., Ltd X-718BK Oscar Optical Gaming Mouse */
+        MAKE_VIDPID(0x09da, 0x9033),  /* A4 Tech Co., X7 X-705K */
+        MAKE_VIDPID(0x09da, 0x9066),  /* A4 Tech Co., Sharkoon Fireglider Optical */
+        MAKE_VIDPID(0x09da, 0x9090),  /* A4 Tech Co., Ltd XL-730K / XL-750BK / XL-755BK Laser Mouse */
+        MAKE_VIDPID(0x09da, 0x90c0),  /* A4 Tech Co., Ltd X7 G800V keyboard */
+        MAKE_VIDPID(0x09da, 0xf012),  /* A4 Tech Co., Ltd Bloody V7 mouse */
+        MAKE_VIDPID(0x09da, 0xf32a),  /* A4 Tech Co., Ltd Bloody B540 keyboard */
+        MAKE_VIDPID(0x09da, 0xf613),  /* A4 Tech Co., Ltd Bloody V2 mouse */
+        MAKE_VIDPID(0x09da, 0xf624),  /* A4 Tech Co., Ltd Bloody B120 Keyboard */
+
+        MAKE_VIDPID(0x1b1c, 0x1b3c),  /* Corsair Harpoon RGB gaming mouse */
+
+        MAKE_VIDPID(0x1d57, 0xad03),  /* [T3] 2.4GHz and IR Air Mouse Remote Control */
+
+        MAKE_VIDPID(0x1e7d, 0x2e4a),  /* Roccat Tyon Mouse */
+
+        MAKE_VIDPID(0x20a0, 0x422d),  /* Winkeyless.kr Keyboards */
+
+        MAKE_VIDPID(0x2516, 0x001f),  /* Cooler Master Storm Mizar Mouse */
+        MAKE_VIDPID(0x2516, 0x0028),  /* Cooler Master Storm Alcor Mouse */
+    };
+
+    unsigned int i;
+    Uint32 id;
     Uint16 vendor;
     Uint16 product;
 
     SDL_GetJoystickGUIDInfo(guid, &vendor, &product, NULL);
+
+    /* Check the joystick blacklist */
+    id = MAKE_VIDPID(vendor, product);
+    for (i = 0; i < SDL_arraysize(joystick_blacklist); ++i) {
+        if (id == joystick_blacklist[i]) {
+            return SDL_TRUE;
+        }
+    }
 
     if (SDL_IsJoystickPS4(vendor, product) && SDL_IsPS4RemapperRunning()) {
         return SDL_TRUE;

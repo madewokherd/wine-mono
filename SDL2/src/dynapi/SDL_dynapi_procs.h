@@ -1,6 +1,6 @@
 /*
   Simple DirectMedia Layer
-  Copyright (C) 1997-2018 Sam Lantinga <slouken@libsdl.org>
+  Copyright (C) 1997-2019 Sam Lantinga <slouken@libsdl.org>
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any damages
@@ -755,3 +755,28 @@ SDL_DYNAPI_PROC(SDL_Thread*,SDL_CreateThreadWithStackSize,(SDL_ThreadFunction a,
 SDL_DYNAPI_PROC(int,SDL_JoystickGetDevicePlayerIndex,(int a),(a),return)
 SDL_DYNAPI_PROC(int,SDL_JoystickGetPlayerIndex,(SDL_Joystick *a),(a),return)
 SDL_DYNAPI_PROC(int,SDL_GameControllerGetPlayerIndex,(SDL_GameController *a),(a),return)
+SDL_DYNAPI_PROC(int,SDL_RenderFlush,(SDL_Renderer *a),(a),return)
+SDL_DYNAPI_PROC(int,SDL_RenderDrawPointF,(SDL_Renderer *a, float b, float c),(a,b,c),return)
+SDL_DYNAPI_PROC(int,SDL_RenderDrawPointsF,(SDL_Renderer *a, const SDL_FPoint *b, int c),(a,b,c),return)
+SDL_DYNAPI_PROC(int,SDL_RenderDrawLineF,(SDL_Renderer *a, float b, float c, float d, float e),(a,b,c,d,e),return)
+SDL_DYNAPI_PROC(int,SDL_RenderDrawLinesF,(SDL_Renderer *a, const SDL_FPoint *b, int c),(a,b,c),return)
+SDL_DYNAPI_PROC(int,SDL_RenderDrawRectF,(SDL_Renderer *a, const SDL_FRect *b),(a,b),return)
+SDL_DYNAPI_PROC(int,SDL_RenderDrawRectsF,(SDL_Renderer *a, const SDL_FRect *b, int c),(a,b,c),return)
+SDL_DYNAPI_PROC(int,SDL_RenderFillRectF,(SDL_Renderer *a, const SDL_FRect *b),(a,b),return)
+SDL_DYNAPI_PROC(int,SDL_RenderFillRectsF,(SDL_Renderer *a, const SDL_FRect *b, int c),(a,b,c),return)
+SDL_DYNAPI_PROC(int,SDL_RenderCopyF,(SDL_Renderer *a, SDL_Texture *b, const SDL_Rect *c, const SDL_FRect *d),(a,b,c,d),return)
+SDL_DYNAPI_PROC(int,SDL_RenderCopyExF,(SDL_Renderer *a, SDL_Texture *b, const SDL_Rect *c, const SDL_FRect *d, const double e, const SDL_FPoint *f, const SDL_RendererFlip g),(a,b,c,d,e,f,g),return)
+SDL_DYNAPI_PROC(SDL_TouchDeviceType,SDL_GetTouchDeviceType,(SDL_TouchID a),(a),return)
+#ifdef __IPHONEOS__
+SDL_DYNAPI_PROC(int,SDL_UIKitRunApp,(int a, char *b, SDL_main_func c),(a,b,c),return)
+#endif
+SDL_DYNAPI_PROC(size_t,SDL_SIMDGetAlignment,(void),(),return)
+SDL_DYNAPI_PROC(void*,SDL_SIMDAlloc,(const size_t a),(a),return)
+SDL_DYNAPI_PROC(void,SDL_SIMDFree,(void *a),(a),)
+SDL_DYNAPI_PROC(Sint64,SDL_RWsize,(SDL_RWops *a),(a),return)
+SDL_DYNAPI_PROC(Sint64,SDL_RWseek,(SDL_RWops *a, Sint64 b, int c),(a,b,c),return)
+SDL_DYNAPI_PROC(Sint64,SDL_RWtell,(SDL_RWops *a),(a),return)
+SDL_DYNAPI_PROC(size_t,SDL_RWread,(SDL_RWops *a, void *b, size_t c, size_t d),(a,b,c,d),return)
+SDL_DYNAPI_PROC(size_t,SDL_RWwrite,(SDL_RWops *a, const void *b, size_t c, size_t d),(a,b,c,d),return)
+SDL_DYNAPI_PROC(int,SDL_RWclose,(SDL_RWops *a),(a),return)
+SDL_DYNAPI_PROC(void*,SDL_LoadFile,(const char *a, size_t *b),(a,b),return)

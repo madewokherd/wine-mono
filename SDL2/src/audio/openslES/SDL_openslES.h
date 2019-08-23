@@ -1,6 +1,6 @@
 /*
   Simple DirectMedia Layer
-  Copyright (C) 1997-2018 Sam Lantinga <slouken@libsdl.org>
+  Copyright (C) 1997-2019 Sam Lantinga <slouken@libsdl.org>
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any damages
@@ -18,36 +18,33 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
+#include "../../SDL_internal.h"
 
-/*
-  Contributed by Brandon Schaefer, <brandon.schaefer@canonical.com>
-*/
+#ifndef _SDL_openslesaudio_h
+#define _SDL_openslesaudio_h
 
-#ifndef SDL_miropengl_h_
-#define SDL_miropengl_h_
+#include "../SDL_sysaudio.h"
 
-#include "SDL_mirwindow.h"
+/* Hidden "this" pointer for the audio functions */
+#define _THIS   SDL_AudioDevice *this
 
-#include "../SDL_egl_c.h"
+#define NUM_BUFFERS 2           /* -- Don't lower this! */
 
-#define MIR_GL_DeleteContext   SDL_EGL_DeleteContext
-#define MIR_GL_GetSwapInterval SDL_EGL_GetSwapInterval
-#define MIR_GL_SetSwapInterval SDL_EGL_SetSwapInterval
-#define MIR_GL_UnloadLibrary   SDL_EGL_UnloadLibrary
-#define MIR_GL_GetProcAddress  SDL_EGL_GetProcAddress
+struct SDL_PrivateAudioData
+{
+    /* The file descriptor for the audio device */
+    Uint8   *mixbuff;
+    int      next_buffer;
+    Uint8   *pmixbuff[NUM_BUFFERS];
+    SDL_sem *playsem;
+#if 0
+    SDL_sem *recsem;
+#endif
+};
 
-extern int
-MIR_GL_SwapWindow(_THIS, SDL_Window* window);
+void openslES_ResumeDevices(void);
+void openslES_PauseDevices(void);
 
-extern int
-MIR_GL_MakeCurrent(_THIS, SDL_Window* window, SDL_GLContext context);
-
-extern SDL_GLContext
-MIR_GL_CreateContext(_THIS, SDL_Window* window);
-
-extern int
-MIR_GL_LoadLibrary(_THIS, const char* path);
-
-#endif /* SDL_miropengl_h_ */
+#endif /* _SDL_openslesaudio_h */
 
 /* vi: set ts=4 sw=4 expandtab: */

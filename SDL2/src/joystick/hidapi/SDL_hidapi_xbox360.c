@@ -1,6 +1,6 @@
 /*
   Simple DirectMedia Layer
-  Copyright (C) 1997-2018 Sam Lantinga <slouken@libsdl.org>
+  Copyright (C) 1997-2019 Sam Lantinga <slouken@libsdl.org>
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any damages
@@ -252,6 +252,10 @@ HIDAPI_DriverXbox360_IsSupportedDevice(Uint16 vendor_id, Uint16 product_id, Uint
 #if defined(__MACOSX__) || defined(__WIN32__)
     if (vendor_id == 0x045e && product_id == 0x028e && version == 1) {
         /* This is the Steam Virtual Gamepad, which isn't supported by this driver */
+        return SDL_FALSE;
+    }
+    if (vendor_id == 0x045e && product_id == 0x02e0) {
+        /* This is the old Bluetooth Xbox One S firmware, which isn't supported by this driver */
         return SDL_FALSE;
     }
     return SDL_IsJoystickXbox360(vendor_id, product_id) || SDL_IsJoystickXboxOne(vendor_id, product_id);

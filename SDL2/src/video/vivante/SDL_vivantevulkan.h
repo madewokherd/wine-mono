@@ -1,6 +1,6 @@
 /*
   Simple DirectMedia Layer
-  Copyright (C) 1997-2018 Sam Lantinga <slouken@libsdl.org>
+  Copyright (C) 1997-2017 Sam Lantinga <slouken@libsdl.org>
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any damages
@@ -19,35 +19,35 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_mirdyn_h_
-#define SDL_mirdyn_h_
+/*
+ * @author Wladimir J. van der Laan. Based on Jacob Lifshay's
+ * SDL_x11vulkan.h and Mark Callow's SDL_vivantevulkan.h
+ */
 
 #include "../../SDL_internal.h"
 
-#include <EGL/egl.h>
-#include <mir_toolkit/mir_client_library.h>
-#include <xkbcommon/xkbcommon.h>
+#ifndef SDL_vivantevulkan_h_
+#define SDL_vivantevulkan_h_
 
-#ifdef __cplusplus
-extern "C" {
+#include "../SDL_vulkan_internal.h"
+#include "../SDL_sysvideo.h"
+
+#if SDL_VIDEO_VULKAN &&  SDL_VIDEO_DRIVER_VIVANTE
+
+int VIVANTE_Vulkan_LoadLibrary(_THIS, const char *path);
+void VIVANTE_Vulkan_UnloadLibrary(_THIS);
+SDL_bool VIVANTE_Vulkan_GetInstanceExtensions(_THIS,
+                                          SDL_Window *window,
+                                          unsigned *count,
+                                          const char **names);
+SDL_bool VIVANTE_Vulkan_CreateSurface(_THIS,
+                                  SDL_Window *window,
+                                  VkInstance instance,
+                                  VkSurfaceKHR *surface);
+
 #endif
 
-int SDL_MIR_LoadSymbols(void);
-void SDL_MIR_UnloadSymbols(void);
-
-/* Declare all the function pointers and wrappers... */
-#define SDL_MIR_SYM(rc,fn,params) \
-    typedef rc (*SDL_DYNMIRFN_##fn) params; \
-    extern SDL_DYNMIRFN_##fn MIR_##fn;
-#define SDL_MIR_SYM_CONST(type, name) \
-    typedef type SDL_DYMMIRCONST_##name; \
-    extern SDL_DYMMIRCONST_##name MIR_##name;
-#include "SDL_mirsym.h"
-
-#ifdef __cplusplus
-}
-#endif
-
-#endif /* !defined SDL_mirdyn_h_ */
+#endif /* SDL_vivantevulkan_h_ */
 
 /* vi: set ts=4 sw=4 expandtab: */
+

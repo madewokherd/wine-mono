@@ -1,6 +1,6 @@
 /*
   Simple DirectMedia Layer
-  Copyright (C) 1997-2018 Sam Lantinga <slouken@libsdl.org>
+  Copyright (C) 1997-2019 Sam Lantinga <slouken@libsdl.org>
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any damages
@@ -88,6 +88,9 @@ static const AudioBootStrap *const bootstrap[] = {
 #endif
 #if SDL_AUDIO_DRIVER_FUSIONSOUND
     &FUSIONSOUND_bootstrap,
+#endif
+#if SDL_AUDIO_DRIVER_OPENSLES
+    &openslES_bootstrap,
 #endif
 #if SDL_AUDIO_DRIVER_ANDROID
     &ANDROIDAUDIO_bootstrap,
@@ -245,12 +248,6 @@ SDL_AudioPlayDevice_Default(_THIS)
 {                               /* no-op. */
 }
 
-static int
-SDL_AudioGetPendingBytes_Default(_THIS)
-{
-    return 0;
-}
-
 static Uint8 *
 SDL_AudioGetDeviceBuf_Default(_THIS)
 {
@@ -358,7 +355,6 @@ finish_audio_entry_points_init(void)
     FILL_STUB(BeginLoopIteration);
     FILL_STUB(WaitDevice);
     FILL_STUB(PlayDevice);
-    FILL_STUB(GetPendingBytes);
     FILL_STUB(GetDeviceBuf);
     FILL_STUB(CaptureFromDevice);
     FILL_STUB(FlushCapture);
@@ -651,11 +647,9 @@ SDL_GetQueuedAudioSize(SDL_AudioDeviceID devid)
     }
 
     /* Nothing to do unless we're set up for queueing. */
-    if (device->callbackspec.callback == SDL_BufferQueueDrainCallback) {
-        current_audio.impl.LockDevice(device);
-        retval = ((Uint32) SDL_CountDataQueue(device->buffer_queue)) + current_audio.impl.GetPendingBytes(device);
-        current_audio.impl.UnlockDevice(device);
-    } else if (device->callbackspec.callback == SDL_BufferQueueFillCallback) {
+    if (device->callbackspec.callback == SDL_BufferQueueDrainCallback ||
+        device->callbackspec.callback == SDL_BufferQueueFillCallback)
+    {
         current_audio.impl.LockDevice(device);
         retval = (Uint32) SDL_CountDataQueue(device->buffer_queue);
         current_audio.impl.UnlockDevice(device);
@@ -695,8 +689,16 @@ SDL_RunAudio(void *devicep)
 
     SDL_assert(!device->iscapture);
 
+#if SDL_AUDIO_DRIVER_ANDROID
+    {
+        /* Set thread priority to THREAD_PRIORITY_AUDIO */
+        extern void Android_JNI_AudioSetThreadPriority(int, int);
+        Android_JNI_AudioSetThreadPriority(device->iscapture, device->id);
+    }
+#else
     /* The audio mixing is always a high priority thread */
     SDL_SetThreadPriority(SDL_THREAD_PRIORITY_TIME_CRITICAL);
+#endif
 
     /* Perform any thread setup */
     device->threadid = SDL_ThreadID();
@@ -792,8 +794,16 @@ SDL_CaptureAudio(void *devicep)
 
     SDL_assert(device->iscapture);
 
+#if SDL_AUDIO_DRIVER_ANDROID
+    {
+        /* Set thread priority to THREAD_PRIORITY_AUDIO */
+        extern void Android_JNI_AudioSetThreadPriority(int, int);
+        Android_JNI_AudioSetThreadPriority(device->iscapture, device->id);
+    }
+#else
     /* The audio mixing is always a high priority thread */
     SDL_SetThreadPriority(SDL_THREAD_PRIORITY_HIGH);
+#endif
 
     /* Perform any thread setup */
     device->threadid = SDL_ThreadID();
@@ -876,8 +886,6 @@ SDL_CaptureAudio(void *devicep)
             SDL_UnlockMutex(device->mixer_lock);
         }
     }
-
-    current_audio.impl.PrepareToClose(device);
 
     current_audio.impl.FlushCapture(device);
 

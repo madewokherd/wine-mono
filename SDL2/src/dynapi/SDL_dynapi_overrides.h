@@ -1,6 +1,6 @@
 /*
   Simple DirectMedia Layer
-  Copyright (C) 1997-2018 Sam Lantinga <slouken@libsdl.org>
+  Copyright (C) 1997-2019 Sam Lantinga <slouken@libsdl.org>
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any damages
@@ -701,3 +701,26 @@
 #define SDL_JoystickGetDevicePlayerIndex SDL_JoystickGetDevicePlayerIndex_REAL
 #define SDL_JoystickGetPlayerIndex SDL_JoystickGetPlayerIndex_REAL
 #define SDL_GameControllerGetPlayerIndex SDL_GameControllerGetPlayerIndex_REAL
+#define SDL_RenderFlush SDL_RenderFlush_REAL
+#define SDL_RenderDrawPointF SDL_RenderDrawPointF_REAL
+#define SDL_RenderDrawPointsF SDL_RenderDrawPointsF_REAL
+#define SDL_RenderDrawLineF SDL_RenderDrawLineF_REAL
+#define SDL_RenderDrawLinesF SDL_RenderDrawLinesF_REAL
+#define SDL_RenderDrawRectF SDL_RenderDrawRectF_REAL
+#define SDL_RenderDrawRectsF SDL_RenderDrawRectsF_REAL
+#define SDL_RenderFillRectF SDL_RenderFillRectF_REAL
+#define SDL_RenderFillRectsF SDL_RenderFillRectsF_REAL
+#define SDL_RenderCopyF SDL_RenderCopyF_REAL
+#define SDL_RenderCopyExF SDL_RenderCopyExF_REAL
+#define SDL_GetTouchDeviceType SDL_GetTouchDeviceType_REAL
+#define SDL_UIKitRunApp SDL_UIKitRunApp_REAL
+#define SDL_SIMDGetAlignment SDL_SIMDGetAlignment_REAL
+#define SDL_SIMDAlloc SDL_SIMDAlloc_REAL
+#define SDL_SIMDFree SDL_SIMDFree_REAL
+#define SDL_RWsize SDL_RWsize_REAL
+#define SDL_RWseek SDL_RWseek_REAL
+#define SDL_RWtell SDL_RWtell_REAL
+#define SDL_RWread SDL_RWread_REAL
+#define SDL_RWwrite SDL_RWwrite_REAL
+#define SDL_RWclose SDL_RWclose_REAL
+#define SDL_LoadFile SDL_LoadFile_REAL

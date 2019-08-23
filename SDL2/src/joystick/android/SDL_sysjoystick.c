@@ -1,6 +1,6 @@
 /*
   Simple DirectMedia Layer
-  Copyright (C) 1997-2018 Sam Lantinga <slouken@libsdl.org>
+  Copyright (C) 1997-2019 Sam Lantinga <slouken@libsdl.org>
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any damages
@@ -83,7 +83,7 @@ static Uint32 crc32_for_byte(Uint32 r)
     return r ^ (Uint32)0xFF000000L;
 }
 
-static Uint32 crc32(const void *data, int count)
+static Uint32 crc32(const void *data, size_t count)
 {
     Uint32 crc = 0;
     int i;

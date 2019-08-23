@@ -1,6 +1,6 @@
 /*
   Simple DirectMedia Layer
-  Copyright (C) 1997-2018 Sam Lantinga <slouken@libsdl.org>
+  Copyright (C) 1997-2019 Sam Lantinga <slouken@libsdl.org>
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any damages
@@ -80,6 +80,49 @@
 #define MAX_JOY_JOYS    2
 #define MAX_JOYS    (MAX_UHID_JOYS + MAX_JOY_JOYS)
 
+#ifdef __OpenBSD__
+
+#define HUG_DPAD_UP         0x90
+#define HUG_DPAD_DOWN       0x91
+#define HUG_DPAD_RIGHT      0x92
+#define HUG_DPAD_LEFT       0x93
+
+#define HAT_CENTERED        0x00
+#define HAT_UP              0x01
+#define HAT_RIGHT           0x02
+#define HAT_DOWN            0x04
+#define HAT_LEFT            0x08
+#define HAT_RIGHTUP         (HAT_RIGHT|HAT_UP)
+#define HAT_RIGHTDOWN       (HAT_RIGHT|HAT_DOWN)
+#define HAT_LEFTUP          (HAT_LEFT|HAT_UP)
+#define HAT_LEFTDOWN        (HAT_LEFT|HAT_DOWN)
+
+/* calculate the value from the state of the dpad */
+int
+dpad_to_sdl(Sint32 *dpad)
+{
+    if (dpad[2]) {
+        if (dpad[0])
+            return HAT_RIGHTUP;
+        else if (dpad[1])
+            return HAT_RIGHTDOWN;
+        else
+            return HAT_RIGHT;
+    } else if (dpad[3]) {
+        if (dpad[0])
+            return HAT_LEFTUP;
+        else if (dpad[1])
+            return HAT_LEFTDOWN;
+        else
+            return HAT_LEFT;
+    } else if (dpad[0]) {
+        return HAT_UP;
+    } else if (dpad[1]) {
+        return HAT_DOWN;
+    }
+    return HAT_CENTERED;
+}
+#endif
 
 struct report
 {
@@ -299,6 +342,10 @@ BSD_JoystickOpen(SDL_Joystick * joy, int device_index)
     struct hid_item hitem;
     struct hid_data *hdata;
     struct report *rep = NULL;
+#if defined(__NetBSD__)
+    usb_device_descriptor_t udd;
+    struct usb_string_desc usd;
+#endif
     int fd;
     int i;
 
@@ -350,8 +397,6 @@ BSD_JoystickOpen(SDL_Joystick * joy, int device_index)
         rep->rid = -1;          /* XXX */
     }
 #if defined(__NetBSD__)
-    usb_device_descriptor_t udd;
-    struct usb_string_desc usd;
     if (ioctl(fd, USB_GET_DEVICE_DESC, &udd) == -1)
         goto desc_failed;
 
@@ -432,7 +477,11 @@ desc_failed:
                     int joyaxe = usage_to_joyaxe(usage);
                     if (joyaxe >= 0) {
                         hw->axis_map[joyaxe] = 1;
-                    } else if (usage == HUG_HAT_SWITCH) {
+                    } else if (usage == HUG_HAT_SWITCH
+#ifdef __OpenBSD__
+                               || usage == HUG_DPAD_UP
+#endif
+                               ) {
                         joy->nhats++;
                     }
                     break;
@@ -485,6 +534,9 @@ BSD_JoystickUpdate(SDL_Joystick * joy)
     struct report *rep;
     int nbutton, naxe = -1;
     Sint32 v;
+#ifdef __OpenBSD__
+    Sint32 dpad[4] = {0, 0, 0, 0};
+#endif
 
 #if defined(__FREEBSD__) || SDL_JOYSTICK_USBHID_MACHINE_JOYSTICK_H || defined(__FreeBSD_kernel__)
     struct joystick gameport;
@@ -570,6 +622,24 @@ BSD_JoystickUpdate(SDL_Joystick * joy)
                                                    hatval_to_sdl(v) -
                                                    hitem.logical_minimum);
                         }
+#ifdef __OpenBSD__
+                        else if (usage == HUG_DPAD_UP) {
+                            dpad[0] = (Sint32) hid_get_data(REP_BUF_DATA(rep), &hitem);
+                            SDL_PrivateJoystickHat(joy, 0, dpad_to_sdl(dpad));
+                        }
+                        else if (usage == HUG_DPAD_DOWN) {
+                            dpad[1] = (Sint32) hid_get_data(REP_BUF_DATA(rep), &hitem);
+                            SDL_PrivateJoystickHat(joy, 0, dpad_to_sdl(dpad));
+                        }
+                        else if (usage == HUG_DPAD_RIGHT) {
+                            dpad[2] = (Sint32) hid_get_data(REP_BUF_DATA(rep), &hitem);
+                            SDL_PrivateJoystickHat(joy, 0, dpad_to_sdl(dpad));
+                        }
+                        else if (usage == HUG_DPAD_LEFT) {
+                            dpad[3] = (Sint32) hid_get_data(REP_BUF_DATA(rep), &hitem);
+                            SDL_PrivateJoystickHat(joy, 0, dpad_to_sdl(dpad));
+                        }
+#endif
                         break;
                     }
                 case HUP_BUTTON:

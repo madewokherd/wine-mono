@@ -1,6 +1,6 @@
 /*
   Simple DirectMedia Layer
-  Copyright (C) 1997-2018 Sam Lantinga <slouken@libsdl.org>
+  Copyright (C) 1997-2019 Sam Lantinga <slouken@libsdl.org>
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any damages
@@ -801,8 +801,7 @@ SDL_SYS_ToFFEffect(struct ff_effect *dest, SDL_HapticEffect * src)
         else if (periodic->type == SDL_HAPTIC_SAWTOOTHDOWN)
             dest->u.periodic.waveform = FF_SAW_DOWN;
         dest->u.periodic.period = CLAMP(periodic->period);
-        /* Linux expects 0-65535, so multiply by 2 */
-        dest->u.periodic.magnitude = CLAMP(periodic->magnitude) * 2;
+        dest->u.periodic.magnitude = periodic->magnitude;
         dest->u.periodic.offset = periodic->offset;
         /* Linux phase is defined in interval "[0x0000, 0x10000[", corresponds with "[0deg, 360deg[" phase shift. */
         dest->u.periodic.phase = ((Uint32)periodic->phase * 0x10000U) / 36000;
