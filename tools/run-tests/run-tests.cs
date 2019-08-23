@@ -13,8 +13,8 @@ class RunTests
 	string failing_output_path;
 
 	// expected results
-	//HashSet<string> pass_list;
-	//HashSet<string> todo_list;
+	HashSet<string> pass_list = new HashSet<string> ();
+	HashSet<string> fail_list = new HashSet<string> ();
 	Dictionary<string, List<string>> skip_list = new Dictionary<string, List<string>> ();
 	Dictionary<string, List<string>> run_list = new Dictionary<string, List<string>> ();
 
@@ -230,8 +230,31 @@ class RunTests
 		}
 	}
 
+	void read_stringlist(string filename, HashSet<string> testlist)
+	{
+		using (StreamReader sr = new StreamReader(filename))
+		{
+			string line;
+			while ((line = sr.ReadLine()) != null)
+			{
+				if (line.Contains("#"))
+				{
+					line = line.Substring(0, line.IndexOf('#'));
+				}
+				foreach (string test in line.Split(new char[] {' '}))
+				{
+					string trtest = test.Trim();
+					if (trtest != "")
+						testlist.Add(trtest);
+				}
+			}
+		}
+	}
+
 	int main(string[] arguments)
 	{
+		int result;
+
 		foreach (string argument in arguments)
 		{
 			if (argument.StartsWith("-write-passing:"))
@@ -246,6 +269,10 @@ class RunTests
 				add_to_testlist(argument.Substring(5), run_list);
 			else if (argument.StartsWith("-run-list:"))
 				read_testlist(argument.Substring(10), run_list);
+			else if (argument.StartsWith("-pass-list:"))
+				read_stringlist(argument.Substring(11), pass_list);
+			else if (argument.StartsWith("-fail-list:"))
+				read_stringlist(argument.Substring(11), fail_list);
 			else
 			{
 				Console.WriteLine("Unrecognized argument: {0}", argument);
@@ -255,6 +282,8 @@ class RunTests
 
 		run_mono_test_dir(Path.Combine(BasePath, "tests-x86"), "x86");
 		run_mono_test_dir(Path.Combine(BasePath, "tests-x86_64"), "x86_64");
+
+		result = failing_tests.Count;
 
 		if (!String.IsNullOrEmpty(passing_output_path))
 		{
@@ -274,10 +303,45 @@ class RunTests
 			}
 		}
 
+		if (pass_list.Count != 0)
+		{
+			var unexpected_pass = new List<string> ();
+			foreach (string name in passing_tests)
+				if (!pass_list.Contains(name) &&
+					!pass_list.Contains(name.Split(new char[]{'.'}, 2)[1]))
+					unexpected_pass.Add(name);
+			if (unexpected_pass.Count != 0)
+			{
+				Console.WriteLine("The following tests passed but were not in pass-list:");
+				Console.WriteLine();
+				foreach (string name in unexpected_pass)
+					Console.WriteLine(name);
+				Console.WriteLine();
+			}
+		}
+
+		if (fail_list.Count != 0)
+		{
+			var unexpected_fail = new List<string> ();
+			foreach (string name in failing_tests)
+				if (!fail_list.Contains(name) &&
+					!fail_list.Contains(name.Split(new char[]{'.'}, 2)[1]))
+					unexpected_fail.Add(name);
+			if (unexpected_fail.Count != 0)
+			{
+				Console.WriteLine("The following tests failed but were not in fail-list:");
+				Console.WriteLine();
+				foreach (string name in unexpected_fail)
+					Console.WriteLine(name);
+				Console.WriteLine();
+			}
+			result = unexpected_fail.Count;
+		}
+
 		Console.WriteLine("{0} tests passed, {1} tests failed",
 			passing_tests.Count, failing_tests.Count);
 
-		return failing_tests.Count;
+		return result;
 	}
 
 	static int Main(string[] arguments)
