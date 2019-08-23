@@ -1,4 +1,6 @@
 
+.SUFFIXES: #disable all builtin rules
+
 # configuration
 SRCDIR:=$(dir $(MAKEFILE_LIST))
 BUILDDIR=$(SRCDIR)/build
