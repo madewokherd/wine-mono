@@ -93,7 +93,7 @@ class RunTests
 		else
 		{
 			failing_tests.Add(test_assembly);
-			Console.WriteLine("Test failed{0}: {1}", p.ExitCode, test_assembly);
+			Console.WriteLine("Test failed({0}): {1}", p.ExitCode, test_assembly);
 		}
 	}
 
