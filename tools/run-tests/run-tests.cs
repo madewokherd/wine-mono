@@ -205,7 +205,8 @@ class RunTests
 		}
 		else
 		{
-			testlist.TryAdd(str, null);
+			if (!testlist.ContainsKey(str))
+				testlist.Add(str, null);
 		}
 	}
 
