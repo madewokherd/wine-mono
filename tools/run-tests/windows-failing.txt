@@ -94,3 +94,10 @@ verbose
 w32message
 weak-fields
 x86.winx64structs:test_0_Ret_In_Address
+assembly-load-remap
+bug-3903
+install_eh_callback:test_0_throw_and_raise_exception
+install_eh_callback
+x86_64.calli_native
+x86_64.pinvoke2:test_0_x86_single_double_struct_ret
+marshal9:test_0_pass_ref
