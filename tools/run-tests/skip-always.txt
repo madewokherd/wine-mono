@@ -4,6 +4,7 @@ abort-stress-2
 abort-stress-3
 assembly-load-stress
 domain-stress
+exit-stress
 gc-copy-stress
 gc-graystack-stress
 gc-stress

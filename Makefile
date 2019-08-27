@@ -69,6 +69,7 @@ The following targets are defined:
 	msi:	      Build wine-mono-$(MSI_VERSION).msi
 	targz:	      Build wine-mono-bin-$(MSI_VERSION).tar.gz
 	tests:        Build the mono tests.
+	test:         Build and run the mono tests.
 	dev:          Build the runtime locally in image/ and configure $$WINEPREFIX to use it.
 	System.dll:   Build a single dll and place it in the image/ directory.
 	image:        Build the runtime locally image/ directory.
@@ -360,6 +361,9 @@ clean: clean-tests
 $(BUILDDIR)/mono-unix/mono/tests/.built: $(BUILDDIR)/mono-unix/.built
 	+$(MAKE) -C $(@D) test-local
 	touch $@
+
+test: tests dev
+	$(WINE) '$(shell $(WINE) winepath -w $(TESTS_OUTDIR)/run-tests.exe)' -skip-list:'$(shell $(WINE) winepath -w $(SRCDIR)/tools/run-tests/skip-always.txt)' -skip-list:'$(shell $(WINE) winepath -w $(SRCDIR)/tools/run-tests/windows-failing.txt)' -fail-list:'$(shell $(WINE) winepath -w $(SRCDIR)/tools/run-tests/wine-failing.txt)' -pass-list:'$(shell $(WINE) winepath -w $(SRCDIR)/tools/run-tests/wine-passing.txt)'
 
 clean-build-mono-unix:
 	rm -rf $(BUILDDIR)/mono-unix $(BUILDDIR)/mono-unix-install $(BUILDDIR)/mono-win32-install

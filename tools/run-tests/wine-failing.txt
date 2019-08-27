@@ -1,0 +1,5 @@
+monitor:test_0_enter_abort_race
+pinvoke3:test_0_marshal_small_struct_delegate8
+pinvoke3:test_0_marshal_small_struct_delegate9
+# definitely unreliable:
+delegate2
