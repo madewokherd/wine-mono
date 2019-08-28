@@ -1,4 +1,4 @@
-monitor:test_0_enter_abort_race
+monitor:test_0_enter_abort_race # wine takes too long to start the bg thread for this test
 pinvoke3:test_0_marshal_small_struct_delegate8
 pinvoke3:test_0_marshal_small_struct_delegate9
 # definitely unreliable:
