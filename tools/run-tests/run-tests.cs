@@ -354,6 +354,12 @@ class RunTests
 		Console.WriteLine("{0} tests passed, {1} tests failed",
 			passing_tests.Count, failing_tests.Count);
 
+		if (passing_tests.Count == 0 && failing_tests.Count == 0)
+		{
+			Console.WriteLine("No tests were run.");
+			result = 1;
+		}
+
 		return result;
 	}
 
