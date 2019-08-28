@@ -32,9 +32,10 @@ class RunTests
 
 	void process_mono_test_output(object o)
 	{
-		var t = (Tuple<Process,string>)o;
+		var t = (Tuple<Process,string,bool>)o;
 		Process p = t.Item1;
 		string test_assembly = t.Item2;
+		bool any_skips = t.Item3;
 		string line;
 		string current_test = null;
 		bool any_passed = false;
@@ -74,12 +75,20 @@ class RunTests
 		{
 			p.WaitForExit();
 			failing_tests.Add(String.Format("{0}:{1}", test_assembly, current_test));
+			any_failed = true;
 		}
 
 		if (test_timed_out)
 		{
 			failing_tests.Add(test_assembly);
 			Console.WriteLine("Test timed out: {0}", test_assembly);
+		}
+		else if (any_skips)
+		{
+			if (any_passed || any_failed)
+				Console.WriteLine("Some tests skipped: {0}", test_assembly);
+			else	
+				Console.WriteLine("All tests skipped: {0}", test_assembly);
 		}
 		else if (p.ExitCode == 0 && !any_failed)
 		{
@@ -101,6 +110,7 @@ class RunTests
 	{
 		string testname = Path.GetFileNameWithoutExtension(path);
 		string fulltestname = String.Format("{0}.{1}", arch, testname);
+		bool any_skips = false;
 		test_timed_out = false;
 
 		List<string> runs = new List<string> ();
@@ -155,18 +165,20 @@ class RunTests
 		{
 			p.StartInfo.Arguments = String.Format("{0} --exclude-test \"{1}\"",
 				p.StartInfo.Arguments, test);
+			any_skips = true;
 		}
 		foreach (string test in runs)
 		{
 			p.StartInfo.Arguments = String.Format("{0} --run-only \"{1}\"",
 				p.StartInfo.Arguments, test);
+			any_skips = true;
 		}
 		p.StartInfo.UseShellExecute = false;
 		p.StartInfo.RedirectStandardOutput = true;
 		p.StartInfo.WorkingDirectory = Path.GetDirectoryName(path);
 		p.Start();
 		Thread t = new Thread(process_mono_test_output);
-		t.Start(Tuple.Create(p, fulltestname));
+		t.Start(Tuple.Create(p, fulltestname, any_skips));
 		p.WaitForExit(5 * 60 * 1000); // 5 minutes
 		if (!p.HasExited)
 		{
