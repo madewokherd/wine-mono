@@ -1,5 +1,14 @@
 monitor:test_0_enter_abort_race # wine takes too long to start the bg thread for this test
 pinvoke3:test_0_marshal_small_struct_delegate8
 pinvoke3:test_0_marshal_small_struct_delegate9
+x86.builtin-types:test_0_nint_compareto
+x86.builtin-types:test_0_nint_equals
+x86.builtin-types:test_0_nint_genequals
+x86.builtin-types:test_0_nint_tostring
+x86.builtin-types:test_0_nint_fieldload
+x86.builtin-types:test_0_nuint_compareto
+x86.builtin-types:test_0_nuint_equals
+x86.builtin-types:test_0_nuint_fieldload
+x86.builtin-types:test_0_nfloat_ctor
 # definitely unreliable:
 delegate2

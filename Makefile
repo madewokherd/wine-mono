@@ -152,9 +152,9 @@ clean-tests-$(1):
 .PHONY: clean-tests-$(1)
 clean-tests: clean-tests-$(1)
 
-tests-runtime-$(1): $$(BUILDDIR)/mono-unix/mono/tests/.built $$(BUILDDIR)/set32only.exe
+tests-runtime-$(1): $$(BUILDDIR)/mono-unix/mono/mini/.built-tests $$(BUILDDIR)/mono-unix/mono/tests/.built $$(BUILDDIR)/set32only.exe
 	mkdir -p $$(TESTS_OUTDIR)/tests-$(1)
-	cp $$(BUILDDIR)/mono-unix/mono/tests/*.exe $$(BUILDDIR)/mono-unix/mono/tests/*.dll $$(TESTS_OUTDIR)/tests-$(1)
+	cp $$(BUILDDIR)/mono-unix/mono/tests/*.exe $$(BUILDDIR)/mono-unix/mono/tests/*.dll $$(BUILDDIR)/mono-unix/mono/mini/*.exe $$(TESTS_OUTDIR)/tests-$(1)
 	if test $(1) = x86; then cd $$(TESTS_OUTDIR)/tests-$(1); $$(WINE) $$(BUILDDIR_ABS)/set32only.exe *.exe; fi
 tests: tests-runtime-$(1)
 
@@ -359,6 +359,10 @@ clean-tests:
 clean: clean-tests
 
 $(BUILDDIR)/mono-unix/mono/tests/.built: $(BUILDDIR)/mono-unix/.built
+	+$(MAKE) -C $(@D) test-local
+	touch $@
+
+$(BUILDDIR)/mono-unix/mono/mini/.built-tests: $(BUILDDIR)/mono-unix/.built
 	+$(MAKE) -C $(@D) test-local
 	touch $@
 
