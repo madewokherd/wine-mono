@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
+using System.Xml;
 
 class RunTests
 {
@@ -17,6 +18,7 @@ class RunTests
 	HashSet<string> fail_list = new HashSet<string> ();
 	Dictionary<string, List<string>> skip_list = new Dictionary<string, List<string>> ();
 	Dictionary<string, List<string>> run_list = new Dictionary<string, List<string>> ();
+	List<string> skip_categories = new List<string> ();
 
 	// actual results
 	List<string> passing_tests = new List<string> ();
@@ -201,6 +203,227 @@ class RunTests
 		}
 	}
 
+	string get_nunit_lite_console(string arch)
+	{
+		string basename;
+		if (arch == "x86")
+			basename = "nunit-lite-console32.exe";
+		else
+			basename = "nunit-lite-console.exe";
+
+		return Path.Combine(BasePath, "tests-clr", basename);
+	}
+
+	List<Tuple<string, List<string>>> get_clr_test_fixtures(string fulltestname, string filename, string arch)
+	{
+		var tempfile = Path.GetTempFileName();
+
+		try
+		{
+			using (Process p = new Process())
+			{
+				p.StartInfo = new ProcessStartInfo(get_nunit_lite_console(arch));
+				p.StartInfo.Arguments = String.Format("{0} \"-explore:{1}\"",
+					filename, tempfile);
+				p.StartInfo.UseShellExecute = false;
+				p.Start();
+				p.WaitForExit(30 * 1000); // 30 seconds
+				if (!p.HasExited)
+				{
+					Console.WriteLine("Timed out getting test list for {0}", fulltestname);
+					failing_tests.Add(fulltestname);
+					return null;
+				}
+				if (p.ExitCode != 0)
+				{
+					Console.WriteLine("Getting test list for {0} failed (exit code {1})", fulltestname, p.ExitCode);
+					failing_tests.Add(fulltestname);
+					return null;
+				}
+			}
+
+			var fixtures = new List<Tuple<string, List<string>>>();
+
+			using (var reader = XmlReader.Create(tempfile))
+			{
+				List<string> testlist = null;
+				while (reader.Read())
+				{
+					if (reader.NodeType == XmlNodeType.Element &&
+						reader.Name == "test-suite")
+					{
+						testlist = new List<string>();
+						fixtures.Add(Tuple.Create(reader["fullname"], testlist));
+					}
+					else if (reader.NodeType == XmlNodeType.EndElement &&
+						reader.Name == "test-suite")
+					{
+						testlist = null;
+					}
+					else if (reader.NodeType == XmlNodeType.Element &&
+						reader.Name == "test-case" &&
+						testlist != null)
+					{
+						testlist.Add(reader["name"]);
+					}
+				}
+			}
+
+			return fixtures;
+		}
+		finally
+		{
+			File.Delete(tempfile);
+		}
+	}
+
+	bool should_run_fixture(string fixture, string arch, bool run_all)
+	{
+		bool result = (run_all || run_list.Count == 0);
+
+		int pos=-1;
+		while ((pos = fixture.IndexOf('.', pos+1)) != -1)
+		{
+			string prefix = fixture.Substring(0, pos);
+			if (run_list.ContainsKey(prefix) ||
+				run_list.ContainsKey(String.Format("{0}.{1}", arch, prefix)))
+				result = true;
+			if (skip_list.ContainsKey(prefix) ||
+				skip_list.ContainsKey(String.Format("{0}.{1}", arch, prefix)))
+				result = false;
+		}
+
+		if (run_list.ContainsKey(fixture))
+			result = true;
+
+		if (skip_list.ContainsKey(fixture) && skip_list[fixture] == null)
+			result = false;
+
+		string fullfixture = String.Format("{0}.{1}", arch, fixture);
+
+		if (run_list.ContainsKey(fullfixture))
+			return true;
+
+		if (skip_list.ContainsKey(fullfixture) && skip_list[fullfixture] == null)
+			return false;
+
+		return result;
+	}
+
+	void run_clr_test_fixture(string filename, string fixture, string arch, List<string> testlist, bool run_all)
+	{
+		string fullfixture = String.Format("{0}.{1}", arch, fixture);
+
+		Console.WriteLine("Running {0}", fullfixture);
+
+		List<string> runs = new List<string> ();
+		if (run_list.ContainsKey(fixture) && run_list[fixture] != null)
+			runs.AddRange(run_list[fixture]);
+		if (run_list.ContainsKey(fullfixture) && run_list[fullfixture] != null)
+			runs.AddRange(run_list[fullfixture]);
+
+		if (run_list.Count == 0)
+			run_all = true;
+
+		List<string> skips = new List<string> ();
+		if (skip_list.ContainsKey(fixture) && skip_list[fixture] != null)
+			skips.AddRange(run_list[fixture]);
+		if (skip_list.ContainsKey(fullfixture) && skip_list[fullfixture] != null)
+			skips.AddRange(run_list[fullfixture]);
+
+		string outputfile = Path.GetTempFileName();
+
+		try
+		{
+			using (Process p = new Process())
+			{
+				bool any_tests = false;
+				p.StartInfo = new ProcessStartInfo(get_nunit_lite_console(arch));
+				p.StartInfo.Arguments = String.Format("{0} -labels -result:{1}", filename, outputfile);
+				foreach (string test in testlist)
+				{
+					if ((run_all || runs.Contains(test)) && !skips.Contains(test))
+					{
+						p.StartInfo.Arguments += String.Format(" -test:{0}.{1}", fixture, test);
+						any_tests = true;
+					}
+				}
+				if (!any_tests)
+				{
+					Console.WriteLine("All tests skipped: {0}", fullfixture);
+					return;
+				}
+				p.StartInfo.UseShellExecute = false;
+				p.StartInfo.WorkingDirectory = Path.GetDirectoryName(filename);
+				p.Start();
+				p.WaitForExit(5 * 60 * 1000); // 5 minutes
+				if (!p.HasExited)
+				{
+					p.Kill();
+					Console.WriteLine("Test timed out: {0}", fullfixture);
+					failing_tests.Add(fullfixture);
+					return;
+				}
+				// TODO: Parse output
+				if (p.ExitCode == 0)
+				{
+					passing_tests.Add(fullfixture);
+					Console.WriteLine("Test succeeded: {0}", fullfixture);
+				}
+				else
+				{
+					failing_tests.Add(fullfixture);
+					Console.WriteLine("Test failed({0}): {1}", p.ExitCode, fullfixture);
+				}
+			}
+		}
+		finally
+		{
+			File.Delete(outputfile);
+		}
+	}
+
+	void run_clr_test_dll(string filename, string arch)
+	{
+		string basename = Path.GetFileNameWithoutExtension(filename);
+		string testname = basename.Substring(8, basename.Length - 13);
+		string fulltestname = String.Format("{0}.{1}", arch, testname);
+		bool run_all;
+		
+		if (skip_list.ContainsKey(testname) ||
+			skip_list.ContainsKey(fulltestname))
+		{
+			Console.WriteLine("Skipping {0}", fulltestname);
+			return;
+		}
+
+		run_all = (run_list.ContainsKey(testname) || run_list.ContainsKey(fulltestname));
+
+		var fixtures = get_clr_test_fixtures(fulltestname, filename, arch);
+
+		if (fixtures == null)
+			return;
+
+		foreach (var t in fixtures)
+		{
+			string testfixture = t.Item1;
+			var testlist = t.Item2;
+
+			if (should_run_fixture(testfixture, arch, run_all))
+			{
+				run_clr_test_fixture(filename, testfixture, arch, testlist, run_all);
+			}
+		}
+	}
+
+	void run_clr_test_dir(string path, string arch)
+	{
+		foreach (string filename in Directory.EnumerateFiles(path, "net_4_x_*_test.dll"))
+		{
+			run_clr_test_dll(filename, arch);
+		}
+	}
+
 	void add_to_testlist(string str, Dictionary<string, List<string>> testlist)
 	{
 		if (str.Contains(":"))
@@ -295,6 +518,8 @@ class RunTests
 
 		run_mono_test_dir(Path.Combine(BasePath, "tests-x86"), "x86");
 		run_mono_test_dir(Path.Combine(BasePath, "tests-x86_64"), "x86_64");
+		run_clr_test_dir(Path.Combine(BasePath, "tests-clr"), "x86");
+		run_clr_test_dir(Path.Combine(BasePath, "tests-clr"), "x86_64");
 
 		result = failing_tests.Count;
 
