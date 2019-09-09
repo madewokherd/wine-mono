@@ -216,65 +216,34 @@ class RunTests
 
 	List<Tuple<string, List<string>>> get_clr_test_fixtures(string fulltestname, string filename, string arch)
 	{
-		var tempfile = Path.GetTempFileName();
+		var fixtures = new List<Tuple<string, List<string>>>();
 
-		try
+		using (var reader = XmlReader.Create(filename + ".testlist"))
 		{
-			using (Process p = new Process())
+			List<string> testlist = null;
+			while (reader.Read())
 			{
-				p.StartInfo = new ProcessStartInfo(get_nunit_lite_console(arch));
-				p.StartInfo.Arguments = String.Format("{0} \"-explore:{1}\"",
-					filename, tempfile);
-				p.StartInfo.UseShellExecute = false;
-				p.Start();
-				p.WaitForExit(30 * 1000); // 30 seconds
-				if (!p.HasExited)
+				if (reader.NodeType == XmlNodeType.Element &&
+					reader.Name == "test-suite")
 				{
-					Console.WriteLine("Timed out getting test list for {0}", fulltestname);
-					failing_tests.Add(fulltestname);
-					return null;
+					testlist = new List<string>();
+					fixtures.Add(Tuple.Create(reader["fullname"], testlist));
 				}
-				if (p.ExitCode != 0)
+				else if (reader.NodeType == XmlNodeType.EndElement &&
+					reader.Name == "test-suite")
 				{
-					Console.WriteLine("Getting test list for {0} failed (exit code {1})", fulltestname, p.ExitCode);
-					failing_tests.Add(fulltestname);
-					return null;
+					testlist = null;
+				}
+				else if (reader.NodeType == XmlNodeType.Element &&
+					reader.Name == "test-case" &&
+					testlist != null)
+				{
+					testlist.Add(reader["name"]);
 				}
 			}
-
-			var fixtures = new List<Tuple<string, List<string>>>();
-
-			using (var reader = XmlReader.Create(tempfile))
-			{
-				List<string> testlist = null;
-				while (reader.Read())
-				{
-					if (reader.NodeType == XmlNodeType.Element &&
-						reader.Name == "test-suite")
-					{
-						testlist = new List<string>();
-						fixtures.Add(Tuple.Create(reader["fullname"], testlist));
-					}
-					else if (reader.NodeType == XmlNodeType.EndElement &&
-						reader.Name == "test-suite")
-					{
-						testlist = null;
-					}
-					else if (reader.NodeType == XmlNodeType.Element &&
-						reader.Name == "test-case" &&
-						testlist != null)
-					{
-						testlist.Add(reader["name"]);
-					}
-				}
-			}
-
-			return fixtures;
 		}
-		finally
-		{
-			File.Delete(tempfile);
-		}
+
+		return fixtures;
 	}
 
 	bool should_run_fixture(string fixture, string arch, bool run_all)
