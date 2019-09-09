@@ -356,6 +356,7 @@ tests-clr: $(BUILDDIR)/mono-unix/.built-clr-tests $(BUILDDIR)/nunitlite.dll $(BU
 	cp -r $(SRCDIR)/mono/mcs/class/System.Windows.Forms/Test/resources $(TESTS_OUTDIR)/tests-clr/Test
 	cp $(TESTS_OUTDIR)/tests-clr/nunit-lite-console.exe $(TESTS_OUTDIR)/tests-clr/nunit-lite-console32.exe
 	cd $(TESTS_OUTDIR)/tests-clr; $(WINE) $(BUILDDIR_ABS)/set32only.exe nunit-lite-console32.exe
+	cd $(TESTS_OUTDIR)/tests-clr; for f in *_test.dll; do $(MONO_ENV) mono nunit-lite-console.exe $$f -explore:$${f}.testlist >/dev/null || rm $$f; done
 .PHONY: tests-clr
 tests: tests-clr
 
