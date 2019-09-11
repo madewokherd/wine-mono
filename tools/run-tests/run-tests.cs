@@ -291,7 +291,7 @@ class RunTests
 		if (run_list.ContainsKey(fullfixture) && run_list[fullfixture] != null)
 			runs.AddRange(run_list[fullfixture]);
 
-		if (run_list.Count == 0)
+		if (runs.Count == 0)
 			run_all = true;
 
 		List<string> skips = new List<string> ();
