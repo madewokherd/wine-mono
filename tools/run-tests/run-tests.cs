@@ -340,7 +340,7 @@ class RunTests
 				}
 				bool any_passed = false;
 				bool any_failed = false;
-				bool any_skipped = false;
+				int num_tests_run = 0;
 				using (var reader = XmlReader.Create(outputfile))
 				{
 					bool in_failure = false;
@@ -352,18 +352,16 @@ class RunTests
 							if (reader["result"] == "Passed")
 							{
 								any_passed = true;
+								num_tests_run++;
 								passing_tests.Add(String.Format("{0}:{1}", fullfixture, reader["name"]));
 							}
 							else if (reader["result"] == "Failed")
 							{
 								any_failed = true;
 								in_failure = true;
+								num_tests_run++;
 								failing_tests.Add(String.Format("{0}:{1}", fullfixture, reader["name"]));
 								Console.WriteLine("{0}:{1} failed:", fullfixture, reader["name"]);
-							}
-							else if (reader["result"] == "Skipped")
-							{
-								any_skipped = true;
 							}
 						}
 						else if (reader.NodeType == XmlNodeType.EndElement &&
@@ -379,6 +377,7 @@ class RunTests
 						}
 					}
 				}
+				bool any_skipped = (num_tests_run < testlist.Count);
 				if (!any_failed && p.ExitCode != 0)
 				{
 					failing_tests.Add(fullfixture);
