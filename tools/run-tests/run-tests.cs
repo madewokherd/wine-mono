@@ -224,7 +224,8 @@ class RunTests
 			while (reader.Read())
 			{
 				if (reader.NodeType == XmlNodeType.Element &&
-					reader.Name == "test-suite")
+					reader.Name == "test-suite" &&
+					reader["type"] != "Assembly")
 				{
 					testlist = new List<string>();
 					fixtures.Add(Tuple.Create(reader["fullname"], testlist));
