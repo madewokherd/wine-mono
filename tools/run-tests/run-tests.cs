@@ -309,7 +309,7 @@ class RunTests
 			{
 				bool any_tests = false;
 				p.StartInfo = new ProcessStartInfo(get_nunit_lite_console(arch));
-				p.StartInfo.Arguments = String.Format("{0} -labels -result:{1}", filename, outputfile);
+				p.StartInfo.Arguments = String.Format("{0} -labels -format:nunit3 -result:{1}", filename, outputfile);
 				foreach (string test in testlist)
 				{
 					if ((run_all || runs.Contains(test)) && !skips.Contains(test))
@@ -334,16 +334,79 @@ class RunTests
 					failing_tests.Add(fullfixture);
 					return;
 				}
-				// TODO: Parse output
-				if (p.ExitCode == 0)
+				bool any_passed = false;
+				bool any_failed = false;
+				bool any_skipped = false;
+				using (var reader = XmlReader.Create(outputfile))
 				{
-					passing_tests.Add(fullfixture);
-					Console.WriteLine("Test succeeded: {0}", fullfixture);
+					bool in_failure = false;
+					while (reader.Read())
+					{
+						if (reader.NodeType == XmlNodeType.Element &&
+							reader.Name == "test-case")
+						{
+							if (reader["result"] == "Passed")
+							{
+								any_passed = true;
+								passing_tests.Add(String.Format("{0}:{1}", fullfixture, reader["name"]));
+							}
+							else if (reader["result"] == "Failed")
+							{
+								any_failed = true;
+								in_failure = true;
+								failing_tests.Add(String.Format("{0}:{1}", fullfixture, reader["name"]));
+								Console.WriteLine("{0}:{1} failed:", fullfixture, reader["name"]);
+							}
+							else if (reader["result"] == "Skipped")
+							{
+								any_skipped = true;
+							}
+						}
+						else if (reader.NodeType == XmlNodeType.EndElement &&
+								 reader.Name == "test-case")
+						{
+							in_failure = false;
+						}
+						else if (in_failure &&
+								 (reader.NodeType == XmlNodeType.Text ||
+							      reader.NodeType == XmlNodeType.CDATA))
+						{
+							Console.WriteLine(reader.Value);
+						}
+					}
 				}
-				else
+				if (!any_failed && p.ExitCode != 0)
 				{
 					failing_tests.Add(fullfixture);
 					Console.WriteLine("Test failed({0}): {1}", p.ExitCode, fullfixture);
+				}
+				else if (any_passed)
+				{
+					if (!any_failed && !any_skipped)
+					{
+						passing_tests.Add(fullfixture);
+						Console.WriteLine("Test succeeded: {0}", fullfixture);
+					}
+					else
+					{
+						Console.WriteLine("Some tests succeeded: {0}", fullfixture);
+					}
+				}
+				else if (any_failed)
+				{
+					if (!any_skipped)
+					{
+						failing_tests.Add(fullfixture);
+						Console.WriteLine("Test failed: {1}", fullfixture);
+					}
+					else
+					{
+						Console.WriteLine("Some tests failed: {0}", fullfixture);
+					}
+				}
+				else
+				{
+					Console.WriteLine("All tests skipped: {0}", fullfixture);
 				}
 			}
 		}
