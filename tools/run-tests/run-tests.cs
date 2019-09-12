@@ -542,6 +542,8 @@ class RunTests
 				read_stringlist(argument.Substring(11), pass_list);
 			else if (argument.StartsWith("-fail-list:"))
 				read_stringlist(argument.Substring(11), fail_list);
+			else if (!argument.StartsWith("-"))
+				add_to_testlist(argument, run_list);
 			else
 			{
 				Console.WriteLine("Unrecognized argument: {0}", argument);
