@@ -318,6 +318,10 @@ class RunTests
 						any_tests = true;
 					}
 				}
+				foreach (string cat in skip_categories)
+				{
+					p.StartInfo.Arguments += String.Format(" -exclude:{0}", cat);
+				}
 				if (!any_tests)
 				{
 					Console.WriteLine("All tests skipped: {0}", fullfixture);
@@ -534,6 +538,8 @@ class RunTests
 				add_to_testlist(argument.Substring(6), skip_list);
 			else if (argument.StartsWith("-skip-list:"))
 				read_testlist(argument.Substring(11), skip_list);
+			else if (argument.StartsWith("-skip-category:"))
+				skip_categories.Add(argument.Substring(15));
 			else if (argument.StartsWith("-run:"))
 				add_to_testlist(argument.Substring(5), run_list);
 			else if (argument.StartsWith("-run-list:"))
