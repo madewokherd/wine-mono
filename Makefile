@@ -19,7 +19,7 @@ ENABLE_DOTNET_CORE_WINFORMS=1
 
 -include user-config.make
 
-MSI_VERSION=4.9.2
+MSI_VERSION=4.9.3
 
 # variables
 SRCDIR_ABS=$(shell cd $(SRCDIR); pwd)
