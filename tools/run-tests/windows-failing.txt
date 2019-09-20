@@ -173,3 +173,13 @@ x86.basic-math:test_0_mathf_max
 x86_64.basic-math:test_0_mathf_max
 x86.basic-math:test_0_mathf_pow
 x86_64.basic-math:test_0_mathf_pow
+x86.basic-simd:test_3_single_block_var_is_properly_promoted
+x86.basic-vectors:test_0_vector_t_count
+x86.generics:test_0_isreference_intrins
+x86.gshared
+x86.unaligned:test_0_ldobj_r4
+x86_64.basic-simd:test_0_vector4ui_add
+x86_64.basic-vectors:test_0_vector_short_add
+x86_64.generics:test_0_isreference_intrins
+x86_64.generics
+x86_64.unaligned:test_0_ldobj_r4

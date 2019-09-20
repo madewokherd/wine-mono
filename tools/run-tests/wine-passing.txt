@@ -3531,5 +3531,6 @@ x86_64.ratests:test_0_do_while_critical_edges
 x86_64.ratests:test_0_switch_critical_edges
 x86_64.ratests:test_2_spiller_bug_56194
 x86_64.ratests
+winx64structs:test_0_Value_On_Stack_Local_Copy_Managed
 # definitely unreliable:
 delegate2
