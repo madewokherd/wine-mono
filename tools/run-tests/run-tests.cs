@@ -309,7 +309,7 @@ class RunTests
 			{
 				bool any_tests = false;
 				p.StartInfo = new ProcessStartInfo(get_nunit_lite_console(arch));
-				p.StartInfo.Arguments = String.Format("{0} -labels -format:nunit3 -result:{1}", filename, outputfile);
+				p.StartInfo.Arguments = String.Format("{0} -labels -format:nunit3 \"-result:{1}\"", Path.GetFileName(filename), outputfile);
 				foreach (string test in testlist)
 				{
 					if ((run_all || runs.Contains(test)) && !skips.Contains(test))
@@ -341,41 +341,50 @@ class RunTests
 				bool any_passed = false;
 				bool any_failed = false;
 				int num_tests_run = 0;
-				using (var reader = XmlReader.Create(outputfile))
+				try
 				{
-					bool in_failure = false;
-					while (reader.Read())
+					using (var reader = XmlReader.Create(outputfile))
 					{
-						if (reader.NodeType == XmlNodeType.Element &&
-							reader.Name == "test-case")
+						bool in_failure = false;
+						while (reader.Read())
 						{
-							if (reader["result"] == "Passed")
+							if (reader.NodeType == XmlNodeType.Element &&
+								reader.Name == "test-case")
 							{
-								any_passed = true;
-								num_tests_run++;
-								passing_tests.Add(String.Format("{0}:{1}", fullfixture, reader["name"]));
+								if (reader["result"] == "Passed")
+								{
+									any_passed = true;
+									num_tests_run++;
+									passing_tests.Add(String.Format("{0}:{1}", fullfixture, reader["name"]));
+								}
+								else if (reader["result"] == "Failed")
+								{
+									any_failed = true;
+									in_failure = true;
+									num_tests_run++;
+									failing_tests.Add(String.Format("{0}:{1}", fullfixture, reader["name"]));
+									Console.WriteLine("{0}:{1} failed:", fullfixture, reader["name"]);
+								}
 							}
-							else if (reader["result"] == "Failed")
+							else if (reader.NodeType == XmlNodeType.EndElement &&
+									 reader.Name == "test-case")
 							{
-								any_failed = true;
-								in_failure = true;
-								num_tests_run++;
-								failing_tests.Add(String.Format("{0}:{1}", fullfixture, reader["name"]));
-								Console.WriteLine("{0}:{1} failed:", fullfixture, reader["name"]);
+								in_failure = false;
 							}
-						}
-						else if (reader.NodeType == XmlNodeType.EndElement &&
-								 reader.Name == "test-case")
-						{
-							in_failure = false;
-						}
-						else if (in_failure &&
-								 (reader.NodeType == XmlNodeType.Text ||
-							      reader.NodeType == XmlNodeType.CDATA))
-						{
-							Console.WriteLine(reader.Value);
+							else if (in_failure &&
+									 (reader.NodeType == XmlNodeType.Text ||
+									  reader.NodeType == XmlNodeType.CDATA))
+							{
+								Console.WriteLine(reader.Value);
+							}
 						}
 					}
+				}
+				catch (XmlException)
+				{
+					failing_tests.Add(fullfixture);
+					Console.WriteLine("Test failed(couldn't read test results): {0}", fullfixture);
+					return;
 				}
 				bool any_skipped = (num_tests_run < testlist.Count);
 				if (!any_failed && p.ExitCode != 0)
@@ -400,7 +409,7 @@ class RunTests
 					if (!any_skipped)
 					{
 						failing_tests.Add(fullfixture);
-						Console.WriteLine("Test failed: {1}", fullfixture);
+						Console.WriteLine("Test failed: {0}", fullfixture);
 					}
 					else
 					{
@@ -624,6 +633,9 @@ class RunTests
 			Console.WriteLine("No tests were run.");
 			result = 1;
 		}
+
+		if (result > 255)
+			result = 255;
 
 		return result;
 	}
