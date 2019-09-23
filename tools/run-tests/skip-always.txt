@@ -31,3 +31,4 @@ abort-cctor
 block_guard_restore_aligment_on_exit
 bug-10127
 finally_block_ending_in_dead_bb
+verbose

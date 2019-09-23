@@ -345,6 +345,7 @@ $(BUILDDIR)/run-tests.exe: $(SRCDIR)/tools/run-tests/run-tests.cs $(BUILDDIR)/mo
 tests: $(BUILDDIR)/run-tests.exe
 	-mkdir -p $(TESTS_OUTDIR)
 	cp $(BUILDDIR)/run-tests.exe $(TESTS_OUTDIR)/run-tests.exe
+	cp $(SRCDIR)/tools/run-tests/*.txt $(SRCDIR)/tools/run-tests/run-on-windows.bat $(TESTS_OUTDIR)/
 .PHONY: tests
 
 tests-clr: $(BUILDDIR)/mono-unix/.built-clr-tests $(BUILDDIR)/nunitlite.dll $(BUILDDIR)/set32only.exe
