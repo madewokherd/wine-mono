@@ -158,6 +158,17 @@ tests-runtime-$(1): $$(BUILDDIR)/mono-unix/mono/mini/.built-tests $$(BUILDDIR)/m
 	if test $(1) = x86; then cd $$(TESTS_OUTDIR)/tests-$(1); $$(WINE) $$(BUILDDIR_ABS)/set32only.exe *.exe; fi
 tests: tests-runtime-$(1)
 
+# instlalinf.exe
+$$(BUILDDIR)/installinf-$(1).exe: $$(SRCDIR)/tools/installinf/installinf.c
+	$$(MINGW_$(1))-gcc $$< -lsetupapi -municode -o $$@
+
+support-installinf-$(1): $$(BUILDDIR)/installinf-$(1).exe
+	mkdir -p $(IMAGEDIR)/support/
+	cp $$(BUILDDIR)/installinf-$(1).exe $(IMAGEDIR)/support/
+.PHONY: support-installinf-$(1)
+imagedir-targets: support-installinf-$(1)
+IMAGEDIR_BUILD_TARGETS += $$(BUILDDIR)/installinf-$(1).exe
+
 # FNA native deps
 # SDL2
 # note: we explicitly disable vsscanf as msvcrt doesn't support it and mingw-w64's wrapper is buggy
