@@ -280,52 +280,24 @@ class RunTests
 		return result;
 	}
 
-	void run_clr_test_fixture(string filename, string fixture, string arch, List<string> testlist, bool run_all)
+	void run_clr_test_list(string filename, string fixture, string arch, List<string> to_run, ref bool any_passed, ref bool any_failed, ref bool any_skipped)
 	{
 		string fullfixture = String.Format("{0}.{1}", arch, fixture);
-
-		Console.WriteLine("Running {0}", fullfixture);
-
-		List<string> runs = new List<string> ();
-		if (run_list.ContainsKey(fixture) && run_list[fixture] != null)
-			runs.AddRange(run_list[fixture]);
-		if (run_list.ContainsKey(fullfixture) && run_list[fullfixture] != null)
-			runs.AddRange(run_list[fullfixture]);
-
-		if (runs.Count == 0)
-			run_all = true;
-
-		List<string> skips = new List<string> ();
-		if (skip_list.ContainsKey(fixture) && skip_list[fixture] != null)
-			skips.AddRange(run_list[fixture]);
-		if (skip_list.ContainsKey(fullfixture) && skip_list[fullfixture] != null)
-			skips.AddRange(run_list[fullfixture]);
-
 		string outputfile = Path.GetTempFileName();
 
 		try
 		{
 			using (Process p = new Process())
 			{
-				bool any_tests = false;
 				p.StartInfo = new ProcessStartInfo(get_nunit_lite_console(arch));
 				p.StartInfo.Arguments = String.Format("{0} -labels -format:nunit3 \"-result:{1}\"", Path.GetFileName(filename), outputfile);
-				foreach (string test in testlist)
+				foreach (string test in to_run)
 				{
-					if ((run_all || runs.Contains(test)) && !skips.Contains(test))
-					{
-						p.StartInfo.Arguments += String.Format(" -test:{0}.{1}", fixture, test);
-						any_tests = true;
-					}
+					p.StartInfo.Arguments += String.Format(" -test:{0}.{1}", fixture, test);
 				}
 				foreach (string cat in skip_categories)
 				{
 					p.StartInfo.Arguments += String.Format(" -exclude:{0}", cat);
-				}
-				if (!any_tests)
-				{
-					Console.WriteLine("All tests skipped: {0}", fullfixture);
-					return;
 				}
 				p.StartInfo.UseShellExecute = false;
 				p.StartInfo.WorkingDirectory = Path.GetDirectoryName(filename);
@@ -336,10 +308,9 @@ class RunTests
 					p.Kill();
 					Console.WriteLine("Test timed out: {0}", fullfixture);
 					failing_tests.Add(fullfixture);
+					any_failed = true;
 					return;
 				}
-				bool any_passed = false;
-				bool any_failed = false;
 				int num_tests_run = 0;
 				try
 				{
@@ -386,45 +357,95 @@ class RunTests
 					Console.WriteLine("Test failed(couldn't read test results): {0}", fullfixture);
 					return;
 				}
-				bool any_skipped = (num_tests_run < testlist.Count);
+				if (num_tests_run < to_run.Count)
+					any_skipped = true;
 				if (!any_failed && p.ExitCode != 0)
 				{
 					failing_tests.Add(fullfixture);
 					Console.WriteLine("Test failed({0}): {1}", p.ExitCode, fullfixture);
-				}
-				else if (any_passed)
-				{
-					if (!any_failed && !any_skipped)
-					{
-						passing_tests.Add(fullfixture);
-						Console.WriteLine("Test succeeded: {0}", fullfixture);
-					}
-					else
-					{
-						Console.WriteLine("Some tests succeeded: {0}", fullfixture);
-					}
-				}
-				else if (any_failed)
-				{
-					if (!any_skipped)
-					{
-						failing_tests.Add(fullfixture);
-						Console.WriteLine("Test failed: {0}", fullfixture);
-					}
-					else
-					{
-						Console.WriteLine("Some tests failed: {0}", fullfixture);
-					}
-				}
-				else
-				{
-					Console.WriteLine("All tests skipped: {0}", fullfixture);
+					any_failed = true;
 				}
 			}
 		}
 		finally
 		{
 			File.Delete(outputfile);
+		}
+	}
+
+	void run_clr_test_fixture(string filename, string fixture, string arch, List<string> testlist, bool run_all)
+	{
+		string fullfixture = String.Format("{0}.{1}", arch, fixture);
+		List<string> to_run = new List<string> ();
+
+		Console.WriteLine("Running {0}", fullfixture);
+
+		List<string> runs = new List<string> ();
+		if (run_list.ContainsKey(fixture) && run_list[fixture] != null)
+			runs.AddRange(run_list[fixture]);
+		if (run_list.ContainsKey(fullfixture) && run_list[fullfixture] != null)
+			runs.AddRange(run_list[fullfixture]);
+
+		if (runs.Count == 0)
+			run_all = true;
+
+		List<string> skips = new List<string> ();
+		if (skip_list.ContainsKey(fixture) && skip_list[fixture] != null)
+			skips.AddRange(run_list[fixture]);
+		if (skip_list.ContainsKey(fullfixture) && skip_list[fullfixture] != null)
+			skips.AddRange(run_list[fullfixture]);
+
+		foreach (string test in testlist)
+		{
+			if ((run_all || runs.Contains(test)) && !skips.Contains(test))
+			{
+				to_run.Add(test);
+			}
+		}
+
+		if (to_run.Count == 0)
+		{
+			Console.WriteLine("All tests skipped: {0}", fullfixture);
+			return;
+		}
+
+		int batch_size = 100;
+		bool any_passed = false;
+		bool any_failed = false;
+		bool any_skipped = false;
+
+		for (int i=0; i < to_run.Count; i += batch_size)
+		{
+			run_clr_test_list(filename, fixture, arch, to_run.GetRange(i, Math.Min(batch_size, to_run.Count - i)), ref any_passed, ref any_failed, ref any_skipped);
+		}
+
+		if (any_passed)
+		{
+			if (!any_failed && !any_skipped)
+			{
+				passing_tests.Add(fullfixture);
+				Console.WriteLine("Test succeeded: {0}", fullfixture);
+			}
+			else
+			{
+				Console.WriteLine("Some tests succeeded: {0}", fullfixture);
+			}
+		}
+		else if (any_failed)
+		{
+			if (!any_skipped)
+			{
+				failing_tests.Add(fullfixture);
+				Console.WriteLine("Test failed: {0}", fullfixture);
+			}
+			else
+			{
+				Console.WriteLine("Some tests failed: {0}", fullfixture);
+			}
+		}
+		else
+		{
+			Console.WriteLine("All tests skipped: {0}", fullfixture);
 		}
 	}
 
