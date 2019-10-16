@@ -391,9 +391,9 @@ class RunTests
 
 		List<string> skips = new List<string> ();
 		if (skip_list.ContainsKey(fixture) && skip_list[fixture] != null)
-			skips.AddRange(run_list[fixture]);
+			skips.AddRange(skip_list[fixture]);
 		if (skip_list.ContainsKey(fullfixture) && skip_list[fullfixture] != null)
-			skips.AddRange(run_list[fullfixture]);
+			skips.AddRange(skip_list[fullfixture]);
 
 		foreach (string test in testlist)
 		{
