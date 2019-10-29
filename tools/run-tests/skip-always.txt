@@ -20,6 +20,8 @@ allow-synchronous-major
 install_eh_callback:test_0_setjmp_exn_handler
 install_eh_callback
 thunks
+Mono.Debugger.Soft
+Mono.Posix
 # prevents other tests from running
 x86.marshal9:test_0_pass_out_byval
 # helpers for other test cases

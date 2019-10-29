@@ -914,10 +914,6 @@ x86.MonoTests.System.Net.Sockets.SocketTest:SendTimeoutChange
 x86.MonoTests.System.Net.Sockets.SocketTest:SetSocketOption_MulticastInterfaceIndex_Loopback
 x86.MonoTests.System.Net.Sockets.UdpClientTest:ExclusiveAddressUseUnbound
 x86.MonoTests.System.Net.Sockets.UdpClientTest:JoinMulticastGroup2_Socket_NotBound
-x86.MonoTests.System.Net.WebSockets.ClientWebSocketTest:CloseAsyncTest
-x86.MonoTests.System.Net.WebSockets.ClientWebSocketTest:EchoTest
-x86.MonoTests.System.Net.WebSockets.ClientWebSocketTest:ReceiveAsyncArgTest_NoArray
-x86.MonoTests.System.Net.WebSockets.ClientWebSocketTest:SendAsyncArgTest_NoArray
 x86.MonoTests.System.Net.WebSockets.ClientWebSocketTest:ServerHandshakeReturnCrapStatusCodeTest
 x86.MonoTests.System.Security.Cryptography.X509Certificates.X509Cert20Test:Export_Pfx
 x86.MonoTests.System.Security.Cryptography.X509Certificates.X509Cert20Test:Export_Pkcs12
@@ -1859,10 +1855,6 @@ x86_64.MonoTests.System.Net.Sockets.SocketTest:SendTimeoutChange
 x86_64.MonoTests.System.Net.Sockets.SocketTest:SetSocketOption_MulticastInterfaceIndex_Loopback
 x86_64.MonoTests.System.Net.Sockets.UdpClientTest:ExclusiveAddressUseUnbound
 x86_64.MonoTests.System.Net.Sockets.UdpClientTest:JoinMulticastGroup2_Socket_NotBound
-x86_64.MonoTests.System.Net.WebSockets.ClientWebSocketTest:CloseAsyncTest
-x86_64.MonoTests.System.Net.WebSockets.ClientWebSocketTest:EchoTest
-x86_64.MonoTests.System.Net.WebSockets.ClientWebSocketTest:ReceiveAsyncArgTest_NoArray
-x86_64.MonoTests.System.Net.WebSockets.ClientWebSocketTest:SendAsyncArgTest_NoArray
 x86_64.MonoTests.System.Net.WebSockets.ClientWebSocketTest:ServerHandshakeReturnCrapStatusCodeTest
 x86_64.MonoTests.System.Security.Cryptography.X509Certificates.X509Cert20Test:Export_Pfx
 x86_64.MonoTests.System.Security.Cryptography.X509Certificates.X509Cert20Test:Export_Pkcs12
@@ -1877,5 +1869,6 @@ x86_64.MonoTests.System.Windows.Markup.DateTimeValueSerializerTest:CanConvertFro
 x86_64.MonoTests.System.Windows.Markup.DateTimeValueSerializerTest:ConvertToString1
 x86_64.MonoTests.System.Windows.Markup.ValueSerializerTest:GetSerializerForType
 x86_64.MonoTests.System.Windows.Markup.ValueSerializerTest
+MonoTests.System.TimeZoneInfoTest+IsDaylightSavingTimeTests:Bug_16395
 # definitely unreliable:
 delegate2
