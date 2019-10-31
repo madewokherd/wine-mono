@@ -36,6 +36,7 @@ HAVE_MONOLITE=$(shell test -e $(SRCDIR)/monolite/mcs.exe && echo 1 || echo 0)
 MONO_MAKEFILES=$(shell cd $(SRCDIR); find mono -name Makefile.am)
 
 MONO_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/mono)
+MONO_BTLS_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/mono/mono/btls $(SRCDIR)/mono/external/boringssl)
 MONO_MONO_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/mono/mono $(SRCDIR)/mono/libgc)
 MONO_LIBNATIVE_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/mono/mono/native)
 MONO_BASIC_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/mono-basic)
@@ -140,6 +141,28 @@ clean-build-mono-$(1):
 .PHONY: clean-build-mono-$(1)
 clean-build: clean-build-mono-$(1)
 
+# BTLS
+$$(BUILDDIR)/btls-$(1)/Makefile: $$(SRCDIR)/mono/mono/btls/CMakeLists.txt
+	mkdir -p $$(@D)
+	# wincrypt.h interferes with boringssl definitions, so we prevent its inclusion
+	cd $$(@D); cmake -DCMAKE_TOOLCHAIN_FILE="$$(SRCDIR_ABS)/toolchain-$(1).cmake" -DCMAKE_C_COMPILER=$$(MINGW_$(1))-gcc -DCMAKE_C_FLAGS='-D__WINCRYPT_H__ -D_WIN32_WINNT=0x0600 -static-libgcc' -DCMAKE_CXX_COMPILER=$$(MINGW_$(1))-g++ -DOPENSSL_NO_ASM=1 -DBTLS_ROOT="$$(SRCDIR_ABS)/mono/external/boringssl" -DBUILD_SHARED_LIBS=1 $$(SRCDIR_ABS)/mono/mono/btls
+
+$$(BUILDDIR)/btls-$(1)/.built: $$(BUILDDIR)/btls-$(1)/Makefile $$(MONO_BTLS_SRCS)
+	+WINEPREFIX=/dev/null $$(MAKE) -C $$(BUILDDIR)/btls-$(1)
+	touch "$$@"
+IMAGEDIR_BUILD_TARGETS += $$(BUILDDIR)/btls-$(1)/.built
+
+libmono-btls-$(1).dll: $$(BUILDDIR)/btls-$(1)/.built
+	mkdir -p "$$(IMAGEDIR)/lib"
+	cp "$$(BUILDDIR)/btls-$(1)/libmono-btls-shared.dll" "$$(IMAGEDIR)/lib/libmono-btls-$(1).dll"
+.PHONY: libmono-btls-$(1).dll
+imagedir-targets: libmono-btls-$(1).dll
+
+clean-build-btls-$(1):
+	rm -rf $$(BUILDDIR)/btls-$(1)
+.PHONY: clean-build-btls-$(1)
+clean-build: clean-build-btls-$(1)
+
 # mono libtest.dll
 $$(TESTS_OUTDIR)/tests-$(1)/libtest.dll: $$(BUILDDIR)/mono-$(1)/.built
 	+WINEPREFIX=/dev/null $$(MAKE) -C $$(BUILDDIR)/mono-$(1)/mono/tests libtest.la
@@ -158,7 +181,7 @@ tests-runtime-$(1): $$(BUILDDIR)/mono-unix/mono/mini/.built-tests $$(BUILDDIR)/m
 	if test $(1) = x86; then cd $$(TESTS_OUTDIR)/tests-$(1); $$(WINE) $$(BUILDDIR_ABS)/set32only.exe *.exe; fi
 tests: tests-runtime-$(1)
 
-# instlalinf.exe
+# installinf.exe
 $$(BUILDDIR)/installinf-$(1).exe: $$(SRCDIR)/tools/installinf/installinf.c
 	$$(MINGW_$(1))-gcc $$< -lsetupapi -municode -o $$@
 
