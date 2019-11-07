@@ -1400,7 +1400,6 @@ x86_64.MonoTests.System.Messaging.SelectorTest:SelectByIdNotFound
 x86_64.MonoTests.System.Messaging.SelectorTest
 x86_64.MonoTests.Remoting.ActivationTests
 x86_64.MonoTests.Remoting.ActivationTests
-x86_64.MonoTests.Remoting.ContextsTest
 x86_64.MonoTests.Remoting.GenericTest
 x86_64.MonoTests.Remoting.GenericTest
 x86_64.MonoTests.Remoting.IpcAsyncCallTest
@@ -1767,9 +1766,9 @@ x86_64.MonoTests.System.Windows.Forms.SystemInformationTest:MenuFont_Dispose
 x86_64.MonoTests.System.Windows.Forms.TabControlTest:GetTabRectTest
 x86_64.MonoTests.System.Windows.Forms.TabControlTest:SelectedIndex_Negative
 x86_64.MonoTests.System.Windows.Forms.TestControlStyle:DateTimePickerStyleTest
-x86_64.MonoTests.System.Windows.Forms.TextBoxTest:Bug6357
-x86_64.MonoTests.System.Windows.Forms.TextBoxTest:SelectionLength_Negative
-x86_64.MonoTests.System.Windows.Forms.TextBoxTest:SelectionStart_Negative
+MonoTests.System.Windows.Forms.TextBoxTest:Bug6357
+MonoTests.System.Windows.Forms.TextBoxTest:SelectionLength_Negative
+MonoTests.System.Windows.Forms.TextBoxTest:SelectionStart_Negative
 x86_64.MonoTests.System.Windows.Forms.ToolStripDropDownTests:Constructor
 x86_64.MonoTests.System.Windows.Forms.ToolStripItemCollectionTests:Remove_Owned
 x86_64.MonoTests.System.Windows.Forms.ToolStripItemTests:ProtectedProperties
@@ -1865,5 +1864,16 @@ x86_64.MonoTests.System.Windows.Markup.DateTimeValueSerializerTest:ConvertToStri
 x86_64.MonoTests.System.Windows.Markup.ValueSerializerTest:GetSerializerForType
 x86_64.MonoTests.System.Windows.Markup.ValueSerializerTest
 MonoTests.System.TimeZoneInfoTest+IsDaylightSavingTimeTests:Bug_16395
+x86_64.winx64structs:test_0_In_Args_Value_In_RCX
+MonoTests.System.Security.Cryptography.X509Certificates.X509CertificateTest:Certificate7 // Considered a bad test by upstream
+x86.MonoTests.Microsoft.Build.Tasks.CopyTest:TestCopy1
+x86.MonoTests.Microsoft.Build.Tasks.CopyTest:TestCopy2
+x86.MonoTests.Microsoft.Build.Tasks.CopyTest:TestCopy_EmptyDestFolder
+x86.MonoTests.Microsoft.Build.Tasks.CopyTest:TestCopy_EmptySources
+x86.MonoTests.Microsoft.Build.Tasks.CopyTest:TestCopy_MissingSourceFile
+x86.MonoTests.Microsoft.Build.Tasks.CopyTest
+MonoTests.Remoting.ContextsTest
+MonoTests.System.Windows.Forms.FormTest
 # definitely unreliable:
 delegate2
+x86_64.MonoTests.System.Threading.ThreadLocalTests:DisposeOnThreadExit
