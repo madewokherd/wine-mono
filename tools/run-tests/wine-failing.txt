@@ -742,7 +742,6 @@ x86.MonoTests.System.Windows.Forms.ComboBoxTest:SelectionWithAdd
 x86.MonoTests.System.Windows.Forms.ComboBoxTest:SelectionWithInsert
 x86.MonoTests.System.Windows.Forms.ControlTest:FontTest
 x86.MonoTests.System.Windows.Forms.ControlTest:FontTest_Names
-x86.MonoTests.System.Windows.Forms.ControlTest:OnPaintDoubleBufferedTest
 x86.MonoTests.System.Windows.Forms.ControlTest:ResetFontTest
 x86.MonoTests.System.Windows.Forms.CursorTest:CursorPropertyTag
 x86.MonoTests.System.Windows.Forms.DataGridTableStyleTest:TestBackColorChangedEvent
@@ -904,8 +903,6 @@ x86.MonoTests.System.Net.NetworkInformation.PingTest:SendAsyncIPV4Succeeds
 x86.MonoTests.System.Net.NetworkInformation.PingTest:SendPingAsyncIPV4Fails
 x86.MonoTests.System.Net.NetworkInformation.PingTest:SendPingAsyncIPV4Succeeds
 x86.MonoTests.System.Net.NetworkInformation.PingTest
-x86.MonoTests.System.Net.Security.SslStreamTest
-x86.MonoTests.System.Net.Security.SslStreamTest
 x86.MonoTests.System.Net.Sockets.SocketTest
 x86.MonoTests.System.Net.Sockets.SocketTest:ReceiveBufferSizeChange
 x86.MonoTests.System.Net.Sockets.SocketTest:ReceiveTimeoutChange
@@ -1845,8 +1842,6 @@ x86_64.MonoTests.System.Net.NetworkInformation.PingTest:SendAsyncIPV4Succeeds
 x86_64.MonoTests.System.Net.NetworkInformation.PingTest:SendPingAsyncIPV4Fails
 x86_64.MonoTests.System.Net.NetworkInformation.PingTest:SendPingAsyncIPV4Succeeds
 x86_64.MonoTests.System.Net.NetworkInformation.PingTest
-x86_64.MonoTests.System.Net.Security.SslStreamTest
-x86_64.MonoTests.System.Net.Security.SslStreamTest
 x86_64.MonoTests.System.Net.Sockets.SocketTest
 x86_64.MonoTests.System.Net.Sockets.SocketTest:ReceiveBufferSizeChange
 x86_64.MonoTests.System.Net.Sockets.SocketTest:ReceiveTimeoutChange
