@@ -439,8 +439,16 @@ $(BUILDDIR)/mono-unix/mono/mini/.built-tests: $(BUILDDIR)/mono-unix/.built
 	+$(MAKE) -C $(@D) test-local
 	touch $@
 
-test: tests dev
-	$(WINE) explorer /desktop=wine-mono-test '$(shell $(WINE) winepath -w $(TESTS_OUTDIR)/run-tests.exe)' -skip-list:'$(shell $(WINE) winepath -w $(SRCDIR)/tools/run-tests/skip-always.txt)' -skip-list:'$(shell $(WINE) winepath -w $(SRCDIR)/tools/run-tests/windows-failing.txt)' -fail-list:'$(shell $(WINE) winepath -w $(SRCDIR)/tools/run-tests/wine-failing.txt)' -pass-list:'$(shell $(WINE) winepath -w $(SRCDIR)/tools/run-tests/wine-passing.txt)'
+test: tests image
+	WINEPREFIX=$(BUILDDIR_ABS)/.wine-test-prefix $(WINE) reg add 'HKCU\Software\Wine\WineDb' /v ShowCrashDialog /t REG_DWORD /d 0
+	WINEPREFIX=$(BUILDDIR_ABS)/.wine-test-prefix $(MAKE) dev-setup
+	WINEPREFIX=$(BUILDDIR_ABS)/.wine-test-prefix $(WINE) explorer /desktop=wine-mono-test '$(shell $(WINE) winepath -w $(TESTS_OUTDIR)/run-tests.exe)' -skip-list:'$(shell $(WINE) winepath -w $(SRCDIR)/tools/run-tests/skip-always.txt)' -skip-list:'$(shell $(WINE) winepath -w $(SRCDIR)/tools/run-tests/windows-failing.txt)' -fail-list:'$(shell $(WINE) winepath -w $(SRCDIR)/tools/run-tests/wine-failing.txt)' -pass-list:'$(shell $(WINE) winepath -w $(SRCDIR)/tools/run-tests/wine-passing.txt)'
+
+clean-build-test-prefix:
+	-WINEPREFIX=$(BUILDDIR)/.wine-test-prefix wineserver -k
+	rm -rf $(BUILDDIR)/.wine-test-prefix
+.PHONY: clean-build-test-prefix
+clean-build: clean-build-test-prefix
 
 clean-build-mono-unix:
 	rm -rf $(BUILDDIR)/mono-unix $(BUILDDIR)/mono-unix-install $(BUILDDIR)/mono-win32-install
