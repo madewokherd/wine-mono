@@ -102,7 +102,7 @@ $(BUILDDIR)/.dir:
 
 clean-build:
 	rm -f $(BUILDDIR)/.dir
-	rmdir $(BUILDDIR)
+	-rmdir $(BUILDDIR)
 clean: clean-build
 .PHONY: clean-build
 
@@ -191,6 +191,11 @@ support-installinf-$(1): $$(BUILDDIR)/installinf-$(1).exe
 .PHONY: support-installinf-$(1)
 imagedir-targets: support-installinf-$(1)
 IMAGEDIR_BUILD_TARGETS += $$(BUILDDIR)/installinf-$(1).exe
+
+clean-build-installinf-$(1):
+	rm -rf $$(BUILDDIR)/installinf-$(1).exe
+.PHONY: clean-build-installinf-$(1)
+clean-build: clean-build-installinf-$(1)
 
 # FNA native deps
 # SDL2
@@ -300,6 +305,11 @@ $(eval $(call MINGW_TEMPLATE,x86_64))
 $(BUILDDIR)/set32only.exe: $(SRCDIR)/tools/set32only/set32only.c
 	$(MINGW_x86_64)-gcc -municode -Wall $^ -o $@
 
+clean-build-set32only:
+	rm -rf $(BUILDDIR)/set32only.exe
+.PHONY: clean-build-set32only
+clean-build: clean-build-set32only
+
 # mono native/classlib build
 $(BUILDDIR)/mono-unix/Makefile: $(SRCDIR)/mono/configure $(BUILDDIR)/.dir
 	mkdir -p $(@D)
@@ -362,14 +372,29 @@ $(BUILDDIR)/mono-unix/.built-clr-tests: $(BUILDDIR)/mono-unix/.built
 $(BUILDDIR)/nunitlite.dll: $(BUILDDIR)/mono-unix/.installed
 	cd $(SRCDIR)/mono/mcs/tools/nunit-lite/NUnitLite/ && $(MONO_ENV) csc /nostdlib /r:$(BUILDDIR_ABS)/mono-unix-install/lib/mono/4.0-api/mscorlib.dll /r:$(BUILDDIR_ABS)/mono-unix-install/lib/mono/4.0-api/System.dll /lib:$(BUILDDIR_ABS)/mono-unix-install/lib/mono/4.0-api /codepage:65001 /deterministic /target:library /define:"__MOBILE__;TRACE;DEBUG;NET_4_0;CLR_4_0,NUNITLITE" /warn:4 -d:NET_4_0 -d:MONO -d:WIN_PLATFORM -nowarn:1699 /debug:portable -optimize /features:peverify-compat /langversion:latest /keyfile:$(SRCDIR_ABS)/mono/mcs/class/mono.snk  -target:library -out:$(BUILDDIR_ABS)/nunitlite.dll @nunitlite.dll.sources
 
+clean-build-nunitlite:
+	rm -rf $(BUILDDIR)/nunitlite.dll $(BUILDDIR)/nunitlite.pdb
+.PHONY: clean-build-nunitlite
+clean-build: clean-build-nunitlite
+
 $(BUILDDIR)/run-tests.exe: $(SRCDIR)/tools/run-tests/run-tests.cs $(BUILDDIR)/mono-unix/.installed
 	$(MONO_ENV) csc $(SRCDIR)/tools/run-tests/run-tests.cs -out:$(BUILDDIR)/run-tests.exe
+
+clean-build-runtestsexe:
+	rm -rf $(BUILDDIR)/run-tests.exe
+.PHONY: clean-build-runtestsexe
+clean-build: clean-build-runtestsexe
 
 tests: $(BUILDDIR)/run-tests.exe
 	-mkdir -p $(TESTS_OUTDIR)
 	cp $(BUILDDIR)/run-tests.exe $(TESTS_OUTDIR)/run-tests.exe
 	cp $(SRCDIR)/tools/run-tests/*.txt $(SRCDIR)/tools/run-tests/run-on-windows.bat $(TESTS_OUTDIR)/
 .PHONY: tests
+
+clean-tests-runtestsexe:
+	rm -rf $(TESTS_OUTDIR)/run-tests.exe $(TESTS_OUTDIR)/*.txt $(TESTS_OUTDIR)/run-on-windows.bat
+.PHONY: clean-tests-runtestsexe
+clean-tests: clean-tests-runtestsexe
 
 tests-clr: $(BUILDDIR)/mono-unix/.built-clr-tests $(BUILDDIR)/nunitlite.dll $(BUILDDIR)/set32only.exe
 	mkdir -p $(TESTS_OUTDIR)/tests-clr
