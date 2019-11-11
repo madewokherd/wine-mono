@@ -14,3 +14,6 @@
 
 # Set to 0 to use Mono's winforms.
 # ENABLE_DOTNET_CORE_WINFORMS=1
+
+# Set to 1 to include debug symbols.
+# ENABLE_DEBUG_SYMBOLS=0

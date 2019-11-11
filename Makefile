@@ -21,6 +21,8 @@ WINE=wine
 
 ENABLE_DOTNET_CORE_WINFORMS=1
 
+ENABLE_DEBUG_SYMBOLS=0
+
 -include user-config.make
 
 MSI_VERSION=4.9.99
@@ -108,6 +110,13 @@ clean: clean-build
 
 # mingw targets
 define MINGW_TEMPLATE =
+
+ifeq (1,$(ENABLE_DEBUG_SYMBOLS))
+INSTALL_PE_$(1)=cp
+else
+INSTALL_PE_$(1)=do_install () { cp "$$$$1" "$$$$2"; $$(MINGW_$(1))-strip "$$$$2"; }; do_install
+endif
+
 # libmono dll's
 $$(BUILDDIR)/mono-$(1)/Makefile: $$(SRCDIR)/mono/configure $$(BUILDDIR)/.dir
 	mkdir -p $$(@D)
@@ -126,13 +135,14 @@ IMAGEDIR_BUILD_TARGETS += $$(BUILDDIR)/mono-$(1)/support/.built
 
 libmono-2.0-$(1).dll: $$(BUILDDIR)/mono-$(1)/.built
 	mkdir -p "$$(IMAGEDIR)/bin"
-	cp "$$(BUILDDIR)/mono-$(1)/mono/mini/.libs/libmonosgen-2.0.dll" "$$(IMAGEDIR)/bin/libmono-2.0-$(1).dll"
+	$$(INSTALL_PE_$(1)) "$$(BUILDDIR)/mono-$(1)/mono/mini/.libs/libmonosgen-2.0.dll" "$$(IMAGEDIR)/bin/libmono-2.0-$(1).dll"
+
 .PHONY: libmono-2.0-$(1).dll
 imagedir-targets: libmono-2.0-$(1).dll
 
 MonoPosixHelper-$(1).dll: $$(BUILDDIR)/mono-$(1)/support/.built
 	mkdir -p "$$(IMAGEDIR)/lib"
-	cp "$$(BUILDDIR)/mono-$(1)/support/.libs/libMonoPosixHelper.dll" "$$(IMAGEDIR)/lib/MonoPosixHelper-$(1).dll"
+	$$(INSTALL_PE_$(1)) "$$(BUILDDIR)/mono-$(1)/support/.libs/libMonoPosixHelper.dll" "$$(IMAGEDIR)/lib/MonoPosixHelper-$(1).dll"
 .PHONY: MonoPosixHelper-$(1).dll
 imagedir-targets: MonoPosixHelper-$(1).dll
 
@@ -154,7 +164,7 @@ IMAGEDIR_BUILD_TARGETS += $$(BUILDDIR)/btls-$(1)/.built
 
 libmono-btls-$(1).dll: $$(BUILDDIR)/btls-$(1)/.built
 	mkdir -p "$$(IMAGEDIR)/lib"
-	cp "$$(BUILDDIR)/btls-$(1)/libmono-btls-shared.dll" "$$(IMAGEDIR)/lib/libmono-btls-$(1).dll"
+	$$(INSTALL_PE_$(1)) "$$(BUILDDIR)/btls-$(1)/libmono-btls-shared.dll" "$$(IMAGEDIR)/lib/libmono-btls-$(1).dll"
 .PHONY: libmono-btls-$(1).dll
 imagedir-targets: libmono-btls-$(1).dll
 
@@ -186,8 +196,8 @@ $$(BUILDDIR)/installinf-$(1).exe: $$(SRCDIR)/tools/installinf/installinf.c
 	$$(MINGW_$(1))-gcc $$< -lsetupapi -municode -o $$@
 
 support-installinf-$(1): $$(BUILDDIR)/installinf-$(1).exe
-	mkdir -p $(IMAGEDIR)/support/
-	cp $$(BUILDDIR)/installinf-$(1).exe $(IMAGEDIR)/support/
+	mkdir -p $$(IMAGEDIR)/support/
+	$$(INSTALL_PE_$(1)) $$(BUILDDIR)/installinf-$(1).exe $$(IMAGEDIR)/support/installinf-$(1).exe
 .PHONY: support-installinf-$(1)
 imagedir-targets: support-installinf-$(1)
 IMAGEDIR_BUILD_TARGETS += $$(BUILDDIR)/installinf-$(1).exe
@@ -211,7 +221,7 @@ IMAGEDIR_BUILD_TARGETS += $$(BUILDDIR)/SDL2-$(1)/.built
 
 SDL2-$(1).dll: $$(BUILDDIR)/SDL2-$(1)/.built
 	mkdir -p "$$(IMAGEDIR)/lib"
-	cp "$$(BUILDDIR)/SDL2-$(1)/build/.libs/SDL2-$(1).dll" "$$(IMAGEDIR)/lib/SDL2-$(1).dll"
+	$$(INSTALL_PE_$(1)) "$$(BUILDDIR)/SDL2-$(1)/build/.libs/SDL2-$(1).dll" "$$(IMAGEDIR)/lib/SDL2-$(1).dll"
 .PHONY: SDL2-$(1).dll
 imagedir-targets: SDL2-$(1).dll
 
@@ -232,7 +242,7 @@ IMAGEDIR_BUILD_TARGETS += $$(BUILDDIR)/FAudio-$(1)/.built
 
 FAudio-$(1).dll: $$(BUILDDIR)/FAudio-$(1)/.built
 	mkdir -p "$$(IMAGEDIR)/lib"
-	cp "$$(BUILDDIR)/FAudio-$(1)/FAudio.dll" "$$(IMAGEDIR)/lib/FAudio-$(1).dll"
+	$$(INSTALL_PE_$(1)) "$$(BUILDDIR)/FAudio-$(1)/FAudio.dll" "$$(IMAGEDIR)/lib/FAudio-$(1).dll"
 .PHONY: FAudio-$(1).dll
 imagedir-targets: FAudio-$(1).dll
 
@@ -250,7 +260,7 @@ IMAGEDIR_BUILD_TARGETS += $$(BUILDDIR)/SDL_image_compact-$(1)/.built
 
 SDL2_image-$(1).dll: $$(BUILDDIR)/SDL_image_compact-$(1)/.built
 	mkdir -p "$$(IMAGEDIR)/lib"
-	cp "$$(BUILDDIR)/SDL_image_compact-$(1)/SDL2_image.dll" "$$(IMAGEDIR)/lib/SDL2_image-$(1).dll"
+	$$(INSTALL_PE_$(1)) "$$(BUILDDIR)/SDL_image_compact-$(1)/SDL2_image.dll" "$$(IMAGEDIR)/lib/SDL2_image-$(1).dll"
 .PHONY: SDL2_image-$(1).dll
 imagedir-targets: SDL2_image-$(1).dll
 
@@ -268,7 +278,7 @@ IMAGEDIR_BUILD_TARGETS += $$(BUILDDIR)/Theorafile-$(1)/.built
 
 libtheorafile-$(1).dll: $$(BUILDDIR)/Theorafile-$(1)/.built
 	mkdir -p "$$(IMAGEDIR)/lib"
-	cp "$$(BUILDDIR)/Theorafile-$(1)/libtheorafile.dll" "$$(IMAGEDIR)/lib/libtheorafile-$(1).dll"
+	$$(INSTALL_PE_$(1)) "$$(BUILDDIR)/Theorafile-$(1)/libtheorafile.dll" "$$(IMAGEDIR)/lib/libtheorafile-$(1).dll"
 .PHONY: libtheorafile-$(1).dll
 imagedir-targets: libtheorafile-$(1).dll
 
@@ -289,7 +299,7 @@ IMAGEDIR_BUILD_TARGETS += $$(BUILDDIR)/MojoShader-$(1)/.built
 
 libmojoshader-$(1).dll: $$(BUILDDIR)/MojoShader-$(1)/.built
 	mkdir -p "$$(IMAGEDIR)/lib"
-	cp "$$(BUILDDIR)/MojoShader-$(1)/libmojoshader.dll" "$$(IMAGEDIR)/lib/libmojoshader-$(1).dll"
+	$$(INSTALL_PE_$(1)) "$$(BUILDDIR)/MojoShader-$(1)/libmojoshader.dll" "$$(IMAGEDIR)/lib/libmojoshader-$(1).dll"
 .PHONY: libmojoshader-$(1).dll
 imagedir-targets: libmojoshader-$(1).dll
 
@@ -350,7 +360,9 @@ $(BUILDDIR)/mono-unix/.installed: $(BUILDDIR)/mono-unix/.built $(BUILDDIR)/mono-
 	+$(MAKE) -C $(BUILDDIR_ABS)/mono-unix $(MONOLIST_OPTS) HOST_PLATFORM=win32 install
 	mv $(BUILDDIR)/mono-unix-install $(BUILDDIR)/mono-win32-install
 	+$(MAKE) -C $(BUILDDIR_ABS)/mono-unix $(MONOLIST_OPTS) install
+ifneq (1,$(ENABLE_DEBUG_SYMBOLS))
 	for f in `find $(BUILDDIR)/mono-win32-install|grep -E '\.(mdb|pdb)$$'`; do rm "$$f"; done
+endif
 ifeq (1,$(ENABLE_DOTNET_CORE_WINFORMS))
 	rm -rf $(BUILDDIR)/mono-win32-install/lib/mono/gac/Accessibility
 	rm -rf $(BUILDDIR)/mono-win32-install/lib/mono/gac/System.Windows.Forms
