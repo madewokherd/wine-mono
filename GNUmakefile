@@ -579,7 +579,7 @@ $(foreach arch,Framework Framework64,$(BUILDDIR)/image-support/Microsoft.NET/$(a
 	$(MONO_ENV) mcs $(SRCDIR)/tools/csc-wrapper/csc-wrapper.cs /d:VERSION40 -out:$@ -r:Mono.Posix
 IMAGE_SUPPORT_FILES += $(foreach arch,Framework Framework64,$(BUILDDIR)/image-support/Microsoft.NET/$(arch)/v4.0.30319/csc.exe)
 
-$(BUILDDIR)/.supportemptydirs: $(SRCDIR)/Makefile
+$(BUILDDIR)/.supportemptydirs: $(SRCDIR)/GNUmakefile
 	mkdir -p $(BUILDDIR)/image-support/Microsoft.NET/Framework/v3.0/wpf
 	mkdir -p $(BUILDDIR)/image-support/Microsoft.NET/Framework/v3.0/"windows communication foundation"
 	mkdir -p $(BUILDDIR)/image-support/Microsoft.NET/Framework64/v3.0/wpf
@@ -600,7 +600,7 @@ clean-image-support:
 .PHONY: clean-image-support
 clean-build: clean-image-support
 
-$(BUILDDIR)/.supportmsitables-built: $(IMAGE_SUPPORT_FILES) $(SRCDIR)/msi-tables/support/*.idt $(SRCDIR)/tools/build-msi-tables.sh $(BUILDDIR)/genfilehashes.exe $(SRCDIR)/Makefile
+$(BUILDDIR)/.supportmsitables-built: $(IMAGE_SUPPORT_FILES) $(SRCDIR)/msi-tables/support/*.idt $(SRCDIR)/tools/build-msi-tables.sh $(BUILDDIR)/genfilehashes.exe $(SRCDIR)/GNUmakefile
 	$(MONO_ENV) WHICHMSI=support MSI_VERSION=$(MSI_VERSION) CABFILENAME=$(BUILDDIR_ABS)/winemono-support.cab TABLEDIR=$(BUILDDIR_ABS)/msi-tables/support TABLESRCDIR=$(SRCDIR_ABS)/msi-tables/support IMAGEDIR=$(BUILDDIR_ABS)/image-support ROOTDIR=WindowsFolder CABINET=winemono-support.cab GENFILEHASHES=$(BUILDDIR_ABS)/genfilehashes.exe WINE=$(WINE) sh $(SRCDIR)/tools/build-msi-tables.sh
 	touch $@
 
@@ -649,7 +649,7 @@ clean-image:
 .PHONY: clean-image
 clean: clean-image
 
-$(BUILDDIR)/.runtimemsitables-built: $(BUILDDIR)/.imagedir-built $(SRCDIR)/msi-tables/runtime/*.idt $(SRCDIR)/tools/build-msi-tables.sh $(BUILDDIR)/genfilehashes.exe $(SRCDIR)/Makefile
+$(BUILDDIR)/.runtimemsitables-built: $(BUILDDIR)/.imagedir-built $(SRCDIR)/msi-tables/runtime/*.idt $(SRCDIR)/tools/build-msi-tables.sh $(BUILDDIR)/genfilehashes.exe $(SRCDIR)/GNUmakefile
 	$(MONO_ENV) WHICHMSI=runtime MSI_VERSION=$(MSI_VERSION) CABFILENAME=$(BUILDDIR_ABS)/image.cab TABLEDIR=$(BUILDDIR_ABS)/msi-tables/runtime TABLESRCDIR=$(SRCDIR_ABS)/msi-tables/runtime IMAGEDIR=$(IMAGEDIR_ABS) ROOTDIR=MONODIR CABINET='#image.cab' GENFILEHASHES=$(BUILDDIR_ABS)/genfilehashes.exe WINE=$(WINE) sh $(SRCDIR)/tools/build-msi-tables.sh
 	touch $@
 
