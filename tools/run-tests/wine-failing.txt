@@ -758,8 +758,6 @@ x86.MonoTests.System.Windows.Forms.EventArgsTest:TestToolStripItemTextRenderEven
 x86.MonoTests.System.Windows.Forms.FocusTest:ActiveControl_NoChild
 x86.MonoTests.System.Windows.Forms.FormTest:DestroyHandleTest
 x86.MonoTests.System.Windows.Forms.FormTest:FormPropertyTest
-x86.MonoTests.System.Windows.Forms.FormTest:FormStartupPositionTest
-x86.MonoTests.System.Windows.Forms.FormTest:MaximizedParentedFormTest
 x86.MonoTests.System.Windows.Forms.GroupBoxTest:AutoSize
 x86.MonoTests.System.Windows.Forms.InputLanguageTest:Test
 x86.MonoTests.System.Windows.Forms.LabelTest:PubPropTest
@@ -1692,8 +1690,6 @@ x86_64.MonoTests.System.Windows.Forms.Design.ControlBindingsConverterTest
 x86_64.MonoTests.System.Windows.Forms.EventArgsTest:TestToolStripItemTextRenderEventArgs
 x86_64.MonoTests.System.Windows.Forms.FocusTest:ActiveControl_NoChild
 x86_64.MonoTests.System.Windows.Forms.FormTest:FormPropertyTest
-x86_64.MonoTests.System.Windows.Forms.FormTest:FormStartupPositionTest
-x86_64.MonoTests.System.Windows.Forms.FormTest:MaximizedParentedFormTest
 x86_64.MonoTests.System.Windows.Forms.GroupBoxTest:AutoSize
 x86_64.MonoTests.System.Windows.Forms.InputLanguageTest:Test
 x86_64.MonoTests.System.Windows.Forms.LabelTest:PubPropTest
@@ -1872,8 +1868,12 @@ x86.MonoTests.Microsoft.Build.Tasks.CopyTest:TestCopy_EmptyDestFolder
 x86.MonoTests.Microsoft.Build.Tasks.CopyTest:TestCopy_EmptySources
 x86.MonoTests.Microsoft.Build.Tasks.CopyTest:TestCopy_MissingSourceFile
 x86.MonoTests.Microsoft.Build.Tasks.CopyTest
-MonoTests.Remoting.ContextsTest
 MonoTests.System.Windows.Forms.FormTest
+MonoTests.System.Windows.Forms.DefaultLayoutTest:Bug82762 # Fails in virtual desktop
+MonoTests.System.Windows.Forms.FormTest:MethodScaleControl # Fails in virtual desktop
+MonoTests.System.Windows.Forms.FormTest:RestoreBounds # Fails in virtual desktop
+MonoTests.System.Windows.Forms.ToolBarTest:ToolbarButtonRectangleTest
 # definitely unreliable:
 delegate2
 x86_64.MonoTests.System.Threading.ThreadLocalTests:DisposeOnThreadExit
+MonoTests.Remoting.ContextsTest
