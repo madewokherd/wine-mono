@@ -1097,15 +1097,9 @@ x86_64.MonoTests.Microsoft.Build.Tasks.AssignProjectConfigurationTest
 x86_64.MonoTests.Microsoft.Build.Tasks.CodeTaskFactoryTest:Hello
 x86_64.MonoTests.Microsoft.Build.Tasks.CodeTaskFactoryTest:HelloWithParameter
 x86_64.MonoTests.Microsoft.Build.Tasks.CodeTaskFactoryTest:Reference
-x86_64.MonoTests.Microsoft.Build.Tasks.CopyTest:TestCopy1
-x86_64.MonoTests.Microsoft.Build.Tasks.CopyTest:TestCopy2
-x86_64.MonoTests.Microsoft.Build.Tasks.CopyTest:TestCopy_EmptyDestFolder
-x86_64.MonoTests.Microsoft.Build.Tasks.CopyTest:TestCopy_EmptySources
-x86_64.MonoTests.Microsoft.Build.Tasks.CopyTest:TestCopy_MissingSourceFile
 x86_64.MonoTests.Microsoft.Build.Tasks.CopyTest:TestCopy_OverwriteReadOnlyFalse
 x86_64.MonoTests.Microsoft.Build.Tasks.CopyTest:TestCopy_OverwriteReadOnlyTrue
 x86_64.MonoTests.Microsoft.Build.Tasks.CopyTest:TestCopy_ReadOnlyUpdate
-x86_64.MonoTests.Microsoft.Build.Tasks.CopyTest
 x86_64.MonoTests.Microsoft.Build.Tasks.CreateCSharpManifestResourceNameTest:TestExternalResourcesNoRootNamespaceNoTargetPath
 x86_64.MonoTests.Microsoft.Build.Tasks.CreateCSharpManifestResourceNameTest:TestExternalResourcesNoRootNamespaceWithTargetPath
 x86_64.MonoTests.Microsoft.Build.Tasks.CreateCSharpManifestResourceNameTest:TestExternalResourcesWithRootNamespaceNoTargetPath
@@ -1861,12 +1855,6 @@ x86_64.MonoTests.System.Windows.Markup.ValueSerializerTest:GetSerializerForType
 x86_64.MonoTests.System.Windows.Markup.ValueSerializerTest
 MonoTests.System.TimeZoneInfoTest+IsDaylightSavingTimeTests:Bug_16395
 MonoTests.System.Security.Cryptography.X509Certificates.X509CertificateTest:Certificate7 // Considered a bad test by upstream
-x86.MonoTests.Microsoft.Build.Tasks.CopyTest:TestCopy1
-x86.MonoTests.Microsoft.Build.Tasks.CopyTest:TestCopy2
-x86.MonoTests.Microsoft.Build.Tasks.CopyTest:TestCopy_EmptyDestFolder
-x86.MonoTests.Microsoft.Build.Tasks.CopyTest:TestCopy_EmptySources
-x86.MonoTests.Microsoft.Build.Tasks.CopyTest:TestCopy_MissingSourceFile
-x86.MonoTests.Microsoft.Build.Tasks.CopyTest
 MonoTests.System.Windows.Forms.FormTest
 MonoTests.System.Windows.Forms.DefaultLayoutTest:Bug82762 # Fails in virtual desktop
 MonoTests.System.Windows.Forms.FormTest:MethodScaleControl # Fails in virtual desktop
@@ -1877,3 +1865,10 @@ delegate2
 x86_64.MonoTests.System.Threading.ThreadLocalTests:DisposeOnThreadExit
 MonoTests.Remoting.ContextsTest
 x86_64.winx64structs:test_0_In_Args_Value_In_RCX # incorrectly compiled by mingw, see https://sourceforge.net/p/mingw-w64/bugs/819/
+# these CopyTest cases pass the first time, but the tests don't clean up properly, causing failures on subsequent runs
+MonoTests.Microsoft.Build.Tasks.CopyTest:TestCopy1
+MonoTests.Microsoft.Build.Tasks.CopyTest:TestCopy2
+MonoTests.Microsoft.Build.Tasks.CopyTest:TestCopy_EmptyDestFolder
+MonoTests.Microsoft.Build.Tasks.CopyTest:TestCopy_EmptySources
+MonoTests.Microsoft.Build.Tasks.CopyTest:TestCopy_MissingSourceFile
+MonoTests.Microsoft.Build.Tasks.CopyTest
