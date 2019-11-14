@@ -1860,7 +1860,6 @@ x86_64.MonoTests.System.Windows.Markup.DateTimeValueSerializerTest:ConvertToStri
 x86_64.MonoTests.System.Windows.Markup.ValueSerializerTest:GetSerializerForType
 x86_64.MonoTests.System.Windows.Markup.ValueSerializerTest
 MonoTests.System.TimeZoneInfoTest+IsDaylightSavingTimeTests:Bug_16395
-x86_64.winx64structs:test_0_In_Args_Value_In_RCX
 MonoTests.System.Security.Cryptography.X509Certificates.X509CertificateTest:Certificate7 // Considered a bad test by upstream
 x86.MonoTests.Microsoft.Build.Tasks.CopyTest:TestCopy1
 x86.MonoTests.Microsoft.Build.Tasks.CopyTest:TestCopy2
@@ -1877,3 +1876,4 @@ MonoTests.System.Windows.Forms.ToolBarTest:ToolbarButtonRectangleTest
 delegate2
 x86_64.MonoTests.System.Threading.ThreadLocalTests:DisposeOnThreadExit
 MonoTests.Remoting.ContextsTest
+x86_64.winx64structs:test_0_In_Args_Value_In_RCX # incorrectly compiled by mingw, see https://sourceforge.net/p/mingw-w64/bugs/819/
