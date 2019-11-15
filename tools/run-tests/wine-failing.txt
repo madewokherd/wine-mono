@@ -836,9 +836,6 @@ x86.MonoTests.System.Windows.Forms.ToolStripProgressBarTests:Constructor
 x86.MonoTests.System.Windows.Forms.TreeNodeCollectionTest:IList_Indexer_Set
 x86.MonoTests.System.Windows.Forms.UpDownTest:DomainUpDown_SelectedIndex_Invalid
 x86.MonoTests.System.Windows.Forms.UpDownTest:NumericUpDown_Value_Invalid
-x86.MonoTests.System.Xaml.ValueSerializerContextTest:GetService
-x86.MonoTests.System.Xaml.ValueSerializerContextTest:NameResolver
-x86.MonoTests.System.Xaml.ValueSerializerContextTest
 x86.MonoTests.System.Xaml.XamlObjectReaderTest:Read_AmbientPropertyContainer
 x86.MonoTests.System.Xaml.XamlObjectReaderTest:Read_AmbientPropertyContainer2
 x86.MonoTests.System.Xaml.XamlObjectReaderTest:Read_XData
@@ -846,7 +843,6 @@ x86.MonoTests.System.Xaml.XamlObjectReaderTest:Read_XDataWrapper
 x86.MonoTests.System.Xaml.XamlObjectWriterTest:StartMemberBeforeNamespace
 x86.MonoTests.System.Xaml.XamlObjectWriterTest:Write_EventStore4
 x86.MonoTests.System.Xaml.XamlObjectWriterTest:Write_MyExtension2
-x86.MonoTests.System.Xaml.XamlTypeTest:GetXamlNamespaces
 x86.MonoTests.System.Xaml.XamlXmlWriterTest:ValueAfterObject2
 x86.MonoTests.System.Xaml.XamlXmlWriterTest:ValueThenStartObject
 x86.MonoTests.System.Xaml.XamlXmlWriterTest:Write_AbstractWrapper
@@ -919,9 +915,7 @@ x86.MonoTests.System.Timers.TimersDescriptionAttributeTest
 x86.MonoTests.System.UriTest
 x86.MonoTests.System.UriTest
 x86.MonoTests.System.IO.Packaging.PackUriHelperTests:CompareInvalidTest
-x86.MonoTests.System.Windows.Markup.DateTimeValueSerializerTest:CanConvertFromString
 x86.MonoTests.System.Windows.Markup.DateTimeValueSerializerTest:ConvertToString1
-x86.MonoTests.System.Windows.Markup.ValueSerializerTest:GetSerializerForType
 x86.MonoTests.System.Windows.Markup.ValueSerializerTest
 x86_64.MonoTests.System.ActivatorTest:Unification_FromFx99_System
 x86_64.MonoTests.System.AppDomainTest:ExecuteAssembly4_NoEntryPoint
@@ -1767,9 +1761,6 @@ x86_64.MonoTests.System.Windows.Forms.ToolStripProgressBarTests:Constructor
 x86_64.MonoTests.System.Windows.Forms.TreeNodeCollectionTest:IList_Indexer_Set
 x86_64.MonoTests.System.Windows.Forms.UpDownTest:DomainUpDown_SelectedIndex_Invalid
 x86_64.MonoTests.System.Windows.Forms.UpDownTest:NumericUpDown_Value_Invalid
-x86_64.MonoTests.System.Xaml.ValueSerializerContextTest:GetService
-x86_64.MonoTests.System.Xaml.ValueSerializerContextTest:NameResolver
-x86_64.MonoTests.System.Xaml.ValueSerializerContextTest
 x86_64.MonoTests.System.Xaml.XamlObjectReaderTest:Read_AmbientPropertyContainer
 x86_64.MonoTests.System.Xaml.XamlObjectReaderTest:Read_AmbientPropertyContainer2
 x86_64.MonoTests.System.Xaml.XamlObjectReaderTest:Read_XData
@@ -1777,7 +1768,6 @@ x86_64.MonoTests.System.Xaml.XamlObjectReaderTest:Read_XDataWrapper
 x86_64.MonoTests.System.Xaml.XamlObjectWriterTest:StartMemberBeforeNamespace
 x86_64.MonoTests.System.Xaml.XamlObjectWriterTest:Write_EventStore4
 x86_64.MonoTests.System.Xaml.XamlObjectWriterTest:Write_MyExtension2
-x86_64.MonoTests.System.Xaml.XamlTypeTest:GetXamlNamespaces
 x86_64.MonoTests.System.Xaml.XamlXmlWriterTest:ValueAfterObject2
 x86_64.MonoTests.System.Xaml.XamlXmlWriterTest:ValueThenStartObject
 x86_64.MonoTests.System.Xaml.XamlXmlWriterTest:Write_AbstractWrapper
@@ -1849,9 +1839,7 @@ x86_64.MonoTests.System.Timers.TimersDescriptionAttributeTest
 x86_64.MonoTests.System.UriTest
 x86_64.MonoTests.System.UriTest
 x86_64.MonoTests.System.IO.Packaging.PackUriHelperTests:CompareInvalidTest
-x86_64.MonoTests.System.Windows.Markup.DateTimeValueSerializerTest:CanConvertFromString
 x86_64.MonoTests.System.Windows.Markup.DateTimeValueSerializerTest:ConvertToString1
-x86_64.MonoTests.System.Windows.Markup.ValueSerializerTest:GetSerializerForType
 x86_64.MonoTests.System.Windows.Markup.ValueSerializerTest
 MonoTests.System.TimeZoneInfoTest+IsDaylightSavingTimeTests:Bug_16395
 MonoTests.System.Security.Cryptography.X509Certificates.X509CertificateTest:Certificate7 // Considered a bad test by upstream
@@ -1859,7 +1847,15 @@ MonoTests.System.Windows.Forms.FormTest
 MonoTests.System.Windows.Forms.DefaultLayoutTest:Bug82762 # Fails in virtual desktop
 MonoTests.System.Windows.Forms.FormTest:MethodScaleControl # Fails in virtual desktop
 MonoTests.System.Windows.Forms.FormTest:RestoreBounds # Fails in virtual desktop
-MonoTests.System.Windows.Forms.ToolBarTest:ToolbarButtonRectangleTest
+MonoTests.System.Xaml.XamlLanguageTest
+MonoTests.System.Xaml.XamlMemberTest
+MonoTests.System.Xaml.XamlObjectReaderTest
+MonoTests.System.Xaml.XamlObjectWriterSettingsTest
+MonoTests.System.Xaml.XamlObjectWriterTest
+MonoTests.System.Xaml.XamlTypeTest:TypeConverter_Type
+MonoTests.System.Xaml.XamlTypeTest:TypeConverter_TypeExtension
+MonoTests.System.Xaml.XamlXmlReaderTest
+MonoTests.System.Xaml.XamlXmlWriterTest
 # definitely unreliable:
 delegate2
 x86_64.MonoTests.System.Threading.ThreadLocalTests:DisposeOnThreadExit
@@ -1872,3 +1868,4 @@ MonoTests.Microsoft.Build.Tasks.CopyTest:TestCopy_EmptyDestFolder
 MonoTests.Microsoft.Build.Tasks.CopyTest:TestCopy_EmptySources
 MonoTests.Microsoft.Build.Tasks.CopyTest:TestCopy_MissingSourceFile
 MonoTests.Microsoft.Build.Tasks.CopyTest
+MonoTests.System.Windows.Forms.ToolBarTest:ToolbarButtonRectangleTest
