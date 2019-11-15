@@ -20,6 +20,7 @@ MINGW_x86_64=x86_64-w64-mingw32
 WINE=wine
 
 ENABLE_DOTNET_CORE_WINFORMS=1
+ENABLE_DOTNET_CORE_WPF=1
 
 ENABLE_DEBUG_SYMBOLS=0
 
@@ -50,6 +51,7 @@ SDLIMAGE_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/SDL_image_comp
 THEORAFILE_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/FNA/lib/Theorafile)
 MOJOSHADER_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/FNA/lib/MojoShader)
 WINFORMS_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/winforms)
+WPF_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/wpf)
 
 MONO_BIN_PATH=$(BUILDDIR_ABS)/mono-unix-install/bin
 MONO_LD_PATH=$(BUILDDIR_ABS)/mono-unix-install/lib
@@ -367,6 +369,9 @@ ifeq (1,$(ENABLE_DOTNET_CORE_WINFORMS))
 	rm -rf $(BUILDDIR)/mono-win32-install/lib/mono/gac/Accessibility
 	rm -rf $(BUILDDIR)/mono-win32-install/lib/mono/gac/System.Windows.Forms
 endif
+ifeq (1,$(ENABLE_DOTNET_CORE_WPF))
+	rm -rf $(BUILDDIR)/mono-win32-install/lib/mono/gac/System.Xaml
+endif
 	touch $@
 IMAGEDIR_BUILD_TARGETS += $(BUILDDIR)/mono-unix/.installed
 
@@ -407,6 +412,14 @@ clean-tests-runtestsexe:
 	rm -rf $(TESTS_OUTDIR)/run-tests.exe $(TESTS_OUTDIR)/*.txt $(TESTS_OUTDIR)/run-on-windows.bat
 .PHONY: clean-tests-runtestsexe
 clean-tests: clean-tests-runtestsexe
+
+$(BUILDDIR)/resx2srid.exe: $(SRCDIR)/tools/resx2srid/resx2srid.cs $(BUILDDIR)/mono-unix/.installed
+	$(MONO_ENV) csc $(SRCDIR)/tools/resx2srid/resx2srid.cs -out:$(BUILDDIR)/resx2srid.exe
+
+clean-build-resx2srid:
+	rm -rf $(BUILDDIR)/resx2srid.exe
+.PHONY: clean-build-resx2srid
+clean-build: clean-build-resx2srid
 
 tests-clr: $(BUILDDIR)/mono-unix/.built-clr-tests $(BUILDDIR)/nunitlite.dll $(BUILDDIR)/set32only.exe
 	mkdir -p $(TESTS_OUTDIR)/tests-clr
@@ -501,6 +514,20 @@ System.Windows.Forms.dll: $(SRCDIR)/winforms/src/System.Windows.Forms/src/.built
 	$(MONO_ENV) gacutil -i $(SRCDIR)/winforms/src/System.Windows.Forms/src/System.Windows.Forms.dll -root $(IMAGEDIR)/lib
 .PHONY: System.Windows.Forms.dll
 imagedir-targets: System.Windows.Forms.dll
+endif
+
+# dotnet core WPF
+$(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/System.Xaml/.built: $(BUILDDIR)/mono-unix/.installed $(WPF_SRCS) $(BUILDDIR)/resx2srid.exe
+	+$(MONO_ENV) $(MAKE) -C $(@D) MONO_PREFIX=$(BUILDDIR_ABS)/mono-unix-install RESX2SRID=$(BUILDDIR_ABS)/resx2srid.exe WINE_MONO_SRCDIR=$(SRCDIR_ABS)
+	touch $@
+
+ifeq (1,$(ENABLE_DOTNET_CORE_WPF))
+IMAGEDIR_BUILD_TARGETS += $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/System.Xaml/.built
+
+System.Xaml.dll: $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/System.Xaml/.built
+	$(MONO_ENV) gacutil -i $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/System.Xaml/System.Xaml.dll -root $(IMAGEDIR)/lib
+.PHONY: System.Xaml.dll
+imagedir-targets: System.Xaml.dll
 endif
 
 # FNA

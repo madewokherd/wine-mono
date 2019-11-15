@@ -16,3 +16,6 @@
 [submodule "winforms"]
 	path = winforms
 	url = git://github.com/madewokherd/winforms.git
+[submodule "wpf"]
+	path = wpf
+	url = ../wpf.git
