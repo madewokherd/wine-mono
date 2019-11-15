@@ -531,8 +531,8 @@ $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/System.Xaml/.built: $(BUILDDIR)/mono-
 	+$(MONO_ENV) $(MAKE) -C $(@D) MONO_PREFIX=$(BUILDDIR_ABS)/mono-unix-install RESX2SRID=$(BUILDDIR_ABS)/resx2srid.exe WINE_MONO_SRCDIR=$(SRCDIR_ABS)
 	touch $@
 
-$(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/WindowsBase/.built: $(BUILDDIR)/mono-unix/.installed $(WPF_SRCS) $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/System.Xaml/.built $(SRCDIR)/corefx/System.IO.Packaging/.built $(BUILDDIR)/resx2srid.exe
-	+$(MONO_ENV) $(MAKE) -C $(@D) MONO_PREFIX=$(BUILDDIR_ABS)/mono-unix-install RESX2SRID=$(BUILDDIR_ABS)/resx2srid.exe WINE_MONO_SRCDIR=$(SRCDIR_ABS) SIP_DLL=$(SRCDIR_ABS)/corefx/System.IO.Packaging/System.IO.Packaging.dll
+$(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/WindowsBase/.built: $(BUILDDIR)/mono-unix/.installed $(WPF_SRCS) $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/System.Xaml/.built $(SRCDIR)/corefx/System.IO.Packaging/.built $(SRCDIR)/winforms/src/Accessibility/src/.built $(BUILDDIR)/resx2srid.exe
+	+$(MONO_ENV) $(MAKE) -C $(@D) MONO_PREFIX=$(BUILDDIR_ABS)/mono-unix-install RESX2SRID=$(BUILDDIR_ABS)/resx2srid.exe WINE_MONO_SRCDIR=$(SRCDIR_ABS) SIP_DLL=$(SRCDIR_ABS)/corefx/System.IO.Packaging/System.IO.Packaging.dll ACCESSIBILITY_DLL=$(SRCDIR_ABS)/winforms/src/Accessibility/src/Accessibility.dll
 	touch $@
 
 ifeq (1,$(ENABLE_DOTNET_CORE_WPF))
