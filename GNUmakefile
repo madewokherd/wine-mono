@@ -452,6 +452,8 @@ $(BUILDDIR)/mono-unix/mono/mini/.built-tests: $(BUILDDIR)/mono-unix/.built
 	+$(MAKE) -C $(@D) test-local
 	touch $@
 
+include tools/tests/tests.make
+
 test: tests image
 	WINEPREFIX=$(BUILDDIR_ABS)/.wine-test-prefix $(WINE) reg add 'HKCU\Software\Wine\WineDb' /v ShowCrashDialog /t REG_DWORD /d 0
 	WINEPREFIX=$(BUILDDIR_ABS)/.wine-test-prefix $(MAKE) dev-setup
