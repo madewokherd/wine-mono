@@ -7,9 +7,15 @@ TEST_RAW_FILES = \
 	privatepath2.exe.config \
 	privatepath1.exe.config
 
-TEST_CLR_EXE_TARGETS = $(TEST_CS_EXE_SRCS:%.cs=tools/tests/%.exe)
+TEST_IL_EXE_SRCS = \
+	xnatest.il
+
+TEST_CLR_EXE_TARGETS = $(TEST_CS_EXE_SRCS:%.cs=tools/tests/%.exe) $(TEST_IL_EXE_SRCS:%.il=tools/tests/%.exe)
 
 TEST_INSTALL_FILES = $(TEST_RAW_FILES:%=tools/tests/%)
+
+tools/tests/%.exe: tools/tests/%.il $(BUILDDIR)/mono-unix/.installed
+	$(MONO_ENV) ilasm -target:exe -output:$@ $<
 
 tools/tests/%.exe: tools/tests/%.cs $(BUILDDIR)/mono-unix/.installed
 	$(MONO_ENV) csc -target:exe -out:$@ $(patsubst %,-r:%,$(filter %.dll,$^)) $<
