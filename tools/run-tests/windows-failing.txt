@@ -855,7 +855,6 @@ x86.MonoTests.System.StringTest:PadLeft1
 x86.MonoTests.System.StringTest:PadRight1
 x86.MonoTests.System.StringTest:Remove2
 x86.MonoTests.System.Text.EncodingInfoTest:EncodingGetEncodingsReturnsAll
-x86.MonoTests.System.Threading.ManualResetEventSlimTests
 x86.MonoTests.System.Threading.Tasks.TaskFactory_T_Tests:FromAsync_CompletedSynchronously
 x86.MonoTests.System.Threading.ThreadPoolTests:PerformanceCounter_WorkItems
 x86.MonoTests.System.Threading.ThreadTest:AbortUnstarted
@@ -4025,7 +4024,6 @@ x86_64.MonoTests.System.StringTest:PadRight1
 x86_64.MonoTests.System.StringTest:PadRight_LargeString
 x86_64.MonoTests.System.StringTest:Remove2
 x86_64.MonoTests.System.Text.EncodingInfoTest:EncodingGetEncodingsReturnsAll
-x86_64.MonoTests.System.Threading.ManualResetEventSlimTests
 x86_64.MonoTests.System.Threading.Tasks.TaskFactory_T_Tests:FromAsync_CompletedSynchronously
 x86_64.MonoTests.System.Threading.ThreadPoolTests:PerformanceCounter_WorkItems
 x86_64.MonoTests.System.Threading.ThreadTest:AbortUnstarted
@@ -4602,7 +4600,6 @@ x86_64.MonoTests.System.Drawing.Drawing2D.PathGradientBrushTest:Constructor_Grap
 x86_64.MonoTests.System.Drawing.Drawing2D.PathGradientBrushTest:Constructor_PointF_Two
 x86_64.MonoTests.System.Drawing.Drawing2D.PathGradientBrushTest:Constructor_PointF_WrapMode_Tile
 x86_64.MonoTests.System.Drawing.Drawing2D.PathGradientBrushTest:Constructor_PointF_WrapMode_TileFlipX
-x86_64.MonoTests.System.Drawing.Drawing2D.PathGradientBrushTest:Constructor_PointF_WrapMode_TileFlipXY
 x86_64.MonoTests.System.Drawing.Drawing2D.PathGradientBrushTest:Constructor_PointF_WrapMode_TileFlipY
 x86_64.MonoTests.System.Drawing.Drawing2D.PathGradientBrushTest:Constructor_Point_Two
 x86_64.MonoTests.System.Drawing.Drawing2D.PathGradientBrushTest:Constructor_Point_WrapMode_Clamp
@@ -6531,8 +6528,8 @@ x86_64.MonoTests.System.Windows.Markup.DateTimeValueSerializerTest:CanConvertToS
 localloc-noinit
 MonoTests.System.Threading.ManualResetEventSlimTests:SetAfterDisposeTest
 MonoTests.System.Threading.ManualResetEventSlimTests:WaitHandleConsistencyTest
-# pre-release API:
-MonoTests.System.IO.FileSystemWatcherTest:CreateTwoAndDispose
+MonoTests.System.Threading.ManualResetEventSlimTests # sometimes crashes
+MonoTests.System.IO.FileSystemWatcherTest:CreateTwoAndDispose # pre-release API
 # unreliable:
 x86.thread-exit
 x86.MonoTests.System.Threading.Tasks.TaskTests:DoubleWaitTest
@@ -6546,3 +6543,4 @@ MonoTests.System.Windows.Forms.FormEvent:Deactivate_Dialog
 MonoTests.System.Windows.Forms.FormEvent:EventOrder
 MonoTests.System.Windows.Forms.FormEvent:EventOrder_Dialog
 MonoTests.System.Windows.Forms.SendKeysTest
+MonoTests.System.Drawing.Drawing2D.PathGradientBrushTest:Constructor_PointF_WrapMode_TileFlipXY
