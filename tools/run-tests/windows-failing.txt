@@ -6530,6 +6530,7 @@ MonoTests.System.Threading.ManualResetEventSlimTests:SetAfterDisposeTest
 MonoTests.System.Threading.ManualResetEventSlimTests:WaitHandleConsistencyTest
 MonoTests.System.Threading.ManualResetEventSlimTests # sometimes crashes
 MonoTests.System.IO.FileSystemWatcherTest:CreateTwoAndDispose # pre-release API
+interface-2:test_0_dim_override
 # unreliable:
 x86.thread-exit
 x86.MonoTests.System.Threading.Tasks.TaskTests:DoubleWaitTest
