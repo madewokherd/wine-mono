@@ -371,6 +371,7 @@ ifeq (1,$(ENABLE_DOTNET_CORE_WINFORMS))
 endif
 ifeq (1,$(ENABLE_DOTNET_CORE_WPF))
 	rm -rf $(BUILDDIR)/mono-win32-install/lib/mono/gac/System.Xaml
+	rm -rf $(BUILDDIR)/mono-win32-install/lib/mono/gac/WindowsBase
 endif
 	touch $@
 IMAGEDIR_BUILD_TARGETS += $(BUILDDIR)/mono-unix/.installed
@@ -534,6 +535,13 @@ System.Xaml.dll: $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/System.Xaml/.built
 	$(MONO_ENV) gacutil -i $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/System.Xaml/System.Xaml.dll -root $(IMAGEDIR)/lib
 .PHONY: System.Xaml.dll
 imagedir-targets: System.Xaml.dll
+
+IMAGEDIR_BUILD_TARGETS += $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/WindowsBase/.built
+
+WindowsBase.dll: $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/WindowsBase/.built
+	$(MONO_ENV) gacutil -i $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/WindowsBase/WindowsBase.dll -root $(IMAGEDIR)/lib
+.PHONY: WindowsBase.dll
+imagedir-targets: WindowsBase.dll
 endif
 
 # FNA
