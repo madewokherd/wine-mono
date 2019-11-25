@@ -372,6 +372,7 @@ endif
 ifeq (1,$(ENABLE_DOTNET_CORE_WPF))
 	rm -rf $(BUILDDIR)/mono-win32-install/lib/mono/gac/System.Xaml
 	rm -rf $(BUILDDIR)/mono-win32-install/lib/mono/gac/WindowsBase
+	rm -rf $(BUILDDIR)/mono-win32-install/lib/mono/gac/System.Windows.Input.Manipulations
 endif
 	touch $@
 IMAGEDIR_BUILD_TARGETS += $(BUILDDIR)/mono-unix/.installed
@@ -528,6 +529,10 @@ $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/WindowsBase/.built: $(BUILDDIR)/mono-
 	+$(MONO_ENV) $(MAKE) -C $(@D) MONO_PREFIX=$(BUILDDIR_ABS)/mono-unix-install RESX2SRID=$(BUILDDIR_ABS)/resx2srid.exe WINE_MONO_SRCDIR=$(SRCDIR_ABS) ACCESSIBILITY_DLL=$(SRCDIR_ABS)/winforms/src/Accessibility/src/Accessibility.dll
 	touch $@
 
+$(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/System.Windows.Input.Manipulations/.built: $(BUILDDIR)/mono-unix/.installed $(WPF_SRCS)
+	+$(MONO_ENV) $(MAKE) -C $(@D) MONO_PREFIX=$(BUILDDIR_ABS)/mono-unix-install WINE_MONO_SRCDIR=$(SRCDIR_ABS)
+	touch $@
+
 ifeq (1,$(ENABLE_DOTNET_CORE_WPF))
 IMAGEDIR_BUILD_TARGETS += $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/System.Xaml/.built
 
@@ -542,6 +547,13 @@ WindowsBase.dll: $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/WindowsBase/.built
 	$(MONO_ENV) gacutil -i $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/WindowsBase/WindowsBase.dll -root $(IMAGEDIR)/lib
 .PHONY: WindowsBase.dll
 imagedir-targets: WindowsBase.dll
+
+IMAGEDIR_BUILD_TARGETS += $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/System.Windows.Input.Manipulations/.built
+
+System.Windows.Input.Manipulations.dll: $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/System.Windows.Input.Manipulations/.built
+	$(MONO_ENV) gacutil -i $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/System.Windows.Input.Manipulations/System.Windows.Input.Manipulations.dll -root $(IMAGEDIR)/lib
+.PHONY: System.Windows.Input.Manipulations.dll
+imagedir-targets: System.Windows.Input.Manipulations.dll
 endif
 
 # FNA
