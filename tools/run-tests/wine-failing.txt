@@ -1683,4 +1683,3 @@ MonoTests.Microsoft.Build.Tasks.CopyTest:TestCopy_EmptyDestFolder
 MonoTests.Microsoft.Build.Tasks.CopyTest:TestCopy_EmptySources
 MonoTests.Microsoft.Build.Tasks.CopyTest:TestCopy_MissingSourceFile
 MonoTests.Microsoft.Build.Tasks.CopyTest
-MonoTests.System.Windows.Forms.ToolBarTest:ToolbarButtonRectangleTest
