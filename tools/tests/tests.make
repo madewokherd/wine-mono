@@ -1,5 +1,6 @@
 
 TEST_CS_EXE_SRCS = \
+	marshalansi.cs \
 	privatepath1.cs \
 	privatepath2.cs
 
@@ -18,7 +19,7 @@ tools/tests/%.exe: tools/tests/%.il $(BUILDDIR)/mono-unix/.installed
 	$(MONO_ENV) ilasm -target:exe -output:$@ $<
 
 tools/tests/%.exe: tools/tests/%.cs $(BUILDDIR)/mono-unix/.installed
-	$(MONO_ENV) csc -target:exe -out:$@ $(patsubst %,-r:%,$(filter %.dll,$^)) $<
+	$(MONO_ENV) csc -unsafe -target:exe -out:$@ $(patsubst %,-r:%,$(filter %.dll,$^)) $<
 
 tools/tests/%.dll: tools/tests/%.cs $(BUILDDIR)/mono-unix/.installed
 	$(MONO_ENV) csc -target:library -out:$@ $(patsubst %,-r:%,$(filter %.dll,$^)) $<
