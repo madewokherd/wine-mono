@@ -462,15 +462,6 @@ x86.MonoTests.Remoting.ActivationTests
 x86.MonoTests.Remoting.ActivationTests
 x86.MonoTests.Remoting.GenericTest
 x86.MonoTests.Remoting.GenericTest
-x86.MonoTests.Remoting.IpcAsyncCallTest
-x86.MonoTests.Remoting.IpcAsyncCallTest
-x86.MonoTests.Remoting.IpcChannelTest
-x86.MonoTests.Remoting.IpcDelegateCallTest
-x86.MonoTests.Remoting.IpcDelegateCallTest
-x86.MonoTests.Remoting.IpcReflectionCallTest
-x86.MonoTests.Remoting.IpcReflectionCallTest
-x86.MonoTests.Remoting.IpcSyncCallTest
-x86.MonoTests.Remoting.IpcSyncCallTest
 x86.MonoTests.Remoting.RemotingServicesTest
 x86.MonoTests.Remoting.RemotingServicesTest
 x86.MonoTests.Remoting.TcpAsyncCallTest
@@ -1253,11 +1244,6 @@ x86_64.MonoTests.Remoting.ActivationTests
 x86_64.MonoTests.Remoting.ActivationTests
 x86_64.MonoTests.Remoting.GenericTest
 x86_64.MonoTests.Remoting.GenericTest
-x86_64.MonoTests.Remoting.IpcAsyncCallTest
-x86_64.MonoTests.Remoting.IpcChannelTest
-x86_64.MonoTests.Remoting.IpcDelegateCallTest
-x86_64.MonoTests.Remoting.IpcReflectionCallTest
-x86_64.MonoTests.Remoting.IpcSyncCallTest
 x86_64.MonoTests.Remoting.RemotingServicesTest
 x86_64.MonoTests.Remoting.RemotingServicesTest
 x86_64.MonoTests.Remoting.TcpAsyncCallTest
@@ -1588,8 +1574,6 @@ MonoTests.System.Xaml.XamlTypeTest:TypeConverter_Type
 MonoTests.System.Xaml.XamlTypeTest:TypeConverter_TypeExtension
 MonoTests.System.Xaml.XamlXmlReaderTest
 MonoTests.System.Xaml.XamlXmlWriterTest
-MonoTests.System.Diagnostics.ProcessTest:Start1_FileName_Whitespace
-MonoTests.System.Diagnostics.ProcessTest:Start2_FileName_Whitespace
 MonoTests.System.Resources.ResXResourceReaderTest:ExternalFileReference_Icon
 x86.MonoTests.System.IO.Packaging.FakePackagePartTests:GetStream2
 x86.MonoTests.System.IO.Packaging.FakePackageTests:CheckProperties
@@ -1671,6 +1655,7 @@ x86_64.MonoTests.System.IO.Packaging.PackageTest:SetFileModeOnUnwriteableStream
 x86_64.MonoTests.System.IO.Packaging.PackageTest:SetTruncateOnWriteableStream
 x86_64.MonoTests.System.IO.Packaging.PackageTest:UnusableStream
 x86_64.MonoTests.System.IO.Packaging.PackageTest:WriteOnlyAccessExists
+MonoTests.System.ComponentModel.SortDescriptionTest:ToStringAndHashCodeTest
 # definitely unreliable:
 delegate2
 x86_64.MonoTests.System.Threading.ThreadLocalTests:DisposeOnThreadExit
@@ -1683,3 +1668,4 @@ MonoTests.Microsoft.Build.Tasks.CopyTest:TestCopy_EmptyDestFolder
 MonoTests.Microsoft.Build.Tasks.CopyTest:TestCopy_EmptySources
 MonoTests.Microsoft.Build.Tasks.CopyTest:TestCopy_MissingSourceFile
 MonoTests.Microsoft.Build.Tasks.CopyTest
+MonoTests.System.Windows.Forms.TextBoxTest # depends on virtual desktop not being minimized?
