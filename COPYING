@@ -8,16 +8,14 @@ Parts of Mono (mono/) are variously licensed under the GPL, LGPL, and MIT X11 li
 
 The Visual Basic class libraries (mono-basic/) are MIT X11. The compiler is LGPL v2.
 
-OpenTK (opentk/) is MIT X11.
+FNA is a mix of MSPL and MIT. It has the following library dependencies:
+ * FAudio, MojoShader, Theorafile, SDL2, SDL_image_compact, and SDL2-CS are zlib-licensed. SDL2-CS is built into FNA.dll.
+ * FNA.NetStub is MSPL.
 
-Lidgren.Network (MonoGame/ThirdParty/Lidgren.Network) is MIT.
-
-MonoGame uses GamepadConfig, Tao.Sdl, and SDL for its gamepad support. GamepadConfig has a non-free license, so gamepad support is disabled in Wine Mono to eliminate those dependencies.
-
-MonoGame (MonoGame/) is Ms-PL.  
+The winforms and wpf libraries are MIT.
 
 
-Any code not in a submodule is MIT:
+Any other code not in a submodule is MIT:
 
 Copyright (c) 2012 Vincent Povirk for CodeWeavers
 
