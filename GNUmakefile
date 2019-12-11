@@ -541,6 +541,14 @@ $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/UIAutomation/UIAutomationProvider/.bu
 	+$(MONO_ENV) $(MAKE) -C $(@D) MONO_PREFIX=$(BUILDDIR_ABS)/mono-unix-install RESX2SRID=$(BUILDDIR_ABS)/resx2srid.exe WINE_MONO_SRCDIR=$(SRCDIR_ABS)
 	touch $@
 
+$(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/DirectWriteForwarder/.built: $(BUILDDIR)/mono-unix/.installed $(WPF_SRCS) $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/WindowsBase/.built $(BUILDDIR)/resx2srid.exe
+	+$(MONO_ENV) $(MAKE) -C $(@D) MONO_PREFIX=$(BUILDDIR_ABS)/mono-unix-install RESX2SRID=$(BUILDDIR_ABS)/resx2srid.exe WINE_MONO_SRCDIR=$(SRCDIR_ABS)
+	touch $@
+
+$(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/PresentationCore/.built: $(BUILDDIR)/mono-unix/.installed $(WPF_SRCS) $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/WindowsBase/.built $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/System.Windows.Input.Manipulations/.built $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/UIAutomation/UIAutomationTypes/.built $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/UIAutomation/UIAutomationProvider/.built $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/DirectWriteForwarder/.built $(BUILDDIR)/resx2srid.exe
+	+$(MONO_ENV) $(MAKE) -C $(@D) MONO_PREFIX=$(BUILDDIR_ABS)/mono-unix-install RESX2SRID=$(BUILDDIR_ABS)/resx2srid.exe WINE_MONO_SRCDIR=$(SRCDIR_ABS)
+	touch $@
+
 ifeq (1,$(ENABLE_DOTNET_CORE_WPF))
 IMAGEDIR_BUILD_TARGETS += $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/System.Xaml/.built
 
@@ -576,6 +584,20 @@ UIAutomationProvider.dll: $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/UIAutomatio
 	$(MONO_ENV) gacutil -i $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/UIAutomation/UIAutomationProvider/UIAutomationProvider.dll -root $(IMAGEDIR)/lib
 .PHONY: UIAutomationProvider.dll
 imagedir-targets: UIAutomationProvider.dll
+
+IMAGEDIR_BUILD_TARGETS += $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/DirectWriteForwarder/.built
+
+DirectWriteForwarder.dll: $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/DirectWriteForwarder/.built
+	$(MONO_ENV) gacutil -i $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/DirectWriteForwarder/DirectWriteForwarder.dll -root $(IMAGEDIR)/lib
+.PHONY: DirectWriteForwarder.dll
+imagedir-targets: DirectWriteForwarder.dll
+
+IMAGEDIR_BUILD_TARGETS += $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/PresentationCore/.built
+
+PresentationCore.dll: $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/PresentationCore/.built
+	$(MONO_ENV) gacutil -i $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/PresentationCore/PresentationCore.dll -root $(IMAGEDIR)/lib
+.PHONY: PresentationCore.dll
+imagedir-targets: PresentationCore.dll
 endif
 
 # FNA
