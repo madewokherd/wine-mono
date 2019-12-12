@@ -309,6 +309,30 @@ clean-build-MojoShader-$(1):
 	rm -rf $$(BUILDDIR)/MojoShader-$(1)
 .PHONY: clean-build-MojoShader-$(1)
 clean-build: clean-build-MojoShader-$(1)
+
+# wpfgfx
+$$(BUILDDIR)/wpfgfx-$(1)/.built: $$(WPF_SRCS)
+	mkdir -p $$(@D)
+	+$(MAKE) -C $$(@D) -f $$(SRCDIR_ABS)/wpf/wpfgfx/Makefile ARCH=$(1) SRCDIR="$$(SRCDIR_ABS)/wpf/wpfgfx" "MINGW=$$(MINGW_$(1))"
+	touch "$$@"
+ifeq (1,$(ENABLE_DOTNET_CORE_WPF))
+IMAGEDIR_BUILD_TARGETS += $$(BUILDDIR)/wpfgfx-$(1)/.built
+endif
+
+wpfgfx-$(1).dll: $$(BUILDDIR)/wpfgfx-$(1)/.built
+	mkdir -p "$$(IMAGEDIR)/lib"
+	$$(INSTALL_PE_$(1)) "$$(BUILDDIR)/wpfgfx-$(1)/wpfgfx-$(1).dll" "$$(IMAGEDIR)/lib/wpfgfx-$(1).dll"
+.PHONY: wpfgfx-$(1).dll
+
+ifeq (1,$(ENABLE_DOTNET_CORE_WPF))
+imagedir-targets: wpfgfx-$(1).dll
+endif
+
+clean-build-wpfgfx-$(1):
+	rm -rf $$(BUILDDIR)/wpfgfx-$(1)
+.PHONY: clean-build-wpfgfx-$(1)
+clean-build: clean-build-wpfgfx-$(1)
+
 endef
 
 $(eval $(call MINGW_TEMPLATE,x86))
