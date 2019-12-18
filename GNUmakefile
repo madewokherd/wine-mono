@@ -577,7 +577,7 @@ $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/ReachFramework/.built: $(BUILDDIR)/mo
 	+$(MONO_ENV) $(MAKE) -C $(@D) MONO_PREFIX=$(BUILDDIR_ABS)/mono-unix-install RESX2SRID=$(BUILDDIR_ABS)/resx2srid.exe WINE_MONO_SRCDIR=$(SRCDIR_ABS)
 	touch $@
 
-$(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/PresentationFramework/.built: $(BUILDDIR)/mono-unix/.installed $(WPF_SRCS) $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/System.Xaml/.built $(SRCDIR)/winforms/src/Accessibility/src/.built $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/WindowsBase/.built $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/UIAutomation/UIAutomationTypes/.built $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/UIAutomation/UIAutomationProvider/.built $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/DirectWriteForwarder/.built $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/PresentationCore/.built $(BUILDDIR)/resx2srid.exe
+$(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/PresentationFramework/.built: $(BUILDDIR)/mono-unix/.installed $(WPF_SRCS) $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/System.Xaml/.built $(SRCDIR)/winforms/src/Accessibility/src/.built $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/WindowsBase/.built $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/UIAutomation/UIAutomationTypes/.built $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/UIAutomation/UIAutomationProvider/.built $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/DirectWriteForwarder/.built $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/PresentationCore/.built $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/ReachFramework/.built $(BUILDDIR)/resx2srid.exe
 	+$(MONO_ENV) $(MAKE) -C $(@D) MONO_PREFIX=$(BUILDDIR_ABS)/mono-unix-install RESX2SRID=$(BUILDDIR_ABS)/resx2srid.exe WINE_MONO_SRCDIR=$(SRCDIR_ABS) ACCESSIBILITY_DLL=$(SRCDIR_ABS)/winforms/src/Accessibility/src/Accessibility.dll
 	touch $@
 
@@ -637,6 +637,13 @@ ReachFramework.dll: $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/ReachFramework/.b
 	$(MONO_ENV) gacutil -i $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/ReachFramework/ReachFramework.dll -root $(IMAGEDIR)/lib
 .PHONY: ReachFramework.dll
 imagedir-targets: ReachFramework.dll
+
+IMAGEDIR_BUILD_TARGETS += $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/PresentationFramework/.built
+
+PresentationFramework.dll: $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/PresentationFramework/.built
+	$(MONO_ENV) gacutil -i $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/PresentationFramework/PresentationFramework.dll -root $(IMAGEDIR)/lib
+.PHONY: PresentationFramework.dll
+imagedir-targets: PresentationFramework.dll
 endif
 
 # FNA
