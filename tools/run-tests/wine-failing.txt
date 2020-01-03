@@ -1575,17 +1575,6 @@ MonoTests.System.Xaml.XamlXmlWriterTest
 MonoTests.System.Resources.ResXResourceReaderTest:ExternalFileReference_Icon
 x86.MonoTests.System.IO.Packaging.FakePackagePartTests:GetStream2
 x86.MonoTests.System.IO.Packaging.FakePackageTests:CheckProperties
-x86.MonoTests.System.IO.Packaging.PackUriHelperTests:ComparePackUriTest
-x86.MonoTests.System.IO.Packaging.PackUriHelperTests:CreateInvalidTest4
-x86.MonoTests.System.IO.Packaging.PackUriHelperTests:CreateTest
-x86.MonoTests.System.IO.Packaging.PackUriHelperTests:CreateTest2
-x86.MonoTests.System.IO.Packaging.PackUriHelperTests:GetPackageUri2
-x86.MonoTests.System.IO.Packaging.PackUriHelperTests:GetPackageUri3
-x86.MonoTests.System.IO.Packaging.PackUriHelperTests:GetPackageUriTest
-x86.MonoTests.System.IO.Packaging.PackUriHelperTests:GetPartUriTest
-x86.MonoTests.System.IO.Packaging.PackUriHelperTests:InvalidPartUriCompareTest
-x86.MonoTests.System.IO.Packaging.PackUriHelperTests:NonPackUriCompareRelativeTest
-x86.MonoTests.System.IO.Packaging.PackUriHelperTests:NonPackUriCompareTest
 x86.MonoTests.System.IO.Packaging.PackagePartFileTests:AppendPackagePart
 x86.MonoTests.System.IO.Packaging.PackagePartFileTests:TestFileMode
 x86.MonoTests.System.IO.Packaging.PackagePartFileTests:TestFileMode2
@@ -1609,15 +1598,6 @@ x86.MonoTests.System.IO.Packaging.PackageTest:UnusableStream
 x86.MonoTests.System.IO.Packaging.PackageTest:WriteOnlyAccessExists
 x86_64.MonoTests.System.IO.Packaging.FakePackagePartTests:GetStream2
 x86_64.MonoTests.System.IO.Packaging.FakePackageTests:CheckProperties
-x86_64.MonoTests.System.IO.Packaging.PackUriHelperTests:ComparePackUriTest
-x86_64.MonoTests.System.IO.Packaging.PackUriHelperTests:CreateInvalidTest4
-x86_64.MonoTests.System.IO.Packaging.PackUriHelperTests:CreateTest
-x86_64.MonoTests.System.IO.Packaging.PackUriHelperTests:CreateTest2
-x86_64.MonoTests.System.IO.Packaging.PackUriHelperTests:GetPackageUriTest
-x86_64.MonoTests.System.IO.Packaging.PackUriHelperTests:GetPartUriTest
-x86_64.MonoTests.System.IO.Packaging.PackUriHelperTests:InvalidPartUriCompareTest
-x86_64.MonoTests.System.IO.Packaging.PackUriHelperTests:NonPackUriCompareRelativeTest
-x86_64.MonoTests.System.IO.Packaging.PackUriHelperTests:NonPackUriCompareTest
 x86_64.MonoTests.System.IO.Packaging.PackagePartFileTests:AppendPackagePart
 x86_64.MonoTests.System.IO.Packaging.PackagePartFileTests:TestFileMode
 x86_64.MonoTests.System.IO.Packaging.PackagePartFileTests:TestFileMode2
@@ -1640,6 +1620,8 @@ x86_64.MonoTests.System.IO.Packaging.PackageTest:SetTruncateOnWriteableStream
 x86_64.MonoTests.System.IO.Packaging.PackageTest:UnusableStream
 x86_64.MonoTests.System.IO.Packaging.PackageTest:WriteOnlyAccessExists
 MonoTests.System.ComponentModel.SortDescriptionTest:ToStringAndHashCodeTest
+x86.MonoTests.System.TimeZoneTest:ToLocalTimeAtDSTBoundaries
+MonoTests.System.Windows.Forms.ComboBoxTest:RemoveAt_SelectedIndex
 # definitely unreliable:
 delegate2
 x86_64.MonoTests.System.Threading.ThreadLocalTests:DisposeOnThreadExit

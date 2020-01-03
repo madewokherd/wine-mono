@@ -1427,7 +1427,6 @@ x86.MonoTests.System.Drawing.Drawing2D.LinearGradientBrushTest
 x86.MonoTests.System.Drawing.Drawing2D.PathGradientBrushTest:Clone
 x86.MonoTests.System.Drawing.Drawing2D.PathGradientBrushTest:Constructor_GraphicsPath_Line
 x86.MonoTests.System.Drawing.Drawing2D.PathGradientBrushTest:Constructor_PointF_Two
-x86.MonoTests.System.Drawing.Drawing2D.PathGradientBrushTest:Constructor_PointF_WrapMode_Clamp
 x86.MonoTests.System.Drawing.Drawing2D.PathGradientBrushTest:Constructor_PointF_WrapMode_Tile
 x86.MonoTests.System.Drawing.Drawing2D.PathGradientBrushTest:Constructor_PointF_WrapMode_TileFlipX
 x86.MonoTests.System.Drawing.Drawing2D.PathGradientBrushTest:Constructor_PointF_WrapMode_TileFlipY
@@ -6531,6 +6530,8 @@ MonoTests.System.Threading.ManualResetEventSlimTests:WaitHandleConsistencyTest
 MonoTests.System.Threading.ManualResetEventSlimTests # sometimes crashes
 MonoTests.System.IO.FileSystemWatcherTest:CreateTwoAndDispose # pre-release API
 interface-2:test_0_dim_override
+x86.MonoTests.System.IO.DirectoryInfoTest:Create
+x86_64.MonoTests.System.IO.DirectoryInfoTest:Create
 # unreliable:
 x86.thread-exit
 x86.MonoTests.System.Threading.Tasks.TaskTests:DoubleWaitTest
@@ -6545,3 +6546,5 @@ MonoTests.System.Windows.Forms.FormEvent:EventOrder
 MonoTests.System.Windows.Forms.FormEvent:EventOrder_Dialog
 MonoTests.System.Windows.Forms.SendKeysTest
 MonoTests.System.Drawing.Drawing2D.PathGradientBrushTest:Constructor_PointF_WrapMode_TileFlipXY
+MonoTests.System.Drawing.Drawing2D.PathGradientBrushTest:Constructor_PointF_WrapMode_Clamp
+MonoTests.System.Runtime.Caching.MemoryCacheTest:TestExpiredGetValues
