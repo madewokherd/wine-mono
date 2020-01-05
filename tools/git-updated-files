@@ -120,7 +120,7 @@ def get_updated_files(path):
 		filename = os.path.join(toplevel, line)
 		if os.path.isdir(filename):
 			diff_files.update(get_updated_files(filename))
-		else:
+		elif os.path.exists(filename):
 			diff_files.add(filename)
 
 	result.update(diff_files)
