@@ -589,6 +589,10 @@ $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/Themes/PresentationFramework.Classic/
 	+$(MONO_ENV) $(MAKE) -C $(@D) MONO_PREFIX=$(BUILDDIR_ABS)/mono-unix-install WINE_MONO_SRCDIR=$(SRCDIR_ABS)
 	touch $@
 
+$(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/System.Printing/.built: $(BUILDDIR)/mono-unix/.installed $(WPF_SRCS) $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/PresentationFramework/.built $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/System.Xaml/.built $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/WindowsBase/.built $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/PresentationCore/.built $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/ReachFramework/.built
+	+$(MONO_ENV) $(MAKE) -C $(@D) MONO_PREFIX=$(BUILDDIR_ABS)/mono-unix-install WINE_MONO_SRCDIR=$(SRCDIR_ABS)
+	touch $@
+
 ifeq (1,$(ENABLE_DOTNET_CORE_WPF))
 IMAGEDIR_BUILD_TARGETS += $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/System.Xaml/.built
 
@@ -666,6 +670,13 @@ PresentationFramework.Classic.dll: $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/Th
 	$(MONO_ENV) gacutil -i $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/Themes/PresentationFramework.Classic/PresentationFramework.Classic.dll -root $(IMAGEDIR)/lib
 .PHONY: PresentationFramework.Classic.dll
 imagedir-targets: PresentationFramework.Classic.dll
+
+IMAGEDIR_BUILD_TARGETS += $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/System.Printing/.built
+
+System.Printing.dll: $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/System.Printing/.built
+	$(MONO_ENV) gacutil -i $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/System.Printing/System.Printing.dll -root $(IMAGEDIR)/lib
+.PHONY: System.Printing.dll
+imagedir-targets: System.Printing.dll
 endif
 
 # FNA
