@@ -320,9 +320,12 @@ IMAGEDIR_BUILD_TARGETS += $$(BUILDDIR)/wpfgfx-$(1)/.built
 endif
 
 wpfgfx-$(1).dll: $$(BUILDDIR)/wpfgfx-$(1)/.built
-	mkdir -p "$$(IMAGEDIR)/lib"
-	$$(INSTALL_PE_$(1)) "$$(BUILDDIR)/wpfgfx-$(1)/wpfgfx-$(1).dll" "$$(IMAGEDIR)/lib/wpfgfx-$(1).dll"
+	mkdir -p "$$(IMAGEDIR)/lib/$(1)"
+	$$(INSTALL_PE_$(1)) "$$(BUILDDIR)/wpfgfx-$(1)/wpfgfx_cor3.dll" "$$(IMAGEDIR)/lib/$(1)/wpfgfx_cor3.dll"
 .PHONY: wpfgfx-$(1).dll
+
+wpfgfx_cor3.dll: wpfgfx-$(1).dll
+.PHONY: wpfgfx_cor3.dll
 
 ifeq (1,$(ENABLE_DOTNET_CORE_WPF))
 imagedir-targets: wpfgfx-$(1).dll
@@ -332,6 +335,32 @@ clean-build-wpfgfx-$(1):
 	rm -rf $$(BUILDDIR)/wpfgfx-$(1)
 .PHONY: clean-build-wpfgfx-$(1)
 clean-build: clean-build-wpfgfx-$(1)
+
+# PresentationNative
+$$(BUILDDIR)/PresentationNative-$(1)/.built: $$(WPF_SRCS)
+	mkdir -p $$(@D)
+	+$(MAKE) -C $$(@D) -f $$(SRCDIR_ABS)/wpf/PresentationNative/Makefile ARCH=$(1) SRCDIR="$$(SRCDIR_ABS)/wpf/PresentationNative" "MINGW=$$(MINGW_$(1))"
+	touch "$$@"
+ifeq (1,$(ENABLE_DOTNET_CORE_WPF))
+IMAGEDIR_BUILD_TARGETS += $$(BUILDDIR)/PresentationNative-$(1)/.built
+endif
+
+PresentationNative-$(1).dll: $$(BUILDDIR)/PresentationNative-$(1)/.built
+	mkdir -p "$$(IMAGEDIR)/lib/$(1)"
+	$$(INSTALL_PE_$(1)) "$$(BUILDDIR)/PresentationNative-$(1)/PresentationNative_cor3.dll" "$$(IMAGEDIR)/lib/$(1)/PresentationNative_cor3.dll"
+.PHONY: PresentationNative-$(1).dll
+
+PresentationNative_cor3.dll: PresentationNative-$(1).dll
+.PHONY: PresentationNative_cor3.dll
+
+ifeq (1,$(ENABLE_DOTNET_CORE_WPF))
+imagedir-targets: PresentationNative-$(1).dll
+endif
+
+clean-build-PresentationNative-$(1):
+	rm -rf $$(BUILDDIR)/PresentationNative-$(1)
+.PHONY: clean-build-PresentationNative-$(1)
+clean-build: clean-build-PresentationNative-$(1)
 
 endef
 
