@@ -622,6 +622,10 @@ $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/System.Printing/.built: $(BUILDDIR)/m
 	+$(MONO_ENV) $(MAKE) -C $(@D) MONO_PREFIX=$(BUILDDIR_ABS)/mono-unix-install WINE_MONO_SRCDIR=$(SRCDIR_ABS)
 	touch $@
 
+$(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/WindowsFormsIntegration/.built: $(BUILDDIR)/mono-unix/.installed $(WPF_SRCS) $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/System.Xaml/.built $(SRCDIR)/winforms/src/System.Windows.Forms/src/.built $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/WindowsBase/.built $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/UIAutomation/UIAutomationProvider/.built $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/PresentationCore/.built $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/PresentationFramework/.built $(BUILDDIR)/resx2srid.exe
+	+$(MONO_ENV) $(MAKE) -C $(@D) MONO_PREFIX=$(BUILDDIR_ABS)/mono-unix-install RESX2SRID=$(BUILDDIR_ABS)/resx2srid.exe WINE_MONO_SRCDIR=$(SRCDIR_ABS) WINFORMS_DLL=$(SRCDIR_ABS)/winforms/src/System.Windows.Forms/src/System.Windows.Forms.dll
+	touch $@
+
 ifeq (1,$(ENABLE_DOTNET_CORE_WPF))
 IMAGEDIR_BUILD_TARGETS += $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/System.Xaml/.built
 
@@ -706,6 +710,13 @@ System.Printing.dll: $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/System.Printing/
 	$(MONO_ENV) gacutil -i $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/System.Printing/System.Printing.dll -root $(IMAGEDIR)/lib
 .PHONY: System.Printing.dll
 imagedir-targets: System.Printing.dll
+
+IMAGEDIR_BUILD_TARGETS += $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/WindowsFormsIntegration/.built
+
+WindowsFormsIntegration.dll: $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/WindowsFormsIntegration/.built
+	$(MONO_ENV) gacutil -i $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/WindowsFormsIntegration/WindowsFormsIntegration.dll -root $(IMAGEDIR)/lib
+.PHONY: WindowsFormsIntegration.dll
+imagedir-targets: WindowsFormsIntegration.dll
 endif
 
 # FNA
