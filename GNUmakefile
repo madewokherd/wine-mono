@@ -362,6 +362,32 @@ clean-build-PresentationNative-$(1):
 .PHONY: clean-build-PresentationNative-$(1)
 clean-build: clean-build-PresentationNative-$(1)
 
+# wmwpfdwhelper - unmanaged helper for DirectWriteForwarder
+$$(BUILDDIR)/wmwpfdwhelper-$(1)/.built: $$(WPF_SRCS)
+	mkdir -p $$(@D)
+	+$(MAKE) -C $$(@D) -f $$(SRCDIR_ABS)/wpf/wmwpfdwhelper/Makefile ARCH=$(1) SRCDIR="$$(SRCDIR_ABS)/wpf/wmwpfdwhelper" "MINGW=$$(MINGW_$(1))"
+	touch "$$@"
+ifeq (1,$(ENABLE_DOTNET_CORE_WPF))
+IMAGEDIR_BUILD_TARGETS += $$(BUILDDIR)/wmwpfdwhelper-$(1)/.built
+endif
+
+wmwpfdwhelper-$(1).dll: $$(BUILDDIR)/wmwpfdwhelper-$(1)/.built
+	mkdir -p "$$(IMAGEDIR)/lib/$(1)"
+	$$(INSTALL_PE_$(1)) "$$(BUILDDIR)/wmwpfdwhelper-$(1)/wmwpfdwhelper.dll" "$$(IMAGEDIR)/lib/$(1)/wmwpfdwhelper.dll"
+.PHONY: wmwpfdwhelper-$(1).dll
+
+wmwpfdwhelper.dll: wmwpfdwhelper-$(1).dll
+.PHONY: wmwpfdwhelper.dll
+
+ifeq (1,$(ENABLE_DOTNET_CORE_WPF))
+imagedir-targets: wmwpfdwhelper-$(1).dll
+endif
+
+clean-build-wmwpfdwhelper-$(1):
+	rm -rf $$(BUILDDIR)/wmwpfdwhelper-$(1)
+.PHONY: clean-build-wmwpfdwhelper-$(1)
+clean-build: clean-build-wmwpfdwhelper-$(1)
+
 endef
 
 $(eval $(call MINGW_TEMPLATE,x86))
