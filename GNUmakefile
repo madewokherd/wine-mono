@@ -40,7 +40,7 @@ MONO_MAKEFILES=$(shell cd $(SRCDIR); find mono -name Makefile.am)
 
 MONO_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/mono)
 MONO_BTLS_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/mono/mono/btls $(SRCDIR)/mono/external/boringssl)
-MONO_MONO_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/mono/mono $(SRCDIR)/mono/libgc)
+MONO_MONO_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/mono/mono)
 MONO_LIBNATIVE_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/mono/mono/native)
 MONO_BASIC_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/mono-basic)
 FNA_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/FNA)
