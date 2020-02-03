@@ -190,6 +190,11 @@ clean-tests: clean-tests-$(1)
 tests-runtime-$(1): $$(BUILDDIR)/mono-unix/mono/mini/.built-tests $$(BUILDDIR)/mono-unix/mono/tests/.built $$(BUILDDIR)/set32only.exe
 	mkdir -p $$(TESTS_OUTDIR)/tests-$(1)
 	cp $$(BUILDDIR)/mono-unix/mono/tests/*.exe $$(BUILDDIR)/mono-unix/mono/tests/*.dll $$(BUILDDIR)/mono-unix/mono/mini/*.exe $$(TESTS_OUTDIR)/tests-$(1)
+	mkdir -p $$(TESTS_OUTDIR)/tests-$(1)/assembly-load-dir1
+	# exclude libsimplename.dll because it's undefined which one we'll get on a case-insensitive filesystem
+	cp $$(BUILDDIR)/mono-unix/mono/tests/assembly-load-dir1/Lib*.dll $$(TESTS_OUTDIR)/tests-$(1)/assembly-load-dir1
+	mkdir -p $$(TESTS_OUTDIR)/tests-$(1)/assembly-load-dir2
+	cp $$(BUILDDIR)/mono-unix/mono/tests/assembly-load-dir2/*.dll $$(TESTS_OUTDIR)/tests-$(1)/assembly-load-dir2
 	if test $(1) = x86; then cd $$(TESTS_OUTDIR)/tests-$(1); $$(WINE) $$(BUILDDIR_ABS)/set32only.exe *.exe; fi
 tests: tests-runtime-$(1)
 
@@ -212,7 +217,7 @@ clean-build: clean-build-installinf-$(1)
 # FNA native deps
 # SDL2
 # note: we explicitly disable vsscanf as msvcrt doesn't support it and mingw-w64's wrapper is buggy
-$$(BUILDDIR)/SDL2-$(1)/Makefile: $$(SRCDIR)/SDL2/configure $$(SRCDIR)/mono/configure
+$$(BUILDDIR)/SDL2-$(1)/Makefile: $$(SRCDIR)/SDL2/configure
 	mkdir -p $$(@D)
 	cd $$(BUILDDIR)/SDL2-$(1); CC="$$(MINGW_$(1))-gcc -static-libgcc" CXX="$$(MINGW_$(1))-g++ -static-libgcc -static-libstdc++" $$(SRCDIR_ABS)/SDL2/configure --build=$$(shell $$(SRCDIR)/mono/config.guess) --target=$$(MINGW_$(1)) --host=$$(MINGW_$(1)) PKG_CONFIG=false ac_cv_func_vsscanf=no
 
