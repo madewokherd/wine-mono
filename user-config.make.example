@@ -12,6 +12,10 @@
 # MINGW_x86_64=x86_64-w64-mingw32
 # WINE=wine
 
+# Compression:
+# COMPRESSOR=bzip2
+# COMPRESSED_SUFFIX=bz2
+
 # Set to 0 to use Mono's winforms.
 # ENABLE_DOTNET_CORE_WINFORMS=1
 

@@ -19,6 +19,9 @@ MINGW_x86_64=x86_64-w64-mingw32
 
 WINE=wine
 
+COMPRESSOR=gzip
+COMPRESSED_SUFFIX=gz
+
 ENABLE_DOTNET_CORE_WINFORMS=1
 ENABLE_DOTNET_CORE_WPF=1
 
@@ -921,10 +924,13 @@ clean-msi:
 .PHONY: clean-msi
 clean: clean-msi
 
-$(OUTDIR)/wine-mono-bin-$(MSI_VERSION).tar.gz: $(BUILDDIR)/.imagedir-built
-	cd $(IMAGEDIR)/..; tar czf $(OUTDIR_ABS)/wine-mono-bin-$(MSI_VERSION).tar.gz --transform 's:^$(notdir $(IMAGEDIR_ABS)):wine-mono-$(MSI_VERSION):g' $(notdir $(IMAGEDIR_ABS))
+$(OUTDIR)/wine-mono-bin-$(MSI_VERSION).tar.$(COMPRESSED_SUFFIX): $(BUILDDIR)/.imagedir-built
+	cd $(IMAGEDIR)/..; tar cf $(OUTDIR_ABS)/wine-mono-bin-$(MSI_VERSION).tar.$(COMPRESSED_SUFFIX) --transform 's:^$(notdir $(IMAGEDIR_ABS)):wine-mono-$(MSI_VERSION):g' '--use-compress-program=$(COMPRESSOR)' $(notdir $(IMAGEDIR_ABS))
 
-targz: $(OUTDIR)/wine-mono-bin-$(MSI_VERSION).tar.gz
+bin: $(OUTDIR)/wine-mono-bin-$(MSI_VERSION).tar.$(COMPRESSED_SUFFIX)
+.PHONY: bin
+
+targz: bin
 .PHONY: targz
 
 clean-targz:
