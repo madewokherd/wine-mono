@@ -48,12 +48,12 @@ for f in mscorlib.dll System.dll System.Xml.dll Mono.Security.dll Mono.Cecil.dll
 	fi
 done
 if test ! -e mono/mcs/class/lib/net_4_x/mcs.exe; then
-	echo Need a basic mcs build to generate a tarball.
+	echo Need a basic mcs build to generate a tarball. 1>&2
 	exit 1
 fi
 MONOLITE_FILES="$MONOLITE_FILES mono/mcs/class/lib/net_4_x/mcs.exe"
 
-OUTPUT_FILE="$2/$1.tar"
+OUTPUT_FILE="$2/$3.tar"
 
 rm -f "$OUTPUT_FILE"
 
@@ -61,7 +61,4 @@ recursivearchivefiles "$PWD" "$1"/ "$1" "$OUTPUT_FILE"
 
 # add monolite
 tar rf "$OUTPUT_FILE" --transform 's:^mono/mcs/class/lib/[^/]*/:'"$1"'/monolite/:g' $MONOLITE_FILES
-
-rm -f "$OUTPUT_FILE.gz"
-gzip "$OUTPUT_FILE"
 
