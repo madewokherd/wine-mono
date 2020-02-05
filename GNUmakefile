@@ -911,30 +911,30 @@ $(BUILDDIR)/.runtimemsitables-built: $(BUILDDIR)/.imagedir-built $(SRCDIR)/msi-t
 	$(MONO_ENV) WHICHMSI=runtime MSI_VERSION=$(MSI_VERSION) CABFILENAME=$(BUILDDIR_ABS)/image.cab TABLEDIR=$(BUILDDIR_ABS)/msi-tables/runtime TABLESRCDIR=$(SRCDIR_ABS)/msi-tables/runtime IMAGEDIR=$(IMAGEDIR_ABS) ROOTDIR=MONODIR CABINET='#image.cab' GENFILEHASHES=$(BUILDDIR_ABS)/genfilehashes.exe WINE=$(WINE) sh $(SRCDIR)/tools/build-msi-tables.sh
 	touch $@
 
-$(OUTDIR)/wine-mono-$(MSI_VERSION).msi: $(BUILDDIR)/.runtimemsitables-built
+$(OUTDIR)/wine-mono-$(MSI_VERSION)-x86.msi: $(BUILDDIR)/.runtimemsitables-built
 	rm -f "$@"
 	$(WINE) winemsibuilder -i '$(shell $(WINE) winepath -w $@)' $(BUILDDIR)/msi-tables/runtime/*.idt
 	$(WINE) winemsibuilder -a '$(shell $(WINE) winepath -w $@)' image.cab '$(shell $(WINE) winepath -w $(BUILDDIR)/image.cab)'
 
-msi: $(OUTDIR)/wine-mono-$(MSI_VERSION).msi
+msi: $(OUTDIR)/wine-mono-$(MSI_VERSION)-x86.msi
 .PHONY: msi
 
 clean-msi:
-	rm -f $(OUTDIR)/wine-mono-$(MSI_VERSION).msi
+	rm -f $(OUTDIR)/wine-mono-$(MSI_VERSION)-x86.msi
 .PHONY: clean-msi
 clean: clean-msi
 
-$(OUTDIR)/wine-mono-bin-$(MSI_VERSION).tar.$(COMPRESSED_SUFFIX): $(BUILDDIR)/.imagedir-built
-	cd $(IMAGEDIR)/..; tar cf $(OUTDIR_ABS)/wine-mono-bin-$(MSI_VERSION).tar.$(COMPRESSED_SUFFIX) --transform 's:^$(notdir $(IMAGEDIR_ABS)):wine-mono-$(MSI_VERSION):g' '--use-compress-program=$(COMPRESSOR)' $(notdir $(IMAGEDIR_ABS))
+$(OUTDIR)/wine-mono-$(MSI_VERSION)-x86.tar.$(COMPRESSED_SUFFIX): $(BUILDDIR)/.imagedir-built
+	cd $(IMAGEDIR)/..; tar cf $(OUTDIR_ABS)/wine-mono-$(MSI_VERSION)-x86.tar.$(COMPRESSED_SUFFIX) --transform 's:^$(notdir $(IMAGEDIR_ABS)):wine-mono-$(MSI_VERSION):g' '--use-compress-program=$(COMPRESSOR)' $(notdir $(IMAGEDIR_ABS))
 
-bin: $(OUTDIR)/wine-mono-bin-$(MSI_VERSION).tar.$(COMPRESSED_SUFFIX)
+bin: $(OUTDIR)/wine-mono-$(MSI_VERSION)-x86.tar.$(COMPRESSED_SUFFIX)
 .PHONY: bin
 
 targz: bin
 .PHONY: targz
 
 clean-targz:
-	rm -f $(OUTDIR)/wine-mono-bin-$(MSI_VERSION).tar.gz
+	rm -f $(OUTDIR)/wine-mono-$(MSI_VERSION)-x86.tar.gz
 .PHONY: clean-targz
 clean: clean-targz
 
