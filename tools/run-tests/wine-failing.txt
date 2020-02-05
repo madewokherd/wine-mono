@@ -693,8 +693,6 @@ x86.MonoTests.System.Windows.Forms.ToolStripProgressBarTests:Constructor
 x86.MonoTests.System.Windows.Forms.TreeNodeCollectionTest:IList_Indexer_Set
 x86.MonoTests.System.Windows.Forms.UpDownTest:DomainUpDown_SelectedIndex_Invalid
 x86.MonoTests.System.Windows.Forms.UpDownTest:NumericUpDown_Value_Invalid
-x86.MonoTests.System.Xaml.XamlObjectReaderTest:Read_AmbientPropertyContainer
-x86.MonoTests.System.Xaml.XamlObjectReaderTest:Read_AmbientPropertyContainer2
 x86.MonoTests.System.Xaml.XamlObjectReaderTest:Read_XData
 x86.MonoTests.System.Xaml.XamlObjectReaderTest:Read_XDataWrapper
 x86.MonoTests.System.Xaml.XamlObjectWriterTest:StartMemberBeforeNamespace
@@ -1478,8 +1476,6 @@ x86_64.MonoTests.System.Windows.Forms.ToolStripProgressBarTests:Constructor
 x86_64.MonoTests.System.Windows.Forms.TreeNodeCollectionTest:IList_Indexer_Set
 x86_64.MonoTests.System.Windows.Forms.UpDownTest:DomainUpDown_SelectedIndex_Invalid
 x86_64.MonoTests.System.Windows.Forms.UpDownTest:NumericUpDown_Value_Invalid
-x86_64.MonoTests.System.Xaml.XamlObjectReaderTest:Read_AmbientPropertyContainer
-x86_64.MonoTests.System.Xaml.XamlObjectReaderTest:Read_AmbientPropertyContainer2
 x86_64.MonoTests.System.Xaml.XamlObjectReaderTest:Read_XData
 x86_64.MonoTests.System.Xaml.XamlObjectReaderTest:Read_XDataWrapper
 x86_64.MonoTests.System.Xaml.XamlObjectWriterTest:StartMemberBeforeNamespace
@@ -1622,6 +1618,11 @@ x86_64.MonoTests.System.IO.Packaging.PackageTest:WriteOnlyAccessExists
 MonoTests.System.ComponentModel.SortDescriptionTest:ToStringAndHashCodeTest
 x86.MonoTests.System.TimeZoneTest:ToLocalTimeAtDSTBoundaries
 MonoTests.System.Windows.Forms.ComboBoxTest:RemoveAt_SelectedIndex
+MonoTests.System.TypeTest:IsDefined_Inherited
+MonoTests.System.TypeTest:TypeFromCLSIDBogus
+MonoTests.System.Xaml.XamlXmlReaderTest:Skip2
+MonoTests.System.Xaml.XamlXmlReaderTest:Read_AmbientPropertyContainer
+MonoTests.System.Xaml.XamlXmlReaderTest:Read_AmbientPropertyContainer2
 # definitely unreliable:
 delegate2
 x86_64.MonoTests.System.Threading.ThreadLocalTests:DisposeOnThreadExit

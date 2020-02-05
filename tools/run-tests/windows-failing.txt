@@ -5,18 +5,12 @@ array_load_exception:test_0_ldelema_type_check
 array_load_exception
 assembly-load-bytes-bindingredirect:test_0_LoadBytesBindingRedirect
 assembly-load-bytes-bindingredirect
-assembly-load-bytes:test_0_LoadBytesSameAssemblyName
-assembly-load-bytes
 assembly-loadfile-bindingredirect:test_0_LoadFileBindingRedirect
 assembly-loadfile-bindingredirect
-assembly-loadfile:test_0_LoadFileSameAssemblyName
-assembly-loadfile
 assembly-loadfrom-bindingredirect:test_0_LoadFromBindingRedirect
 assembly-loadfrom-bindingredirect
 assembly-loadfrom-simplename:test_0_LoadFromSimpleNamePreload
 assembly-loadfrom-simplename
-assembly-loadfrom:test_0_LoadFromSameAssemblyName
-assembly-loadfrom
 assemblyresolve_event3
 assemblyresolve_event4
 assemblyresolve_event6
@@ -486,7 +480,6 @@ x86.MonoTests.System.BitConverterTest:TestUInt16
 x86.MonoTests.System.BitConverterTest:TestUInt32
 x86.MonoTests.System.BitConverterTest:TestUInt64
 x86.MonoTests.System.BitConverterTest:ToString_Length_Overflow
-x86.MonoTests.System.CharCategoryTest:IsDigit
 x86.MonoTests.System.CharCategoryTest:IsLower
 x86.MonoTests.System.CharCategoryTest:IsNumber
 x86.MonoTests.System.CharCategoryTest:IsPunctuation
@@ -3649,7 +3642,6 @@ x86_64.MonoTests.System.BitConverterTest:TestUInt16
 x86_64.MonoTests.System.BitConverterTest:TestUInt32
 x86_64.MonoTests.System.BitConverterTest:TestUInt64
 x86_64.MonoTests.System.BitConverterTest:ToString_Length_Overflow
-x86_64.MonoTests.System.CharCategoryTest:IsDigit
 x86_64.MonoTests.System.CharCategoryTest:IsLower
 x86_64.MonoTests.System.CharCategoryTest:IsNumber
 x86_64.MonoTests.System.CharCategoryTest:IsPunctuation
@@ -5497,8 +5489,6 @@ x86_64.MonoTests.System.Xaml.XamlXmlReaderTest:PositionalParameters2
 x86_64.MonoTests.System.Xaml.XamlXmlReaderTest:ReadDateTimeDetails
 x86_64.MonoTests.System.Xaml.XamlXmlReaderTest:ReadGuidFactoryMethodDetails
 x86_64.MonoTests.System.Xaml.XamlXmlReaderTest:ReadInt32Details
-x86_64.MonoTests.System.Xaml.XamlXmlReaderTest:Read_AmbientPropertyContainer
-x86_64.MonoTests.System.Xaml.XamlXmlReaderTest:Read_AmbientPropertyContainer2
 x86_64.MonoTests.System.Xaml.XamlXmlReaderTest:Read_ArgumentAttributed
 x86_64.MonoTests.System.Xaml.XamlXmlReaderTest:Read_Array
 x86_64.MonoTests.System.Xaml.XamlXmlReaderTest:Read_ArrayExtension2
@@ -6532,6 +6522,16 @@ MonoTests.System.IO.FileSystemWatcherTest:CreateTwoAndDispose # pre-release API
 interface-2:test_0_dim_override
 x86.MonoTests.System.IO.DirectoryInfoTest:Create
 x86_64.MonoTests.System.IO.DirectoryInfoTest:Create
+dim-generic:test_0_dim_override
+dim-generic
+null-blob-main
+MonoTests.Runtime.JitTests
+MonoTests.System.Windows.Forms.ContextMenuStripTest.ContextShowTest
+MonoTests.System.Windows.Forms.ContextMenuStripTest.DirectShowTest01
+MonoTests.System.Windows.Forms.ContextMenuStripTest.DirectShowTest02
+MonoTests.System.Windows.Forms.ContextMenuStripTest.DirectShowTest03
+MonoTests.System.Windows.Forms.ContextMenuStripTest.DirectShowTest04
+MonoTests.System.Windows.Forms.ContextMenuStripTest.DirectShowTest05
 # unreliable:
 x86.thread-exit
 x86.MonoTests.System.Threading.Tasks.TaskTests:DoubleWaitTest
@@ -6548,3 +6548,4 @@ MonoTests.System.Windows.Forms.SendKeysTest
 MonoTests.System.Drawing.Drawing2D.PathGradientBrushTest:Constructor_PointF_WrapMode_TileFlipXY
 MonoTests.System.Drawing.Drawing2D.PathGradientBrushTest:Constructor_PointF_WrapMode_Clamp
 MonoTests.System.Runtime.Caching.MemoryCacheTest:TestExpiredGetValues
+MonoTests.System.Runtime.Caching.MemoryCacheTest:GetCacheItem
