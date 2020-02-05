@@ -938,12 +938,12 @@ clean-targz:
 .PHONY: clean-targz
 clean: clean-targz
 
-$(OUTDIR)/wine-mono-$(MSI_VERSION).tar.$(COMPRESSED_SUFFIX): $(BUILDDIR)/mono-unix/.built
-	$(SRCDIR)/tools/archive.sh `git describe` $(OUTDIR_ABS) wine-mono-$(MSI_VERSION)
+$(OUTDIR)/wine-mono-$(MSI_VERSION)-src.tar.$(COMPRESSED_SUFFIX): $(BUILDDIR)/mono-unix/.built
+	$(SRCDIR)/tools/archive.sh `git describe` $(OUTDIR_ABS) wine-mono-$(MSI_VERSION)-src
 	rm -f $@
-	$(COMPRESSOR) $(OUTDIR)/wine-mono-$(MSI_VERSION).tar
+	$(COMPRESSOR) $(OUTDIR)/wine-mono-$(MSI_VERSION)-src.tar
 
-source: $(OUTDIR)/wine-mono-$(MSI_VERSION).tar.$(COMPRESSED_SUFFIX)
+source: $(OUTDIR)/wine-mono-$(MSI_VERSION)-src.tar.$(COMPRESSED_SUFFIX)
 .PHONY: source
 
 print-env:
