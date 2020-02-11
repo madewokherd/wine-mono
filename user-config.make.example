@@ -10,6 +10,7 @@
 # Commands:
 # MINGW_x86=i686-w64-mingw32
 # MINGW_x86_64=x86_64-w64-mingw32
+# MINGW_PATH=/opt/mingw/bin # for if mingw tools aren't in the default PATH
 # WINE=wine
 
 # Compression:
