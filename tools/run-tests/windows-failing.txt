@@ -491,7 +491,6 @@ x86.MonoTests.System.Collections.CaseInsensitiveComparerTest:Serialize_DefaultIn
 x86.MonoTests.System.Collections.Generic.ListTest:ForEach_Modified
 x86.MonoTests.System.DateTimeOffsetTest:Deserialization
 x86.MonoTests.System.DateTimeTest:CultureIndependentTests
-x86.MonoTests.System.DateTimeTest
 x86.MonoTests.System.DecimalFormatterTest:TestFormatStrings
 x86.MonoTests.System.DecimalTest2:TestRemainder
 x86.MonoTests.System.DelegateTest:DelegateWithValueTypeArguments
@@ -565,7 +564,6 @@ x86.MonoTests.System.IO.DriveInfoTest:Constructor
 x86.MonoTests.System.IO.DriveInfoTest:ConstructorGetsValidDriveFromNonDriveString
 x86.MonoTests.System.IO.DriveInfoTest:GetDrivesValidInfo
 x86.MonoTests.System.IO.FileInfoTest:Serialization
-x86.MonoTests.System.IO.FileStreamTest
 x86.MonoTests.System.IO.FileSystemInfoTest:Serialization
 x86.MonoTests.System.IO.FileTest:CreationTime
 x86.MonoTests.System.IO.FileTest:LastAccessTime
@@ -853,7 +851,6 @@ x86.MonoTests.System.Threading.ThreadPoolTests:PerformanceCounter_WorkItems
 x86.MonoTests.System.Threading.ThreadTest:AbortUnstarted
 x86.MonoTests.System.Threading.ThreadTest:TestPriority2
 x86.MonoTests.System.Threading.ThreadTest:TestSuspendAbort
-x86.MonoTests.System.Threading.TimerTest
 x86.MonoTests.System.TimeZoneInfoTest+ConvertTimeTests_LocalUtc:ConvertTimeTests.ConverTime_DateTime_TimeZoneInfo_TimeZoneInfo_DestinationTimeZoneIsNull
 x86.MonoTests.System.TimeZoneInfoTest+ConvertTimeTests_LocalUtc:ConvertTimeTests.ConverTime_DateTime_TimeZoneInfo_TimeZoneInfo_SourceTimeZoneIsNull
 x86.MonoTests.System.TimeZoneInfoTest+ConvertTimeTests_LocalUtc:ConvertTimeTests.ConvertFromToLocal
@@ -878,7 +875,6 @@ x86.MonoTests.System.TimeZoneInfoTest+ConvertTimeTests_LocalUtc:ConvertTimeTests
 x86.MonoTests.System.TimeZoneInfoTest+ConvertTimeTests_LocalUtc:ConvertTimeTests.ConvertToUTC_SourceIsNull
 x86.MonoTests.System.TimeZoneInfoTest+ConvertTimeTests_LocalUtc
 x86.MonoTests.System.TimeZoneInfoTest+FindSystemTimeZoneByIdTests:DSTInKinshasa
-x86.MonoTests.System.TimeZoneInfoTest+FindSystemTimeZoneByIdTests
 x86.MonoTests.System.TimeZoneInfoTest+GetDaylightChanges:AllTimeZonesDaylightChanges
 x86.MonoTests.System.TimeZoneInfoTest+GetDaylightChanges:TestAthensDaylightChanges
 x86.MonoTests.System.TimeZoneInfoTest+GetDaylightChanges:TestSydneyDaylightChanges
@@ -1092,7 +1088,6 @@ x86.MonoTests.Microsoft.Build.Evaluation.ProjectTest:BuildEmptyProject
 x86.MonoTests.Microsoft.Build.Evaluation.ProjectTest:ProperiesMustBeDistinct
 x86.MonoTests.Microsoft.Build.Evaluation.ResolvedImportTest:ImportAndPropertyOverrides
 x86.MonoTests.Microsoft.Build.Evaluation.ResolvedImportTest:SimpleImportAndSemanticValues
-x86.MonoTests.Microsoft.Build.Execution.BuildManagerTest
 x86.MonoTests.Microsoft.Build.Execution.BuildParametersTest:GetToolset
 x86.MonoTests.Microsoft.Build.Execution.ProjectInstanceTest:BuildEmptyProject
 x86.MonoTests.Microsoft.Build.Execution.ProjectInstanceTest:ConditionalCyclicDependence
@@ -1417,8 +1412,6 @@ x86.MonoTests.System.Drawing.Drawing2D.LinearGradientBrushTest:WrapMode_Invalid
 x86.MonoTests.System.Drawing.Drawing2D.LinearGradientBrushTest:ZeroHeightRectangleF
 x86.MonoTests.System.Drawing.Drawing2D.LinearGradientBrushTest:ZeroWidthRectangle
 x86.MonoTests.System.Drawing.Drawing2D.LinearGradientBrushTest
-x86.MonoTests.System.Drawing.Drawing2D.PathGradientBrushTest:Clone
-x86.MonoTests.System.Drawing.Drawing2D.PathGradientBrushTest:Constructor_GraphicsPath_Line
 x86.MonoTests.System.Drawing.Drawing2D.PathGradientBrushTest:Constructor_PointF_Two
 x86.MonoTests.System.Drawing.Drawing2D.PathGradientBrushTest:Constructor_PointF_WrapMode_Tile
 x86.MonoTests.System.Drawing.Drawing2D.PathGradientBrushTest:Constructor_PointF_WrapMode_TileFlipX
@@ -1691,7 +1684,6 @@ x86.MonoTests.System.Security.Cryptography.Pkcs.Pkcs9SigningTimeTest:Constructor
 x86.MonoTests.System.Security.Cryptography.Pkcs.Pkcs9SigningTimeTest:Constructor_DateTime_MinValue
 x86.MonoTests.System.Security.Cryptography.Pkcs.Pkits_4_01_SignatureVerification
 x86.MonoTests.System.Security.Cryptography.Pkcs.SignedCmsTest:ComputeEmptySignature
-x86.MonoTests.System.Security.Cryptography.ProtectedDataTest
 x86.MonoTests.System.Security.Cryptography.Xml.ReferenceTest:Properties
 x86.MonoTests.System.Security.Cryptography.Xml.SignedXmlTest:AsymmetricRSASignature
 x86.MonoTests.System.Security.Cryptography.Xml.SignedXmlTest:ComputeSignature_WhenSignatureMethodIsNotSpecifiedAndRsaSigningKeyIsUsed_UsesRsaSha256Algorithm
@@ -1776,7 +1768,6 @@ x86.MonoTests.System.ServiceModel.CallbackBehaviorAttributeTest:DefaultValues
 x86.MonoTests.System.ServiceModel.ChannelFactory_1Test:OneWayOperationWithRequestReplyChannel
 x86.MonoTests.System.ServiceModel.Channels.BinaryMessageEncodingBindingElementTest:BuildChannelListenerNullArg
 x86.MonoTests.System.ServiceModel.Channels.BinaryMessageEncodingBindingElementTest:ConnectionHttpTransport
-x86.MonoTests.System.ServiceModel.Channels.CommunicationObjectSyncTest
 x86.MonoTests.System.ServiceModel.Channels.MessageBufferTest:CreateBufferedCopyConsumesMessage
 x86.MonoTests.System.ServiceModel.Channels.NamedPipeTransportBindingElementTest:DefaultValues
 x86.MonoTests.System.ServiceModel.Channels.PeerTransportBindingElementTest:BuildInputChannelListener
@@ -1846,7 +1837,6 @@ x86.MonoTests.System.ServiceModel.Dispatcher.DispatchRuntimeTest:TestInstanceBeh
 x86.MonoTests.System.ServiceModel.Dispatcher.DispatchRuntimeTest:TestInstanceBehavior4
 x86.MonoTests.System.ServiceModel.IntegratedConnectionTest:TestSessionInstancesWsHttp
 x86.MonoTests.System.ServiceModel.Security.ServiceCredentialsSecurityTokenManagerTest:CreateProviderSecureConv2
-x86.MonoTests.System.ServiceModel.Security.ServiceCredentialsSecurityTokenManagerTest
 x86.MonoTests.System.ServiceModel.Security.WSSecurityTokenSerializerTest:ReadTokenDerivedKeyTokenRefToExistent2
 x86.MonoTests.System.ServiceModel.Security.WSSecurityTokenSerializerTest:ReadTokenDerivedKeyTokenRefToNonExistent
 x86.MonoTests.System.ServiceModel.Security.WSSecurityTokenSerializerTest:ReadWriteTokenDerivedKeyTokenRefToExistent
@@ -3323,10 +3313,8 @@ x86.MonoTests.System.UriBuilderTest:Fragment
 x86.MonoTests.System.UriBuilderTest:Query
 x86.MonoTests.System.UriTest:CaseSensitivity
 x86.MonoTests.System.UriTest:CheckHostName1
-x86.MonoTests.System.UriTest
 x86.MonoTests.System.UriTest:TestEscapeDataString
 x86.MonoTests.System.UriTest:TestEscapeUriString
-x86.MonoTests.System.UriTest
 x86.MonoTests.WebMatrix.Data.ConnectionEventArgsTests:InstantiateTest
 x86.MonoTests.WebMatrix.Data.ConnectionEventArgsTests
 x86.MonoTests.WebMatrix.Data.DatabaseTests:ConnectionOpenedTest
@@ -3653,7 +3641,6 @@ x86_64.MonoTests.System.Collections.CaseInsensitiveComparerTest:Serialize_Defaul
 x86_64.MonoTests.System.Collections.Generic.ListTest:ForEach_Modified
 x86_64.MonoTests.System.DateTimeOffsetTest:Deserialization
 x86_64.MonoTests.System.DateTimeTest:CultureIndependentTests
-x86_64.MonoTests.System.DateTimeTest
 x86_64.MonoTests.System.DecimalFormatterTest:TestFormatStrings
 x86_64.MonoTests.System.DecimalTest2:TestRemainder
 x86_64.MonoTests.System.DelegateTest:DelegateWithValueTypeArguments
@@ -3727,7 +3714,6 @@ x86_64.MonoTests.System.IO.DriveInfoTest:Constructor
 x86_64.MonoTests.System.IO.DriveInfoTest:ConstructorGetsValidDriveFromNonDriveString
 x86_64.MonoTests.System.IO.DriveInfoTest:GetDrivesValidInfo
 x86_64.MonoTests.System.IO.FileInfoTest:Serialization
-x86_64.MonoTests.System.IO.FileStreamTest
 x86_64.MonoTests.System.IO.FileSystemInfoTest:Serialization
 x86_64.MonoTests.System.IO.FileTest:CreationTime
 x86_64.MonoTests.System.IO.FileTest:LastAccessTime
@@ -4020,7 +4006,6 @@ x86_64.MonoTests.System.Threading.ThreadPoolTests:PerformanceCounter_WorkItems
 x86_64.MonoTests.System.Threading.ThreadTest:AbortUnstarted
 x86_64.MonoTests.System.Threading.ThreadTest:TestPriority2
 x86_64.MonoTests.System.Threading.ThreadTest:TestSuspendAbort
-x86_64.MonoTests.System.Threading.TimerTest
 x86_64.MonoTests.System.TimeZoneInfoTest+ConvertTimeTests_LocalUtc:ConvertTimeTests.ConverTime_DateTime_TimeZoneInfo_TimeZoneInfo_DestinationTimeZoneIsNull
 x86_64.MonoTests.System.TimeZoneInfoTest+ConvertTimeTests_LocalUtc:ConvertTimeTests.ConverTime_DateTime_TimeZoneInfo_TimeZoneInfo_SourceTimeZoneIsNull
 x86_64.MonoTests.System.TimeZoneInfoTest+ConvertTimeTests_LocalUtc:ConvertTimeTests.ConvertFromToLocal
@@ -4045,7 +4030,6 @@ x86_64.MonoTests.System.TimeZoneInfoTest+ConvertTimeTests_LocalUtc:ConvertTimeTe
 x86_64.MonoTests.System.TimeZoneInfoTest+ConvertTimeTests_LocalUtc:ConvertTimeTests.ConvertToUTC_SourceIsNull
 x86_64.MonoTests.System.TimeZoneInfoTest+ConvertTimeTests_LocalUtc
 x86_64.MonoTests.System.TimeZoneInfoTest+FindSystemTimeZoneByIdTests:DSTInKinshasa
-x86_64.MonoTests.System.TimeZoneInfoTest+FindSystemTimeZoneByIdTests
 x86_64.MonoTests.System.TimeZoneInfoTest+GetDaylightChanges:AllTimeZonesDaylightChanges
 x86_64.MonoTests.System.TimeZoneInfoTest+GetDaylightChanges:TestAthensDaylightChanges
 x86_64.MonoTests.System.TimeZoneInfoTest+GetDaylightChanges:TestSydneyDaylightChanges
@@ -4261,7 +4245,6 @@ x86_64.MonoTests.Microsoft.Build.Evaluation.ProjectTest:BuildEmptyProject
 x86_64.MonoTests.Microsoft.Build.Evaluation.ProjectTest:ProperiesMustBeDistinct
 x86_64.MonoTests.Microsoft.Build.Evaluation.ResolvedImportTest:ImportAndPropertyOverrides
 x86_64.MonoTests.Microsoft.Build.Evaluation.ResolvedImportTest:SimpleImportAndSemanticValues
-x86_64.MonoTests.Microsoft.Build.Execution.BuildManagerTest
 x86_64.MonoTests.Microsoft.Build.Execution.BuildParametersTest:GetToolset
 x86_64.MonoTests.Microsoft.Build.Execution.ProjectInstanceTest:BuildEmptyProject
 x86_64.MonoTests.Microsoft.Build.Execution.ProjectInstanceTest:ConditionalCyclicDependence
@@ -4586,8 +4569,6 @@ x86_64.MonoTests.System.Drawing.Drawing2D.LinearGradientBrushTest:WrapMode_Inval
 x86_64.MonoTests.System.Drawing.Drawing2D.LinearGradientBrushTest:ZeroHeightRectangleF
 x86_64.MonoTests.System.Drawing.Drawing2D.LinearGradientBrushTest:ZeroWidthRectangle
 x86_64.MonoTests.System.Drawing.Drawing2D.LinearGradientBrushTest
-x86_64.MonoTests.System.Drawing.Drawing2D.PathGradientBrushTest:Clone
-x86_64.MonoTests.System.Drawing.Drawing2D.PathGradientBrushTest:Constructor_GraphicsPath_Line
 x86_64.MonoTests.System.Drawing.Drawing2D.PathGradientBrushTest:Constructor_PointF_Two
 x86_64.MonoTests.System.Drawing.Drawing2D.PathGradientBrushTest:Constructor_PointF_WrapMode_Tile
 x86_64.MonoTests.System.Drawing.Drawing2D.PathGradientBrushTest:Constructor_PointF_WrapMode_TileFlipX
@@ -4779,11 +4760,9 @@ x86_64.MonoTests.System.Messaging.TransactionMessageTest:SendWithTransactionType
 x86_64.MonoTests.System.Messaging.TransactionMessageTest
 x86_64.MonoTests.System.Net.Http.Headers.HttpHeaderValueCollectionTest:AddInvalidAndValid
 x86_64.MonoTests.System.Net.Http.HttpClientHandlerTest:Disposed
-x86_64.MonoTests.System.Net.Http.HttpClientTest
 x86_64.MonoTests.System.Net.Http.StreamContentTest:CopyToAsync
 x86_64.MonoTests.System.Net.Http.Headers.HttpHeaderValueCollectionTest:AddInvalidAndValid
 x86_64.MonoTests.System.Net.Http.HttpClientHandlerTest:Disposed
-x86_64.MonoTests.System.Net.Http.HttpClientTest
 x86_64.MonoTests.System.Net.Http.StreamContentTest:CopyToAsync
 x86_64.MonoTests.System.Runtime.Caching.MemoryCacheTest:Trim
 x86_64.MonoTests.Remoting.ContextsTest:TestNewContext
@@ -4861,7 +4840,6 @@ x86_64.MonoTests.System.Security.Cryptography.Pkcs.Pkcs9SigningTimeTest:Construc
 x86_64.MonoTests.System.Security.Cryptography.Pkcs.Pkcs9SigningTimeTest:Constructor_DateTime_MinValue
 x86_64.MonoTests.System.Security.Cryptography.Pkcs.Pkits_4_01_SignatureVerification
 x86_64.MonoTests.System.Security.Cryptography.Pkcs.SignedCmsTest:ComputeEmptySignature
-x86_64.MonoTests.System.Security.Cryptography.ProtectedDataTest
 x86_64.MonoTests.System.Security.Cryptography.Xml.ReferenceTest:Properties
 x86_64.MonoTests.System.Security.Cryptography.Xml.SignedXmlTest:AsymmetricRSASignature
 x86_64.MonoTests.System.Security.Cryptography.Xml.SignedXmlTest:ComputeSignature_WhenSignatureMethodIsNotSpecifiedAndRsaSigningKeyIsUsed_UsesRsaSha256Algorithm
@@ -4947,7 +4925,6 @@ x86_64.MonoTests.System.ServiceModel.CallbackBehaviorAttributeTest:DefaultValues
 x86_64.MonoTests.System.ServiceModel.ChannelFactory_1Test:OneWayOperationWithRequestReplyChannel
 x86_64.MonoTests.System.ServiceModel.Channels.BinaryMessageEncodingBindingElementTest:BuildChannelListenerNullArg
 x86_64.MonoTests.System.ServiceModel.Channels.BinaryMessageEncodingBindingElementTest:ConnectionHttpTransport
-x86_64.MonoTests.System.ServiceModel.Channels.CommunicationObjectSyncTest
 x86_64.MonoTests.System.ServiceModel.Channels.MessageBufferTest:CreateBufferedCopyConsumesMessage
 x86_64.MonoTests.System.ServiceModel.Channels.NamedPipeTransportBindingElementTest:DefaultValues
 x86_64.MonoTests.System.ServiceModel.Channels.PeerTransportBindingElementTest:BuildInputChannelListener
@@ -5018,7 +4995,6 @@ x86_64.MonoTests.System.ServiceModel.Dispatcher.DispatchRuntimeTest:TestInstance
 x86_64.MonoTests.System.ServiceModel.Dispatcher.DispatchRuntimeTest:TestInstanceBehavior4
 x86_64.MonoTests.System.ServiceModel.IntegratedConnectionTest:TestSessionInstancesWsHttp
 x86_64.MonoTests.System.ServiceModel.Security.ServiceCredentialsSecurityTokenManagerTest:CreateProviderSecureConv2
-x86_64.MonoTests.System.ServiceModel.Security.ServiceCredentialsSecurityTokenManagerTest
 x86_64.MonoTests.System.ServiceModel.Security.WSSecurityTokenSerializerTest:ReadTokenDerivedKeyTokenRefToExistent2
 x86_64.MonoTests.System.ServiceModel.Security.WSSecurityTokenSerializerTest:ReadTokenDerivedKeyTokenRefToNonExistent
 x86_64.MonoTests.System.ServiceModel.Security.WSSecurityTokenSerializerTest:ReadWriteTokenDerivedKeyTokenRefToExistent
@@ -6499,10 +6475,8 @@ x86_64.MonoTests.System.UriBuilderTest:Fragment
 x86_64.MonoTests.System.UriBuilderTest:Query
 x86_64.MonoTests.System.UriTest:CaseSensitivity
 x86_64.MonoTests.System.UriTest:CheckHostName1
-x86_64.MonoTests.System.UriTest
 x86_64.MonoTests.System.UriTest:TestEscapeDataString
 x86_64.MonoTests.System.UriTest:TestEscapeUriString
-x86_64.MonoTests.System.UriTest
 x86_64.MonoTests.WebMatrix.Data.ConnectionEventArgsTests:InstantiateTest
 x86_64.MonoTests.WebMatrix.Data.ConnectionEventArgsTests
 x86_64.MonoTests.WebMatrix.Data.DatabaseTests:ConnectionOpenedTest
