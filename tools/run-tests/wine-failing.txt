@@ -15,7 +15,6 @@ x86.MonoTests.System.AppDomainTest:ExecuteAssembly4_NoEntryPoint
 x86.MonoTests.System.Collections.Generic.DictionaryTest:Clear_ZeroOut
 x86.MonoTests.System.Collections.Generic.DictionaryTest:Remove_ZeroOut
 x86.MonoTests.System.Collections.SortedListTest:Values_Deserialize
-x86.MonoTests.System.DateTimeTest
 x86.MonoTests.System.DelegateTest:CantBindValueTypeToFirstArg
 x86.MonoTests.System.Diagnostics.StackFrameTest3
 x86.MonoTests.System.IO.DirectoryTest:CreationTime
@@ -148,7 +147,6 @@ x86.MonoTests.System.Security.SecurityElementTest:FromString_Quote_Delimiter_MS
 x86.MonoTests.System.Threading.WaitHandleTest:DuplicateWaitAll
 x86.MonoTests.System.Threading.WaitHandleTest:WaitAnyWithSecondMutexAbandoned
 x86.MonoTests.System.TimeZoneInfoTest+FindSystemTimeZoneByIdTests:FindIsraelStandardTime
-x86.MonoTests.System.TimeZoneInfoTest+FindSystemTimeZoneByIdTests
 x86.MonoTests.System.TypeTest
 x86.MonoTests.Microsoft.Build.BuildEngine.BuildItemGroupTest:TestClone1
 x86.MonoTests.Microsoft.Build.BuildEngine.BuildItemGroupTest:TestClone2
@@ -561,7 +559,6 @@ x86.MonoTests.System.ServiceModel.MetadataTests.ImportTests_RoundTrip:ImportTest
 x86.MonoTests.System.ServiceModel.NetTcpBindingTest:BufferedConnection
 x86.MonoTests.System.ServiceModel.NetTcpBindingTest:StreamedConnection
 x86.MonoTests.System.ServiceModel.PeerResolvers.CustomPeerResolverServiceTest:CloseTest
-x86.MonoTests.System.ServiceModel.Security.ServiceCredentialsSecurityTokenManagerTest
 x86.MonoTests.System.ServiceModel.Security.Tokens.IssuedSecurityTokenProviderTest:GetTokenNoSecureBinding
 x86.MonoTests.System.ServiceModel.Security.Tokens.IssuedSecurityTokenProviderTest:GetTokenUnsignedReply
 x86.MonoTests.System.ServiceModel.Security.Tokens.IssuedSecurityTokenProviderTest:GetTokenWithoutProtectionTokenParameters
@@ -615,7 +612,6 @@ x86.MonoTests.System.Windows.Forms.Design.ControlBindingsConverterTest:TestPrope
 x86.MonoTests.System.Windows.Forms.Design.ControlBindingsConverterTest
 x86.MonoTests.System.Windows.Forms.EventArgsTest:TestToolStripItemTextRenderEventArgs
 x86.MonoTests.System.Windows.Forms.FocusTest:ActiveControl_NoChild
-x86.MonoTests.System.Windows.Forms.FormTest:DestroyHandleTest
 x86.MonoTests.System.Windows.Forms.FormTest:FormPropertyTest
 x86.MonoTests.System.Windows.Forms.GroupBoxTest:AutoSize
 x86.MonoTests.System.Windows.Forms.InputLanguageTest:Test
@@ -767,8 +763,6 @@ x86.MonoTests.System.Security.Cryptography.X509Certificates.X509Cert20Test:Expor
 x86.MonoTests.System.Timers.TimersDescriptionAttributeTest:AnyString
 x86.MonoTests.System.Timers.TimersDescriptionAttributeTest:ExistingResourceName
 x86.MonoTests.System.Timers.TimersDescriptionAttributeTest
-x86.MonoTests.System.UriTest
-x86.MonoTests.System.UriTest
 x86.MonoTests.System.Windows.Markup.DateTimeValueSerializerTest:ConvertToString1
 x86.MonoTests.System.Windows.Markup.ValueSerializerTest
 x86_64.MonoTests.System.ActivatorTest:Unification_FromFx99_System
@@ -776,7 +770,6 @@ x86_64.MonoTests.System.AppDomainTest:ExecuteAssembly4_NoEntryPoint
 x86_64.MonoTests.System.Collections.Generic.DictionaryTest:Clear_ZeroOut
 x86_64.MonoTests.System.Collections.Generic.DictionaryTest:Remove_ZeroOut
 x86_64.MonoTests.System.Collections.SortedListTest:Values_Deserialize
-x86_64.MonoTests.System.DateTimeTest
 x86_64.MonoTests.System.DelegateTest:CantBindValueTypeToFirstArg
 x86_64.MonoTests.System.Diagnostics.StackFrameTest3:TestGetFileLineNumber
 x86_64.MonoTests.System.Diagnostics.StackFrameTest3:TestGetFileName
@@ -909,7 +902,6 @@ x86_64.MonoTests.System.Security.SecurityElementTest:FromString_Quote_Delimiter_
 x86_64.MonoTests.System.Threading.WaitHandleTest:DuplicateWaitAll
 x86_64.MonoTests.System.Threading.WaitHandleTest:WaitAnyWithSecondMutexAbandoned
 x86_64.MonoTests.System.TimeZoneInfoTest+FindSystemTimeZoneByIdTests:FindIsraelStandardTime
-x86_64.MonoTests.System.TimeZoneInfoTest+FindSystemTimeZoneByIdTests
 x86_64.MonoTests.System.TypeTest
 x86_64.MonoTests.Microsoft.Build.BuildEngine.BuildItemGroupTest:TestClone1
 x86_64.MonoTests.Microsoft.Build.BuildEngine.BuildItemGroupTest:TestClone2
@@ -1339,7 +1331,6 @@ x86_64.MonoTests.System.ServiceModel.MetadataTests.ImportTests_RoundTrip:ImportT
 x86_64.MonoTests.System.ServiceModel.NetTcpBindingTest:BufferedConnection
 x86_64.MonoTests.System.ServiceModel.NetTcpBindingTest:StreamedConnection
 x86_64.MonoTests.System.ServiceModel.PeerResolvers.CustomPeerResolverServiceTest:CloseTest
-x86_64.MonoTests.System.ServiceModel.Security.ServiceCredentialsSecurityTokenManagerTest
 x86_64.MonoTests.System.ServiceModel.Security.Tokens.IssuedSecurityTokenProviderTest:GetTokenNoSecureBinding
 x86_64.MonoTests.System.ServiceModel.Security.Tokens.IssuedSecurityTokenProviderTest:GetTokenUnsignedReply
 x86_64.MonoTests.System.ServiceModel.Security.Tokens.IssuedSecurityTokenProviderTest:GetTokenWithoutProtectionTokenParameters
@@ -1549,8 +1540,6 @@ x86_64.MonoTests.System.Security.Cryptography.X509Certificates.X509Cert20Test:Ex
 x86_64.MonoTests.System.Timers.TimersDescriptionAttributeTest:AnyString
 x86_64.MonoTests.System.Timers.TimersDescriptionAttributeTest:ExistingResourceName
 x86_64.MonoTests.System.Timers.TimersDescriptionAttributeTest
-x86_64.MonoTests.System.UriTest
-x86_64.MonoTests.System.UriTest
 x86_64.MonoTests.System.Windows.Markup.DateTimeValueSerializerTest:ConvertToString1
 x86_64.MonoTests.System.Windows.Markup.ValueSerializerTest
 MonoTests.System.TimeZoneInfoTest+IsDaylightSavingTimeTests:Bug_16395
@@ -1623,6 +1612,30 @@ MonoTests.System.TypeTest:TypeFromCLSIDBogus
 MonoTests.System.Xaml.XamlXmlReaderTest:Skip2
 MonoTests.System.Xaml.XamlXmlReaderTest:Read_AmbientPropertyContainer
 MonoTests.System.Xaml.XamlXmlReaderTest:Read_AmbientPropertyContainer2
+x86.MonoTests.System.IO.FileStreamTest
+x86.MonoTests.System.Net.Http.HttpClientTest:Send_Complete_ClientHandlerSettings
+x86.MonoTests.System.Net.Http.HttpClientTest:Send_Complete_CustomHeaders_Host
+x86.MonoTests.System.Net.Http.HttpClientTest:Send_Complete_CustomHeaders_SpecialSeparators
+x86.MonoTests.System.Net.Http.HttpClientTest:Send_Content_Put
+x86.MonoTests.System.Net.Http.HttpClientTest:Send_Content_Put_CustomStream
+x86.MonoTests.System.Net.Http.HttpClientTest:Send_Transfer_Encoding_Chunked
+x86.MonoTests.System.Net.Http.HttpClientTest:Send_Complete_CustomHeaders_Host
+x86.MonoTests.System.Net.Http.HttpClientTest:Send_Complete_CustomHeaders_SpecialSeparators
+x86.MonoTests.System.Net.Http.HttpClientTest:Send_Content_Put
+x86.MonoTests.System.Net.Http.HttpClientTest:Send_Content_Put_CustomStream
+x86.MonoTests.System.Net.Http.HttpClientTest:Send_Transfer_Encoding_Chunked
+x86_64.MonoTests.System.Diagnostics.StackFrameTest3
+x86_64.MonoTests.System.IO.FileStreamTest
+x86_64.MonoTests.System.Net.Http.HttpClientTest:Send_Complete_CustomHeaders_Host
+x86_64.MonoTests.System.Net.Http.HttpClientTest:Send_Complete_CustomHeaders_SpecialSeparators
+x86_64.MonoTests.System.Net.Http.HttpClientTest:Send_Content_Put
+x86_64.MonoTests.System.Net.Http.HttpClientTest:Send_Content_Put_CustomStream
+x86_64.MonoTests.System.Net.Http.HttpClientTest:Send_Transfer_Encoding_Chunked
+x86_64.MonoTests.System.Net.Http.HttpClientTest:Send_Complete_CustomHeaders_Host
+x86_64.MonoTests.System.Net.Http.HttpClientTest:Send_Complete_CustomHeaders_SpecialSeparators
+x86_64.MonoTests.System.Net.Http.HttpClientTest:Send_Content_Put
+x86_64.MonoTests.System.Net.Http.HttpClientTest:Send_Content_Put_CustomStream
+x86_64.MonoTests.System.Net.Http.HttpClientTest:Send_Transfer_Encoding_Chunked
 # definitely unreliable:
 delegate2
 x86_64.MonoTests.System.Threading.ThreadLocalTests:DisposeOnThreadExit
@@ -1636,3 +1649,5 @@ MonoTests.Microsoft.Build.Tasks.CopyTest:TestCopy_EmptySources
 MonoTests.Microsoft.Build.Tasks.CopyTest:TestCopy_MissingSourceFile
 MonoTests.Microsoft.Build.Tasks.CopyTest
 MonoTests.System.Windows.Forms.TextBoxTest # depends on virtual desktop not being minimized?
+MonoTests.System.Windows.Forms.ComboBoxTests:SelectedText
+MonoTests.System.Windows.Forms.ComboBoxTests:SortedSelectedItem
