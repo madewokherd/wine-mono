@@ -2,7 +2,8 @@
 TEST_CS_EXE_SRCS = \
 	marshalansi.cs \
 	privatepath1.cs \
-	privatepath2.cs
+	privatepath2.cs \
+	webbrowsertest.cs
 
 TEST_RAW_FILES = \
 	privatepath2.exe.config \
@@ -19,10 +20,10 @@ tools/tests/%.exe: tools/tests/%.il $(BUILDDIR)/mono-unix/.installed
 	$(MONO_ENV) ilasm -target:exe -output:$@ $<
 
 tools/tests/%.exe: tools/tests/%.cs $(BUILDDIR)/mono-unix/.installed
-	$(MONO_ENV) csc -unsafe -target:exe -out:$@ $(patsubst %,-r:%,$(filter %.dll,$^)) $<
+	$(MONO_ENV) csc -unsafe -target:exe -out:$@ $(patsubst %,-r:%,$(filter %.dll,$^)) $< $(shell sed -n '/CSCFLAGS=/s/^.*CSCFLAGS=//p' $<)
 
 tools/tests/%.dll: tools/tests/%.cs $(BUILDDIR)/mono-unix/.installed
-	$(MONO_ENV) csc -target:library -out:$@ $(patsubst %,-r:%,$(filter %.dll,$^)) $<
+	$(MONO_ENV) csc -target:library -out:$@ $(patsubst %,-r:%,$(filter %.dll,$^)) $< $(shell sed -n '/CSCFLAGS=/s/^.*CSCFLAGS=//p' $<)
 
 tools/tests/privatepath1.exe: tools/tests/testcslib1.dll
 
