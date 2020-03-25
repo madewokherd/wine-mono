@@ -77,8 +77,8 @@ all: image targz msi tests
 
 define HELP_TEXT =
 The following targets are defined:
-	msi:	      Build wine-mono-$(MSI_VERSION).msi
-	targz:	      Build wine-mono-bin-$(MSI_VERSION).tar.gz
+	msi:	      Build wine-mono-$(MSI_VERSION)-x86.msi
+	targz:	      Build wine-mono-$(MSI_VERSION)-x86.tar.gz
 	tests:        Build the mono tests.
 	test:         Build and run the mono tests.
 	dev:          Build the runtime locally in image/ and configure $$WINEPREFIX to use it.
