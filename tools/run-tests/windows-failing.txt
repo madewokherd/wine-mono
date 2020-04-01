@@ -6665,3 +6665,4 @@ MonoTests.System.Drawing.Drawing2D.PathGradientBrushTest:Constructor_PointF_Wrap
 MonoTests.System.Drawing.Drawing2D.PathGradientBrushTest:Constructor_PointF_WrapMode_Clamp
 MonoTests.System.Runtime.Caching.MemoryCacheTest:TestExpiredGetValues
 MonoTests.System.Runtime.Caching.MemoryCacheTest:GetCacheItem
+MonoTests.System.Windows.Forms.FormTest:MethodScaleControl #depends on display size
