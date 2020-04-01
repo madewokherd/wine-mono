@@ -6646,6 +6646,8 @@ x86_64.MonoTests.System.UriTest:GuardedIPv6Address
 x86_64.MonoTests.System.UriTest:PathDotTrim
 x86_64.MonoTests.System.UriTest:QueryEscape
 x86_64.MonoTests.System.UriTest:UserInfo_EscapedLetter
+MonoTests.System.Drawing.Drawing2D.PathGradientBrushTest:Clone
+MonoTests.System.Drawing.Drawing2D.PathGradientBrushTest:Constructor_GraphicsPath_Line
 # unreliable:
 x86.thread-exit
 x86.MonoTests.System.Threading.Tasks.TaskTests:DoubleWaitTest
