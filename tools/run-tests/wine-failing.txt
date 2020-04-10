@@ -1642,7 +1642,7 @@ delegate2
 x86_64.MonoTests.System.Threading.ThreadLocalTests:DisposeOnThreadExit
 MonoTests.Remoting.ContextsTest
 x86_64.winx64structs:test_0_In_Args_Value_In_RCX # incorrectly compiled by mingw, see https://sourceforge.net/p/mingw-w64/bugs/819/
-MonoTests.System.Windows.Forms.ScrollBarTest:PubPropTest # wine bug 48893
+MonoTests.System.Windows.Forms.ControlTest:PubPropTest # wine bug 48893
 # these CopyTest cases pass the first time, but the tests don't clean up properly, causing failures on subsequent runs
 MonoTests.Microsoft.Build.Tasks.CopyTest:TestCopy1
 MonoTests.Microsoft.Build.Tasks.CopyTest:TestCopy2
