@@ -438,7 +438,6 @@ x86.MonoTests.System.AppDomainTest:CrossDomainProxyMethodWithIsByRefLikeArg
 x86.MonoTests.System.AppDomainTest:DefineDynamicAssembly10_Access_Invalid
 x86.MonoTests.System.AppDomainTest:DefineDynamicAssembly10_Name_InvalidChars
 x86.MonoTests.System.AppDomainTest:DefineDynamicAssembly10_Name_Null
-x86.MonoTests.System.AppDomainTest:DefineDynamicAssembly11
 x86.MonoTests.System.AppDomainTest:DefineDynamicAssembly2_Access_Invalid
 x86.MonoTests.System.AppDomainTest:DefineDynamicAssembly2_Name_InvalidChars
 x86.MonoTests.System.AppDomainTest:DefineDynamicAssembly2_Name_Null
@@ -455,7 +454,6 @@ x86.MonoTests.System.AppDomainTest:DefineDynamicAssembly9_Access_Invalid
 x86.MonoTests.System.AppDomainTest:DefineDynamicAssembly9_Name_InvalidChars
 x86.MonoTests.System.AppDomainTest:DefineDynamicAssembly9_Name_Null
 x86.MonoTests.System.AppDomainTest:GenericReflectionObjectsAreSerializableTest
-x86.MonoTests.System.AppDomainTest:Load_Loaded_Ignore
 x86.MonoTests.System.AppDomainTest:Load_Loaded_Multiple
 x86.MonoTests.System.AppDomainTest:Load_Manifest_Mismatch
 x86.MonoTests.System.AppDomainTest:Load_PartialVersion
@@ -601,8 +599,6 @@ x86.MonoTests.System.Reflection.AssemblyTest:Load_PartialVersion
 x86.MonoTests.System.Reflection.CustomAttributeDataTest:FieldIncludesPseudoCustomAttributesData
 x86.MonoTests.System.Reflection.CustomAttributeDataTest:MethodIncludesDllImportAttributeData
 x86.MonoTests.System.Reflection.Emit.ArrayTypeTest:AttributeValuesUnderCompilerContext
-x86.MonoTests.System.Reflection.Emit.AssemblyBuilderTest:AssemblyName_MoreCultureInfo
-x86.MonoTests.System.Reflection.Emit.AssemblyBuilderTest:AssemblyName_PublicKey
 x86.MonoTests.System.Reflection.Emit.AssemblyBuilderTest:GetModule
 x86.MonoTests.System.Reflection.Emit.AssemblyBuilderTest:GetModules
 x86.MonoTests.System.Reflection.Emit.AssemblyBuilderTest:GetModules2
@@ -610,7 +606,6 @@ x86.MonoTests.System.Reflection.Emit.AssemblyBuilderTest:GetReferencedAssemblies
 x86.MonoTests.System.Reflection.Emit.AssemblyBuilderTest:GetTypesWithUnfinishedTypeBuilder
 x86.MonoTests.System.Reflection.Emit.AssemblyBuilderTest:ManifestModule
 x86.MonoTests.System.Reflection.Emit.AssemblyBuilderTest:ResolveEventHandlerReflectionOnlyError
-x86.MonoTests.System.Reflection.Emit.AssemblyBuilderTest:StrongName_WithoutAttributes
 x86.MonoTests.System.Reflection.Emit.ByrefTypeTest:ByRefOfAttriburesUnderCompilerContext
 x86.MonoTests.System.Reflection.Emit.ConstructorOnTypeBuilderInstTest:MetadataTokenWorksUnderCompilerContext
 x86.MonoTests.System.Reflection.Emit.CustomAttributeBuilderTest:ValueTypeArrayParam_Null
@@ -3588,7 +3583,6 @@ x86_64.MonoTests.System.AppDomainTest:CrossDomainProxyMethodWithIsByRefLikeArg
 x86_64.MonoTests.System.AppDomainTest:DefineDynamicAssembly10_Access_Invalid
 x86_64.MonoTests.System.AppDomainTest:DefineDynamicAssembly10_Name_InvalidChars
 x86_64.MonoTests.System.AppDomainTest:DefineDynamicAssembly10_Name_Null
-x86_64.MonoTests.System.AppDomainTest:DefineDynamicAssembly11
 x86_64.MonoTests.System.AppDomainTest:DefineDynamicAssembly2_Access_Invalid
 x86_64.MonoTests.System.AppDomainTest:DefineDynamicAssembly2_Name_InvalidChars
 x86_64.MonoTests.System.AppDomainTest:DefineDynamicAssembly2_Name_Null
@@ -3605,7 +3599,6 @@ x86_64.MonoTests.System.AppDomainTest:DefineDynamicAssembly9_Access_Invalid
 x86_64.MonoTests.System.AppDomainTest:DefineDynamicAssembly9_Name_InvalidChars
 x86_64.MonoTests.System.AppDomainTest:DefineDynamicAssembly9_Name_Null
 x86_64.MonoTests.System.AppDomainTest:GenericReflectionObjectsAreSerializableTest
-x86_64.MonoTests.System.AppDomainTest:Load_Loaded_Ignore
 x86_64.MonoTests.System.AppDomainTest:Load_Loaded_Multiple
 x86_64.MonoTests.System.AppDomainTest:Load_Manifest_Mismatch
 x86_64.MonoTests.System.AppDomainTest:Load_PartialVersion
@@ -3750,8 +3743,6 @@ x86_64.MonoTests.System.Reflection.AssemblyTest:Load_PartialVersion
 x86_64.MonoTests.System.Reflection.CustomAttributeDataTest:FieldIncludesPseudoCustomAttributesData
 x86_64.MonoTests.System.Reflection.CustomAttributeDataTest:MethodIncludesDllImportAttributeData
 x86_64.MonoTests.System.Reflection.Emit.ArrayTypeTest:AttributeValuesUnderCompilerContext
-x86_64.MonoTests.System.Reflection.Emit.AssemblyBuilderTest:AssemblyName_MoreCultureInfo
-x86_64.MonoTests.System.Reflection.Emit.AssemblyBuilderTest:AssemblyName_PublicKey
 x86_64.MonoTests.System.Reflection.Emit.AssemblyBuilderTest:GetModule
 x86_64.MonoTests.System.Reflection.Emit.AssemblyBuilderTest:GetModules
 x86_64.MonoTests.System.Reflection.Emit.AssemblyBuilderTest:GetModules2
@@ -3759,7 +3750,6 @@ x86_64.MonoTests.System.Reflection.Emit.AssemblyBuilderTest:GetReferencedAssembl
 x86_64.MonoTests.System.Reflection.Emit.AssemblyBuilderTest:GetTypesWithUnfinishedTypeBuilder
 x86_64.MonoTests.System.Reflection.Emit.AssemblyBuilderTest:ManifestModule
 x86_64.MonoTests.System.Reflection.Emit.AssemblyBuilderTest:ResolveEventHandlerReflectionOnlyError
-x86_64.MonoTests.System.Reflection.Emit.AssemblyBuilderTest:StrongName_WithoutAttributes
 x86_64.MonoTests.System.Reflection.Emit.ByrefTypeTest:ByRefOfAttriburesUnderCompilerContext
 x86_64.MonoTests.System.Reflection.Emit.ConstructorOnTypeBuilderInstTest:MetadataTokenWorksUnderCompilerContext
 x86_64.MonoTests.System.Reflection.Emit.CustomAttributeBuilderTest:ValueTypeArrayParam_Null
@@ -6668,3 +6658,8 @@ MonoTests.System.Runtime.Caching.MemoryCacheTest:GetCacheItem
 MonoTests.System.Windows.Forms.FormTest:MethodScaleControl #depends on display size
 MonoTests.Microsoft.Build.BuildEngine.ImportTest:TestAdd1
 MonoTests.System.Runtime.Caching.MemoryCacheTest:GetEnumerator
+MonoTests.System.AppDomainTest:DefineDynamicAssembly11
+MonoTests.System.AppDomainTest:Load_Loaded_Ignore
+MonoTests.System.Reflection.Emit.AssemblyBuilderTest:AssemblyName_MoreCultureInfo
+MonoTests.System.Reflection.Emit.AssemblyBuilderTest:AssemblyName_PublicKey
+MonoTests.System.Reflection.Emit.AssemblyBuilderTest:StrongName_WithoutAttributes
