@@ -6667,3 +6667,4 @@ MonoTests.System.Runtime.Caching.MemoryCacheTest:TestExpiredGetValues
 MonoTests.System.Runtime.Caching.MemoryCacheTest:GetCacheItem
 MonoTests.System.Windows.Forms.FormTest:MethodScaleControl #depends on display size
 MonoTests.Microsoft.Build.BuildEngine.ImportTest:TestAdd1
+MonoTests.System.Runtime.Caching.MemoryCacheTest:GetEnumerator
