@@ -30,7 +30,7 @@ ENABLE_DEBUG_SYMBOLS=0
 
 -include user-config.make
 
-MSI_VERSION=5.0.0
+MSI_VERSION=5.0.1
 
 # variables
 SRCDIR_ABS=$(shell cd $(SRCDIR); pwd)
