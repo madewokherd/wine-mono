@@ -1,5 +1,6 @@
 
 TEST_CS_EXE_SRCS = \
+	arraypadding.cs \
 	marshalansi.cs \
 	privatepath1.cs \
 	privatepath2.cs \
