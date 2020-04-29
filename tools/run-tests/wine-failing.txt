@@ -1637,6 +1637,7 @@ x86_64.MonoTests.System.Net.Http.HttpClientTest:Send_Content_Put
 x86_64.MonoTests.System.Net.Http.HttpClientTest:Send_Content_Put_CustomStream
 x86_64.MonoTests.System.Net.Http.HttpClientTest:Send_Transfer_Encoding_Chunked
 webbrowsertest
+arraypadding
 # definitely unreliable:
 delegate2
 x86_64.MonoTests.System.Threading.ThreadLocalTests:DisposeOnThreadExit
