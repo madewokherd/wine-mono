@@ -228,7 +228,6 @@ x86.MonoTests.System.Configuration.ConnectionStringSettingsTest:Validators_Name1
 x86.MonoTests.System.Configuration.KeyValueConfigurationCollectionTest:GetElementKey_withoutAdd
 x86.MonoTests.System.Configuration.KeyValueConfigurationElementTest:Properties
 x86.MonoTests.System.Configuration.KeyValueConfigurationElementTest
-x86.MonoTests.System.IO.Pipes.PipeSecurityTest:NamedPipePermissionsActuallyWorkAsync
 x86.MonoTests.System.IO.Pipes.PipeSecurityTest:NamedPipePermissionsActuallyWorkSyncDeny
 x86.MonoTests.System.Security.Cryptography.SHA1CngTest:HashAlgorithmTestBase.Hash_AfterInitialize_FirstTime
 x86.MonoTests.System.Security.Cryptography.SHA1CngTest:HashAlgorithmTestBase.TransformFinalBlock_TransformBlock
@@ -970,7 +969,6 @@ x86_64.MonoTests.System.Configuration.ConnectionStringSettingsTest:Validators_Na
 x86_64.MonoTests.System.Configuration.KeyValueConfigurationCollectionTest:GetElementKey_withoutAdd
 x86_64.MonoTests.System.Configuration.KeyValueConfigurationElementTest:Properties
 x86_64.MonoTests.System.Configuration.KeyValueConfigurationElementTest
-x86_64.MonoTests.System.IO.Pipes.PipeSecurityTest:NamedPipePermissionsActuallyWorkAsync
 x86_64.MonoTests.System.IO.Pipes.PipeSecurityTest:NamedPipePermissionsActuallyWorkSyncDeny
 x86_64.MonoTests.System.Security.Cryptography.SHA1CngTest:HashAlgorithmTestBase.Hash_AfterInitialize_FirstTime
 x86_64.MonoTests.System.Security.Cryptography.SHA1CngTest:HashAlgorithmTestBase.TransformFinalBlock_TransformBlock
@@ -1609,6 +1607,7 @@ x86_64.MonoTests.System.Net.Http.HttpClientTest:Send_Content_Put
 x86_64.MonoTests.System.Net.Http.HttpClientTest:Send_Content_Put_CustomStream
 x86_64.MonoTests.System.Net.Http.HttpClientTest:Send_Transfer_Encoding_Chunked
 webbrowsertest
+x86.MonoTests.System.IO.Pipes.PipeSecurityTest #NamedPipePermissionsActuallyWorkAsync crashes
 # definitely unreliable:
 delegate2
 x86_64.MonoTests.System.Threading.ThreadLocalTests:DisposeOnThreadExit
@@ -1626,3 +1625,4 @@ MonoTests.System.Windows.Forms.TextBoxTest # depends on virtual desktop not bein
 MonoTests.System.Windows.Forms.ComboBoxTests:SelectedText
 MonoTests.System.Windows.Forms.ComboBoxTests:SortedSelectedItem
 x86.MonoTests.System.TimeZoneTest:ToLocalTimeAtDSTBoundaries
+MonoTests.System.Threading.Tasks.TaskSchedulerTests:UnobservedTaskExceptionOnFinalizerThreadTest
