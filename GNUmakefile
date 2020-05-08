@@ -14,10 +14,6 @@ endif
 
 TESTS_OUTDIR=$(OUTDIR)/tests
 
-MINGW_x86=i686-w64-mingw32
-MINGW_x86_64=x86_64-w64-mingw32
-MINGW_PATH=
-
 WINE=wine
 
 COMPRESSOR=xz -9 -T0
@@ -95,6 +91,8 @@ endef
 help:
 	@echo -e '$(subst $(newline),\n,$(call HELP_TEXT))'
 
+include llvm.make
+
 dev-setup:
 	for i in `$(WINE) uninstaller --list|grep '|||Wine Mono'|sed -e 's/|||.*$$//'`; do $(WINE) uninstaller --remove "$$i"; done
 	$(WINE) msiexec /i '$(shell $(WINE) winepath -w $(IMAGEDIR)/support/winemono-support.msi)'
@@ -126,17 +124,17 @@ INSTALL_PE_$(1)=do_install () { cp "$$$$1" "$$$$2"; $$(MINGW_ENV) $$(MINGW_$(1))
 endif
 
 # libmono dll's
-$$(BUILDDIR)/mono-$(1)/Makefile: $$(SRCDIR)/mono/configure $$(BUILDDIR)/.dir
+$$(BUILDDIR)/mono-$(1)/Makefile: $$(SRCDIR)/mono/configure $$(BUILDDIR)/.dir $$(MINGW_DEPS)
 	mkdir -p $$(@D)
 	cd $$(BUILDDIR)/mono-$(1); $$(MINGW_ENV) CPPFLAGS="-gdwarf-2 -gstrict-dwarf" $$(SRCDIR_ABS)/mono/configure --prefix="$$(BUILDDIR_ABS)/build-cross-$(1)-install" --build=$$(shell $$(SRCDIR)/mono/config.guess) --target=$$(MINGW_$(1)) --host=$$(MINGW_$(1)) --with-tls=none --disable-mcs-build --enable-win32-dllmain=yes --with-libgc-threads=win32 PKG_CONFIG=false mono_cv_clang=no --disable-boehm
 	sed -e 's/-lgcc_s//' -i $$(BUILDDIR)/mono-$(1)/libtool
 
-$$(BUILDDIR)/mono-$(1)/.built: $$(BUILDDIR)/mono-$(1)/Makefile $$(MONO_MONO_SRCS)
+$$(BUILDDIR)/mono-$(1)/.built: $$(BUILDDIR)/mono-$(1)/Makefile $$(MONO_MONO_SRCS) $$(MINGW_DEPS)
 	+WINEPREFIX=/dev/null $$(MINGW_ENV) $$(MAKE) -C $$(BUILDDIR)/mono-$(1)
 	touch "$$@"
 IMAGEDIR_BUILD_TARGETS += $$(BUILDDIR)/mono-$(1)/.built
 
-$$(BUILDDIR)/mono-$(1)/support/.built: $$(BUILDDIR)/mono-$(1)/.built
+$$(BUILDDIR)/mono-$(1)/support/.built: $$(BUILDDIR)/mono-$(1)/.built $$(MINGW_DEPS)
 	+WINEPREFIX=/dev/null $$(MINGW_ENV) $$(MAKE) -C $$(BUILDDIR)/mono-$(1)/support
 	touch "$$@"
 IMAGEDIR_BUILD_TARGETS += $$(BUILDDIR)/mono-$(1)/support/.built
@@ -160,12 +158,12 @@ clean-build-mono-$(1):
 clean-build: clean-build-mono-$(1)
 
 # BTLS
-$$(BUILDDIR)/btls-$(1)/Makefile: $$(SRCDIR)/mono/mono/btls/CMakeLists.txt
+$$(BUILDDIR)/btls-$(1)/Makefile: $$(SRCDIR)/mono/mono/btls/CMakeLists.txt $$(MINGW_DEPS)
 	mkdir -p $$(@D)
 	# wincrypt.h interferes with boringssl definitions, so we prevent its inclusion
 	cd $$(@D); $$(MINGW_ENV) cmake -DCMAKE_TOOLCHAIN_FILE="$$(SRCDIR_ABS)/toolchain-$(1).cmake" -DCMAKE_C_COMPILER=$$(MINGW_$(1))-gcc -DCMAKE_C_FLAGS='-D__WINCRYPT_H__ -D_WIN32_WINNT=0x0600 -static-libgcc' -DCMAKE_CXX_COMPILER=$$(MINGW_$(1))-g++ -DOPENSSL_NO_ASM=1 -DBTLS_ROOT="$$(SRCDIR_ABS)/mono/external/boringssl" -DBUILD_SHARED_LIBS=1 $$(SRCDIR_ABS)/mono/mono/btls
 
-$$(BUILDDIR)/btls-$(1)/.built: $$(BUILDDIR)/btls-$(1)/Makefile $$(MONO_BTLS_SRCS)
+$$(BUILDDIR)/btls-$(1)/.built: $$(BUILDDIR)/btls-$(1)/Makefile $$(MONO_BTLS_SRCS) $$(MINGW_DEPS)
 	+WINEPREFIX=/dev/null $$(MINGW_ENV) $$(MAKE) -C $$(BUILDDIR)/btls-$(1)
 	touch "$$@"
 IMAGEDIR_BUILD_TARGETS += $$(BUILDDIR)/btls-$(1)/.built
@@ -182,7 +180,7 @@ clean-build-btls-$(1):
 clean-build: clean-build-btls-$(1)
 
 # mono libtest.dll
-$$(TESTS_OUTDIR)/tests-$(1)/libtest.dll: $$(BUILDDIR)/mono-$(1)/.built
+$$(TESTS_OUTDIR)/tests-$(1)/libtest.dll: $$(BUILDDIR)/mono-$(1)/.built $$(MINGW_DEPS)
 	+WINEPREFIX=/dev/null $$(MINGW_ENV) $$(MAKE) -C $$(BUILDDIR)/mono-$(1)/mono/tests libtest.la
 	mkdir -p $$(@D)
 	cp $$(BUILDDIR)/mono-$(1)/mono/tests/.libs/libtest-0.dll $$@
@@ -205,7 +203,7 @@ tests-runtime-$(1): $$(BUILDDIR)/mono-unix/mono/mini/.built-tests $$(BUILDDIR)/m
 tests: tests-runtime-$(1)
 
 # installinf.exe
-$$(BUILDDIR)/installinf-$(1).exe: $$(SRCDIR)/tools/installinf/installinf.c
+$$(BUILDDIR)/installinf-$(1).exe: $$(SRCDIR)/tools/installinf/installinf.c $$(MINGW_DEPS)
 	$$(MINGW_ENV) $$(MINGW_$(1))-gcc $$< -lsetupapi -municode -o $$@
 
 support-installinf-$(1): $$(BUILDDIR)/installinf-$(1).exe
@@ -223,11 +221,11 @@ clean-build: clean-build-installinf-$(1)
 # FNA native deps
 # SDL2
 # note: we explicitly disable vsscanf as msvcrt doesn't support it and mingw-w64's wrapper is buggy
-$$(BUILDDIR)/SDL2-$(1)/Makefile: $$(SRCDIR)/SDL2/configure
+$$(BUILDDIR)/SDL2-$(1)/Makefile: $$(SRCDIR)/SDL2/configure $$(MINGW_DEPS)
 	mkdir -p $$(@D)
 	cd $$(BUILDDIR)/SDL2-$(1); $$(MINGW_ENV) CC="$$(MINGW_$(1))-gcc -static-libgcc" CXX="$$(MINGW_$(1))-g++ -static-libgcc -static-libstdc++" $$(SRCDIR_ABS)/SDL2/configure --build=$$(shell $$(SRCDIR)/mono/config.guess) --target=$$(MINGW_$(1)) --host=$$(MINGW_$(1)) PKG_CONFIG=false ac_cv_func_vsscanf=no
 
-$$(BUILDDIR)/SDL2-$(1)/.built: $$(BUILDDIR)/SDL2-$(1)/Makefile $$(SDL2_SRCS)
+$$(BUILDDIR)/SDL2-$(1)/.built: $$(BUILDDIR)/SDL2-$(1)/Makefile $$(SDL2_SRCS) $$(MINGW_DEPS)
 	+WINEPREFIX=/dev/null $$(MINGW_ENV) $$(MAKE) -C $$(BUILDDIR)/SDL2-$(1) TARGET=libSDL2-$(1).la
 	touch "$$@"
 IMAGEDIR_BUILD_TARGETS += $$(BUILDDIR)/SDL2-$(1)/.built
@@ -244,11 +242,11 @@ clean-build-SDL2-$(1):
 clean-build: clean-build-SDL2-$(1)
 
 # FAudio
-$$(BUILDDIR)/FAudio-$(1)/Makefile: $$(SRCDIR)/FNA/lib/FAudio/CMakeLists.txt $$(BUILDDIR)/SDL2-$(1)/.built
+$$(BUILDDIR)/FAudio-$(1)/Makefile: $$(SRCDIR)/FNA/lib/FAudio/CMakeLists.txt $$(BUILDDIR)/SDL2-$(1)/.built $$(MINGW_DEPS)
 	mkdir -p $$(@D)
 	cd $$(@D); $$(MINGW_ENV) cmake -DCMAKE_TOOLCHAIN_FILE="$$(SRCDIR_ABS)/toolchain-$(1).cmake" -DCMAKE_C_COMPILER=$$(MINGW_$(1))-gcc -DCMAKE_CXX_COMPILER=$$(MINGW_$(1))-g++ -DSDL2_INCLUDE_DIRS="$$(BUILDDIR_ABS)/SDL2-$(1)/include;$$(SRCDIR_ABS)/SDL2/include" -DSDL2_LIBRARIES="$$(BUILDDIR_ABS)/SDL2-$(1)/build/.libs/libSDL2-$(1).dll.a" $$(SRCDIR_ABS)/FNA/lib/FAudio
 
-$$(BUILDDIR)/FAudio-$(1)/.built: $$(BUILDDIR)/FAudio-$(1)/Makefile $$(FAUDIO_SRCS)
+$$(BUILDDIR)/FAudio-$(1)/.built: $$(BUILDDIR)/FAudio-$(1)/Makefile $$(FAUDIO_SRCS) $$(MINGW_DEPS)
 	+$$(MINGW_ENV) $$(MAKE) -C $$(BUILDDIR)/FAudio-$(1)
 	touch "$$@"
 IMAGEDIR_BUILD_TARGETS += $$(BUILDDIR)/FAudio-$(1)/.built
@@ -265,7 +263,7 @@ clean-build-FAudio-$(1):
 clean-build: clean-build-FAudio-$(1)
 
 # SDL2_image
-$$(BUILDDIR)/SDL_image_compact-$(1)/.built: $$(BUILDDIR)/SDL2-$(1)/.built $$(SDLIMAGE_SRCS)
+$$(BUILDDIR)/SDL_image_compact-$(1)/.built: $$(BUILDDIR)/SDL2-$(1)/.built $$(SDLIMAGE_SRCS) $$(MINGW_DEPS)
 	mkdir -p $$(BUILDDIR)/SDL_image_compact-$(1)
 	+$$(MINGW_ENV) $$(MAKE) -C $$(BUILDDIR_ABS)/SDL_image_compact-$(1) "CC=$$(MINGW_$(1))-gcc" SDL_LDFLAGS="$$(BUILDDIR_ABS)/SDL2-$(1)/build/.libs/libSDL2-$(1).dll.a" SDL_CFLAGS="-I$$(BUILDDIR_ABS)/SDL2-$(1)/include -I$$(SRCDIR_ABS)/SDL2/include" WICBUILD=1 -f $$(SRCDIR_ABS)/SDL_image_compact/Makefile
 	touch "$$@"
@@ -283,7 +281,7 @@ clean-build-SDL_image_compact-$(1):
 clean-build: clean-build-SDL_image_compact-$(1)
 
 # libtheorafile
-$$(BUILDDIR)/Theorafile-$(1)/.built: $$(THEORAFILE_SRCS) $$(BUILDDIR)/.dir
+$$(BUILDDIR)/Theorafile-$(1)/.built: $$(THEORAFILE_SRCS) $$(BUILDDIR)/.dir $$(MINGW_DEPS)
 	mkdir -p $$(BUILDDIR)/Theorafile-$(1)
 	+$$(MINGW_ENV) $$(MAKE) -C $$(BUILDDIR_ABS)/Theorafile-$(1) "CC=$$(MINGW_$(1))-gcc" -f $$(SRCDIR_ABS)/FNA/lib/Theorafile/Makefile
 	touch "$$@"
@@ -301,11 +299,11 @@ clean-build-Theorafile-$(1):
 clean-build: clean-build-Theorafile-$(1)
 
 # libmojoshader
-$$(BUILDDIR)/MojoShader-$(1)/Makefile: $$(SRCDIR)/FNA/lib/MojoShader/CMakeLists.txt
+$$(BUILDDIR)/MojoShader-$(1)/Makefile: $$(SRCDIR)/FNA/lib/MojoShader/CMakeLists.txt $$(MINGW_DEPS)
 	mkdir -p $$(@D)
 	cd $$(@D); $$(MINGW_ENV) cmake -DCMAKE_TOOLCHAIN_FILE="$$(SRCDIR_ABS)/toolchain-$(1).cmake" -DCMAKE_C_COMPILER=$$(MINGW_$(1))-gcc -DCMAKE_CXX_COMPILER=$$(MINGW_$(1))-g++ -DBUILD_SHARED_LIBS=ON -DPROFILE_D3D=OFF -DPROFILE_BYTECODE=OFF -DPROFILE_ARB1=OFF -DPROFILE_ARB1_NV=OFF -DPROFILE_METAL=OFF -DCOMPILER_SUPPORT=OFF -DFLIP_VIEWPORT=ON -DDEPTH_CLIPPING=ON -DXNA4_VERTEXTEXTURE=ON $$(SRCDIR_ABS)/FNA/lib/MojoShader
 
-$$(BUILDDIR)/MojoShader-$(1)/.built: $$(BUILDDIR)/MojoShader-$(1)/Makefile $$(MOJOSHADER_SRCS)
+$$(BUILDDIR)/MojoShader-$(1)/.built: $$(BUILDDIR)/MojoShader-$(1)/Makefile $$(MOJOSHADER_SRCS) $$(MINGW_DEPS)
 	+$$(MINGW_ENV) $$(MAKE) -C $$(BUILDDIR)/MojoShader-$(1)
 	touch "$$@"
 IMAGEDIR_BUILD_TARGETS += $$(BUILDDIR)/MojoShader-$(1)/.built
@@ -322,7 +320,7 @@ clean-build-MojoShader-$(1):
 clean-build: clean-build-MojoShader-$(1)
 
 # wpfgfx
-$$(BUILDDIR)/wpfgfx-$(1)/.built: $$(WPF_SRCS)
+$$(BUILDDIR)/wpfgfx-$(1)/.built: $$(WPF_SRCS) $$(MINGW_DEPS)
 	mkdir -p $$(@D)
 	+$$(MINGW_ENV) $(MAKE) -C $$(@D) -f $$(SRCDIR_ABS)/wpf/wpfgfx/Makefile ARCH=$(1) SRCDIR="$$(SRCDIR_ABS)/wpf/wpfgfx" "MINGW=$$(MINGW_$(1))"
 	touch "$$@"
@@ -348,7 +346,7 @@ clean-build-wpfgfx-$(1):
 clean-build: clean-build-wpfgfx-$(1)
 
 # PresentationNative
-$$(BUILDDIR)/PresentationNative-$(1)/.built: $$(WPF_SRCS)
+$$(BUILDDIR)/PresentationNative-$(1)/.built: $$(WPF_SRCS) $$(MINGW_DEPS)
 	mkdir -p $$(@D)
 	+$$(MINGW_ENV) $(MAKE) -C $$(@D) -f $$(SRCDIR_ABS)/wpf/PresentationNative/Makefile ARCH=$(1) SRCDIR="$$(SRCDIR_ABS)/wpf/PresentationNative" "MINGW=$$(MINGW_$(1))"
 	touch "$$@"
@@ -374,7 +372,7 @@ clean-build-PresentationNative-$(1):
 clean-build: clean-build-PresentationNative-$(1)
 
 # wmwpfdwhelper - unmanaged helper for DirectWriteForwarder
-$$(BUILDDIR)/wmwpfdwhelper-$(1)/.built: $$(WPF_SRCS)
+$$(BUILDDIR)/wmwpfdwhelper-$(1)/.built: $$(WPF_SRCS) $$(MINGW_DEPS)
 	mkdir -p $$(@D)
 	+$$(MINGW_ENV) $(MAKE) -C $$(@D) -f $$(SRCDIR_ABS)/wpf/wmwpfdwhelper/Makefile ARCH=$(1) SRCDIR="$$(SRCDIR_ABS)/wpf/wmwpfdwhelper" "MINGW=$$(MINGW_$(1))"
 	touch "$$@"
@@ -404,8 +402,8 @@ endef
 $(eval $(call MINGW_TEMPLATE,x86))
 $(eval $(call MINGW_TEMPLATE,x86_64))
 
-$(BUILDDIR)/set32only.exe: $(SRCDIR)/tools/set32only/set32only.c
-	$(MINGW_x86_64)-gcc -municode -Wall $^ -o $@
+$(BUILDDIR)/set32only.exe: $(SRCDIR)/tools/set32only/set32only.c $(MINGW_DEPS)
+	$(MINGW_ENV) $(MINGW_x86_64)-gcc -municode -Wall $^ -o $@
 
 clean-build-set32only:
 	rm -rf $(BUILDDIR)/set32only.exe
@@ -941,8 +939,8 @@ clean-targz:
 .PHONY: clean-targz
 clean: clean-targz
 
-$(OUTDIR)/wine-mono-$(MSI_VERSION)-src.tar.$(COMPRESSED_SUFFIX): $(BUILDDIR)/mono-unix/.built
-	$(SRCDIR)/tools/archive.sh `git describe` $(OUTDIR_ABS) wine-mono-$(MSI_VERSION)-src
+$(OUTDIR)/wine-mono-$(MSI_VERSION)-src.tar.$(COMPRESSED_SUFFIX): $(BUILDDIR)/mono-unix/.built $(FETCH_LLVM_MINGW)/.dir
+	$(SRCDIR)/tools/archive.sh `git describe` $(OUTDIR_ABS) wine-mono-$(MSI_VERSION)-src $(FETCH_LLVM_MINGW_DIRECTORY)
 	rm -f $@
 	$(COMPRESSOR) $(OUTDIR)/wine-mono-$(MSI_VERSION)-src.tar
 
