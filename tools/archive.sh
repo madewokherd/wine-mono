@@ -62,3 +62,6 @@ recursivearchivefiles "$PWD" "$1"/ "$1" "$OUTPUT_FILE"
 # add monolite
 tar rf "$OUTPUT_FILE" --transform 's:^mono/mcs/class/lib/[^/]*/:'"$1"'/monolite/:g' $MONOLITE_FILES
 
+# add llvm-mingw
+tar rf "$OUTPUT_FILE" --transform 's:^./:'"$1"'/:g' ./$4
+
