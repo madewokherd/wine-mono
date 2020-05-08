@@ -21,6 +21,7 @@ COMPRESSED_SUFFIX=xz
 
 ENABLE_DOTNET_CORE_WINFORMS=1
 ENABLE_DOTNET_CORE_WPF=1
+ENABLE_DOTNET_CORE_WPFGFX=1
 
 ENABLE_DEBUG_SYMBOLS=0
 
@@ -325,12 +326,30 @@ $$(BUILDDIR)/wpfgfx-$(1)/.built: $$(WPF_SRCS) $$(MINGW_DEPS)
 	+$$(MINGW_ENV) $(MAKE) -C $$(@D) -f $$(SRCDIR_ABS)/wpf/wpfgfx/Makefile ARCH=$(1) SRCDIR="$$(SRCDIR_ABS)/wpf/wpfgfx" "MINGW=$$(MINGW_$(1))"
 	touch "$$@"
 ifeq (1,$(ENABLE_DOTNET_CORE_WPF))
+ifneq (1,$(ENABLE_DOTNET_CORE_WPFGFX))
 IMAGEDIR_BUILD_TARGETS += $$(BUILDDIR)/wpfgfx-$(1)/.built
 endif
+endif
 
+$$(BUILDDIR)/wpfgfx-netcore-$(1)/.built: $$(WPF_SRCS) $$(MINGW_DEPS)
+	mkdir -p $$(@D)
+	+$$(MINGW_ENV) $(MAKE) OBJDIR=$$(BUILDDIR_ABS)/wpfgfx-netcore-$(1) -C $$(SRCDIR_ABS)/wpf/src/Microsoft.DotNet.Wpf/src/WpfGfx "MINGW=$$(MINGW_$(1))"
+	touch "$$@"
+ifeq (1,$(ENABLE_DOTNET_CORE_WPF))
+ifeq (1,$(ENABLE_DOTNET_CORE_WPFGFX))
+IMAGEDIR_BUILD_TARGETS += $$(BUILDDIR)/wpfgfx-netcore-$(1)/.built
+endif
+endif
+
+ifeq (1,$(ENABLE_DOTNET_CORE_WPFGFX))
+wpfgfx-$(1).dll: $$(BUILDDIR)/wpfgfx-netcore-$(1)/.built
+	mkdir -p "$$(IMAGEDIR)/lib/$(1)"
+	$$(INSTALL_PE_$(1)) "$$(BUILDDIR)/wpfgfx-netcore-$(1)/wpfgfx_cor3.dll" "$$(IMAGEDIR)/lib/$(1)/wpfgfx_cor3.dll"
+else
 wpfgfx-$(1).dll: $$(BUILDDIR)/wpfgfx-$(1)/.built
 	mkdir -p "$$(IMAGEDIR)/lib/$(1)"
 	$$(INSTALL_PE_$(1)) "$$(BUILDDIR)/wpfgfx-$(1)/wpfgfx_cor3.dll" "$$(IMAGEDIR)/lib/$(1)/wpfgfx_cor3.dll"
+endif
 .PHONY: wpfgfx-$(1).dll
 
 wpfgfx_cor3.dll: wpfgfx-$(1).dll
