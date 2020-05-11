@@ -35,10 +35,6 @@ BUILDDIR_ABS=$(shell cd $(BUILDDIR); pwd)
 IMAGEDIR_ABS=$(shell cd $(IMAGEDIR); pwd)
 OUTDIR_ABS=$(shell cd $(OUTDIR); pwd)
 
-FAUDIO_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/FNA/lib/FAudio)
-SDLIMAGE_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/SDL_image_compact)
-THEORAFILE_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/FNA/lib/Theorafile)
-MOJOSHADER_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/FNA/lib/MojoShader)
 WINFORMS_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/winforms)
 WPF_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/wpf)
 
@@ -124,86 +120,6 @@ clean-build-installinf-$(1):
 	rm -rf $$(BUILDDIR)/installinf-$(1).exe
 .PHONY: clean-build-installinf-$(1)
 clean-build: clean-build-installinf-$(1)
-
-# FNA native deps
-
-# FAudio
-$$(BUILDDIR)/FAudio-$(1)/Makefile: $$(SRCDIR)/FNA/lib/FAudio/CMakeLists.txt $$(BUILDDIR)/SDL2-$(1)/.built $$(MINGW_DEPS)
-	mkdir -p $$(@D)
-	cd $$(@D); $$(MINGW_ENV) cmake -DCMAKE_TOOLCHAIN_FILE="$$(SRCDIR_ABS)/toolchain-$(1).cmake" -DCMAKE_C_COMPILER=$$(MINGW_$(1))-gcc -DCMAKE_CXX_COMPILER=$$(MINGW_$(1))-g++ -DSDL2_INCLUDE_DIRS="$$(BUILDDIR_ABS)/SDL2-$(1)/include;$$(SRCDIR_ABS)/SDL2/include" -DSDL2_LIBRARIES="$$(BUILDDIR_ABS)/SDL2-$(1)/build/.libs/libSDL2-$(1).dll.a" $$(SRCDIR_ABS)/FNA/lib/FAudio
-
-$$(BUILDDIR)/FAudio-$(1)/.built: $$(BUILDDIR)/FAudio-$(1)/Makefile $$(FAUDIO_SRCS) $$(MINGW_DEPS)
-	+$$(MINGW_ENV) $$(MAKE) -C $$(BUILDDIR)/FAudio-$(1)
-	touch "$$@"
-IMAGEDIR_BUILD_TARGETS += $$(BUILDDIR)/FAudio-$(1)/.built
-
-FAudio-$(1).dll: $$(BUILDDIR)/FAudio-$(1)/.built
-	mkdir -p "$$(IMAGEDIR)/lib"
-	$$(INSTALL_PE_$(1)) "$$(BUILDDIR)/FAudio-$(1)/FAudio.dll" "$$(IMAGEDIR)/lib/FAudio-$(1).dll"
-.PHONY: FAudio-$(1).dll
-imagedir-targets: FAudio-$(1).dll
-
-clean-build-FAudio-$(1):
-	rm -rf $$(BUILDDIR)/FAudio-$(1)
-.PHONY: clean-build-FAudio-$(1)
-clean-build: clean-build-FAudio-$(1)
-
-# SDL2_image
-$$(BUILDDIR)/SDL_image_compact-$(1)/.built: $$(BUILDDIR)/SDL2-$(1)/.built $$(SDLIMAGE_SRCS) $$(MINGW_DEPS)
-	mkdir -p $$(BUILDDIR)/SDL_image_compact-$(1)
-	+$$(MINGW_ENV) $$(MAKE) -C $$(BUILDDIR_ABS)/SDL_image_compact-$(1) "CC=$$(MINGW_$(1))-gcc" SDL_LDFLAGS="$$(BUILDDIR_ABS)/SDL2-$(1)/build/.libs/libSDL2-$(1).dll.a" SDL_CFLAGS="-I$$(BUILDDIR_ABS)/SDL2-$(1)/include -I$$(SRCDIR_ABS)/SDL2/include" WICBUILD=1 -f $$(SRCDIR_ABS)/SDL_image_compact/Makefile
-	touch "$$@"
-IMAGEDIR_BUILD_TARGETS += $$(BUILDDIR)/SDL_image_compact-$(1)/.built
-
-SDL2_image-$(1).dll: $$(BUILDDIR)/SDL_image_compact-$(1)/.built
-	mkdir -p "$$(IMAGEDIR)/lib"
-	$$(INSTALL_PE_$(1)) "$$(BUILDDIR)/SDL_image_compact-$(1)/SDL2_image.dll" "$$(IMAGEDIR)/lib/SDL2_image-$(1).dll"
-.PHONY: SDL2_image-$(1).dll
-imagedir-targets: SDL2_image-$(1).dll
-
-clean-build-SDL_image_compact-$(1):
-	rm -rf $$(BUILDDIR)/SDL_image_compact-$(1)
-.PHONY: clean-build-SDL_image_compact-$(1)
-clean-build: clean-build-SDL_image_compact-$(1)
-
-# libtheorafile
-$$(BUILDDIR)/Theorafile-$(1)/.built: $$(THEORAFILE_SRCS) $$(BUILDDIR)/.dir $$(MINGW_DEPS)
-	mkdir -p $$(BUILDDIR)/Theorafile-$(1)
-	+$$(MINGW_ENV) $$(MAKE) -C $$(BUILDDIR_ABS)/Theorafile-$(1) "CC=$$(MINGW_$(1))-gcc" -f $$(SRCDIR_ABS)/FNA/lib/Theorafile/Makefile
-	touch "$$@"
-IMAGEDIR_BUILD_TARGETS += $$(BUILDDIR)/Theorafile-$(1)/.built
-
-libtheorafile-$(1).dll: $$(BUILDDIR)/Theorafile-$(1)/.built
-	mkdir -p "$$(IMAGEDIR)/lib"
-	$$(INSTALL_PE_$(1)) "$$(BUILDDIR)/Theorafile-$(1)/libtheorafile.dll" "$$(IMAGEDIR)/lib/libtheorafile-$(1).dll"
-.PHONY: libtheorafile-$(1).dll
-imagedir-targets: libtheorafile-$(1).dll
-
-clean-build-Theorafile-$(1):
-	rm -rf $$(BUILDDIR)/Theorafile-$(1)
-.PHONY: clean-build-Theorafile-$(1)
-clean-build: clean-build-Theorafile-$(1)
-
-# libmojoshader
-$$(BUILDDIR)/MojoShader-$(1)/Makefile: $$(SRCDIR)/FNA/lib/MojoShader/CMakeLists.txt $$(MINGW_DEPS)
-	mkdir -p $$(@D)
-	cd $$(@D); $$(MINGW_ENV) cmake -DCMAKE_TOOLCHAIN_FILE="$$(SRCDIR_ABS)/toolchain-$(1).cmake" -DCMAKE_C_COMPILER=$$(MINGW_$(1))-gcc -DCMAKE_CXX_COMPILER=$$(MINGW_$(1))-g++ -DBUILD_SHARED_LIBS=ON -DPROFILE_D3D=OFF -DPROFILE_BYTECODE=OFF -DPROFILE_ARB1=OFF -DPROFILE_ARB1_NV=OFF -DPROFILE_METAL=OFF -DCOMPILER_SUPPORT=OFF -DFLIP_VIEWPORT=ON -DDEPTH_CLIPPING=ON -DXNA4_VERTEXTEXTURE=ON $$(SRCDIR_ABS)/FNA/lib/MojoShader
-
-$$(BUILDDIR)/MojoShader-$(1)/.built: $$(BUILDDIR)/MojoShader-$(1)/Makefile $$(MOJOSHADER_SRCS) $$(MINGW_DEPS)
-	+$$(MINGW_ENV) $$(MAKE) -C $$(BUILDDIR)/MojoShader-$(1)
-	touch "$$@"
-IMAGEDIR_BUILD_TARGETS += $$(BUILDDIR)/MojoShader-$(1)/.built
-
-libmojoshader-$(1).dll: $$(BUILDDIR)/MojoShader-$(1)/.built
-	mkdir -p "$$(IMAGEDIR)/lib"
-	$$(INSTALL_PE_$(1)) "$$(BUILDDIR)/MojoShader-$(1)/libmojoshader.dll" "$$(IMAGEDIR)/lib/libmojoshader-$(1).dll"
-.PHONY: libmojoshader-$(1).dll
-imagedir-targets: libmojoshader-$(1).dll
-
-clean-build-MojoShader-$(1):
-	rm -rf $$(BUILDDIR)/MojoShader-$(1)
-.PHONY: clean-build-MojoShader-$(1)
-clean-build: clean-build-MojoShader-$(1)
 
 # wpfgfx
 $$(BUILDDIR)/wpfgfx-$(1)/.built: $$(WPF_SRCS) $$(MINGW_DEPS)
@@ -306,7 +222,11 @@ endef
 include mono.make
 include mono-basic.make
 include fna.make
+include faudio.make
 include sdl2.make
+include sdl2-image.make
+include theorafile.make
+include mojoshader.make
 
 $(eval $(call MINGW_TEMPLATE,x86))
 $(eval $(call MINGW_TEMPLATE,x86_64))
