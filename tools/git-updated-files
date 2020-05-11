@@ -56,6 +56,7 @@ _ignore_dir_suffixes = (
 	'output',
 	'mcs/class/lib',
 	'mcs/build/deps',
+	'/Release',
 )
 
 def get_latest_source_file(path):
