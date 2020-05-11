@@ -14,6 +14,8 @@ import os
 import subprocess
 import sys
 
+USE_GIT = False
+
 if len(sys.argv) <= 1:
 	print("Usage: git-updated-files directory [directory2 [...]]")
 	sys.exit(1)
@@ -64,17 +66,24 @@ def get_latest_source_file(path):
 def get_updated_files(path):
 	result = set()
 
-	res = subprocess.run(['git', 'rev-parse', '--git-path', 'index'],
-		stdout=subprocess.PIPE,
-		stderr=subprocess.PIPE,
-		encoding=sys.getfilesystemencoding(),
-		cwd=path)
-	if res.returncode == 128:
-		# not in a git repository
+	if USE_GIT:
+		res = subprocess.run(['git', 'rev-parse', '--git-path', 'index'],
+			stdout=subprocess.PIPE,
+			stderr=subprocess.PIPE,
+			encoding=sys.getfilesystemencoding(),
+			cwd=path)
+		if res.returncode == 128:
+			# not in a git repository
+			is_git = False
+		elif res.returncode != 0:
+			print(res.stderr, file=sys.stderr)
+			sys.exit(2)
+	else:
+		is_git = False
+
+	if not is_git:
 		return get_latest_source_file(path)
-	elif res.returncode != 0:
-		print(res.stderr, file=sys.stderr)
-		sys.exit(2)
+
 	index_file = os.path.join(path, res.stdout.strip('\n'))
 	result.add(index_file)
 
