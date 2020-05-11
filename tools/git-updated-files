@@ -44,10 +44,18 @@ _source_suffixes = (
 	'.config',
 )
 
-_ignore_suffixes = (
+_ignore_file_suffixes = (
+	'.generated.cs',
+	'mcs/build/common/Consts.cs',
+	'/config.make',
+)
+
+_ignore_dir_suffixes = (
 	'.git',
 	'.libs',
 	'output',
+	'mcs/class/lib',
+	'mcs/build/deps',
 )
 
 def get_latest_source_file(path):
@@ -55,11 +63,11 @@ def get_latest_source_file(path):
 	latest_mtime = 0
 	for dirpath, dirnames, filenames in os.walk(path):
 		for i in range(len(dirnames)-1, -1, -1):
-			if dirnames[i].endswith(_ignore_suffixes):
+			if os.path.join(dirpath, dirnames[i]).endswith(_ignore_dir_suffixes):
 				del dirnames[i]
 		for file in filenames:
-			if file.endswith(_source_suffixes):
-				file = os.path.join(dirpath, file)
+			file = os.path.join(dirpath, file)
+			if file.endswith(_source_suffixes) and not file.endswith(_ignore_file_suffixes):
 				st = os.stat(file, follow_symlinks=False)
 				if st.st_mtime > latest_mtime:
 					latest_file = file
