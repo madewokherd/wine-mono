@@ -139,6 +139,7 @@ endif
 ifeq (1,$(ENABLE_DOTNET_CORE_WINFORMS))
 	rm -rf $(BUILDDIR)/mono-win32-install/lib/mono/gac/Accessibility
 	rm -rf $(BUILDDIR)/mono-win32-install/lib/mono/gac/System.Windows.Forms
+	rm -rf $(BUILDDIR)/mono-win32-install/lib/mono/gac/System.Windows.Forms.DataVisualization
 endif
 ifeq (1,$(ENABLE_DOTNET_CORE_WPF))
 	rm -rf $(BUILDDIR)/mono-win32-install/lib/mono/gac/System.Xaml

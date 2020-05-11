@@ -129,6 +129,7 @@ include sdl2-image.make
 include theorafile.make
 include mojoshader.make
 include winforms.make
+include winforms-datavisualization.make
 include wpf.make
 include support.make
 
