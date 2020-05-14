@@ -17,7 +17,7 @@
 	path = winforms
 	url = git://github.com/madewokherd/winforms.git
 [submodule "winforms-datavisualization"]
-	path = winforms
+	path = winforms-datavisualization
 	url = git://github.com/madewokherd/winforms-datavisualization.git
 [submodule "wpf"]
 	path = wpf
