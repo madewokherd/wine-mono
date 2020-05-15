@@ -104,4 +104,8 @@ PostPlatform30	2	Software\Microsoft\Windows\CurrentVersion\Internet Settings\5.0
 PostPlatform35	2	Software\Microsoft\Windows\CurrentVersion\Internet Settings\5.0\User Agent\Post Platform	.NET CLR 3.5.30729		mono-registry
 PostPlatform40C	2	Software\Microsoft\Windows\CurrentVersion\Internet Settings\5.0\User Agent\Post Platform	.NET4.0C		mono-registry
 PostPlatform40E	2	Software\Microsoft\Windows\CurrentVersion\Internet Settings\5.0\User Agent\Post Platform	.NET4.0E		mono-registry
+XNA4Installed	2	Software\Microsoft\XNA\Framework\v4.0	Installed	#1	mono-registry
+XNA4Version	2	Software\Microsoft\XNA\Framework\v4.0	ProductVersion	4.0.20823.0	mono-registry
+XNA4Installed_64	2	Software\Microsoft\XNA\Framework\v4.0	Installed	#1	mono-registry64
+XNA4Version_64	2	Software\Microsoft\XNA\Framework\v4.0	ProductVersion	4.0.20823.0	mono-registry64
 
