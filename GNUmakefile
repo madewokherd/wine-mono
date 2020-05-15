@@ -231,6 +231,12 @@ $(OUTDIR)/wine-mono-$(MSI_VERSION)-x86.msi: $(BUILDDIR)/.runtimemsitables-built
 	$(WINE) winemsibuilder -i '$(shell $(WINE) winepath -w $@)' $(BUILDDIR)/msi-tables/runtime/*.idt
 	$(WINE) winemsibuilder -a '$(shell $(WINE) winepath -w $@)' image.cab '$(shell $(WINE) winepath -w $(BUILDDIR)/image.cab)'
 
+clean-image-cab:
+	rm -f $(BUILDDIR)/image.cab
+	rm -f $(BUILDDIR)/.runtimemsitables-built
+.PHONY: clean-image-cab
+clean-build: clean-image-cab
+
 msi: $(OUTDIR)/wine-mono-$(MSI_VERSION)-x86.msi
 .PHONY: msi
 
@@ -249,7 +255,7 @@ targz: bin
 .PHONY: targz
 
 clean-targz:
-	rm -f $(OUTDIR)/wine-mono-$(MSI_VERSION)-x86.tar.gz
+	rm -f $(OUTDIR)/wine-mono-$(MSI_VERSION)-x86.tar.$(COMPRESSED_SUFFIX)
 .PHONY: clean-targz
 clean: clean-targz
 
@@ -260,6 +266,11 @@ $(OUTDIR)/wine-mono-$(MSI_VERSION)-src.tar.$(COMPRESSED_SUFFIX): $(BUILDDIR)/mon
 
 source: $(OUTDIR)/wine-mono-$(MSI_VERSION)-src.tar.$(COMPRESSED_SUFFIX)
 .PHONY: source
+
+clean-source:
+	rm -f $(OUTDIR)/wine-mono-$(MSI_VERSION)-src.tar.$(COMPRESSED_SUFFIX)
+.PHONY: clean-source
+clean: clean-source
 
 print-env:
 	@echo $(MONO_ENV)

@@ -46,6 +46,11 @@ clean-build-wpfgfx-$(1):
 .PHONY: clean-build-wpfgfx-$(1)
 clean-build: clean-build-wpfgfx-$(1)
 
+clean-build-wpfgfx-netcore-$(1):
+	rm -rf $$(BUILDDIR)/wpfgfx-netcore-$(1)
+.PHONY: clean-build-wpfgfx-netcore-$(1)
+clean-build: clean-build-wpfgfx-netcore-$(1)
+
 # PresentationNative
 $$(BUILDDIR)/PresentationNative-$(1)/.built: $$(WPF_SRCS) $$(MINGW_DEPS)
 	mkdir -p $$(@D)
