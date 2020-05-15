@@ -137,7 +137,7 @@ $(eval $(call MINGW_TEMPLATE,x86))
 $(eval $(call MINGW_TEMPLATE,x86_64))
 
 $(BUILDDIR)/set32only.exe: $(SRCDIR)/tools/set32only/set32only.c $(MINGW_DEPS)
-	$(MINGW_ENV) $(MINGW_x86_64)-gcc -municode -Wall $^ -o $@
+	$(MINGW_ENV) $(MINGW_x86_64)-gcc -municode -Wall $< -o $@
 
 clean-build-set32only:
 	rm -rf $(BUILDDIR)/set32only.exe
