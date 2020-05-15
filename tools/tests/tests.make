@@ -54,3 +54,8 @@ tools-tests-install: tools-tests-all $(BUILDDIR)/set32only.exe
 .PHONY: tools-tests-install
 
 tests: tools-tests-install
+
+clean-tools-tests:
+	rm -f $(SRCDIR)/tools/tests/*.dll $(SRCDIR)/tools/tests/*.exe
+.PHONY: clean-tools-tests
+clean: clean-tools-tests
