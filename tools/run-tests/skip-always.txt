@@ -28,6 +28,8 @@ x86.marshal9:test_0_pass_out_byval
 appdomain-client
 bug-462592-result
 reflection
+# crashes on wine, preventing other tests from running
+MonoTests.System.Drawing.GraphicsTest:DrawCurve_LargeTension
 # timed out (windows)
 abort-cctor
 block_guard_restore_aligment_on_exit
