@@ -51,8 +51,8 @@ ifeq (,$(shell which $(WINE)))
 $(error '$(WINE)' command not found. Please install wine or specify its location in the WINE variable)
 endif
 
-all: image targz msi tests
-.PHONY: all clean imagedir-targets tests
+all: image targz msi tests tests-zip
+.PHONY: all clean imagedir-targets tests tests-zip
 
 define HELP_TEXT =
 The following targets are defined:
@@ -163,6 +163,12 @@ clean-tests-runtestsexe:
 	rm -rf $(TESTS_OUTDIR)/run-tests.exe $(TESTS_OUTDIR)/*.txt $(TESTS_OUTDIR)/run-on-windows.bat
 .PHONY: clean-tests-runtestsexe
 clean-tests: clean-tests-runtestsexe
+
+$(OUTDIR)/wine-mono-$(MSI_VERSION)-tests.zip: tests
+	rm -f wine-mono-$(MSI_VERSION)-tests.zip
+	do_zip () { if which 7z; then 7z a "$$@"; elif which zip; then zip "$$@"; else exit 1; fi; }; cd $(OUTDIR); do_zip wine-mono-$(MSI_VERSION)-tests.zip tests/
+
+tests-zip: $(OUTDIR)/wine-mono-$(MSI_VERSION)-tests.zip
 
 $(BUILDDIR)/resx2srid.exe: $(SRCDIR)/tools/resx2srid/resx2srid.cs $(BUILDDIR)/mono-unix/.installed
 	$(MONO_ENV) csc $(SRCDIR)/tools/resx2srid/resx2srid.cs -out:$(BUILDDIR)/resx2srid.exe
