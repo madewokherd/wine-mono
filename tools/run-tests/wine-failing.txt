@@ -1607,8 +1607,8 @@ x86_64.MonoTests.System.Net.Http.HttpClientTest:Send_Content_Put
 x86_64.MonoTests.System.Net.Http.HttpClientTest:Send_Content_Put_CustomStream
 x86_64.MonoTests.System.Net.Http.HttpClientTest:Send_Transfer_Encoding_Chunked
 webbrowsertest
-x86.MonoTests.System.IO.Pipes.PipeSecurityTest #NamedPipePermissionsActuallyWorkAsync crashes - https://github.com/madewokherd/wine-mono/issues/62
 arraypadding
+MonoTests.System.IO.Pipes.PipeSecurityTest:NamedPipePermissionsActuallyWorkAsync
 # definitely unreliable:
 delegate2
 x86_64.MonoTests.System.Threading.ThreadLocalTests:DisposeOnThreadExit
