@@ -1645,6 +1645,7 @@ x86.MonoTests.System.Drawing.GraphicsTest:DrawImage_ImageRectangleRectangleGraph
 x86.MonoTests.System.Drawing.GraphicsTest:DrawImage_ImageRectangleRectangleGraphicsUnit_Millimeter
 x86.MonoTests.System.Drawing.GraphicsTest:DrawImage_ImageRectangleRectangleGraphicsUnit_Point
 x86.MonoTests.System.Drawing.GraphicsTest:DrawImage_ImageRectangleRectangleGraphicsUnit_World
+MonoTests.System.Windows.Forms.ListBoxTest:HeightAndIntegralHeight
 # definitely unreliable:
 delegate2
 x86_64.MonoTests.System.Threading.ThreadLocalTests:DisposeOnThreadExit
