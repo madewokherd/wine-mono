@@ -6640,7 +6640,7 @@ MonoTests.System.Drawing.Drawing2D.PathGradientBrushTest:Clone
 MonoTests.System.Drawing.Drawing2D.PathGradientBrushTest:Constructor_GraphicsPath_Line
 # unreliable:
 x86.thread-exit
-x86.MonoTests.System.Threading.Tasks.TaskTests:DoubleWaitTest
+MonoTests.System.Threading.Tasks.TaskTests:DoubleWaitTest
 MonoTests.System.Drawing.GDIPlusTest:CreateFont
 MonoTests.System.IO.IsolatedStorageTest.IsolatedStorageFileTest:Remove
 MonoTests.System.IO.IsolatedStorageTest.IsolatedStorageFileTest:RemoveFromOtherInstance
