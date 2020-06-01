@@ -166,7 +166,7 @@ clean-tests: clean-tests-runtestsexe
 
 $(OUTDIR)/wine-mono-$(MSI_VERSION)-tests.zip: tests
 	rm -f wine-mono-$(MSI_VERSION)-tests.zip
-	do_zip () { if which 7z; then 7z a "$$@"; elif which zip; then zip "$$@"; else exit 1; fi; }; cd $(OUTDIR); do_zip wine-mono-$(MSI_VERSION)-tests.zip tests/
+	do_zip () { if which 7z; then 7z a "$$@"; elif which zip; then zip -r "$$@"; else exit 1; fi; }; cd $(OUTDIR); do_zip wine-mono-$(MSI_VERSION)-tests.zip tests/
 
 tests-zip: $(OUTDIR)/wine-mono-$(MSI_VERSION)-tests.zip
 
