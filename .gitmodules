@@ -1,15 +1,15 @@
 [submodule "mono"]
 	path = mono
-	url = ../mono.git
+	url = git://github.com/madewokherd/mono.git
 [submodule "mono-basic"]
 	path = mono-basic
-	url = ../mono-basic.git
+	url = git://github.com/madewokherd/mono-basic.git
 [submodule "FNA"]
 	path = FNA
-	url = ../FNA.git
+	url = git://github.com/madewokherd/FNA.git
 [submodule "FNA.NetStub"]
 	path = FNA.NetStub
-	url = ../FNA.NetStub.git
+	url = git://github.com/madewokherd/FNA.NetStub.git
 [submodule "SDL_image_compact"]
 	path = SDL_image_compact
 	url = git://github.com/FNA-XNA/SDL_image_compact.git
@@ -21,4 +21,4 @@
 	url = git://github.com/madewokherd/winforms-datavisualization.git
 [submodule "wpf"]
 	path = wpf
-	url = ../wpf.git
+	url = git://github.com/madewokherd/wpf.git
