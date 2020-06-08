@@ -276,7 +276,6 @@ x86.MonoTests.System.Drawing.Drawing2D.GraphicsPathTest:Warp_Invalid
 x86.MonoTests.System.Drawing.Drawing2D.GraphicsPathTest:Warp_NoPoints
 x86.MonoTests.System.Drawing.Drawing2D.GraphicsPathTest:Warp_Rectangle_Empty
 x86.MonoTests.System.Drawing.Drawing2D.GraphicsPathTest:Warp_Rectangle_NegativeWidthHeight
-x86.MonoTests.System.Drawing.Drawing2D.GraphicsPathTest:Widen_Pen_SmallWidth
 x86.MonoTests.System.Drawing.Drawing2D.GraphicsPathTest:Wrap_Line
 x86.MonoTests.System.Drawing.Drawing2D.GraphicsPathTest:Wrap_NoPoint
 x86.MonoTests.System.Drawing.Drawing2D.GraphicsPathTest:Wrap_SinglePoint
@@ -315,7 +314,6 @@ x86.MonoTests.System.Drawing.ImageTest:FromStream_Metafile_Emf
 x86.MonoTests.System.Drawing.ImageTest:FromStream_Metafile_Emf_NotOrigin
 x86.MonoTests.System.Drawing.ImageTest:FromStream_Metafile_Wmf
 x86.MonoTests.System.Drawing.ImageTest:FromStream_Metafile_Wmf_NotOrigin
-x86.MonoTests.System.Drawing.ImageTest:GetThumbnailImage_Smaller_Gif
 x86.MonoTests.System.Drawing.ImageTest:StreamJunkSaveLoad
 x86.MonoTests.System.Drawing.Imaging.BmpCodecTest:Save_32bppArgb
 x86.MonoTests.System.Drawing.Imaging.BmpCodecTest:Save_32bppPArgb
@@ -339,7 +337,6 @@ x86.MonoTests.System.Drawing.Imaging.ImageCodecInfoTest:GifCodec
 x86.MonoTests.System.Drawing.Imaging.ImageCodecInfoTest:IconCodec_Decoder
 x86.MonoTests.System.Drawing.Imaging.ImageCodecInfoTest:TiffCodec
 x86.MonoTests.System.Drawing.Imaging.ImageCodecInfoTest:WmfCodec_Decoder
-x86.MonoTests.System.Drawing.Imaging.JpegCodecTest:Bitmap24bitFeatures
 x86.MonoTests.System.Drawing.Imaging.MetafileFulltrustTest:CreateFilename_MultipleGraphics_EmfOnly
 x86.MonoTests.System.Drawing.Imaging.MetafileFulltrustTest:CreateFilename_MultipleGraphics_EmfPlusDual
 x86.MonoTests.System.Drawing.Imaging.MetafileFulltrustTest:CreateFilename_MultipleGraphics_EmfPlusOnly
@@ -407,7 +404,6 @@ x86.MonoTests.System.Drawing.TestBitmap:SetResolution_NaN
 x86.MonoTests.System.Drawing.TestBitmap:SetResolution_NegativeInfinity
 x86.MonoTests.System.Drawing.TestBitmap:SetResolution_Negative_X
 x86.MonoTests.System.Drawing.TestBitmap:SetResolution_Negative_Y
-x86.MonoTests.System.Drawing.TestBitmap:SoapSerialize_Bitmap8
 x86.MonoTests.System.Drawing.TestRegion:GetHrgn_Null
 x86.MonoTests.System.Drawing.TestRegion:Intersect_383878
 x86.MonoTests.System.Drawing.TestRegion:IsVisible_IntIntIntIntNull
@@ -1071,7 +1067,6 @@ x86_64.MonoTests.System.Drawing.ImageTest:FromStream_Metafile_Emf
 x86_64.MonoTests.System.Drawing.ImageTest:FromStream_Metafile_Emf_NotOrigin
 x86_64.MonoTests.System.Drawing.ImageTest:FromStream_Metafile_Wmf
 x86_64.MonoTests.System.Drawing.ImageTest:FromStream_Metafile_Wmf_NotOrigin
-x86_64.MonoTests.System.Drawing.ImageTest:GetThumbnailImage_Smaller_Gif
 x86_64.MonoTests.System.Drawing.ImageTest:StreamJunkSaveLoad
 x86_64.MonoTests.System.Drawing.Imaging.BmpCodecTest:Save_32bppArgb
 x86_64.MonoTests.System.Drawing.Imaging.BmpCodecTest:Save_32bppPArgb
@@ -1095,7 +1090,6 @@ x86_64.MonoTests.System.Drawing.Imaging.ImageCodecInfoTest:GifCodec
 x86_64.MonoTests.System.Drawing.Imaging.ImageCodecInfoTest:IconCodec_Decoder
 x86_64.MonoTests.System.Drawing.Imaging.ImageCodecInfoTest:TiffCodec
 x86_64.MonoTests.System.Drawing.Imaging.ImageCodecInfoTest:WmfCodec_Decoder
-x86_64.MonoTests.System.Drawing.Imaging.JpegCodecTest:Bitmap24bitFeatures
 x86_64.MonoTests.System.Drawing.Imaging.MetafileFulltrustTest:CreateFilename_MultipleGraphics_EmfOnly
 x86_64.MonoTests.System.Drawing.Imaging.MetafileFulltrustTest:CreateFilename_MultipleGraphics_EmfPlusDual
 x86_64.MonoTests.System.Drawing.Imaging.MetafileFulltrustTest:CreateFilename_MultipleGraphics_EmfPlusOnly
@@ -1163,7 +1157,6 @@ x86_64.MonoTests.System.Drawing.TestBitmap:SetResolution_NaN
 x86_64.MonoTests.System.Drawing.TestBitmap:SetResolution_NegativeInfinity
 x86_64.MonoTests.System.Drawing.TestBitmap:SetResolution_Negative_X
 x86_64.MonoTests.System.Drawing.TestBitmap:SetResolution_Negative_Y
-x86_64.MonoTests.System.Drawing.TestBitmap:SoapSerialize_Bitmap8
 x86_64.MonoTests.System.Drawing.TestRegion:GetHrgn_Null
 x86_64.MonoTests.System.Drawing.TestRegion:Intersect_383878
 x86_64.MonoTests.System.Drawing.TestRegion:IsVisible_IntIntIntIntNull
