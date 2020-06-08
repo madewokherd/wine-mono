@@ -1,6 +1,6 @@
 monitor:test_0_enter_abort_race # wine takes too long to start the bg thread for this test
-pinvoke3:test_0_marshal_small_struct_delegate8
-pinvoke3:test_0_marshal_small_struct_delegate9
+x86.pinvoke3:test_0_marshal_small_struct_delegate8
+x86.pinvoke3:test_0_marshal_small_struct_delegate9
 x86.MonoTests.System.ActivatorTest:Unification_FromFx99_System
 x86.MonoTests.System.AppDomainTest:ExecuteAssembly4_NoEntryPoint
 x86.MonoTests.System.Collections.Generic.DictionaryTest:Clear_ZeroOut
