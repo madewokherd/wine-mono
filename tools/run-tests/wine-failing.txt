@@ -717,7 +717,6 @@ x86.MonoTests.System.Net.Sockets.SocketTest:SendBufferSizeChange
 x86.MonoTests.System.Net.Sockets.SocketTest:SendTimeoutChange
 x86.MonoTests.System.Net.Sockets.SocketTest:SetSocketOption_MulticastInterfaceIndex_Loopback
 x86.MonoTests.System.Net.Sockets.UdpClientTest:ExclusiveAddressUseUnbound
-x86.MonoTests.System.Net.Sockets.UdpClientTest:JoinMulticastGroup2_Socket_NotBound
 x86.MonoTests.System.Net.WebSockets.ClientWebSocketTest:ServerHandshakeReturnCrapStatusCodeTest
 x86.MonoTests.System.Security.Cryptography.X509Certificates.X509Cert20Test:Export_Pfx
 x86.MonoTests.System.Security.Cryptography.X509Certificates.X509Cert20Test:Export_Pkcs12
@@ -1466,7 +1465,6 @@ x86_64.MonoTests.System.Net.Sockets.SocketTest:SendBufferSizeChange
 x86_64.MonoTests.System.Net.Sockets.SocketTest:SendTimeoutChange
 x86_64.MonoTests.System.Net.Sockets.SocketTest:SetSocketOption_MulticastInterfaceIndex_Loopback
 x86_64.MonoTests.System.Net.Sockets.UdpClientTest:ExclusiveAddressUseUnbound
-x86_64.MonoTests.System.Net.Sockets.UdpClientTest:JoinMulticastGroup2_Socket_NotBound
 x86_64.MonoTests.System.Net.WebSockets.ClientWebSocketTest:ServerHandshakeReturnCrapStatusCodeTest
 x86_64.MonoTests.System.Security.Cryptography.X509Certificates.X509Cert20Test:Export_Pfx
 x86_64.MonoTests.System.Security.Cryptography.X509Certificates.X509Cert20Test:Export_Pkcs12
