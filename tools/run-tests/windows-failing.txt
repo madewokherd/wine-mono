@@ -67,10 +67,9 @@ x86.pinvoke11
 pinvoke2:test_0_fixed_buffer_char
 pinvoke2:test_0_amd64_struct1_gen
 x86.pinvoke3:test_0_marshal_return_string_array_delegate
-x86_64.pinvoke3:test_0_marshal_inout_byval_class_delegate
 x86.pinvoke_ppcc
-pinvoke_ppcd
-pinvoke_ppcf
+x86.pinvoke_ppcd
+x86.pinvoke_ppcf
 x86.pinvoke_ppcs
 process-unref-race
 recursive-generics.2
@@ -93,7 +92,6 @@ bug-3903
 install_eh_callback:test_0_throw_and_raise_exception
 install_eh_callback
 x86_64.calli_native
-x86_64.pinvoke2:test_0_x86_single_double_struct_ret
 marshal9:test_0_pass_ref
 x86.array_load_exception:test_0_generic_box
 x86.pinvoke2:test_0_marshal_out_class
