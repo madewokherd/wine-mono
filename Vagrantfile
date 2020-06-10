@@ -4,7 +4,7 @@
 # Vagrant file for setting up a build environment for Wine Mono.
 
 Vagrant.configure(2) do |config|
-  config.vm.box = "ubuntu/bionic64"
+  config.vm.box = "ubuntu/focal64"
 
   config.vm.provider "virtualbox" do |v|
     v.cpus = `nproc`.to_i
@@ -22,6 +22,6 @@ Vagrant.configure(2) do |config|
     apt-get update
 	# --no-install-recommends to avoid corefonts which needs eula
     apt-get install -y --no-install-recommends wine-stable
-	apt-get install -y mono-mcs autoconf libtool gettext python libtool-bin cmake dos2unix libgdiplus zip
+	apt-get install -y mono-mcs autoconf libtool gettext python libtool-bin cmake dos2unix libgdiplus zip g++
   SHELL
 end
