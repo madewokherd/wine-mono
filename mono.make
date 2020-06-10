@@ -91,7 +91,7 @@ tests-runtime-$(1): $$(BUILDDIR)/mono-unix/mono/mini/.built-tests $$(BUILDDIR)/m
 	cp $$(BUILDDIR)/mono-unix/mono/tests/assembly-load-dir2/*.dll $$(TESTS_OUTDIR)/tests-$(1)/assembly-load-dir2
 ifeq ($(1),x86)
 	cp $$(BUILDDIR)/mono-unix/builtin-types-32.exe $$(TESTS_OUTDIR)/tests-$(1)/builtin-types.exe
-	cd $$(TESTS_OUTDIR)/tests-$(1); $$(WINE) $$(BUILDDIR_ABS)/set32only.exe *.exe; fi
+	cd $$(TESTS_OUTDIR)/tests-$(1); $$(WINE) $$(BUILDDIR_ABS)/set32only.exe *.exe
 endif
 
 tests: tests-runtime-$(1)
