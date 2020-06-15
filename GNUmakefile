@@ -170,6 +170,11 @@ $(OUTDIR)/wine-mono-$(MSI_VERSION)-tests.zip: tests
 
 tests-zip: $(OUTDIR)/wine-mono-$(MSI_VERSION)-tests.zip
 
+clean-tests-zip:
+	rm -rf $(OUTDIR)/wine-mono-$(MSI_VERSION)-tests.zip
+.PHONY: clean-tests-zip
+clean: clean-tests-zip
+
 $(BUILDDIR)/resx2srid.exe: $(SRCDIR)/tools/resx2srid/resx2srid.cs $(BUILDDIR)/mono-unix/.installed
 	$(MONO_ENV) csc $(SRCDIR)/tools/resx2srid/resx2srid.cs -out:$(BUILDDIR)/resx2srid.exe
 
