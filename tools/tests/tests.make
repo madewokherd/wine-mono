@@ -15,6 +15,11 @@ TEST_IL_EXE_SRCS = \
 
 TEST_CLR_EXE_TARGETS = $(TEST_CS_EXE_SRCS:%.cs=tools/tests/%.exe) $(TEST_IL_EXE_SRCS:%.il=tools/tests/%.exe)
 
+ifeq (1,$(ENABLE_DOTNET_CORE_WPF))
+TEST_NUNIT_TARGETS = \
+	net_4_x_PresentationCore_test.dll
+endif
+
 TEST_INSTALL_FILES = $(TEST_RAW_FILES:%=tools/tests/%)
 
 tools/tests/%.exe: tools/tests/%.il $(BUILDDIR)/mono-unix/.installed
@@ -29,6 +34,22 @@ tools/tests/%.dll: tools/tests/%.cs $(BUILDDIR)/mono-unix/.installed
 tools/tests/privatepath1.exe: tools/tests/testcslib1.dll
 
 tools/tests/privatepath2.exe: tools/tests/testcslib1.dll tools/tests/testcslib2.dll
+
+tools/tests/net_4_x_%_test.dll: $(BUILDDIR)/nunitlite.dll
+	$(MONO_ENV) csc -target:library -out:$@ $(patsubst %,-r:%,$(filter %.dll,$^)) $(foreach path,$(filter %/.built,$^),-r:$(dir $(path))/$(notdir $(realpath $(dir $(path)))).dll) $(filter %.cs,$^)
+
+define nunit_target_template
+$$(TESTS_OUTDIR)/tests-clr/$(1): tools/tests/$(1)
+	mkdir -p $$(TESTS_OUTDIR)/tests-clr
+	cp $$< $$@
+EXTRA_CLR_TESTS += $$(TESTS_OUTDIR)/tests-clr/$(1)
+endef
+
+$(foreach target,$(TEST_NUNIT_TARGETS), $(eval $(call nunit_target_template,$(target))))
+
+tools/tests/net_4_x_PresentationCore_test.dll: \
+	tools/tests/PresentationCore/TextFormatter.cs \
+	$(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/PresentationCore/.built
 
 tools-tests-all: $(TEST_CLR_EXE_TARGETS) $(TEST_INSTALL_FILES) tools/tests/tests.make
 .PHONY: tools-tests-all

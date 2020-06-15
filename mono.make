@@ -193,7 +193,7 @@ $(BUILDDIR)/mono-unix/mono/mini/.built-tests: $(BUILDDIR)/mono-unix/.built
 $(BUILDDIR)/mono-unix/builtin-types-32.exe: $(SRCDIR)/mono/mono/mini/builtin-types.cs $(BUILDDIR)/mono-unix/mono/mini/.built-tests $(BUILDDIR)/mono-unix/.installed
 	$(MONO_ENV) mcs -out:$@ -unsafe -define:ARCH_32 $< -r:$(BUILDDIR)/mono-unix/mono/mini/TestDriver.dll
 
-tests-clr: $(BUILDDIR)/mono-unix/.built-clr-tests $(BUILDDIR)/nunitlite.dll $(BUILDDIR)/set32only.exe
+tests-clr: $(BUILDDIR)/mono-unix/.built-clr-tests $(EXTRA_CLR_TESTS) $(BUILDDIR)/nunitlite.dll $(BUILDDIR)/set32only.exe
 	mkdir -p $(TESTS_OUTDIR)/tests-clr
 	cp $(SRCDIR)/mono/mcs/class/lib/net_4_x/tests/*_test.dll $(SRCDIR)/mono/mcs/class/lib/net_4_x/nunit* $(TESTS_OUTDIR)/tests-clr
 	cp $(BUILDDIR)/nunitlite.* $(TESTS_OUTDIR)/tests-clr
