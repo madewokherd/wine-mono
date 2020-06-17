@@ -42,7 +42,7 @@ define nunit_target_template
 $$(TESTS_OUTDIR)/tests-clr/$(1): tools/tests/$(1)
 	mkdir -p $$(TESTS_OUTDIR)/tests-clr
 	cp $$< $$@
-EXTRA_CLR_TESTS += $$(TESTS_OUTDIR)/tests-clr/$(1)
+tests-clr: $$(TESTS_OUTDIR)/tests-clr/$(1)
 endef
 
 $(foreach target,$(TEST_NUNIT_TARGETS), $(eval $(call nunit_target_template,$(target))))
