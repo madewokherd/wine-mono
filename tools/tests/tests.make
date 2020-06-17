@@ -38,18 +38,21 @@ tools/tests/privatepath2.exe: tools/tests/testcslib1.dll tools/tests/testcslib2.
 tools/tests/net_4_x_%_test.dll: $(BUILDDIR)/nunitlite.dll
 	$(MONO_ENV) csc -target:library -out:$@ $(patsubst %,-r:%,$(filter %.dll,$^)) $(foreach path,$(filter %/.built,$^),-r:$(dir $(path))/$(notdir $(realpath $(dir $(path)))).dll) $(filter %.cs,$^)
 
+tools/tests/net_4_x_PresentationCore_test.dll: \
+	tools/tests/PresentationCore/TextFormatter.cs
+
+TEST_NUNIT_EXTRADEPS_net_4_x_PresentationCore_test.dll = \
+	$(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/PresentationCore/.built
+
 define nunit_target_template
-$$(TESTS_OUTDIR)/tests-clr/$(1): tools/tests/$(1)
+tools/tests/$(1): $$(TEST_NUNIT_EXTRADEPS_$(1))
+$$(TESTS_OUTDIR)/tests-clr/$(1): $$(SRCDIR)/tools/tests/$(1) tests-clr
 	mkdir -p $$(TESTS_OUTDIR)/tests-clr
+	$$(MONO_ENV) MONO_PATH=$$(subst $$(eval) ,:,$$(foreach path,$$(TEST_NUNIT_EXTRADEPS_$(1)),$$(dir $$(path)))) mono $(TESTS_OUTDIR)/tests-clr/nunit-lite-console.exe $$< -explore:$$(TESTS_OUTDIR)/tests-clr/$(1).testlist && test -f $$(TESTS_OUTDIR)/tests-clr/$(1).testlist
 	cp $$< $$@
-tests-clr: $$(TESTS_OUTDIR)/tests-clr/$(1)
 endef
 
 $(foreach target,$(TEST_NUNIT_TARGETS), $(eval $(call nunit_target_template,$(target))))
-
-tools/tests/net_4_x_PresentationCore_test.dll: \
-	tools/tests/PresentationCore/TextFormatter.cs \
-	$(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/PresentationCore/.built
 
 tools-tests-all: $(TEST_CLR_EXE_TARGETS) $(TEST_INSTALL_FILES) tools/tests/tests.make
 .PHONY: tools-tests-all
