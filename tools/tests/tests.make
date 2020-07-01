@@ -50,6 +50,7 @@ $$(TESTS_OUTDIR)/tests-clr/$(1): $$(SRCDIR)/tools/tests/$(1) tests-clr
 	mkdir -p $$(TESTS_OUTDIR)/tests-clr
 	$$(MONO_ENV) MONO_PATH=$$(subst $$(eval) ,:,$$(foreach path,$$(TEST_NUNIT_EXTRADEPS_$(1)),$$(dir $$(path)))) mono $(TESTS_OUTDIR)/tests-clr/nunit-lite-console.exe $$< -explore:$$(TESTS_OUTDIR)/tests-clr/$(1).testlist && test -f $$(TESTS_OUTDIR)/tests-clr/$(1).testlist
 	cp $$< $$@
+tests: $$(TESTS_OUTDIR)/tests-clr/$(1)
 endef
 
 $(foreach target,$(TEST_NUNIT_TARGETS), $(eval $(call nunit_target_template,$(target))))
