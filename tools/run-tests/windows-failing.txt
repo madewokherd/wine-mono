@@ -453,7 +453,6 @@ x86.MonoTests.System.AppDomainTest:DefineDynamicAssembly9_Name_InvalidChars
 x86.MonoTests.System.AppDomainTest:DefineDynamicAssembly9_Name_Null
 x86.MonoTests.System.AppDomainTest:GenericReflectionObjectsAreSerializableTest
 x86.MonoTests.System.AppDomainTest:Load_Loaded_Multiple
-x86.MonoTests.System.AppDomainTest:Load_Manifest_Mismatch
 x86.MonoTests.System.AppDomainTest:Load_PartialVersion
 x86.MonoTests.System.AppDomainTest:ReflectionObjectsAreSerializableTest
 x86.MonoTests.System.AppDomainTest:SetAppDomainPolicy
@@ -3597,7 +3596,6 @@ x86_64.MonoTests.System.AppDomainTest:DefineDynamicAssembly9_Name_InvalidChars
 x86_64.MonoTests.System.AppDomainTest:DefineDynamicAssembly9_Name_Null
 x86_64.MonoTests.System.AppDomainTest:GenericReflectionObjectsAreSerializableTest
 x86_64.MonoTests.System.AppDomainTest:Load_Loaded_Multiple
-x86_64.MonoTests.System.AppDomainTest:Load_Manifest_Mismatch
 x86_64.MonoTests.System.AppDomainTest:Load_PartialVersion
 x86_64.MonoTests.System.AppDomainTest:ReflectionObjectsAreSerializableTest
 x86_64.MonoTests.System.AppDomainTest:SetAppDomainPolicy
@@ -3818,7 +3816,6 @@ x86_64.MonoTests.System.Reflection.Emit.TypeBuilderTest:TestSetParentIncomplete
 x86_64.MonoTests.System.Reflection.FieldInfoTest:CustomFieldInfo
 x86_64.MonoTests.System.Reflection.FieldInfoTest:GetFieldFromHandle2_Handle_GenericDefinition
 x86_64.MonoTests.System.Resources.ResourceManagerTest:TestSatellites
-x86_64.MonoTests.System.Runtime.CompilerServices.ConditionalWeakTableTest
 x86_64.MonoTests.System.Runtime.CompilerServices.MethodImplAttributeTest:CtorTest
 x86_64.MonoTests.System.Runtime.CompilerServices.MethodImplAttributeTest:FieldsTest
 x86_64.MonoTests.System.Runtime.CompilerServices.MethodImplAttributeTest:MatchTestForFalse
@@ -6633,7 +6630,7 @@ x86_64.MonoTests.System.UriTest:PathDotTrim
 x86_64.MonoTests.System.UriTest:QueryEscape
 x86_64.MonoTests.System.UriTest:UserInfo_EscapedLetter
 MonoTests.System.Drawing.Drawing2D.PathGradientBrushTest:Clone
-MonoTests.System.Drawing.Drawing2D.PathGradientBrushTest:Constructor_GraphicsPath_Line
+x86_64.MonoTests.System.Runtime.CompilerServices.ConditionalWeakTableTest:ConditionalWeakTableEnumerable
 # unreliable:
 x86.thread-exit
 MonoTests.System.Threading.Tasks.TaskTests:DoubleWaitTest
@@ -6660,3 +6657,5 @@ MonoTests.System.Reflection.Emit.AssemblyBuilderTest:AssemblyName_MoreCultureInf
 MonoTests.System.Reflection.Emit.AssemblyBuilderTest:AssemblyName_PublicKey
 MonoTests.System.Reflection.Emit.AssemblyBuilderTest:StrongName_WithoutAttributes
 MonoTests.System.Drawing.Drawing2D.PathGradientBrushTest:Constructor_Point_Two
+MonoTests.System.AppDomainTest:Load_Manifest_Mismatch
+MonoTests.System.Drawing.Drawing2D.PathGradientBrushTest:Constructor_GraphicsPath_Line
