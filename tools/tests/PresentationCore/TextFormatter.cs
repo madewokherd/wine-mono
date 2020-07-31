@@ -310,6 +310,42 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 		}
 
 		[Test]
+		public void SingleWordTahomaTest ()
+		{
+			using (var formatter = TextFormatter.Create ())
+			{
+				List<string> log = new List<string> ();
+				var textProps = new LoggingTextRunProperties(log, "Tahoma");
+				textProps.typeface = new Typeface("Tahoma");
+				var textSource = new LoggingTextSource(log);
+				textSource.AddContents("test", textProps);
+				textSource.AddContents(new TextEndOfLine(1));
+				var textParagraphProperties = new LoggingTextParagraphProperties(log);
+				log.Clear();
+				var line = formatter.FormatLine (textSource, 0, 256.0, textParagraphProperties, null);
+				Assert.AreEqual(new string[] {
+					"DefaultTextRunProperties",
+					"DefaultTextRunProperties.Typeface",
+					"DefaultTextRunProperties.FontRenderingEmSize",
+					"Indent",
+					"LineHeight",
+					"FlowDirection",
+					"TextAlignment",
+					"FirstLineInParagraph",
+					"TextMarkerProperties",
+					"TextWrapping",
+					"GetTextRun(0)",
+					"Tahoma.FontRenderingEmSize",
+					"Tahoma.CultureInfo",
+					"Tahoma.Typeface",
+					"Tahoma.TextEffects",
+					"Tahoma.TextDecorations",
+					"GetTextRun(4)",
+					}, log);
+			}
+		}
+
+		[Test]
 		public void EmptyLineTest ()
 		{
 			using (var formatter = TextFormatter.Create ())
