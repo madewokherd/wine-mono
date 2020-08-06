@@ -6631,6 +6631,7 @@ x86_64.MonoTests.System.UriTest:QueryEscape
 x86_64.MonoTests.System.UriTest:UserInfo_EscapedLetter
 MonoTests.System.Drawing.Drawing2D.PathGradientBrushTest:Clone
 x86_64.MonoTests.System.Runtime.CompilerServices.ConditionalWeakTableTest:ConditionalWeakTableEnumerable
+MonoTests.System.Transactions.TransactionScopeTest:TransactionScopeTimeout
 # unreliable:
 x86.thread-exit
 MonoTests.System.Threading.Tasks.TaskTests:DoubleWaitTest
