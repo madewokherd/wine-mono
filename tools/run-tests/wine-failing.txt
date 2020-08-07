@@ -1601,6 +1601,7 @@ x86.MonoTests.System.Drawing.GraphicsTest:DrawImage_ImageRectangleRectangleGraph
 x86.MonoTests.System.Drawing.GraphicsTest:DrawImage_ImageRectangleRectangleGraphicsUnit_World
 MonoTests.System.Windows.Forms.ListBoxTest:HeightAndIntegralHeight
 MonoTests.System.Reflection.Emit.DynamicMethodTest:InvalidUnicodeName
+WineMono.Tests.System.Windows.Media.TextFormatting.TextFormatterTest:SingleWordTahomaTest
 # definitely unreliable:
 delegate2
 x86_64.MonoTests.System.Threading.ThreadLocalTests:DisposeOnThreadExit
