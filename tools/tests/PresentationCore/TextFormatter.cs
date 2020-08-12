@@ -297,6 +297,7 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 				var textParagraphProperties = new LoggingTextParagraphProperties(log);
 				log.Clear();
 				var line = formatter.FormatLine (textSource, 0, 256.0, textParagraphProperties, null);
+				Assert.AreEqual(147.18+0.02/3.0, line.Height, "line.Height");
 				Assert.AreEqual(new string[] {
 					"DefaultTextRunProperties",
 					"DefaultTextRunProperties.Typeface",
@@ -334,6 +335,7 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 				var textParagraphProperties = new LoggingTextParagraphProperties(log);
 				log.Clear();
 				var line = formatter.FormatLine (textSource, 0, 256.0, textParagraphProperties, null);
+				Assert.AreEqual(154.5, line.Height, "line.Height");
 				Assert.AreEqual(new string[] {
 					"DefaultTextRunProperties",
 					"DefaultTextRunProperties.Typeface",
@@ -368,6 +370,7 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 				var textParagraphProperties = new LoggingTextParagraphProperties(log);
 				log.Clear();
 				var line = formatter.FormatLine (textSource, 0, 256.0, textParagraphProperties, null);
+				Assert.AreEqual(147.18+0.02/3.0, line.Height, "line.Height");
 				Assert.AreEqual(new string[] {
 					"DefaultTextRunProperties",
 					"DefaultTextRunProperties.Typeface",
@@ -398,6 +401,7 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 				textParagraphProperties.alwaysCollapsible = true;
 				log.Clear();
 				var line = formatter.FormatLine (textSource, 0, 256.0, textParagraphProperties, null);
+				Assert.AreEqual(147.18+0.02/3.0, line.Height, "line.Height");
 				Assert.AreEqual(new string[] {
 					"DefaultTextRunProperties",
 					"DefaultTextRunProperties.Typeface",
