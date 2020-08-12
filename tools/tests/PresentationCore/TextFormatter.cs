@@ -180,6 +180,7 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 		public TextAlignment textAlignment = TextAlignment.Left;
 		public TextMarkerProperties textMarkerProperties = null;
 		public TextWrapping textWrapping = TextWrapping.NoWrap;
+		public bool alwaysCollapsible = false;
 
 		public LoggingTextParagraphProperties(List<string> destination)
 		{
@@ -191,6 +192,15 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 		{
 			if (!destination.Contains(info))
 				destination.Add(info);
+		}
+
+		public override bool AlwaysCollapsible
+		{
+			get
+			{
+				Log("AlwaysCollapsible");
+				return alwaysCollapsible;
+			}
 		}
 
 		public override TextWrapping TextWrapping
@@ -294,6 +304,7 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 					"Indent",
 					"LineHeight",
 					"FlowDirection",
+					"AlwaysCollapsible",
 					"TextAlignment",
 					"FirstLineInParagraph",
 					"TextMarkerProperties",
@@ -330,6 +341,7 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 					"Indent",
 					"LineHeight",
 					"FlowDirection",
+					"AlwaysCollapsible",
 					"TextAlignment",
 					"FirstLineInParagraph",
 					"TextMarkerProperties",
@@ -363,6 +375,7 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 					"Indent",
 					"LineHeight",
 					"FlowDirection",
+					"AlwaysCollapsible",
 					"TextAlignment",
 					"FirstLineInParagraph",
 					"TextMarkerProperties",
