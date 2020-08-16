@@ -319,6 +319,7 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 				Assert.AreEqual(147.18+0.02/3.0, line.Height, "line.Height");
 				Assert.AreEqual(5, line.Length, "line.Length");
 				Assert.AreEqual(1, line.NewlineLength, "line.NewlineLength");
+				Assert.AreEqual(206.31+0.01/3.0, line.WidthIncludingTrailingWhitespace, "line.WidthIncludingTrailingWhitespace");
 				AssertTextRunSpans(
 					new int[] { 4, 1 },
 					new TextRun[] { textSource.contents[0], new TextEndOfLine(1) },
@@ -363,6 +364,7 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 				Assert.AreEqual(154.5, line.Height, "line.Height");
 				Assert.AreEqual(5, line.Length, "line.Length");
 				Assert.AreEqual(1, line.NewlineLength, "line.NewlineLength");
+				Assert.AreEqual(210.12+0.02/3.0, line.WidthIncludingTrailingWhitespace, 0.000000001, "line.WidthIncludingTrailingWhitespace");
 				AssertTextRunSpans(
 					new int[] { 4, 1 },
 					new TextRun[] { textSource.contents[0], new TextEndOfLine(1) },
@@ -405,6 +407,7 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 				Assert.AreEqual(147.18+0.02/3.0, line.Height, "line.Height");
 				Assert.AreEqual(1, line.Length, "line.Length");
 				Assert.AreEqual(1, line.NewlineLength, "line.NewlineLength");
+				Assert.AreEqual(0, line.WidthIncludingTrailingWhitespace, "line.WidthIncludingTrailingWhitespace");
 				AssertTextRunSpans(
 					new int[] { 1 },
 					new TextRun[] { new TextEndOfLine(1) },
@@ -442,6 +445,7 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 				Assert.AreEqual(147.18+0.02/3.0, line.Height, "line.Height");
 				Assert.AreEqual(1, line.Length, "line.Length");
 				Assert.AreEqual(1, line.NewlineLength, "line.NewlineLength");
+				Assert.AreEqual(0, line.WidthIncludingTrailingWhitespace, "line.WidthIncludingTrailingWhitespace");
 				AssertTextRunSpans(
 					new int[] { 1 },
 					new TextRun[] { new TextEndOfLine(1) },
@@ -479,6 +483,7 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 				Assert.AreEqual(147.18+0.02/3.0, line.Height, "line.Height");
 				Assert.AreEqual(5, line.Length, "line.Length");
 				Assert.AreEqual(1, line.NewlineLength, "line.NewlineLength");
+				Assert.AreEqual(206.31+0.01/3.0, line.WidthIncludingTrailingWhitespace, "line.WidthIncludingTrailingWhitespace");
 				AssertTextRunSpans(
 					new int[] { 4, 1 },
 					new TextRun[] { textSource.contents[0], new TextEndOfLine(1) },
