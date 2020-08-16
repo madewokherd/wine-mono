@@ -285,6 +285,25 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 			formatter.Dispose();
 		}
 
+		public void AssertTextRun(TextRun expected, TextRun actual, string name)
+		{
+			Assert.AreEqual(expected.GetType(), actual.GetType(), name);
+			Assert.AreEqual(expected.Length, actual.Length, String.Format("{0} Length", name));
+			Assert.AreEqual(expected.CharacterBufferReference, actual.CharacterBufferReference, name);
+		}
+
+		public void AssertTextRunSpans(int[] lengths, TextRun[] values, TextLine line)
+		{
+			int count=0;
+			foreach (var span in line.GetTextRunSpans())
+			{
+				Assert.AreEqual(lengths[count], span.Length, String.Format("lengths[{0}]", count));
+				AssertTextRun(values[count], span.Value, String.Format("values[{0}]", count));
+				count += 1;
+			}
+			Assert.AreEqual(lengths.Length, count, "TextLine.GetTextRunSpans() count");
+		}
+
 		[Test]
 		public void SingleWordTest ()
 		{
@@ -300,6 +319,10 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 				Assert.AreEqual(147.18+0.02/3.0, line.Height, "line.Height");
 				Assert.AreEqual(5, line.Length, "line.Length");
 				Assert.AreEqual(1, line.NewlineLength, "line.NewlineLength");
+				AssertTextRunSpans(
+					new int[] { 4, 1 },
+					new TextRun[] { textSource.contents[0], new TextEndOfLine(1) },
+					line);
 				Assert.AreEqual(new string[] {
 					"DefaultTextRunProperties",
 					"DefaultTextRunProperties.Typeface",
@@ -340,6 +363,10 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 				Assert.AreEqual(154.5, line.Height, "line.Height");
 				Assert.AreEqual(5, line.Length, "line.Length");
 				Assert.AreEqual(1, line.NewlineLength, "line.NewlineLength");
+				AssertTextRunSpans(
+					new int[] { 4, 1 },
+					new TextRun[] { textSource.contents[0], new TextEndOfLine(1) },
+					line);
 				Assert.AreEqual(new string[] {
 					"DefaultTextRunProperties",
 					"DefaultTextRunProperties.Typeface",
@@ -378,6 +405,10 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 				Assert.AreEqual(147.18+0.02/3.0, line.Height, "line.Height");
 				Assert.AreEqual(1, line.Length, "line.Length");
 				Assert.AreEqual(1, line.NewlineLength, "line.NewlineLength");
+				AssertTextRunSpans(
+					new int[] { 1 },
+					new TextRun[] { new TextEndOfLine(1) },
+					line);
 				Assert.AreEqual(new string[] {
 					"DefaultTextRunProperties",
 					"DefaultTextRunProperties.Typeface",
@@ -411,6 +442,10 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 				Assert.AreEqual(147.18+0.02/3.0, line.Height, "line.Height");
 				Assert.AreEqual(1, line.Length, "line.Length");
 				Assert.AreEqual(1, line.NewlineLength, "line.NewlineLength");
+				AssertTextRunSpans(
+					new int[] { 1 },
+					new TextRun[] { new TextEndOfLine(1) },
+					line);
 				Assert.AreEqual(new string[] {
 					"DefaultTextRunProperties",
 					"DefaultTextRunProperties.Typeface",
@@ -444,6 +479,10 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 				Assert.AreEqual(147.18+0.02/3.0, line.Height, "line.Height");
 				Assert.AreEqual(5, line.Length, "line.Length");
 				Assert.AreEqual(1, line.NewlineLength, "line.NewlineLength");
+				AssertTextRunSpans(
+					new int[] { 4, 1 },
+					new TextRun[] { textSource.contents[0], new TextEndOfLine(1) },
+					line);
 				Assert.AreEqual(new string[] {
 					"DefaultTextRunProperties",
 					"DefaultTextRunProperties.Typeface",
