@@ -396,6 +396,39 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 		}
 
 		[Test]
+		public void EmptyLineCollapsibleTest ()
+		{
+			using (var formatter = TextFormatter.Create ())
+			{
+				List<string> log = new List<string> ();
+				var textSource = new LoggingTextSource(log);
+				textSource.AddContents(new TextEndOfLine(1));
+				var textParagraphProperties = new LoggingTextParagraphProperties(log);
+				textParagraphProperties.alwaysCollapsible = true;
+				Assert.AreEqual(2355/2048.0, textParagraphProperties.DefaultTextRunProperties.Typeface.FontFamily.LineSpacing);
+				log.Clear();
+				var line = formatter.FormatLine (textSource, 0, 256.0, textParagraphProperties, null);
+				Assert.AreEqual(147.18+0.02/3.0, line.Height, "line.Height");
+				Assert.AreEqual(1, line.Length, "line.Length");
+				Assert.AreEqual(1, line.NewlineLength, "line.NewlineLength");
+				Assert.AreEqual(new string[] {
+					"DefaultTextRunProperties",
+					"DefaultTextRunProperties.Typeface",
+					"DefaultTextRunProperties.FontRenderingEmSize",
+					"Indent",
+					"LineHeight",
+					"FlowDirection",
+					"AlwaysCollapsible",
+					"TextAlignment",
+					"TextWrapping",
+					"FirstLineInParagraph",
+					"TextMarkerProperties",
+					"GetTextRun(0)",
+					}, log);
+			}
+		}
+
+		[Test]
 		public void SingleWordCollapsibleTest ()
 		{
 			using (var formatter = TextFormatter.Create ())
