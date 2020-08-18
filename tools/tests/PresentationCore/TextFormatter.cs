@@ -462,20 +462,6 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 					new int[] { 1 },
 					new TextRun[] { new TextEndOfLine(1) },
 					line);
-				Assert.AreEqual(new string[] {
-					"DefaultTextRunProperties",
-					"DefaultTextRunProperties.Typeface",
-					"DefaultTextRunProperties.FontRenderingEmSize",
-					"Indent",
-					"LineHeight",
-					"FlowDirection",
-					"AlwaysCollapsible",
-					"TextAlignment",
-					"TextWrapping",
-					"FirstLineInParagraph",
-					"TextMarkerProperties",
-					"GetTextRun(0)",
-					}, log);
 			}
 		}
 
@@ -503,26 +489,6 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 					new int[] { 4, 1 },
 					new TextRun[] { textSource.contents[0], new TextEndOfLine(1) },
 					line);
-				Assert.AreEqual(new string[] {
-					"DefaultTextRunProperties",
-					"DefaultTextRunProperties.Typeface",
-					"DefaultTextRunProperties.FontRenderingEmSize",
-					"Indent",
-					"LineHeight",
-					"FlowDirection",
-					"AlwaysCollapsible",
-					"TextAlignment",
-					"TextWrapping",
-					"FirstLineInParagraph",
-					"TextMarkerProperties",
-					"GetTextRun(0)",
-					"test.FontRenderingEmSize",
-					"test.CultureInfo",
-					"test.Typeface",
-					"test.TextEffects",
-					"GetTextRun(4)",
-					"test.TextDecorations",
-					}, log);
 			}
 		}
 
@@ -550,26 +516,6 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 					new int[] { 9, 1 },
 					new TextRun[] { textSource.contents[0], new TextEndOfLine(1) },
 					line);
-				Assert.AreEqual(new string[] {
-					"DefaultTextRunProperties",
-					"DefaultTextRunProperties.Typeface",
-					"DefaultTextRunProperties.FontRenderingEmSize",
-					"Indent",
-					"LineHeight",
-					"FlowDirection",
-					"AlwaysCollapsible",
-					"TextAlignment",
-					"TextWrapping",
-					"FirstLineInParagraph",
-					"TextMarkerProperties",
-					"GetTextRun(0)",
-					"test test.FontRenderingEmSize",
-					"test test.CultureInfo",
-					"test test.Typeface",
-					"test test.TextEffects",
-					"GetTextRun(9)",
-					"test test.TextDecorations",
-					}, log);
 			}
 		}
 	}
