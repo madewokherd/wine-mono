@@ -515,5 +515,50 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 					}, log);
 			}
 		}
+
+		[Test]
+		public void OverflowTest ()
+		{
+			using (var formatter = TextFormatter.Create ())
+			{
+				List<string> log = new List<string> ();
+				var textSource = new LoggingTextSource(log);
+				textSource.AddContents("test test");
+				textSource.AddContents(new TextEndOfLine(1));
+				var textParagraphProperties = new LoggingTextParagraphProperties(log);
+				textParagraphProperties.alwaysCollapsible = true;
+				log.Clear();
+				var line = formatter.FormatLine (textSource, 0, 256.0, textParagraphProperties, null);
+				Assert.AreEqual(147.18+0.02/3.0, line.Height, "line.Height");
+				Assert.AreEqual(10, line.Length, "line.Length");
+				Assert.AreEqual(1, line.NewlineLength, "line.NewlineLength");
+				Assert.AreEqual(117.97, line.Baseline, 0.000000001, "line.Baseline");
+				Assert.AreEqual(448.19, line.WidthIncludingTrailingWhitespace, 0.000000001, "line.WidthIncludingTrailingWhitespace");
+				AssertTextRunSpans(
+					new int[] { 9, 1 },
+					new TextRun[] { textSource.contents[0], new TextEndOfLine(1) },
+					line);
+				Assert.AreEqual(new string[] {
+					"DefaultTextRunProperties",
+					"DefaultTextRunProperties.Typeface",
+					"DefaultTextRunProperties.FontRenderingEmSize",
+					"Indent",
+					"LineHeight",
+					"FlowDirection",
+					"AlwaysCollapsible",
+					"TextAlignment",
+					"TextWrapping",
+					"FirstLineInParagraph",
+					"TextMarkerProperties",
+					"GetTextRun(0)",
+					"test test.FontRenderingEmSize",
+					"test test.CultureInfo",
+					"test test.Typeface",
+					"test test.TextEffects",
+					"GetTextRun(9)",
+					"test test.TextDecorations",
+					}, log);
+			}
+		}
 	}
 }
