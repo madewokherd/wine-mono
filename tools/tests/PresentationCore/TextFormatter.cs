@@ -320,6 +320,7 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 				Assert.AreEqual(5, line.Length, "line.Length");
 				Assert.AreEqual(1, line.NewlineLength, "line.NewlineLength");
 				Assert.AreEqual(117.97, line.Baseline, 0.000000001, "line.Baseline");
+				Assert.AreEqual(206.31+0.01/3.0, line.Width, "line.Width");
 				Assert.IsFalse(line.HasOverflowed, "line.HasOverflowed");
 				Assert.AreEqual(206.31+0.01/3.0, line.WidthIncludingTrailingWhitespace, "line.WidthIncludingTrailingWhitespace");
 				AssertTextRunSpans(
@@ -367,6 +368,7 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 				Assert.AreEqual(5, line.Length, "line.Length");
 				Assert.AreEqual(1, line.NewlineLength, "line.NewlineLength");
 				Assert.AreEqual(128.06+0.01/3.0, line.Baseline, "line.Baseline");
+				Assert.AreEqual(210.12+0.02/3.0, line.Width, 0.000000001, "line.Width");
 				Assert.IsFalse(line.HasOverflowed, "line.HasOverflowed");
 				Assert.AreEqual(210.12+0.02/3.0, line.WidthIncludingTrailingWhitespace, 0.000000001, "line.WidthIncludingTrailingWhitespace");
 				AssertTextRunSpans(
@@ -412,6 +414,7 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 				Assert.AreEqual(1, line.Length, "line.Length");
 				Assert.AreEqual(1, line.NewlineLength, "line.NewlineLength");
 				Assert.AreEqual(117.97, line.Baseline, 0.000000001, "line.Baseline");
+				Assert.AreEqual(0, line.Width, "line.Width");
 				Assert.IsFalse(line.HasOverflowed, "line.HasOverflowed");
 				Assert.AreEqual(0, line.WidthIncludingTrailingWhitespace, "line.WidthIncludingTrailingWhitespace");
 				AssertTextRunSpans(
@@ -452,6 +455,7 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 				Assert.AreEqual(1, line.Length, "line.Length");
 				Assert.AreEqual(1, line.NewlineLength, "line.NewlineLength");
 				Assert.AreEqual(117.97, line.Baseline, 0.000000001, "line.Baseline");
+				Assert.AreEqual(0, line.Width, "line.Width");
 				Assert.IsFalse(line.HasOverflowed, "line.HasOverflowed");
 				Assert.AreEqual(0, line.WidthIncludingTrailingWhitespace, "line.WidthIncludingTrailingWhitespace");
 				AssertTextRunSpans(
@@ -492,6 +496,7 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 				Assert.AreEqual(5, line.Length, "line.Length");
 				Assert.AreEqual(1, line.NewlineLength, "line.NewlineLength");
 				Assert.AreEqual(117.97, line.Baseline, 0.000000001, "line.Baseline");
+				Assert.AreEqual(206.31+0.01/3.0, line.Width, "line.Width");
 				Assert.IsFalse(line.HasOverflowed, "line.HasOverflowed");
 				Assert.AreEqual(206.31+0.01/3.0, line.WidthIncludingTrailingWhitespace, "line.WidthIncludingTrailingWhitespace");
 				AssertTextRunSpans(
@@ -538,6 +543,7 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 				Assert.AreEqual(10, line.Length, "line.Length");
 				Assert.AreEqual(1, line.NewlineLength, "line.NewlineLength");
 				Assert.AreEqual(117.97, line.Baseline, 0.000000001, "line.Baseline");
+				Assert.AreEqual(448.19, line.Width, 0.000000001, "line.Width");
 				Assert.IsTrue(line.HasOverflowed, "line.HasOverflowed");
 				Assert.AreEqual(448.19, line.WidthIncludingTrailingWhitespace, 0.000000001, "line.WidthIncludingTrailingWhitespace");
 				AssertTextRunSpans(
