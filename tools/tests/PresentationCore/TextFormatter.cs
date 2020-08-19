@@ -348,6 +348,7 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 					"GetTextRun(4)",
 					}, log);
 				Assert.IsNull(line.GetTextLineBreak(), "GetTextLineBreak");
+				Assert.AreEqual(0, line.Start, "line.Start");
 			}
 		}
 
@@ -397,6 +398,7 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 					"GetTextRun(4)",
 					}, log);
 				Assert.IsNull(line.GetTextLineBreak(), "GetTextLineBreak");
+				Assert.AreEqual(0, line.Start, "line.Start");
 			}
 		}
 
@@ -438,6 +440,7 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 					"GetTextRun(0)",
 					}, log);
 				Assert.IsNull(line.GetTextLineBreak(), "GetTextLineBreak");
+				Assert.AreEqual(0, line.Start, "line.Start");
 			}
 		}
 
@@ -466,6 +469,7 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 					new TextRun[] { new TextEndOfLine(1) },
 					line);
 				Assert.IsNull(line.GetTextLineBreak(), "GetTextLineBreak");
+				Assert.AreEqual(0, line.Start, "line.Start");
 			}
 		}
 
@@ -494,6 +498,7 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 					new TextRun[] { textSource.contents[0], new TextEndOfLine(1) },
 					line);
 				Assert.IsNull(line.GetTextLineBreak(), "GetTextLineBreak");
+				Assert.AreEqual(0, line.Start, "line.Start");
 			}
 		}
 
@@ -523,6 +528,7 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 					new TextRun[] { textSource.contents[0], new TextEndOfLine(1) },
 					line);
 				Assert.IsNull(line.GetTextLineBreak(), "GetTextLineBreak");
+				Assert.AreEqual(0, line.Start, "line.Start");
 			}
 		}
 
@@ -551,6 +557,7 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 					new TextRun[] { textSource.contents[0] },
 					line);
 				Assert.IsNull(line.GetTextLineBreak(), "GetTextLineBreak");
+				Assert.AreEqual(0, line.Start, "line.Start");
 			}
 		}
 	}
