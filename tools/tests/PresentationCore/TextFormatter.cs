@@ -539,7 +539,7 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 			{
 				List<string> log = new List<string> ();
 				var textSource = new LoggingTextSource(log);
-				textSource.AddContents("test test");
+				textSource.AddContents("test test2");
 				textSource.AddContents(new TextEndOfLine(1));
 				var textParagraphProperties = new LoggingTextParagraphProperties(log);
 				textParagraphProperties.alwaysCollapsible = true;
@@ -555,6 +555,21 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 				AssertTextRunSpans(
 					new int[] { 5 },
 					new TextRun[] { textSource.contents[0] },
+					line);
+				Assert.IsNull(line.GetTextLineBreak(), "GetTextLineBreak");
+				Assert.AreEqual(0, line.Start, "line.Start");
+
+				line = formatter.FormatLine (textSource, 5, 300.0, textParagraphProperties, null);
+				Assert.AreEqual(147.18+0.02/3.0, line.Height, "line.Height");
+				Assert.AreEqual(6, line.Length, "line.Length");
+				Assert.AreEqual(1, line.NewlineLength, "line.NewlineLength");
+				Assert.AreEqual(117.97, line.Baseline, 0.000000001, "line.Baseline");
+				Assert.AreEqual(277.5, line.Width, 0.000000001, "line.Width");
+				Assert.IsFalse(line.HasOverflowed, "line.HasOverflowed");
+				Assert.AreEqual(277.5, line.WidthIncludingTrailingWhitespace, 0.000000001, "line.WidthIncludingTrailingWhitespace");
+				AssertTextRunSpans(
+					new int[] { 5, 1 },
+					new TextRun[] { textSource.contents[5], new TextEndOfLine(1) },
 					line);
 				Assert.IsNull(line.GetTextLineBreak(), "GetTextLineBreak");
 				Assert.AreEqual(0, line.Start, "line.Start");
