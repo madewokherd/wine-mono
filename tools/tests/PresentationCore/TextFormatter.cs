@@ -304,6 +304,13 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 			Assert.AreEqual(lengths.Length, count, "TextLine.GetTextRunSpans() count");
 		}
 
+		public void AssertCharacterHit(TextLine line, double distance, int index, int length)
+		{
+			var ch = line.GetCharacterHitFromDistance(distance);
+			Assert.AreEqual(index, ch.FirstCharacterIndex, string.Format("FirstCharacterIndex, distance={0}", distance));
+			Assert.AreEqual(length, ch.TrailingLength, string.Format("TrailingLength, distance={0}", distance));
+		}
+
 		[Test]
 		public void SingleWordTest ()
 		{
@@ -470,6 +477,9 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 					line);
 				Assert.IsNull(line.GetTextLineBreak(), "GetTextLineBreak");
 				Assert.AreEqual(0, line.Start, "line.Start");
+				AssertCharacterHit(line, -1.0, 0, 0);
+				AssertCharacterHit(line, 0.0, 0, 0);
+				AssertCharacterHit(line, 1.0, 0, 0);
 			}
 		}
 
@@ -558,6 +568,18 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 					line);
 				Assert.IsNull(line.GetTextLineBreak(), "GetTextLineBreak");
 				Assert.AreEqual(0, line.Start, "line.Start");
+
+				AssertCharacterHit(line, -1.0, 0, 0);
+				AssertCharacterHit(line, 0.0, 0, 0);
+				AssertCharacterHit(line, 0.1, 0, 0);
+				AssertCharacterHit(line, 25.0, 0, 1);
+				AssertCharacterHit(line, 50.0, 1, 0);
+				AssertCharacterHit(line, 206.30, 3, 1);
+				AssertCharacterHit(line, 206.32, 4, 0);
+				AssertCharacterHit(line, 226.32, 4, 1);
+				AssertCharacterHit(line, 241.86, 4, 1);
+				AssertCharacterHit(line, 243.0, 4, 1);
+				AssertCharacterHit(line, 1000.0, 4, 1);
 
 				line = formatter.FormatLine (textSource, 5, 300.0, textParagraphProperties, null);
 				Assert.AreEqual(147.18+0.02/3.0, line.Height, "line.Height");
