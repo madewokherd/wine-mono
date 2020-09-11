@@ -42,6 +42,7 @@ tools/tests/net_4_x_PresentationCore_test.dll: \
 	tools/tests/PresentationCore/TextFormatter.cs
 
 TEST_NUNIT_EXTRADEPS_net_4_x_PresentationCore_test.dll = \
+	$(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/WindowsBase/.built \
 	$(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/PresentationCore/.built
 
 define nunit_target_template
