@@ -477,6 +477,8 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 					line);
 				Assert.IsNull(line.GetTextLineBreak(), "GetTextLineBreak");
 				Assert.AreEqual(0, line.Start, "line.Start");
+				var glyphRuns = new List<IndexedGlyphRun>(line.GetIndexedGlyphRuns());
+				Assert.AreEqual(0, glyphRuns.Count);
 				AssertCharacterHit(line, -1.0, 0, 0);
 				AssertCharacterHit(line, 0.0, 0, 0);
 				AssertCharacterHit(line, 1.0, 0, 0);
@@ -568,6 +570,29 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 					line);
 				Assert.IsNull(line.GetTextLineBreak(), "GetTextLineBreak");
 				Assert.AreEqual(0, line.Start, "line.Start");
+
+				var glyphRuns = new List<IndexedGlyphRun>(line.GetIndexedGlyphRuns());
+				Assert.AreEqual(1, glyphRuns.Count, "glyphRuns.Count");
+				var glyphRun = glyphRuns[0];
+				Assert.AreEqual(0, glyphRun.TextSourceCharacterIndex, "TextSourceCharacterIndex");
+				Assert.AreEqual(5, glyphRun.TextSourceLength, "TextSourceLength");
+				Assert.AreEqual(0, glyphRun.GlyphRun.BidiLevel, "BidiLevel");
+				Assert.AreEqual(false, glyphRun.GlyphRun.IsSideways, "IsSideways");
+				Assert.AreEqual(128.0, glyphRun.GlyphRun.FontRenderingEmSize, "FontRenderingEmSize");
+				Assert.AreEqual(1.0, glyphRun.GlyphRun.PixelsPerDip, "PixelsPerDip");
+				Assert.AreEqual(5, glyphRun.GlyphRun.GlyphIndices.Count, "GlyphIndices");
+				Assert.AreEqual(0, glyphRun.GlyphRun.BaselineOrigin.X, "BaselineOrigin.X");
+				Assert.AreEqual(0, glyphRun.GlyphRun.BaselineOrigin.Y, "BaselineOrigin.Y");
+				Assert.AreEqual(new double[]{10669/300.0,21356/300.0,19200/300.0,10669/300.0,10669/300.0}, glyphRun.GlyphRun.AdvanceWidths, "AdvanceWidths");
+				Assert.AreEqual(new char[]{'t','e','s','t',' '}, glyphRun.GlyphRun.Characters, "Characters");
+				Assert.IsNull(glyphRun.GlyphRun.DeviceFontName, "DeviceFontName");
+				Assert.AreEqual(new ushort[]{0,1,2,3,4}, glyphRun.GlyphRun.ClusterMap, "ClusterMap");
+				Assert.IsNull(glyphRun.GlyphRun.CaretStops, "CaretStops");
+
+				AssertCharacterHit(line, -1.0, 0, 0);
+				AssertCharacterHit(line, 0.0, 0, 0);
+				AssertCharacterHit(line, 0.1, 0, 0);
+				AssertCharacterHit(line, 25.0, 0, 1);
 
 				AssertCharacterHit(line, -1.0, 0, 0);
 				AssertCharacterHit(line, 0.0, 0, 0);
