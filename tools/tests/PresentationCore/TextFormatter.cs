@@ -482,6 +482,11 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 				AssertCharacterHit(line, -1.0, 0, 0);
 				AssertCharacterHit(line, 0.0, 0, 0);
 				AssertCharacterHit(line, 1.0, 0, 0);
+				var tb = line.GetTextBounds(0, 1);
+				Assert.AreEqual(1, tb.Count, "TextBounds.Count");
+				Assert.AreEqual(FlowDirection.LeftToRight, tb[0].FlowDirection, "TextBounds.FlowDirection");
+				Assert.AreEqual(new Rect(0,0,0,44156/300.0), tb[0].Rectangle, "TextBounds.Rectangle");
+				Assert.IsNull(tb[0].TextRunBounds, "TextBounds.TextRunBounds");
 			}
 		}
 
@@ -605,6 +610,33 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 				AssertCharacterHit(line, 241.86, 4, 1);
 				AssertCharacterHit(line, 243.0, 4, 1);
 				AssertCharacterHit(line, 1000.0, 4, 1);
+
+				var tb = line.GetTextBounds(1, 2);
+				Assert.AreEqual(1, tb.Count, "TextBounds.Count");
+				Assert.AreEqual(FlowDirection.LeftToRight, tb[0].FlowDirection, "TextBounds.FlowDirection");
+				Assert.AreEqual(new Rect(10669/300.0,0,40556/300.0,44156/300.0), tb[0].Rectangle, "TextBounds.Rectangle");
+				Assert.AreEqual(1, tb[0].TextRunBounds.Count, "TextBounds.TextRunBounds.Count");
+				Assert.AreEqual(2, tb[0].TextRunBounds[0].Length, "TextRunBounds.Length");
+				Assert.AreEqual(new Rect(10669/300.0,0,40556/300.0,44156/300.0), tb[0].TextRunBounds[0].Rectangle, "TextRunBounds.Rectangle");
+				// We get the text run containing the characters, not the one starting at the specified index
+				AssertTextRun(textSource.contents[0], tb[0].TextRunBounds[0].TextRun, "TextRunBounds.TextRun");
+				Assert.AreEqual(1, tb[0].TextRunBounds[0].TextSourceCharacterIndex, "TextRunBounds.TextSourceCharacterIndex");
+
+				tb = line.GetTextBounds(0, 6);
+				Assert.AreEqual(1, tb.Count, "TextBounds2.Count");
+				Assert.AreEqual(FlowDirection.LeftToRight, tb[0].FlowDirection, "TextBounds2.FlowDirection");
+				Assert.AreEqual(0, tb[0].Rectangle.X, "TextBounds2.Rectangle.X");
+				Assert.AreEqual(0, tb[0].Rectangle.Y, "TextBounds2.Rectangle.Y");
+				Assert.AreEqual(72563/300.0, tb[0].Rectangle.Width, 0.000000001, "TextBounds2.Rectangle.Width");
+				Assert.AreEqual(44156/300.0, tb[0].Rectangle.Height, 0.000000001, "TextBounds2.Rectangle.Height");
+				Assert.AreEqual(1, tb[0].TextRunBounds.Count, "TextBounds2.TextRunBounds.Count");
+				Assert.AreEqual(5, tb[0].TextRunBounds[0].Length, "TextBounds2.TextRunBounds.Length");
+				Assert.AreEqual(0, tb[0].TextRunBounds[0].Rectangle.X, "TextRunBounds2.Rectangle.X");
+				Assert.AreEqual(0, tb[0].TextRunBounds[0].Rectangle.Y, "TextRunBounds2.Rectangle.Y");
+				Assert.AreEqual(72563/300.0, tb[0].TextRunBounds[0].Rectangle.Width, 0.000000001, "TextRunBounds2.Rectangle.Width");
+				Assert.AreEqual(44156/300.0, tb[0].TextRunBounds[0].Rectangle.Height, 0.000000001, "TextRunBounds2.Rectangle.Height");
+				AssertTextRun(textSource.contents[0], tb[0].TextRunBounds[0].TextRun, "TextRunBounds2.TextRun");
+				Assert.AreEqual(0, tb[0].TextRunBounds[0].TextSourceCharacterIndex, "TextRunBounds2.TextSourceCharacterIndex");
 
 				line = formatter.FormatLine (textSource, 5, 300.0, textParagraphProperties, null);
 				Assert.AreEqual(147.18+0.02/3.0, line.Height, "line.Height");
