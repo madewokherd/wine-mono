@@ -304,6 +304,12 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 			Assert.AreEqual(lengths.Length, count, "TextLine.GetTextRunSpans() count");
 		}
 
+		public void AssertCharacterHit(int index, int length, CharacterHit ch, string name)
+		{
+			Assert.AreEqual(index, ch.FirstCharacterIndex, string.Format("{0}.FirstCharacterIndex", name));
+			Assert.AreEqual(length, ch.TrailingLength, string.Format("{0}.TrailingLength", name));
+		}
+
 		public void AssertCharacterHit(TextLine line, double distance, int index, int length)
 		{
 			var ch = line.GetCharacterHitFromDistance(distance);
@@ -487,6 +493,8 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 				Assert.AreEqual(FlowDirection.LeftToRight, tb[0].FlowDirection, "TextBounds.FlowDirection");
 				Assert.AreEqual(new Rect(0,0,0,44156/300.0), tb[0].Rectangle, "TextBounds.Rectangle");
 				Assert.IsNull(tb[0].TextRunBounds, "TextBounds.TextRunBounds");
+				AssertCharacterHit(0, 0, line.GetPreviousCaretCharacterHit(new CharacterHit(0, 0)), "previous 0,0");
+				AssertCharacterHit(0, 0, line.GetNextCaretCharacterHit(new CharacterHit(0, 0)), "next 0,0");
 			}
 		}
 
@@ -637,6 +645,16 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 				Assert.AreEqual(44156/300.0, tb[0].TextRunBounds[0].Rectangle.Height, 0.000000001, "TextRunBounds2.Rectangle.Height");
 				AssertTextRun(textSource.contents[0], tb[0].TextRunBounds[0].TextRun, "TextRunBounds2.TextRun");
 				Assert.AreEqual(0, tb[0].TextRunBounds[0].TextSourceCharacterIndex, "TextRunBounds2.TextSourceCharacterIndex");
+
+				AssertCharacterHit(0, 0, line.GetPreviousCaretCharacterHit(new CharacterHit(0, 0)), "previous 0,0");
+				AssertCharacterHit(0, 0, line.GetPreviousCaretCharacterHit(new CharacterHit(0, 1)), "previous 0,1");
+				AssertCharacterHit(0, 0, line.GetPreviousCaretCharacterHit(new CharacterHit(1, 0)), "previous 1,0");
+				AssertCharacterHit(1, 0, line.GetPreviousCaretCharacterHit(new CharacterHit(1, 1)), "previous 1,1");
+				AssertCharacterHit(0, 1, line.GetNextCaretCharacterHit(new CharacterHit(0, 0)), "next 0,0");
+				AssertCharacterHit(1, 1, line.GetNextCaretCharacterHit(new CharacterHit(0, 1)), "next 0,1");
+				AssertCharacterHit(1, 1, line.GetNextCaretCharacterHit(new CharacterHit(1, 0)), "next 1,0");
+				AssertCharacterHit(2, 1, line.GetNextCaretCharacterHit(new CharacterHit(1, 1)), "next 1,1");
+				AssertCharacterHit(4, 1, line.GetNextCaretCharacterHit(new CharacterHit(4, 1)), "next 4,1");
 
 				line = formatter.FormatLine (textSource, 5, 300.0, textParagraphProperties, null);
 				Assert.AreEqual(147.18+0.02/3.0, line.Height, "line.Height");
