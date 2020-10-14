@@ -167,6 +167,7 @@ mono-image: $(BUILDDIR)/mono-unix/.installed
 	mkdir -p $(IMAGEDIR)/lib
 	$(CP_R) $(BUILDDIR)/mono-win32-install/etc $(IMAGEDIR)
 	$(CP_R) $(BUILDDIR)/mono-win32-install/lib/mono $(IMAGEDIR)/lib
+	cp -n $(IMAGEDIR)/lib/mono/4.8-api/*.dll $(IMAGEDIR)/lib/mono/4.5/
 .PHONY: mono-image
 imagedir-targets: mono-image
 
