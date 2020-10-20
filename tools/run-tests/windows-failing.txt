@@ -6630,6 +6630,8 @@ x86_64.MonoTests.System.UriTest:UserInfo_EscapedLetter
 MonoTests.System.Drawing.Drawing2D.PathGradientBrushTest:Clone
 x86_64.MonoTests.System.Runtime.CompilerServices.ConditionalWeakTableTest:ConditionalWeakTableEnumerable
 MonoTests.System.Transactions.TransactionScopeTest:TransactionScopeTimeout
+block_guard_restore_alignment_on_exit
+MonoTests.System.ArrayTest:ArraySortAbort
 # unreliable:
 x86.thread-exit
 MonoTests.System.Threading.Tasks.TaskTests:DoubleWaitTest
