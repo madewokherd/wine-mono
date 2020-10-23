@@ -22,3 +22,6 @@
 [submodule "wpf"]
 	path = wpf
 	url = git://github.com/madewokherd/wpf.git
+[submodule "monoDX"]
+	path = monoDX
+	url = git://github.com/madewokherd/monoDX.git

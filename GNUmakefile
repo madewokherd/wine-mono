@@ -22,6 +22,7 @@ COMPRESSED_SUFFIX=xz
 ENABLE_DOTNET_CORE_WINFORMS=1
 ENABLE_DOTNET_CORE_WPF=1
 ENABLE_DOTNET_CORE_WPFGFX=1
+ENABLE_MONODX=1
 
 ENABLE_DEBUG_SYMBOLS=0
 
@@ -132,6 +133,7 @@ include mojoshader.make
 include winforms.make
 include winforms-datavisualization.make
 include wpf.make
+include monodx.make
 include support.make
 
 $(eval $(call MINGW_TEMPLATE,x86))
