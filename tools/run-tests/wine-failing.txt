@@ -1581,7 +1581,7 @@ MonoTests.System.Windows.Forms.ListBoxTest:HeightAndIntegralHeight
 MonoTests.System.Reflection.Emit.DynamicMethodTest:InvalidUnicodeName
 WineMono.Tests.System.Windows.Media.TextFormatting.TextFormatterTest:SingleWordTahomaTest
 MonoTests.System.Reflection.Emit.DynamicMethodTest
-MonoTests.System.TimeZoneInfoTest+PropertiesTests:LocalId
+MonoTests.System.TimeZoneInfoTest+PropertiesTests:LocalId # This expects a DllNotFoundException for "libc", but our dllmap changes the exception type, it doesn't test anything on Windows anyway.
 # definitely unreliable:
 delegate2
 x86_64.MonoTests.System.Threading.ThreadLocalTests:DisposeOnThreadExit
