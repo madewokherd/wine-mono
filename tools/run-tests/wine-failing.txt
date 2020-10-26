@@ -19,7 +19,6 @@ x86.MonoTests.System.IntPtrTest:Test64on32
 x86.MonoTests.System.NumberFormatterTest:Test13000
 x86.MonoTests.System.Reflection.AssemblyNameTest:Constructor1_PublicKey_KeyPair
 x86.MonoTests.System.Reflection.AssemblyNameTest:Constructor1_PublicKey_MS
-x86.MonoTests.System.Reflection.AssemblyTest:GetEntryAssembly
 x86.MonoTests.System.Reflection.AssemblyTest:LoadFrom_Empty_Assembly
 x86.MonoTests.System.Reflection.AssemblyTest:bug78464
 x86.MonoTests.System.Reflection.Emit.ArrayTypeTest:AttributeValuesUnderCompilerContext
@@ -565,7 +564,6 @@ x86.MonoTests.System.Windows.Forms.DataGridViewLinkCellTest:Defaults
 x86.MonoTests.System.Windows.Forms.DataGridViewRowHeaderTest:MethodGetErrorIconBounds
 x86.MonoTests.System.Windows.Forms.DateTimePickerTest:MaxDate_Invalid
 x86.MonoTests.System.Windows.Forms.DateTimePickerTest:MinDate_Invalid
-x86.MonoTests.System.Windows.Forms.DateTimePickerTest:TextTest
 x86.MonoTests.System.Windows.Forms.Design.ControlBindingsConverterTest:TestProperties
 x86.MonoTests.System.Windows.Forms.Design.ControlBindingsConverterTest
 x86.MonoTests.System.Windows.Forms.EventArgsTest:TestToolStripItemTextRenderEventArgs
@@ -660,20 +658,11 @@ x86.MonoTests.System.Xml.Xsl.MsxslScriptTests:CompilerWarningsShouldBeIgnored
 x86.MonoTests.System.Xml.Xsl.MsxslScriptTests:TestCSharp
 x86.MonoTests.System.Xml.Xsl.MsxslScriptTests:TestJScript
 x86.MonoTests.System.Xml.Xsl.MsxslScriptTests:TestVB
-x86.MonoTests.System.Xml.Xsl.XslTransformTests:MsxslTest
 x86.MonoTests.System.XmlSerialization.DeserializationTests:TestDeserialize_Field_Encoded
-x86.MonoTests.System.XmlSerialization.XmlCodeExporterTests:DuplicateIdentifiers
 x86.MonoTests.System.XmlSerialization.XmlSerializerTests:TestSerializePrimitiveTypesContainer
-x86.MonoTests.Microsoft.VisualBasic.VBCodeProviderTest:CompileFromDomBatch_InMemory
-x86.MonoTests.Microsoft.VisualBasic.VBCodeProviderTest:CompileFromDomBatch_NotInMemory
-x86.MonoTests.Microsoft.VisualBasic.VBCodeProviderTest:CompileFromDom_InMemory
-x86.MonoTests.Microsoft.VisualBasic.VBCodeProviderTest:CompileFromDom_NotInMemory
 x86.MonoTests.Microsoft.VisualBasic.VBCodeProviderTest:CompileFromFileBatch_Executable_InMemory
 x86.MonoTests.Microsoft.VisualBasic.VBCodeProviderTest:CompileFromFileBatch_Library_InMemory
 x86.MonoTests.Microsoft.VisualBasic.VBCodeProviderTest:CompileFromFile_InMemory
-x86.MonoTests.Microsoft.VisualBasic.VBCodeProviderTest:CompileFromSourceBatch_InMemory
-x86.MonoTests.Microsoft.VisualBasic.VBCodeProviderTest:CompileFromSource_InMemory
-x86.MonoTests.Microsoft.VisualBasic.VBCodeProviderTest:CreateCompiler
 x86.MonoTests.System.Diagnostics.FileVersionInfoTest:DefineUnmanagedResource1a
 x86.MonoTests.System.Diagnostics.FileVersionInfoTest:DefineUnmanagedResource1b
 x86.MonoTests.System.Diagnostics.FileVersionInfoTest:DefineUnmanagedResource1c
@@ -738,7 +727,6 @@ x86_64.MonoTests.System.IO.PathTest:GetFullPath2
 x86_64.MonoTests.System.NumberFormatterTest:Test13000
 x86_64.MonoTests.System.Reflection.AssemblyNameTest:Constructor1_PublicKey_KeyPair
 x86_64.MonoTests.System.Reflection.AssemblyNameTest:Constructor1_PublicKey_MS
-x86_64.MonoTests.System.Reflection.AssemblyTest:GetEntryAssembly
 x86_64.MonoTests.System.Reflection.AssemblyTest:LoadFrom_Empty_Assembly
 x86_64.MonoTests.System.Reflection.AssemblyTest:bug78464
 x86_64.MonoTests.System.Reflection.Emit.ArrayTypeTest:AttributeValuesUnderCompilerContext
@@ -1303,7 +1291,6 @@ x86_64.MonoTests.System.Windows.Forms.DataGridViewLinkCellTest:Defaults
 x86_64.MonoTests.System.Windows.Forms.DataGridViewRowHeaderTest:MethodGetErrorIconBounds
 x86_64.MonoTests.System.Windows.Forms.DateTimePickerTest:MaxDate_Invalid
 x86_64.MonoTests.System.Windows.Forms.DateTimePickerTest:MinDate_Invalid
-x86_64.MonoTests.System.Windows.Forms.DateTimePickerTest:TextTest
 x86_64.MonoTests.System.Windows.Forms.Design.ControlBindingsConverterTest:TestProperties
 x86_64.MonoTests.System.Windows.Forms.Design.ControlBindingsConverterTest
 x86_64.MonoTests.System.Windows.Forms.EventArgsTest:TestToolStripItemTextRenderEventArgs
@@ -1403,19 +1390,10 @@ x86_64.MonoTests.System.Xml.Xsl.MsxslScriptTests:CompilerWarningsShouldBeIgnored
 x86_64.MonoTests.System.Xml.Xsl.MsxslScriptTests:TestCSharp
 x86_64.MonoTests.System.Xml.Xsl.MsxslScriptTests:TestJScript
 x86_64.MonoTests.System.Xml.Xsl.MsxslScriptTests:TestVB
-x86_64.MonoTests.System.Xml.Xsl.XslTransformTests:MsxslTest
 x86_64.MonoTests.System.XmlSerialization.DeserializationTests:TestDeserialize_Field_Encoded
-x86_64.MonoTests.System.XmlSerialization.XmlCodeExporterTests:DuplicateIdentifiers
-x86_64.MonoTests.Microsoft.VisualBasic.VBCodeProviderTest:CompileFromDomBatch_InMemory
-x86_64.MonoTests.Microsoft.VisualBasic.VBCodeProviderTest:CompileFromDomBatch_NotInMemory
-x86_64.MonoTests.Microsoft.VisualBasic.VBCodeProviderTest:CompileFromDom_InMemory
-x86_64.MonoTests.Microsoft.VisualBasic.VBCodeProviderTest:CompileFromDom_NotInMemory
 x86_64.MonoTests.Microsoft.VisualBasic.VBCodeProviderTest:CompileFromFileBatch_Executable_InMemory
 x86_64.MonoTests.Microsoft.VisualBasic.VBCodeProviderTest:CompileFromFileBatch_Library_InMemory
 x86_64.MonoTests.Microsoft.VisualBasic.VBCodeProviderTest:CompileFromFile_InMemory
-x86_64.MonoTests.Microsoft.VisualBasic.VBCodeProviderTest:CompileFromSourceBatch_InMemory
-x86_64.MonoTests.Microsoft.VisualBasic.VBCodeProviderTest:CompileFromSource_InMemory
-x86_64.MonoTests.Microsoft.VisualBasic.VBCodeProviderTest:CreateCompiler
 x86_64.MonoTests.System.Diagnostics.FileVersionInfoTest:DefineUnmanagedResource1a
 x86_64.MonoTests.System.Diagnostics.FileVersionInfoTest:DefineUnmanagedResource1b
 x86_64.MonoTests.System.Diagnostics.FileVersionInfoTest:DefineUnmanagedResource1c
@@ -1602,6 +1580,8 @@ x86.MonoTests.System.Drawing.GraphicsTest:DrawImage_ImageRectangleRectangleGraph
 MonoTests.System.Windows.Forms.ListBoxTest:HeightAndIntegralHeight
 MonoTests.System.Reflection.Emit.DynamicMethodTest:InvalidUnicodeName
 WineMono.Tests.System.Windows.Media.TextFormatting.TextFormatterTest:SingleWordTahomaTest
+MonoTests.System.Reflection.Emit.DynamicMethodTest
+MonoTests.System.TimeZoneInfoTest+PropertiesTests:LocalId
 # definitely unreliable:
 delegate2
 x86_64.MonoTests.System.Threading.ThreadLocalTests:DisposeOnThreadExit
