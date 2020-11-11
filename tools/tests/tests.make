@@ -60,6 +60,8 @@ tools-tests-all: $(TEST_CLR_EXE_TARGETS) $(TEST_INSTALL_FILES) tools/tests/tests
 .PHONY: tools-tests-all
 
 tools-tests-install: tools-tests-all $(BUILDDIR)/set32only.exe
+	mkdir -p $(TESTS_OUTDIR)/tests-x86
+	mkdir -p $(TESTS_OUTDIR)/tests-x86_64
 	for i in $(TEST_CLR_EXE_TARGETS); do \
 		cp $$i $(TESTS_OUTDIR)/tests-x86 ; \
 		$(WINE) $(BUILDDIR)/set32only.exe $(TESTS_OUTDIR)/tests-x86/$$(basename $$i) ; \
