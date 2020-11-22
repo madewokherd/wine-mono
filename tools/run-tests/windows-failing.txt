@@ -6662,3 +6662,4 @@ MonoTests.System.Drawing.Drawing2D.PathGradientBrushTest:Constructor_Point_Two
 MonoTests.System.AppDomainTest:Load_Manifest_Mismatch
 MonoTests.System.Drawing.Drawing2D.PathGradientBrushTest:Constructor_GraphicsPath_Line
 MonoTests.System.Drawing.Drawing2D.PathGradientBrushTest:Constructor_Point_WrapMode_Clamp
+MonoTests.System.Globalization.CompareInfoTest:CompareSpecialWeight
