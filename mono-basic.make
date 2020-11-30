@@ -67,6 +67,37 @@ VBRUNTIME_TEST_VB_SRCS= \
 #    Microsoft.VisualBasic/FileSystemTests.vb \
 #    Microsoft.VisualBasic/FileSystemTests2.vb \
 
+VBRUNTIME_TEST_CS_SRCS= \
+    Microsoft.VisualBasic.CompilerServices/BooleanTypeTest.cs \
+    Microsoft.VisualBasic.CompilerServices/DecimalTypeTest.cs \
+    Microsoft.VisualBasic.CompilerServices/DoubleTypeTest.cs \
+    Microsoft.VisualBasic.CompilerServices/IntegerTypeTest.cs \
+    Microsoft.VisualBasic.CompilerServices/LongTypeTest.cs \
+    Microsoft.VisualBasic.CompilerServices/ShortTypeTest.cs \
+    Microsoft.VisualBasic.CompilerServices/SingleTypeTest.cs \
+    Microsoft.VisualBasic.CompilerServices/StringTypeTest.cs \
+    Microsoft.VisualBasic.CompilerServices/UtilsTest.cs \
+    Microsoft.VisualBasic.FileIO/MalformedLineExceptionTest.cs \
+    Microsoft.VisualBasic.FileIO/SpecialDirectoriesTest.cs \
+    Microsoft.VisualBasic.FileIO/TextFieldParserTest.cs \
+    Microsoft.VisualBasic.Logging/FileLogTraceListener.cs \
+    Microsoft.VisualBasic.Logging/LogTest.cs \
+    Microsoft.VisualBasic.Logging/AspLogTest.cs \
+    Microsoft.VisualBasic.MyServices.Internal/ContextValueTest.cs \
+    Microsoft.VisualBasic.MyServices/ClipboardProxyTest.cs \
+    Microsoft.VisualBasic.MyServices/FileSystemProxyTest.cs \
+    Microsoft.VisualBasic.MyServices/RegistryProxyTest.cs \
+    Microsoft.VisualBasic.MyServices/SpecialDirectoriesProxyTest.cs \
+    Microsoft.VisualBasic/CollectionTests.cs \
+    Microsoft.VisualBasic/ConversionTests.cs \
+    Microsoft.VisualBasic/DateAndTimeTests.cs \
+    Microsoft.VisualBasic/ErrObjectTests.cs \
+    Microsoft.VisualBasic/FinancialTests.cs \
+    Microsoft.VisualBasic/InformationTests.cs \
+    Microsoft.VisualBasic/StringsTest.cs \
+    Microsoft.VisualBasic/VBMathTests.cs \
+    Microsoft.VisualBasic/Helper.cs
+
 $(BUILDDIR)/net_4_x_Microsoft.VisualBasic_test.dll: $(BUILDDIR)/nunitlite.dll $(SRCDIR)/mono-basic/.built $(patsubst %, $(SRCDIR)/mono-basic/vbruntime/Test/%, $(VBRUNTIME_TEST_VB_SRCS))
 	cd $(SRCDIR_ABS)/mono-basic/vbruntime/Test && $(MONO_ENV) mono ../../class/lib/net_4_5/vbnc.exe $(VBRUNTIME_TEST_VB_SRCS) -libpath:../../class/lib/net_4_5/ -libpath:$(BUILDDIR_ABS) -r:nunitlite.dll -imports:System,System.Collections,Microsoft.VisualBasic,NUnit.Framework -optionstrict- -target:library -out:$(BUILDDIR_ABS)/net_4_x_Microsoft.VisualBasic_test.dll
 
@@ -74,10 +105,18 @@ $(TESTS_OUTDIR)/tests-clr/net_4_x_Microsoft.VisualBasic_test.dll: $(BUILDDIR)/ne
 	$(MONO_ENV) MONO_PATH=$(SRCDIR)/mono-basic/class/lib/net_4_5 mono $(TESTS_OUTDIR)/tests-clr/nunit-lite-console.exe $< -explore:$(TESTS_OUTDIR)/tests-clr/net_4_x_Microsoft.VisualBasic_test.dll.testlist && test -f $(TESTS_OUTDIR)/tests-clr/net_4_x_Microsoft.VisualBasic_test.dll.testlist
 	cp $< $@
 
-tests: $(TESTS_OUTDIR)/tests-clr/net_4_x_Microsoft.VisualBasic_test.dll
+$(BUILDDIR)/net_4_x_Microsoft.VisualBasic_CS_test.dll: $(BUILDDIR)/nunitlite.dll $(SRCDIR)/mono-basic/.built $(patsubst %, $(SRCDIR)/mono-basic/vbruntime/Test/%, $(VBRUNTIME_TEST_CS_SRCS))
+	cd $(SRCDIR_ABS)/mono-basic/vbruntime/Test && $(MONO_ENV) csc $(VBRUNTIME_TEST_CS_SRCS) -lib:../../class/lib/net_4_5/ -lib:$(BUILDDIR_ABS) -r:Microsoft.VisualBasic.dll -r:nunitlite.dll -target:library -out:$(BUILDDIR_ABS)/net_4_x_Microsoft.VisualBasic_CS_test.dll
+
+$(TESTS_OUTDIR)/tests-clr/net_4_x_Microsoft.VisualBasic_CS_test.dll: $(BUILDDIR)/net_4_x_Microsoft.VisualBasic_CS_test.dll tests-clr
+	$(MONO_ENV) MONO_PATH=$(SRCDIR)/mono-basic/class/lib/net_4_5 mono $(TESTS_OUTDIR)/tests-clr/nunit-lite-console.exe $< -explore:$(TESTS_OUTDIR)/tests-clr/net_4_x_Microsoft.VisualBasic_CS_test.dll.testlist && test -f $(TESTS_OUTDIR)/tests-clr/net_4_x_Microsoft.VisualBasic_CS_test.dll.testlist
+	cp $< $@
+
+tests: $(TESTS_OUTDIR)/tests-clr/net_4_x_Microsoft.VisualBasic_test.dll $(TESTS_OUTDIR)/tests-clr/net_4_x_Microsoft.VisualBasic_CS_test.dll
 
 clean-tests-mono-basic:
 	rm -f $(BUILDDIR)/net_4_x_Microsoft.VisualBasic_test.dll
+	rm -f $(BUILDDIR)/net_4_x_Microsoft.VisualBasic_CS_test.dll
 .PHONY: clean-tests-mono-basic
 clean: clean-tests-mono-basic
 
