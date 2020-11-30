@@ -36,3 +36,26 @@ block_guard_restore_aligment_on_exit
 bug-10127
 finally_block_ending_in_dead_bb
 verbose
+# Interactive mono-basic tests
+Devices.AudioTests:Test
+Devices.ComputerInfoTests:Test
+Devices.KeyboardTests:Test
+Devices.NetworkTests:DownloadFileTest1
+Devices.NetworkTests:DownloadFileTest2
+Devices.NetworkTests:UploadFileTest1
+FileIO.FileSystemTest:CopyDirectoryTest4
+FileIO.FileSystemTest:CopyDirectoryTest5
+FileIO.FileSystemTest:CopyDirectoryTest6
+FileIO.FileSystemTest:CopyDirectoryTest7
+FileIO.FileSystemTest:CopyFileTest5
+FileIO.FileSystemTest:CopyFileTest6
+FileIO.FileSystemTest:CopyFileTest7
+FileIO.FileSystemTest:CopyFileTest8
+FileIO.FileSystemTest:MoveDirectoryTest5
+FileIO.FileSystemTest:MoveDirectoryTest6
+FileIO.FileSystemTest:MoveDirectoryTest7
+FileIO.FileSystemTest:MoveFileTest5
+FileIO.FileSystemTest:MoveFileTest6
+FileIO.FileSystemTest:MoveFileTest7
+FileIO.FileSystemTest:MoveFileTest8
+InteractionTests:MsgBoxTest
