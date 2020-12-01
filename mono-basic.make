@@ -18,6 +18,8 @@ mono-basic-image: $(SRCDIR)/mono-basic/.installed
 .PHONY: mono-basic-image
 imagedir-targets: mono-basic-image
 
+Microsoft.VisualBasic.dll: mono-basic-image
+
 # FIXME: make clean for mono-basic source tree?
 clean-build-mono-basic:
 	rm -rf $(BUILDDIR)/mono-basic-install
