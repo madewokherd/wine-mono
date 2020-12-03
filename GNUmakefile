@@ -125,11 +125,10 @@ endef
 include mono.make
 include mono-basic.make
 include fna.make
+include fna3d.make
 include faudio.make
 include sdl2.make
-include sdl2-image.make
 include theorafile.make
-include mojoshader.make
 include winforms.make
 include winforms-datavisualization.make
 include wpf.make
