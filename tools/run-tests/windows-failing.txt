@@ -1405,7 +1405,6 @@ x86.MonoTests.System.Drawing.Drawing2D.LinearGradientBrushTest:WrapMode_Invalid
 x86.MonoTests.System.Drawing.Drawing2D.LinearGradientBrushTest:ZeroHeightRectangleF
 x86.MonoTests.System.Drawing.Drawing2D.LinearGradientBrushTest:ZeroWidthRectangle
 x86.MonoTests.System.Drawing.Drawing2D.LinearGradientBrushTest
-x86.MonoTests.System.Drawing.Drawing2D.PathGradientBrushTest:Constructor_PointF_Two
 x86.MonoTests.System.Drawing.Drawing2D.PathGradientBrushTest:Constructor_PointF_WrapMode_Tile
 x86.MonoTests.System.Drawing.Drawing2D.PathGradientBrushTest:Constructor_PointF_WrapMode_TileFlipX
 x86.MonoTests.System.Drawing.Drawing2D.PathGradientBrushTest:Constructor_PointF_WrapMode_TileFlipY
@@ -4553,7 +4552,6 @@ x86_64.MonoTests.System.Drawing.Drawing2D.LinearGradientBrushTest:WrapMode_Inval
 x86_64.MonoTests.System.Drawing.Drawing2D.LinearGradientBrushTest:ZeroHeightRectangleF
 x86_64.MonoTests.System.Drawing.Drawing2D.LinearGradientBrushTest:ZeroWidthRectangle
 x86_64.MonoTests.System.Drawing.Drawing2D.LinearGradientBrushTest
-x86_64.MonoTests.System.Drawing.Drawing2D.PathGradientBrushTest:Constructor_PointF_Two
 x86_64.MonoTests.System.Drawing.Drawing2D.PathGradientBrushTest:Constructor_PointF_WrapMode_Tile
 x86_64.MonoTests.System.Drawing.Drawing2D.PathGradientBrushTest:Constructor_PointF_WrapMode_TileFlipX
 x86_64.MonoTests.System.Drawing.Drawing2D.PathGradientBrushTest:Constructor_PointF_WrapMode_TileFlipY
@@ -6671,6 +6669,7 @@ x86_64.GlobalsTests:ScriptEngineBuildVersionTest
 x86_64.GlobalsTests:ScriptEngineMajorVersionTest
 x86_64.OperatorsTests:TestOperatorsNot4
 x86_64.OperatorsTests:TestOperatorsNot5
+ccw-class-iface # typeof(TestParent).GUID test is wrong
 # unreliable:
 x86.thread-exit
 MonoTests.System.Threading.Tasks.TaskTests:DoubleWaitTest
@@ -6701,3 +6700,4 @@ MonoTests.System.AppDomainTest:Load_Manifest_Mismatch
 MonoTests.System.Drawing.Drawing2D.PathGradientBrushTest:Constructor_GraphicsPath_Line
 MonoTests.System.Drawing.Drawing2D.PathGradientBrushTest:Constructor_Point_WrapMode_Clamp
 MonoTests.System.Globalization.CompareInfoTest:CompareSpecialWeight
+MonoTests.System.Drawing.Drawing2D.PathGradientBrushTest:Constructor_PointF_Two
