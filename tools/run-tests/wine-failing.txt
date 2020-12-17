@@ -1481,7 +1481,6 @@ MonoTests.System.TypeTest:TypeFromCLSIDBogus
 MonoTests.System.Xaml.XamlXmlReaderTest:Skip2
 MonoTests.System.Xaml.XamlXmlReaderTest:Read_AmbientPropertyContainer
 MonoTests.System.Xaml.XamlXmlReaderTest:Read_AmbientPropertyContainer2
-x86.MonoTests.System.IO.FileStreamTest
 x86.MonoTests.System.Net.Http.HttpClientTest:Send_Complete_ClientHandlerSettings
 x86.MonoTests.System.Net.Http.HttpClientTest:Send_Complete_CustomHeaders_Host
 x86.MonoTests.System.Net.Http.HttpClientTest:Send_Complete_CustomHeaders_SpecialSeparators
@@ -1494,7 +1493,6 @@ x86.MonoTests.System.Net.Http.HttpClientTest:Send_Content_Put
 x86.MonoTests.System.Net.Http.HttpClientTest:Send_Content_Put_CustomStream
 x86.MonoTests.System.Net.Http.HttpClientTest:Send_Transfer_Encoding_Chunked
 x86_64.MonoTests.System.Diagnostics.StackFrameTest3
-x86_64.MonoTests.System.IO.FileStreamTest
 x86_64.MonoTests.System.Net.Http.HttpClientTest:Send_Complete_CustomHeaders_Host
 x86_64.MonoTests.System.Net.Http.HttpClientTest:Send_Complete_CustomHeaders_SpecialSeparators
 x86_64.MonoTests.System.Net.Http.HttpClientTest:Send_Content_Put
@@ -1643,6 +1641,9 @@ x86_64.LateBindingTests4:LateBind_NamedParam_15
 x86_64.LateBindingTests4:LateBind_NamedParam_6
 x86_64.LateBindingTests6:LateBind_IndexOfReturnObjectFromProperty1
 x86_64.LateBindingTests6:LateBind_IndexOfReturnObjectFromProperty2
+Devices.PortsTests:Test
+Devices.PortsTests
+MonoTests.Remoting.TcpSyncCallTest
 # definitely unreliable:
 delegate2
 x86_64.MonoTests.System.Threading.ThreadLocalTests:DisposeOnThreadExit
@@ -1662,3 +1663,6 @@ MonoTests.System.Windows.Forms.ComboBoxTests:SortedSelectedItem
 x86.MonoTests.System.TimeZoneTest:ToLocalTimeAtDSTBoundaries
 MonoTests.System.Threading.Tasks.TaskSchedulerTests:UnobservedTaskExceptionOnFinalizerThreadTest
 MonoTests.System.Windows.Forms.FormTest:DestroyHandleTest
+MonoTests.Remoting.TcpAsyncCallTest
+MonoTests.Remoting.TcpDelegateCallTest
+MonoTests.Remoting.TcpReflectionCallTest
