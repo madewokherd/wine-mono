@@ -10,6 +10,8 @@
 # Commands:
 # MINGW_x86=i686-w64-mingw32
 # MINGW_x86_64=x86_64-w64-mingw32
+# MINGW_arm=armv7-w64-mingw32
+# MINGW_arm64=aarch64-w64-mingw32
 # MINGW_PATH=/opt/mingw/bin # for if mingw tools aren't in the default PATH
 # AUTO_LLVM_MINGW=0 # do not automatically fetch/use llvm-mingw
 # WINE=wine
@@ -23,3 +25,6 @@
 
 # Set to 1 to include debug symbols.
 # ENABLE_DEBUG_SYMBOLS=0
+
+# Set to 1 to enable ARM build. (experimental)
+# ENABLE_ARM=0

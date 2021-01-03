@@ -26,6 +26,8 @@ ENABLE_MONODX=1
 
 ENABLE_DEBUG_SYMBOLS=0
 
+ENABLE_ARM=0
+
 -include user-config.make
 
 MSI_VERSION=5.1.99
@@ -137,6 +139,11 @@ include support.make
 
 $(eval $(call MINGW_TEMPLATE,x86))
 $(eval $(call MINGW_TEMPLATE,x86_64))
+
+ifeq (1,$(ENABLE_ARM))
+$(eval $(call MINGW_TEMPLATE,arm))
+$(eval $(call MINGW_TEMPLATE,arm64))
+endif
 
 $(BUILDDIR)/set32only.exe: $(SRCDIR)/tools/set32only/set32only.c $(MINGW_DEPS)
 	$(MINGW_ENV) $(MINGW_x86_64)-gcc -municode -Wall $< -o $@
