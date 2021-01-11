@@ -4,6 +4,7 @@ TEST_CS_EXE_SRCS = \
 	marshalansi.cs \
 	privatepath1.cs \
 	privatepath2.cs \
+	processnames.cs \
 	releasebadptr.cs \
 	runtimeinterface.cs \
 	webbrowsertest.cs
