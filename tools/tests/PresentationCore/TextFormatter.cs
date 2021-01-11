@@ -672,5 +672,37 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 				Assert.AreEqual(0, line.Start, "line.Start");
 			}
 		}
+
+		[Test]
+		public void IndentTest ()
+		{
+			using (var formatter = TextFormatter.Create ())
+			{
+				List<string> log = new List<string> ();
+				var textSource = new LoggingTextSource(log);
+				textSource.AddContents("test test2");
+				textSource.AddContents(new TextEndOfLine(1));
+				var textParagraphProperties = new LoggingTextParagraphProperties(log);
+				textParagraphProperties.alwaysCollapsible = true;
+				textParagraphProperties.indent = 20;
+				log.Clear();
+				var line = formatter.FormatLine (textSource, 0, 530.0, textParagraphProperties, null);
+				Assert.AreEqual(147.18+0.02/3.0, line.Height, "line.Height");
+				Assert.AreEqual(5, line.Length, "line.Length");
+				Assert.AreEqual(0, line.NewlineLength, "line.NewlineLength");
+				Assert.AreEqual(117.97, line.Baseline, 0.000000001, "line.Baseline");
+				Assert.AreEqual(67894/300.0, line.Width, 0.000000001, "line.Width");
+				Assert.IsFalse(line.HasOverflowed, "line.HasOverflowed");
+				Assert.AreEqual(78563/300.0, line.WidthIncludingTrailingWhitespace, 0.000000001, "line.WidthIncludingTrailingWhitespace");
+				AssertTextRunSpans(
+					new int[] { 5 },
+					new TextRun[] { textSource.contents[0] },
+					line);
+				Assert.IsNull(line.GetTextLineBreak(), "GetTextLineBreak");
+				Assert.AreEqual(0, line.Start, "line.Start");
+
+				AssertCharacterHit(line, 25.0, 0, 0);
+			}
+		}
 	}
 }
