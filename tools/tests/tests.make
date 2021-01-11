@@ -7,7 +7,8 @@ TEST_CS_EXE_SRCS = \
 	processnames.cs \
 	releasebadptr.cs \
 	runtimeinterface.cs \
-	webbrowsertest.cs
+	webbrowsertest.cs \
+	wpfclipboard.cs
 
 TEST_RAW_FILES = \
 	privatepath2.exe.config \
@@ -29,7 +30,7 @@ tools/tests/%.exe: tools/tests/%.il $(BUILDDIR)/mono-unix/.installed
 	$(MONO_ENV) ilasm -target:exe -output:$@ $<
 
 tools/tests/%.exe: tools/tests/%.cs $(BUILDDIR)/mono-unix/.installed
-	$(MONO_ENV) csc -unsafe -target:exe -out:$@ $(patsubst %,-r:%,$(filter %.dll,$^)) $< $(shell sed -n '/CSCFLAGS=/s/^.*CSCFLAGS=//p' $<)
+	$(MONO_ENV) csc -unsafe -target:exe -out:$@ $(patsubst %,-r:%,$(filter %.dll,$^)) $(foreach path,$(filter %/.built,$^),-r:$(dir $(path))/$(notdir $(realpath $(dir $(path)))).dll) $< $(shell sed -n '/CSCFLAGS=/s/^.*CSCFLAGS=//p' $<)
 
 tools/tests/%.dll: tools/tests/%.cs $(BUILDDIR)/mono-unix/.installed
 	$(MONO_ENV) csc -target:library -out:$@ $(patsubst %,-r:%,$(filter %.dll,$^)) $< $(shell sed -n '/CSCFLAGS=/s/^.*CSCFLAGS=//p' $<)
@@ -37,6 +38,8 @@ tools/tests/%.dll: tools/tests/%.cs $(BUILDDIR)/mono-unix/.installed
 tools/tests/privatepath1.exe: tools/tests/testcslib1.dll
 
 tools/tests/privatepath2.exe: tools/tests/testcslib1.dll tools/tests/testcslib2.dll
+
+tools/tests/wpfclipboard.exe: $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/PresentationCore/.built
 
 tools/tests/net_4_x_%_test.dll: $(BUILDDIR)/nunitlite.dll
 	$(MONO_ENV) csc -target:library -out:$@ $(patsubst %,-r:%,$(filter %.dll,$^)) $(foreach path,$(filter %/.built,$^),-r:$(dir $(path))/$(notdir $(realpath $(dir $(path)))).dll) $(filter %.cs,$^)
