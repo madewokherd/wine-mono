@@ -33,6 +33,7 @@ _source_suffixes = (
 	'.cmake',
 	'.c',
 	'.h',
+	'.rc',
 	'.cpp',
 	'.cxx',
 	'.hpp',
