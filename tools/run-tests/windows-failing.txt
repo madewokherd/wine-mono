@@ -6669,7 +6669,7 @@ x86_64.GlobalsTests:ScriptEngineBuildVersionTest
 x86_64.GlobalsTests:ScriptEngineMajorVersionTest
 x86_64.OperatorsTests:TestOperatorsNot4
 x86_64.OperatorsTests:TestOperatorsNot5
-ccw-class-iface # typeof(TestParent).GUID test is wrong
+assemblyresolve_event7
 # unreliable:
 x86.thread-exit
 MonoTests.System.Threading.Tasks.TaskTests:DoubleWaitTest
