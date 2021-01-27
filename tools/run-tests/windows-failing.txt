@@ -1435,7 +1435,6 @@ x86.MonoTests.System.Drawing.GraphicsTest:MeasureString_MultlineString_Width
 x86.MonoTests.System.Drawing.GraphicsTest:Rotate
 x86.MonoTests.System.Drawing.GraphicsTest:VisibleClipBound
 x86.MonoTests.System.Drawing.GraphicsTest:VisibleClipBound_BigClip
-x86.MonoTests.System.Drawing.IconTest:Only256InFile
 x86.MonoTests.System.Drawing.Imaging.BmpCodecTest:Save_48bppRgb
 x86.MonoTests.System.Drawing.Imaging.IconCodecTest:Bitmap16Features
 x86.MonoTests.System.Drawing.Imaging.IconCodecTest:Bitmap32Features
@@ -4582,7 +4581,6 @@ x86_64.MonoTests.System.Drawing.GraphicsTest:MeasureCharacterRanges_StringFormat
 x86_64.MonoTests.System.Drawing.GraphicsTest:MeasureString_MultlineString_Width
 x86_64.MonoTests.System.Drawing.GraphicsTest:VisibleClipBound
 x86_64.MonoTests.System.Drawing.GraphicsTest:VisibleClipBound_BigClip
-x86_64.MonoTests.System.Drawing.IconTest:Only256InFile
 x86_64.MonoTests.System.Drawing.Imaging.BmpCodecTest:Save_48bppRgb
 x86_64.MonoTests.System.Drawing.Imaging.IconCodecTest:Bitmap16Features
 x86_64.MonoTests.System.Drawing.Imaging.IconCodecTest:Bitmap32Features
