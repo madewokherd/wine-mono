@@ -1,8 +1,8 @@
 .*.swp
 /build/
 /image/
-/llvm-mingw-20200325-ubuntu-18.04/
-/llvm-mingw-20200325-ubuntu-18.04.tar.xz
+/llvm-mingw-20201020-msvcrt-ubuntu-18.04/
+/llvm-mingw-20201020-msvcrt-ubuntu-18.04.tar.xz
 /tests/
 /tools/tests/arraypadding.exe
 /tools/tests/marshalansi.exe
