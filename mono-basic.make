@@ -120,5 +120,5 @@ clean-tests-mono-basic:
 	rm -f $(BUILDDIR)/net_4_x_Microsoft.VisualBasic_test.dll
 	rm -f $(BUILDDIR)/net_4_x_Microsoft.VisualBasic_CS_test.dll
 .PHONY: clean-tests-mono-basic
-clean: clean-tests-mono-basic
+clean-build: clean-tests-mono-basic
 
