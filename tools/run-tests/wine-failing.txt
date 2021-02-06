@@ -1667,3 +1667,4 @@ MonoTests.Remoting.TcpAsyncCallTest
 MonoTests.Remoting.TcpDelegateCallTest
 MonoTests.Remoting.TcpReflectionCallTest
 MonoTests.Remoting.TcpSyncCallTest
+MonoTests.System.Windows.Forms.DateTimePickerTest:TextTest # depends on current date, and possibly locale - .NET and win32 may disagree on long date format, and 1-digit vs 2-digit day of month
