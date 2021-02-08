@@ -9,7 +9,7 @@ $ git clone --recursive git://github.com/madewokherd/wine-mono.git
 
 To get to the source code for a specific release, check out the appropriate tag, and update the submodules:
 
-$ git checkout wine-mono-0.0.2
+$ git checkout wine-mono-6.0.0
 $ git submodule update --recursive
 
 Source tarballs and binary packages are available at http://dl.winehq.org/wine/wine-mono/
@@ -19,13 +19,16 @@ DEPENDENCIES
 
 To build Wine Mono, you will need the following:
  * All of the dependencies of Mono for your native (presumably Linux) system, such as autotools, CMake and a C++ compiler.
- * Wine, for the winemsibuilder and cabarc commands.
- * A 32-bit and 64-bit version of Mingw-w64, including a C++ compiler.
+ * Wine, for the winemsibuilder and cabarc commands. A 32-bit Wine is not necessary, despite the warnings when running 64-bit Wine.
+ * Python, to support the build system.
+ * libgdiplus, to support Mono's resource compiler.
+ * The dos2unix command.
+ * Optional: The zip or 7z command, for the tests-zip target only.
 
 
 BUILD
 
-To build Wine Mono, use the msi or targz target.
+To build Wine Mono, use the msi or bin target.
 
 $ make msi
 
@@ -49,11 +52,11 @@ INSTALL
 
 To install Wine Mono, run the generated msi file with msiexec:
 
-$ wine64 msiexec /i winemono.msi
+$ wine64 msiexec /i wine-mono-6.1.0.msi
 
 Note that if a Wine Mono with a version number >= to this file is already installed, that command will do nothing, so you may have to remove the existing version (using 'wine64 uninstaller') first.
 
-If you are building for development, you may find it more convenient to use the dev target, which build a runtime in image/ and configures a wine prefix to use it. You can then rebuild individual dlls using their filename with no path. See 'make help' for details.
+If you are building for development, you may find it more convenient to use the dev target, which builds a runtime in image/ and configures a wine prefix to use it. You can then rebuild individual dlls using their filename with no path. See 'make help' for details.
 
 
 COMPOSITION
@@ -72,6 +75,6 @@ PATCHES
 
 Patches should be sent as a pull request to https://github.com/madewokherd/wine-mono or the appropriate submodule.
 
-Before sending a patch for one of Wine Mono's forks, please consider whether it would be more appropriate to send to the upstream project. We'd like to keep the diff from upstream to a minimum, so the changes should either be appropriate for Wine but inappropriate for upstream for some reason, or sufficiently important to bypass the upstream project.
+Before sending a patch for one of Wine Mono's forks, please consider whether it would be more appropriate to send to the upstream project. We'd like to keep the diff from upstream to a minimum, but we are willing to maintain diffs as long as we have a test for them in the test suite. This can be as simple as a .cs or .il program that returns 0 on success and non-zero on failure. If the bug cannot be reliably tested, we may accept changes without a test case.
 
-
+The winforms and wpf projects are not being updated from upstream, and have diverged significantly. Since they are supporting .NET Core, which adds new features and is not binary-compatible with .NET Framework 4, their use case is very different from ours. In most cases, it doesn't make sense to send changes to these projects upstream.
