@@ -40,6 +40,16 @@ jobs:
         cmake --version >/dev/null
         man libtool | tail -1 >/dev/null
     - name: make msi
-      run: make msi >/dev/null
-  
-
+      run: (make msi &> msi-output.log && touch msi-succeeded) || true
+    - name: make msi logging capture
+      uses: actions/upload-artifact@v2
+      with:
+        name: make msi log
+        path: msi-output.log
+    - name: check make msi result
+      run: test -f msi-succeeded
+    - name: make msi output capture
+      uses: actions/upload-artifact@v2
+      with:
+        name: make msi output
+        path: wine-mono-*.msi
