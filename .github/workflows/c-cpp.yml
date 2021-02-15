@@ -41,7 +41,5 @@ jobs:
         man libtool | tail -1
     - name: make msi
       run: make msi
-    - name: Test
-      run: make test
   
 
