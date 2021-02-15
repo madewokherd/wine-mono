@@ -1,4 +1,4 @@
-name: Wine-Mono CI
+name: Wine-Mono Build
 
 on:
   push:
