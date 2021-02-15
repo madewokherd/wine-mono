@@ -28,7 +28,7 @@ jobs:
         sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF >/dev/null
         echo "deb https://download.mono-project.com/repo/ubuntu stable-focal main" | sudo tee /etc/apt/sources.list.d/mono-official-stable.list
         sudo apt update >/dev/null
-        sudo apt-get install mono-devel mono-complete libtool-bin gettext cmake -y >/dev/null
+        sudo apt-get install mono-devel mono-complete libtool-bin gettext cmake dos2unix libgdiplus zip g++ -y >/dev/null
         # Seems that Github Action Image already includes mono-devel. Still install it explicitly
     - name: Check Environment
       run: |
