@@ -1,4 +1,4 @@
-name: Wine-Mono Build
+name: Wine-Mono CI
 
 on:
   push:
@@ -53,3 +53,26 @@ jobs:
       with:
         name: make msi output
         path: wine-mono-*.msi
+
+  linux-test:
+
+    runs-on: ubuntu-20.04
+    needs: build
+
+    steps:
+    - name: Remove packages require EULA
+      run: sudo apt remove msodbcsql17 linux-azure linux-cloud-tools-azure linux-headers-azure linux-image-azure linux-tools-azure -y 1>&2
+    - name: Install Wine
+      run: |
+        sudo dpkg --add-architecture i386 1>&2
+        wget -nc https://dl.winehq.org/wine-builds/winehq.key 1>&2
+        sudo apt-key add winehq.key 1>&2
+        sudo add-apt-repository 'deb https://dl.winehq.org/wine-builds/ubuntu/ focal main' 1>&2
+        sudo apt update 1>&2
+        sudo apt install --install-recommends -y winehq-devel 1>&2
+    - name: Download Wine Mono msi
+      uses: actions/download-artifact@v2
+      with:
+        name: make msi output
+    - name: Install Wine Mono msi
+      run: wine msiexec /i wine-mono-*.msi 1>&2
