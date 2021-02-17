@@ -76,3 +76,17 @@ jobs:
         name: make msi output
     - name: Install Wine Mono msi
       run: wine msiexec /i wine-mono-*.msi 1>&2
+    - name: Run 64-bit Wine mscoree tests
+      run: |
+        wget -nc 'http://test.winehq.org/builds/winetest64-latest.exe' 1>&2
+        wine winetest64-latest.exe -x winetest64 >/dev/null
+        for testname in `wine winetest64/mscoree_test.exe --list 2>/dev/null|sed 's/\r//'|tail -n +2`; do
+          echo BEGIN $testname TEST >>winetest64-output.log
+          wine64 winetest64/mscoree_test.exe $testname >>winetest64-output.log 2>&1 || printf '::warning mscoree:%s test failed\n' $testname
+          echo END $testname TEST >>winetest64-output.log
+        done
+    - name: linux test output capture
+      uses: actions/upload-artifact@v2
+      with:
+        name: linux test output
+        path: ./*.log
