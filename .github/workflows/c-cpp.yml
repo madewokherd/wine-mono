@@ -85,6 +85,15 @@ jobs:
           wine64 winetest64/mscoree_test.exe $testname >>winetest64-output.log 2>&1 || printf '::warning mscoree:%s test failed\n' $testname
           echo END $testname TEST >>winetest64-output.log
         done
+    - name: Run 32-bit Wine mscoree tests
+      run: |
+        wget -nc 'http://test.winehq.org/builds/winetest-latest.exe' 1>&2
+        wine winetest-latest.exe -x winetest >/dev/null
+        for testname in `wine winetest/mscoree_test.exe --list 2>/dev/null|sed 's/\r//'|tail -n +2`; do
+          echo BEGIN $testname TEST >>winetest-output.log
+          wine winetest/mscoree_test.exe $testname >>winetest-output.log 2>&1 || printf '::warning mscoree:%s test failed\n' $testname
+          echo END $testname TEST >>winetest-output.log
+        done
     - name: linux test output capture
       uses: actions/upload-artifact@v2
       with:
