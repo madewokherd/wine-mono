@@ -20,7 +20,7 @@ jobs:
     - name: Remove packages require EULA
       run: sudo apt remove msodbcsql17 linux-azure linux-cloud-tools-azure linux-headers-azure linux-image-azure linux-tools-azure -y 1>&2
     - name: Install Wine
-      run: |   
+      run: |
         sudo apt-get update 1>&2
         sudo apt install --install-recommends wine64 wine64-tools -y 1>&2
     - name: Install Mono Build Dependencies
@@ -40,7 +40,7 @@ jobs:
         cmake --version 1>&2
         man libtool | tail -1 1>&2
     - name: make msi
-      run: (make msi &> msi-output.log && touch msi-succeeded) || true
+      run: (make msi -j$(nproc) &> msi-output.log && touch msi-succeeded) || true
     - name: make msi logging capture
       uses: actions/upload-artifact@v2
       with:
@@ -99,3 +99,30 @@ jobs:
       with:
         name: linux test output
         path: ./*.log
+
+  mac-test:
+    runs-on: macos-latest
+    needs: build
+
+    steps:
+    - name: Install Wine
+      run: |
+        brew install --cask xquartz
+        brew tap homebrew/cask-versions
+        brew install --cask --no-quarantine wine-devel
+    - name: Download Wine Mono msi
+      uses: actions/download-artifact@v2
+      with:
+        name: make msi output
+    - name: Install Wine Mono msi
+      run: wine64 msiexec /i wine-mono-*.msi 1>&2
+    - name: Run 64-bit Wine mscoree tests
+      run: |
+        wget -nc 'http://test.winehq.org/builds/winetest64-latest.exe' 1>&2
+        wine64 winetest64-latest.exe -x winetest64 >/dev/null
+        for testname in `wine winetest64/mscoree_test.exe --list 2>/dev/null|sed 's/\r//'|tail -n +2`; do
+          echo BEGIN $testname TEST >>winetest64-output.log
+          wine64 winetest64/mscoree_test.exe $testname >>winetest64-output.log 2>&1 || printf '::warning mscoree:%s test failed\n' $testname
+          echo END $testname TEST >>winetest64-output.log
+        done
+
