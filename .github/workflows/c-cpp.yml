@@ -39,20 +39,30 @@ jobs:
         ld --version 1>&2
         cmake --version 1>&2
         man libtool | tail -1 1>&2
-    - name: make msi
-      run: (make msi -j$(nproc) &> msi-output.log && touch msi-succeeded) || true
-    - name: make msi logging capture
+    - name: make
+      run: (make -j$(nproc) &> build-output.log && touch build-succeeded) || true
+    - name: make logging capture
       uses: actions/upload-artifact@v2
       with:
-        name: make msi log
-        path: msi-output.log
-    - name: check make msi result
-      run: test -f msi-succeeded
-    - name: make msi output capture
+        name: make log
+        path: build-output.log
+    - name: check build result
+      run: test -f build-succeeded
+    - name: msi capture
       uses: actions/upload-artifact@v2
       with:
         name: make msi output
         path: wine-mono-*.msi
+    - name: bin capture
+      uses: actions/upload-artifact@v2
+      with:
+        name: make bin output
+        path: wine-mono-*.tar.xz
+    - name: bin capture
+      uses: actions/upload-artifact@v2
+      with:
+        name: make tests-zip output
+        path: wine-mono-*-tests.zip
 
   linux-test:
 
