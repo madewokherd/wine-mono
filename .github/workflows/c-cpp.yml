@@ -99,6 +99,20 @@ jobs:
           wine winetest/mscoree_test.exe $testname 1>&2 || printf '::warning mscoree:%s test failed\n' $testname
           echo END 32-BIT $testname TEST 1>&2
         done
+    - name: Install Test Dependencies
+      run: |
+        sudo apt install xvfb unzip -y 1>&2
+    - name: Download Wine Mono tests
+      uses: actions/download-artifact@v2
+      with:
+        name: make tests-zip output
+    - name: Run Wine Mono tests
+      run: |
+        unzip wine-mono-*-tests.zip 1>&2
+        Xvfb :2 & 1>&2
+        export DISPLAY=:2
+        wine reg add 'HKCU\Software\Wine\WineDbg' /v ShowCrashDialog /t REG_DWORD /d 0 /f 1>&2
+        wine tests/run-tests.exe 1>&2 || printf '::warning Wine Mono tests failed\n'
 
   mac-test:
     runs-on: macos-latest
