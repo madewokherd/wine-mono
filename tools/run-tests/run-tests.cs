@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Xml;
 
@@ -25,6 +26,8 @@ class RunTests
 	List<string> failing_tests = new List<string> ();
 
 	bool test_timed_out;
+
+	bool nodefaults;
 
 	RunTests ()
 	{
@@ -553,10 +556,27 @@ class RunTests
 		}
 	}
 
-	int main(string[] arguments)
+	static bool IsRunningOnWindows()
 	{
-		int result;
+		return Environment.OSVersion.Platform == PlatformID.Win32NT;
+	}
 
+	[DllImport ("kernel32", CallingConvention=CallingConvention.StdCall)]
+	extern static IntPtr GetModuleHandleW([MarshalAs(UnmanagedType.LPWStr)] string name);
+
+	[DllImport ("kernel32", CallingConvention=CallingConvention.StdCall)]
+	extern static IntPtr GetProcAddress(IntPtr module, [MarshalAs(UnmanagedType.LPStr)] string procname);
+
+	static bool IsRunningOnWine()
+	{
+		if (!IsRunningOnWindows())
+			return false;
+
+		return IntPtr.Zero != GetProcAddress(GetModuleHandleW("ntdll"), "wine_get_version");
+	}
+
+	int process_arguments(string[] arguments)
+	{
 		foreach (string argument in arguments)
 		{
 			if (argument.StartsWith("-write-passing:"))
@@ -577,12 +597,41 @@ class RunTests
 				read_stringlist(argument.Substring(11), pass_list);
 			else if (argument.StartsWith("-fail-list:"))
 				read_stringlist(argument.Substring(11), fail_list);
+			else if (argument == "-nodefaults")
+				nodefaults = true;
 			else if (!argument.StartsWith("-"))
 				add_to_testlist(argument, run_list);
 			else
 			{
 				Console.WriteLine("Unrecognized argument: {0}", argument);
 				return 1;
+			}
+		}
+		return 0;
+	}
+
+	int main(string[] arguments)
+	{
+		int result;
+
+		result = process_arguments(arguments);
+		if (result != 0)
+			return result;
+
+		if (!nodefaults && IsRunningOnWindows())
+		{
+			read_testlist(Path.Combine(BasePath, "skip-always.txt"), skip_list);
+
+			if (IsRunningOnWine())
+			{
+				read_testlist(Path.Combine(BasePath, "windows-failing.txt"), skip_list);
+				read_stringlist(Path.Combine(BasePath, "wine-passing.txt"), pass_list);
+				read_stringlist(Path.Combine(BasePath, "wine-failing.txt"), fail_list);
+			}
+			else
+			{
+				read_stringlist(Path.Combine(BasePath, "windows-passing.txt"), pass_list);
+				read_stringlist(Path.Combine(BasePath, "windows-failing.txt"), fail_list);
 			}
 		}
 
