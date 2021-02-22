@@ -164,11 +164,11 @@ clean-build: clean-build-runtestsexe
 tests: $(BUILDDIR)/run-tests.exe
 	-mkdir -p $(TESTS_OUTDIR)
 	cp $(BUILDDIR)/run-tests.exe $(TESTS_OUTDIR)/run-tests.exe
-	cp $(SRCDIR)/tools/run-tests/*.txt $(SRCDIR)/tools/run-tests/run-on-windows.bat $(TESTS_OUTDIR)/
+	cp $(SRCDIR)/tools/run-tests/*.txt $(TESTS_OUTDIR)/
 .PHONY: tests
 
 clean-tests-runtestsexe:
-	rm -rf $(TESTS_OUTDIR)/run-tests.exe $(TESTS_OUTDIR)/*.txt $(TESTS_OUTDIR)/run-on-windows.bat
+	rm -rf $(TESTS_OUTDIR)/run-tests.exe $(TESTS_OUTDIR)/*.txt
 .PHONY: clean-tests-runtestsexe
 clean-tests: clean-tests-runtestsexe
 
