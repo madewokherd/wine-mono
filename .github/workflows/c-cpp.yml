@@ -40,12 +40,7 @@ jobs:
         cmake --version 1>&2
         man libtool | tail -1 1>&2
     - name: make
-      run: (make -j$(nproc) &> build-output.log && touch build-succeeded) || true
-    - name: make logging capture
-      uses: actions/upload-artifact@v2
-      with:
-        name: make log
-        path: build-output.log
+      run: (make -j$(nproc) 1>&2 && touch build-succeeded) || true
     - name: check build result
       run: test -f build-succeeded
     - name: msi capture
@@ -91,24 +86,19 @@ jobs:
         wget -nc 'http://test.winehq.org/builds/winetest64-latest.exe' 1>&2
         wine winetest64-latest.exe -x winetest64 >/dev/null
         for testname in `wine winetest64/mscoree_test.exe --list 2>/dev/null|sed 's/\r//'|tail -n +2`; do
-          echo BEGIN $testname TEST >>winetest64-output.log
-          wine64 winetest64/mscoree_test.exe $testname >>winetest64-output.log 2>&1 || printf '::warning mscoree:%s test failed\n' $testname
-          echo END $testname TEST >>winetest64-output.log
+          echo BEGIN 64-BIT $testname TEST 1>&2
+          wine64 winetest64/mscoree_test.exe $testname 1>&2 || printf '::warning mscoree:%s test failed\n' $testname
+          echo END 64-BIT $testname TEST >&2
         done
     - name: Run 32-bit Wine mscoree tests
       run: |
         wget -nc 'http://test.winehq.org/builds/winetest-latest.exe' 1>&2
         wine winetest-latest.exe -x winetest >/dev/null
         for testname in `wine winetest/mscoree_test.exe --list 2>/dev/null|sed 's/\r//'|tail -n +2`; do
-          echo BEGIN $testname TEST >>winetest-output.log
-          wine winetest/mscoree_test.exe $testname >>winetest-output.log 2>&1 || printf '::warning mscoree:%s test failed\n' $testname
-          echo END $testname TEST >>winetest-output.log
+          echo BEGIN 32-BIT $testname TEST 1>&2
+          wine winetest/mscoree_test.exe $testname 1>&2 || printf '::warning mscoree:%s test failed\n' $testname
+          echo END 32-BIT $testname TEST 1>&2
         done
-    - name: linux test output capture
-      uses: actions/upload-artifact@v2
-      with:
-        name: linux test output
-        path: ./*.log
 
   mac-test:
     runs-on: macos-latest
@@ -131,8 +121,8 @@ jobs:
         wget -nc 'http://test.winehq.org/builds/winetest64-latest.exe' 1>&2
         wine64 winetest64-latest.exe -x winetest64 >/dev/null
         for testname in `wine winetest64/mscoree_test.exe --list 2>/dev/null|sed 's/\r//'|tail -n +2`; do
-          echo BEGIN $testname TEST >>winetest64-output.log
-          wine64 winetest64/mscoree_test.exe $testname >>winetest64-output.log 2>&1 || printf '::warning mscoree:%s test failed\n' $testname
-          echo END $testname TEST >>winetest64-output.log
+          echo BEGIN $testname TEST 1>&2
+          wine64 winetest64/mscoree_test.exe $testname 1>&2 || printf '::warning mscoree:%s test failed\n' $testname
+          echo END $testname TEST 1>&2
         done
 
