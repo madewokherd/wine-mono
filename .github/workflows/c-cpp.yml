@@ -87,7 +87,7 @@ jobs:
         wine winetest64-latest.exe -x winetest64 >/dev/null
         for testname in `wine winetest64/mscoree_test.exe --list 2>/dev/null|sed 's/\r//'|tail -n +2`; do
           echo BEGIN 64-BIT $testname TEST 1>&2
-          wine64 winetest64/mscoree_test.exe $testname 1>&2 || printf '::warning mscoree:%s test failed\n' $testname
+          wine64 winetest64/mscoree_test.exe $testname 1>&2 || printf '::warning::mscoree:%s test failed\n' $testname
           echo END 64-BIT $testname TEST >&2
         done
     - name: Run 32-bit Wine mscoree tests
@@ -96,7 +96,7 @@ jobs:
         wine winetest-latest.exe -x winetest >/dev/null
         for testname in `wine winetest/mscoree_test.exe --list 2>/dev/null|sed 's/\r//'|tail -n +2`; do
           echo BEGIN 32-BIT $testname TEST 1>&2
-          wine winetest/mscoree_test.exe $testname 1>&2 || printf '::warning mscoree:%s test failed\n' $testname
+          wine winetest/mscoree_test.exe $testname 1>&2 || printf '::warning::mscoree:%s test failed\n' $testname
           echo END 32-BIT $testname TEST 1>&2
         done
     - name: Install Test Dependencies
@@ -112,7 +112,7 @@ jobs:
         Xvfb :2 & 1>&2
         export DISPLAY=:2
         wine reg add 'HKCU\Software\Wine\WineDbg' /v ShowCrashDialog /t REG_DWORD /d 0 /f 1>&2
-        wine tests/run-tests.exe 1>&2 || printf '::warning Wine Mono tests failed\n'
+        wine tests/run-tests.exe 1>&2 || printf '::warning::Wine Mono tests failed\n'
 
   mac-test:
     runs-on: macos-latest
@@ -136,7 +136,7 @@ jobs:
         wine64 winetest64-latest.exe -x winetest64 >/dev/null
         for testname in `wine winetest64/mscoree_test.exe --list 2>/dev/null|sed 's/\r//'|tail -n +2`; do
           echo BEGIN $testname TEST 1>&2
-          wine64 winetest64/mscoree_test.exe $testname 1>&2 || printf '::warning mscoree:%s test failed\n' $testname
+          wine64 winetest64/mscoree_test.exe $testname 1>&2 || printf '::warning::mscoree:%s test failed\n' $testname
           echo END $testname TEST 1>&2
         done
 
