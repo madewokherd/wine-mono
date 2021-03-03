@@ -85,7 +85,7 @@ jobs:
       run: |
         wget -nc 'http://test.winehq.org/builds/winetest64-latest.exe' 1>&2
         wine winetest64-latest.exe -x winetest64 >/dev/null
-        for testname in `wine winetest64/mscoree_test.exe --list 2>/dev/null|sed 's/\r//'|tail -n +2`; do
+        wine winetest64/mscoree_test.exe --list 2>/dev/null|sed 's/\r//'|tail -n +2|while read testname; do
           echo BEGIN 64-BIT $testname TEST 1>&2
           wine64 winetest64/mscoree_test.exe $testname 1>&2 || printf 'mscoree:%s test failed\n' $testname >> tests-failed
           echo END 64-BIT $testname TEST >&2
@@ -94,7 +94,7 @@ jobs:
       run: |
         wget -nc 'http://test.winehq.org/builds/winetest-latest.exe' 1>&2
         wine winetest-latest.exe -x winetest >/dev/null
-        for testname in `wine winetest/mscoree_test.exe --list 2>/dev/null|sed 's/\r//'|tail -n +2`; do
+        wine winetest/mscoree_test.exe --list 2>/dev/null|sed 's/\r//'|tail -n +2|while read testname; do
           echo BEGIN 32-BIT $testname TEST 1>&2
           wine winetest/mscoree_test.exe $testname 1>&2 || printf 'mscoree:%s test failed\n' $testname >> tests-failed
           echo END 32-BIT $testname TEST 1>&2
@@ -139,7 +139,7 @@ jobs:
       run: |
         wget -nc 'http://test.winehq.org/builds/winetest64-latest.exe' 1>&2
         wine64 winetest64-latest.exe -x winetest64 >/dev/null
-        for testname in `wine64 winetest64/mscoree_test.exe --list 2>/dev/null|sed 's/\r//'|tail -n +2`; do
+        wine64 winetest64/mscoree_test.exe --list 2>/dev/null|sed 's/\r//'|tail -n +2|while read testname; do
           echo BEGIN $testname TEST 1>&2
           wine64 winetest64/mscoree_test.exe $testname 1>&2 || printf 'mscoree:%s test failed\n' $testname > tests-failed
           echo END $testname TEST 1>&2
