@@ -133,7 +133,7 @@ jobs:
       run: |
         wget -nc 'http://test.winehq.org/builds/winetest64-latest.exe' 1>&2
         wine64 winetest64-latest.exe -x winetest64 >/dev/null
-        for testname in `wine winetest64/mscoree_test.exe --list 2>/dev/null|sed 's/\r//'|tail -n +2`; do
+        for testname in `wine64 winetest64/mscoree_test.exe --list 2>/dev/null|sed 's/\r//'|tail -n +2`; do
           echo BEGIN $testname TEST 1>&2
           wine64 winetest64/mscoree_test.exe $testname 1>&2 || printf '::warning mscoree:%s test failed\n' $testname
           echo END $testname TEST 1>&2
