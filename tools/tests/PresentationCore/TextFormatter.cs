@@ -102,7 +102,8 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 		{
 			get
 			{
-				throw new NotImplementedException("LoggingTextRunProperties.FontHintingEmSize");
+				Log("FontHintingEmSize");
+				return fontRenderingEmSize;
 			}
 		}
 
@@ -276,6 +277,57 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 		}
 	}
 
+	public class TestInlineObject : TextEmbeddedObject
+	{
+		public TestInlineObject(int cch, TextRunProperties textProps)
+		{
+			_cch = cch;
+			_textProps = textProps;
+		}
+
+		public override TextEmbeddedObjectMetrics Format(double remainingParagraphWidth)
+		{
+			return new TextEmbeddedObjectMetrics(Math.Min(remainingParagraphWidth, 50), 133, 128);
+		}
+
+		public override Rect ComputeBoundingBox(bool rightToLeft, bool sideways)
+		{
+			return new Rect(0, -140, 60, 140);
+		}
+
+		public override void Draw(DrawingContext drawingContext, Point origin, bool rightToLeft, bool sideways)
+		{
+		}
+
+		public override CharacterBufferReference CharacterBufferReference { get { return new CharacterBufferReference(String.Empty, 0); } }
+		public override int Length { get { return _cch; } }
+		public override TextRunProperties Properties { get { return _textProps;  } }
+		public override LineBreakCondition BreakBefore
+		{
+			get
+			{
+				return LineBreakCondition.BreakDesired;
+			}
+		}
+		public override LineBreakCondition BreakAfter
+		{
+			get
+			{
+				return LineBreakCondition.BreakDesired;
+			}
+		}
+		public override bool HasFixedSize
+		{
+			get
+			{
+				return true;
+			}
+		}
+
+		private readonly int _cch;
+		private readonly TextRunProperties _textProps;
+	}
+
 	[TestFixture]
 	public class TextFormatterTest {
 		[Test]
@@ -289,7 +341,8 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 		{
 			Assert.AreEqual(expected.GetType(), actual.GetType(), name);
 			Assert.AreEqual(expected.Length, actual.Length, String.Format("{0} Length", name));
-			Assert.AreEqual(expected.CharacterBufferReference, actual.CharacterBufferReference, name);
+			if (!(actual is TextEmbeddedObject))
+				Assert.AreEqual(expected.CharacterBufferReference, actual.CharacterBufferReference, name);
 		}
 
 		public void AssertTextRunSpans(int[] lengths, TextRun[] values, TextLine line)
@@ -702,6 +755,73 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 				Assert.AreEqual(0, line.Start, "line.Start");
 
 				AssertCharacterHit(line, 25.0, 0, 0);
+			}
+		}
+
+
+		[Test]
+		public void InlineObjectTest ()
+		{
+			using (var formatter = TextFormatter.Create ())
+			{
+				List<string> log = new List<string> ();
+				var textSource = new LoggingTextSource(log);
+				textSource.AddContents("test");
+				textSource.AddContents(new TestInlineObject(1, new LoggingTextRunProperties(log, "InlineObject1")));
+				textSource.AddContents("test2");
+				textSource.AddContents(new TestInlineObject(3, new LoggingTextRunProperties(log, "InlineObject2")));
+				textSource.AddContents("test3");
+				textSource.AddContents(new TextEndOfLine(1));
+				var textParagraphProperties = new LoggingTextParagraphProperties(log);
+				textParagraphProperties.alwaysCollapsible = true;
+				log.Clear();
+				var line = formatter.FormatLine(textSource, 0, 640.0, textParagraphProperties, null);
+				Assert.AreEqual(157.21+0.02/3.0, line.Height, "line.Height");
+				Assert.AreEqual(13, line.Length, "line.Length");
+				Assert.AreEqual(0, line.NewlineLength, "line.NewlineLength");
+				Assert.AreEqual(128, line.Baseline, "line.Baseline");
+				Assert.AreEqual(175144/300.0, line.Width, 0.000000001, "line.Width");
+				Assert.IsFalse(line.HasOverflowed, "line.HasOverflowed");
+				Assert.AreEqual(175144/300.0, line.WidthIncludingTrailingWhitespace, 0.000000001, "line.WidthIncludingTrailingWhitespace");
+				AssertTextRunSpans(
+					new int[] { 4, 1, 5, 3 },
+					new TextRun[] { textSource.contents[0], textSource.contents[4], textSource.contents[5], textSource.contents[10] },
+					line);
+				Assert.IsNull(line.GetTextLineBreak(), "GetTextLineBreak");
+				Assert.AreEqual(0, line.Start, "line.Start");
+
+				AssertCharacterHit(line, 30.0, 0, 1);
+				AssertCharacterHit(line, 210.0, 4, 0);
+				AssertCharacterHit(line, 256, 4, 1);
+				AssertCharacterHit(line, 256.32, 5, 0);
+				AssertCharacterHit(3, 0, line.GetPreviousCaretCharacterHit(new CharacterHit(4, 0)), "previous 4,0");
+				AssertCharacterHit(4, 0, line.GetPreviousCaretCharacterHit(new CharacterHit(4, 1)), "previous 4,1");
+				AssertCharacterHit(4, 0, line.GetPreviousCaretCharacterHit(new CharacterHit(5, 0)), "previous 5,0");
+				AssertCharacterHit(8, 0, line.GetPreviousCaretCharacterHit(new CharacterHit(9, 0)), "previous 9,0");
+				AssertCharacterHit(9, 0, line.GetPreviousCaretCharacterHit(new CharacterHit(9, 1)), "previous 9,1");
+				AssertCharacterHit(9, 0, line.GetPreviousCaretCharacterHit(new CharacterHit(10, 0)), "previous 10,0");
+				AssertCharacterHit(10, 0, line.GetPreviousCaretCharacterHit(new CharacterHit(10, 1)), "previous 10,1");
+				AssertCharacterHit(10, 0, line.GetPreviousCaretCharacterHit(new CharacterHit(11, 0)), "previous 11,0");
+				AssertCharacterHit(10, 0, line.GetPreviousCaretCharacterHit(new CharacterHit(11, 1)), "previous 11,1");
+				AssertCharacterHit(10, 0, line.GetPreviousCaretCharacterHit(new CharacterHit(11, 1)), "previous 12,0");
+				AssertCharacterHit(10, 0, line.GetPreviousCaretCharacterHit(new CharacterHit(11, 1)), "previous 12,1");
+				AssertCharacterHit(10, 0, line.GetPreviousCaretCharacterHit(new CharacterHit(11, 1)), "previous 13,0");
+				AssertCharacterHit(4, 1, line.GetNextCaretCharacterHit(new CharacterHit(3, 1)), "next 3,1");
+				AssertCharacterHit(4, 1, line.GetNextCaretCharacterHit(new CharacterHit(4, 0)), "next 4,0");
+				AssertCharacterHit(8, 1, line.GetNextCaretCharacterHit(new CharacterHit(8, 0)), "next 8,0");
+				AssertCharacterHit(9, 1, line.GetNextCaretCharacterHit(new CharacterHit(9, 0)), "next 9,0");
+				AssertCharacterHit(10, 3, line.GetNextCaretCharacterHit(new CharacterHit(10, 0)), "next 10,0");
+				AssertCharacterHit(10, 3, line.GetNextCaretCharacterHit(new CharacterHit(11, 0)), "next 11,0");
+				AssertCharacterHit(10, 3, line.GetNextCaretCharacterHit(new CharacterHit(12, 0)), "next 12,0");
+
+				line = formatter.FormatLine(textSource, 0, 570.0, textParagraphProperties, null);
+				Assert.AreEqual(157.21+0.02/3.0, line.Height, "line.Height 2");
+				Assert.AreEqual(13, line.Length, "line.Length 2");
+				Assert.AreEqual(0, line.NewlineLength, "line.NewlineLength 2");
+				Assert.AreEqual(128, line.Baseline, "line.Baseline 2");
+				Assert.AreEqual(570, line.Width, "line.Width 2");
+				Assert.IsFalse(line.HasOverflowed, "line.HasOverflowed 2");
+				Assert.AreEqual(570, line.WidthIncludingTrailingWhitespace, "line.WidthIncludingTrailingWhitespace 2");
 			}
 		}
 	}
