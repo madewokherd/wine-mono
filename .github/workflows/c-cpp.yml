@@ -139,9 +139,9 @@ jobs:
       run: |
         wget -nc 'http://test.winehq.org/builds/winetest64-latest.exe' 1>&2
         wine64 winetest64-latest.exe -x winetest64 >/dev/null
-        wine64 winetest64/mscoree_test.exe --list 2>/dev/null|sed 's/\r//'|tail -n +2|while read testname; do
+        wine64 winetest64/mscoree_test.exe --list 2>/dev/null|sed 's/.$//'|tail -n +2|while read testname; do
           echo BEGIN $testname TEST 1>&2
-          wine64 winetest64/mscoree_test.exe $testname 1>&2 || printf 'mscoree:%s test failed\n' $testname > tests-failed
+          wine64 winetest64/mscoree_test.exe $testname 1>&2 || echo 'mscoree:$testname test failed' >> tests-failed
           echo END $testname TEST 1>&2
         done
         if test -f tests-failed; then
