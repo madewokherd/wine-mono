@@ -87,7 +87,7 @@ jobs:
         wine winetest64-latest.exe -x winetest64 >/dev/null
         wine winetest64/mscoree_test.exe --list 2>/dev/null|sed 's/\r//'|tail -n +2|while read testname; do
           echo BEGIN 64-BIT $testname TEST 1>&2
-          wine64 winetest64/mscoree_test.exe $testname 1>&2 || printf 'mscoree:%s test failed\n' $testname >> tests-failed
+          timeout -v 300 wine64 winetest64/mscoree_test.exe $testname 1>&2 || printf 'mscoree:%s test failed\n' $testname >> tests-failed
           echo END 64-BIT $testname TEST >&2
         done
     - name: Run 32-bit Wine mscoree tests
@@ -96,7 +96,7 @@ jobs:
         wine winetest-latest.exe -x winetest >/dev/null
         wine winetest/mscoree_test.exe --list 2>/dev/null|sed 's/\r//'|tail -n +2|while read testname; do
           echo BEGIN 32-BIT $testname TEST 1>&2
-          wine winetest/mscoree_test.exe $testname 1>&2 || printf 'mscoree:%s test failed\n' $testname >> tests-failed
+          timeout -v 300 wine winetest/mscoree_test.exe $testname 1>&2 || printf 'mscoree:%s test failed\n' $testname >> tests-failed
           echo END 32-BIT $testname TEST 1>&2
         done
     - name: Install Test Dependencies
@@ -128,6 +128,7 @@ jobs:
     - name: Install Wine
       run: |
         brew tap gcenx/wine
+        brew install coreutils # for gtimeout
         brew install --cask --no-quarantine gcenx-wine-devel
     - name: Download Wine Mono msi
       uses: actions/download-artifact@v2
@@ -141,7 +142,7 @@ jobs:
         wine64 winetest64-latest.exe -x winetest64 >/dev/null
         wine64 winetest64/mscoree_test.exe --list 2>/dev/null|sed 's/.$//'|tail -n +2|while read testname; do
           echo BEGIN $testname TEST 1>&2
-          wine64 winetest64/mscoree_test.exe $testname 1>&2 || echo 'mscoree:$testname test failed' >> tests-failed
+          gtimeout -v 300 wine64 winetest64/mscoree_test.exe $testname 1>&2 || echo 'mscoree:$testname test failed' >> tests-failed
           echo END $testname TEST 1>&2
         done
         if test -f tests-failed; then
