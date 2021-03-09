@@ -145,13 +145,13 @@ $(eval $(call MINGW_TEMPLATE,arm))
 $(eval $(call MINGW_TEMPLATE,arm64))
 endif
 
-$(BUILDDIR)/set32only.exe: $(SRCDIR)/tools/set32only/set32only.c $(MINGW_DEPS)
+$(BUILDDIR)/fixupclr.exe: $(SRCDIR)/tools/fixupclr/fixupclr.c $(MINGW_DEPS)
 	$(MINGW_ENV) $(MINGW_x86_64)-gcc -municode -Wall $< -o $@
 
-clean-build-set32only:
-	rm -rf $(BUILDDIR)/set32only.exe
-.PHONY: clean-build-set32only
-clean-build: clean-build-set32only
+clean-build-fixupclr:
+	rm -rf $(BUILDDIR)/fixupclr.exe
+.PHONY: clean-build-fixupclr
+clean-build: clean-build-fixupclr
 
 $(BUILDDIR)/run-tests.exe: $(SRCDIR)/tools/run-tests/run-tests.cs $(BUILDDIR)/mono-unix/.installed
 	$(MONO_ENV) csc $(SRCDIR)/tools/run-tests/run-tests.cs -out:$(BUILDDIR)/run-tests.exe

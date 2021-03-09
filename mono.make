@@ -81,7 +81,7 @@ clean-tests-$(1):
 .PHONY: clean-tests-$(1)
 clean-tests: clean-tests-$(1)
 
-tests-runtime-$(1): $$(BUILDDIR)/mono-unix/mono/mini/.built-tests $$(BUILDDIR)/mono-unix/mono/tests/.built $$(BUILDDIR)/set32only.exe
+tests-runtime-$(1): $$(BUILDDIR)/mono-unix/mono/mini/.built-tests $$(BUILDDIR)/mono-unix/mono/tests/.built $$(BUILDDIR)/fixupclr.exe
 	mkdir -p $$(TESTS_OUTDIR)/tests-$(1)
 	cp $$(BUILDDIR)/mono-unix/mono/tests/*.exe $$(BUILDDIR)/mono-unix/mono/tests/*.dll $$(BUILDDIR)/mono-unix/mono/mini/*.exe $$(TESTS_OUTDIR)/tests-$(1)
 	mkdir -p $$(TESTS_OUTDIR)/tests-$(1)/assembly-load-dir1
@@ -91,8 +91,8 @@ tests-runtime-$(1): $$(BUILDDIR)/mono-unix/mono/mini/.built-tests $$(BUILDDIR)/m
 	cp $$(BUILDDIR)/mono-unix/mono/tests/assembly-load-dir2/*.dll $$(TESTS_OUTDIR)/tests-$(1)/assembly-load-dir2
 ifeq ($(1),x86)
 	cp $$(BUILDDIR)/mono-unix/builtin-types-32.exe $$(TESTS_OUTDIR)/tests-$(1)/builtin-types.exe
-	cd $$(TESTS_OUTDIR)/tests-$(1); $$(WINE) $$(BUILDDIR_ABS)/set32only.exe *.exe
 endif
+	cd $$(TESTS_OUTDIR)/tests-$(1); $$(WINE) $$(BUILDDIR_ABS)/fixupclr.exe $(1) *.exe
 
 tests: tests-runtime-$(1)
 
@@ -194,7 +194,7 @@ $(BUILDDIR)/mono-unix/mono/mini/.built-tests: $(BUILDDIR)/mono-unix/.built
 $(BUILDDIR)/mono-unix/builtin-types-32.exe: $(SRCDIR)/mono/mono/mini/builtin-types.cs $(BUILDDIR)/mono-unix/mono/mini/.built-tests $(BUILDDIR)/mono-unix/.installed
 	$(MONO_ENV) mcs -out:$@ -unsafe -define:ARCH_32 $< -r:$(BUILDDIR)/mono-unix/mono/mini/TestDriver.dll
 
-tests-clr: $(BUILDDIR)/mono-unix/.built-clr-tests $(BUILDDIR)/nunitlite.dll $(BUILDDIR)/set32only.exe
+tests-clr: $(BUILDDIR)/mono-unix/.built-clr-tests $(BUILDDIR)/nunitlite.dll $(BUILDDIR)/fixupclr.exe
 	mkdir -p $(TESTS_OUTDIR)/tests-clr
 	cp $(SRCDIR)/mono/mcs/class/lib/net_4_x/tests/*_test.dll $(SRCDIR)/mono/mcs/class/lib/net_4_x/nunit* $(TESTS_OUTDIR)/tests-clr
 	cp $(BUILDDIR)/nunitlite.* $(TESTS_OUTDIR)/tests-clr
@@ -202,7 +202,8 @@ tests-clr: $(BUILDDIR)/mono-unix/.built-clr-tests $(BUILDDIR)/nunitlite.dll $(BU
 	cp -r $(SRCDIR)/mono/mcs/class/System.Drawing/Test/System.Drawing/bitmaps $(TESTS_OUTDIR)/tests-clr/Test/System.Drawing
 	cp -r $(SRCDIR)/mono/mcs/class/System.Windows.Forms/Test/resources $(TESTS_OUTDIR)/tests-clr/Test
 	cp $(TESTS_OUTDIR)/tests-clr/nunit-lite-console.exe $(TESTS_OUTDIR)/tests-clr/nunit-lite-console32.exe
-	cd $(TESTS_OUTDIR)/tests-clr; $(WINE) $(BUILDDIR_ABS)/set32only.exe nunit-lite-console32.exe
+	cd $(TESTS_OUTDIR)/tests-clr; $(WINE) $(BUILDDIR_ABS)/fixupclr.exe x86 nunit-lite-console32.exe
+	cd $(TESTS_OUTDIR)/tests-clr; $(WINE) $(BUILDDIR_ABS)/fixupclr.exe x86_64 nunit-lite-console.exe
 	cd $(TESTS_OUTDIR)/tests-clr; for f in *_test.dll; do $(MONO_ENV) mono nunit-lite-console.exe $$f -explore:$${f}.testlist >/dev/null || rm $$f; done
 .PHONY: tests-clr
 tests: tests-clr

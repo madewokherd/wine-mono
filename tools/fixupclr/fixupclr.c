@@ -1,9 +1,13 @@
-/* set32only - Sets the 32BITREQUIRED flag in the headers of .exe files */
+/* fixupclr - Modifies headers of .exe files to set architecture
+ * Usage: fixupclr.exe arch filename [filename [...]] */
 
 #include <wchar.h>
 #include <stdio.h>
 
 #include <windows.h>
+
+static BOOL set_version = TRUE;
+static BOOL set_32only = FALSE;
 
 BOOL read_file(HANDLE hfile, void *buffer, DWORD len)
 {
@@ -136,7 +140,14 @@ int set_32only_flag(const wchar_t* path)
 		return 1;
 	}
 
-	clr_header.Flags |= COMIMAGE_FLAGS_32BITREQUIRED;
+	if (set_32only)
+		clr_header.Flags |= COMIMAGE_FLAGS_32BITREQUIRED;
+	
+	if (set_version)
+	{
+		clr_header.MajorRuntimeVersion = 2;
+		clr_header.MinorRuntimeVersion = 5;
+	}
 
 	SetFilePointer(hfile, clr_header_ofs, NULL, FILE_BEGIN);
 
@@ -155,7 +166,23 @@ int wmain(int argc, wchar_t **argv)
 {
 	int result=0;
 	int i;
-	for (i=1; i<argc; i++)
+
+	if (wcscmp(argv[1], L"x86") == 0)
+	{
+		set_32only = TRUE;
+		set_version = TRUE;
+	}
+	else if (wcscmp(argv[1], L"x86_64") == 0)
+	{
+		set_version = TRUE;
+	}
+	else
+	{
+		fwprintf(stderr, L"Unknown architecture\n");
+		return 1;
+	}
+
+	for (i=2; i<argc; i++)
 	{
 		result |= set_32only_flag(argv[i]);
 	}

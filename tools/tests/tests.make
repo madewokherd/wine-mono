@@ -65,13 +65,14 @@ $(foreach target,$(TEST_NUNIT_TARGETS), $(eval $(call nunit_target_template,$(ta
 tools-tests-all: $(TEST_CLR_EXE_TARGETS) $(TEST_INSTALL_FILES) tools/tests/tests.make
 .PHONY: tools-tests-all
 
-tools-tests-install: tools-tests-all $(BUILDDIR)/set32only.exe
+tools-tests-install: tools-tests-all $(BUILDDIR)/fixupclr.exe
 	mkdir -p $(TESTS_OUTDIR)/tests-x86
 	mkdir -p $(TESTS_OUTDIR)/tests-x86_64
 	for i in $(TEST_CLR_EXE_TARGETS); do \
 		cp $$i $(TESTS_OUTDIR)/tests-x86 ; \
-		$(WINE) $(BUILDDIR)/set32only.exe $(TESTS_OUTDIR)/tests-x86/$$(basename $$i) ; \
+		$(WINE) $(BUILDDIR)/fixupclr.exe x86 $(TESTS_OUTDIR)/tests-x86/$$(basename $$i) ; \
 		cp $$i $(TESTS_OUTDIR)/tests-x86_64 ; \
+		$(WINE) $(BUILDDIR)/fixupclr.exe x86_64 $(TESTS_OUTDIR)/tests-x86_64/$$(basename $$i) ; \
 	done
 	for i in $(TEST_INSTALL_FILES); do \
 		cp $$i $(TESTS_OUTDIR)/tests-x86 ; \
