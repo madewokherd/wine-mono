@@ -101,7 +101,8 @@ jobs:
         done
     - name: Install Test Dependencies
       run: |
-        sudo apt install xvfb libgl1-mesa-glx unzip -y 1>&2
+        echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections
+        sudo apt install xvfb libgl1-mesa-glx unzip ttf-mscorefonts-installer -y 1>&2
     - name: Download Wine Mono tests
       uses: actions/download-artifact@v2
       with:
