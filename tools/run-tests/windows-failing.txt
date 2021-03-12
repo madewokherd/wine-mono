@@ -49,7 +49,7 @@ fib # expects no arguments
 field-layout
 gc-altstack
 gchandles:test_0_pinned_handle_pins_target
-generic-array-exc.2
+x86.generic-array-exc.2
 generic-ldtoken-field.2
 generic-stack-traces.2
 generic-stack-traces2.2
@@ -91,7 +91,6 @@ assembly-load-remap
 bug-3903
 install_eh_callback:test_0_throw_and_raise_exception
 install_eh_callback
-x86_64.calli_native
 marshal9:test_0_pass_ref
 x86.array_load_exception:test_0_generic_box
 x86.pinvoke2:test_0_marshal_out_class
@@ -153,7 +152,6 @@ x86.iltests:test_0_newarr_i8
 x86_64.basic-math:test_0_mathf_sin
 x86_64.generics:test_0_variance_reflection
 x86_64.gshared:test_0_isreference_intrins
-x86_64.iltests:test_0_newarr_i8
 x86.basic-math:test_0_mathf_cos
 x86.gshared:test_0_isreference_intrins
 x86_64.basic-math:test_0_mathf_cos
@@ -6466,7 +6464,7 @@ x86_64.MonoTests.WebMatrix.Data.DatabaseTests
 x86_64.MonoTests.System.IO.Packaging.PackagePartTest:CheckContentTypes
 x86_64.MonoTests.System.IO.Packaging.PackagePartTest:CheckPartExtensions
 x86_64.MonoTests.System.Windows.Markup.DateTimeValueSerializerTest:CanConvertToString1
-localloc-noinit
+x86.localloc-noinit
 MonoTests.System.Threading.ManualResetEventSlimTests:SetAfterDisposeTest
 MonoTests.System.Threading.ManualResetEventSlimTests:WaitHandleConsistencyTest
 MonoTests.System.Threading.ManualResetEventSlimTests # sometimes crashes
@@ -6668,6 +6666,9 @@ x86_64.GlobalsTests:ScriptEngineMajorVersionTest
 x86_64.OperatorsTests:TestOperatorsNot4
 x86_64.OperatorsTests:TestOperatorsNot5
 assemblyresolve_event7
+x86_64.bug-633291
+x86_64.field-access
+x86_64.xnatest
 # unreliable:
 x86.thread-exit
 MonoTests.System.Threading.Tasks.TaskTests:DoubleWaitTest
