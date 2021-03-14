@@ -102,7 +102,7 @@ jobs:
     - name: Install Test Dependencies
       run: |
         echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections
-        sudo apt install xvfb libgl1-mesa-glx unzip ttf-mscorefonts-installer openbox -y 1>&2
+        sudo apt install xvfb libgl1-mesa-glx unzip ttf-mscorefonts-installer openbox x11-utils -y 1>&2
     - name: Download Wine Mono tests
       uses: actions/download-artifact@v2
       with:
@@ -112,6 +112,7 @@ jobs:
         unzip wine-mono-*-tests.zip 1>&2
         Xvfb :2 & 1>&2
         export DISPLAY=:2
+        while ! xdpyinfo; do sleep 1; jobs 1 || exit 1; done
         openbox & 1>&2
         wine reg add 'HKCU\Software\Wine\WineDbg' /v ShowCrashDialog /t REG_DWORD /d 0 /f 1>&2
         wine tests/run-tests.exe 1>&2 || printf 'Wine Mono tests failed\n' >> tests-failed
