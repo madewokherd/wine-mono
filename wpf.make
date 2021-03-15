@@ -15,7 +15,7 @@ endif
 
 $$(BUILDDIR)/wpfgfx-netcore-$(1)/.built: $$(WPF_SRCS) $$(MINGW_DEPS)
 	mkdir -p $$(@D)
-	+$$(MINGW_ENV) $(MAKE) OBJDIR=$$(BUILDDIR_ABS)/wpfgfx-netcore-$(1) -C $$(SRCDIR_ABS)/wpf/src/Microsoft.DotNet.Wpf/src/WpfGfx "MINGW=$$(MINGW_$(1))"
+	+$$(MINGW_ENV) $(MAKE) OBJDIR=$$(BUILDDIR_ABS)/wpfgfx-netcore-$(1) -C $$(SRCDIR_ABS)/wpf/src/Microsoft.DotNet.Wpf/src/WpfGfx "MINGW=$$(MINGW_$(1))" ARCH=$(1)
 	touch "$$@"
 ifeq (1,$(ENABLE_DOTNET_CORE_WPF))
 ifeq (1,$(ENABLE_DOTNET_CORE_WPFGFX))
