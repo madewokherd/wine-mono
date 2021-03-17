@@ -70,6 +70,7 @@ jobs:
       with:
         name: make tests-zip output
     - name: Run Wine Mono tests
+      shell: cmd
       run: |
         tar -xf wine-mono-*-tests.zip
         tests\run-tests.exe
