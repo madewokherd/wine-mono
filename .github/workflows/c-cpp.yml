@@ -70,6 +70,22 @@ jobs:
         ! find tests
         ! find image
 
+  windows-test:
+
+    runs-on: windows-latest
+    needs: build
+
+    steps:
+    - name: Download Wine Mono tests
+      uses: actions/download-artifact@v2
+      with:
+        name: make tests-zip output
+    - name: Run Wine Mono tests
+      shell: cmd
+      run: |
+        for %%z in (wine-mono-*-tests.zip) do tar -xf %%z
+        tests\run-tests.exe
+
   linux-test:
 
     runs-on: ubuntu-20.04
