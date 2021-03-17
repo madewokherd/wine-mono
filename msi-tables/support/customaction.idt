@@ -1,5 +1,5 @@
 Action	Type	Source	Target	ExtendedType
 s72	i2	S72	L0	I4
 CustomAction	Action
-INSTALLFAKEDLLS	1058	WindowsFolder	[SourceDir]\installinf-x86.exe [SourceDir]\dotnetfakedlls.inf	
-INSTALLFAKEDLLS64	1058	WindowsFolder	[SourceDir]\installinf-x86_64.exe [SourceDir]\dotnetfakedlls.inf	
+INSTALLFAKEDLLS	1058	WindowsFolder	"[SourceDir]\installinf-x86.exe" "[SourceDir]\dotnetfakedlls.inf"	
+INSTALLFAKEDLLS64	1058	WindowsFolder	"[SourceDir]\installinf-x86_64.exe" "[SourceDir]\dotnetfakedlls.inf"	
