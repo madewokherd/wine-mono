@@ -59,6 +59,21 @@ jobs:
         name: make tests-zip output
         path: wine-mono-*-tests.zip
 
+  windows-test:
+
+    runs-on: windows-latest
+    needs: build
+
+    steps:
+    - name: Download Wine Mono tests
+      uses: actions/download-artifact@v2
+      with:
+        name: make tests-zip output
+    - name: Run Wine Mono tests
+      run: |
+        tar -xf wine-mono-*-tests.zip
+        tests\run-tests.exe
+
   linux-test:
 
     runs-on: ubuntu-20.04
