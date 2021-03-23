@@ -1,4 +1,4 @@
-Wine Mono is a package containing Mono and other projects, intended as a replacement for the .NET runtime and class libraries in Wine. It works in conjunction with Wine's builtin mscoree.dll, and it is not intended to be useful for any other purpose.
+Wine Mono is a package containing Mono and other projects, intended as a replacement for the .NET Framework (4.x and earlier) in Wine. It works in conjunction with Wine's builtin mscoree.dll, and it is not intended to be useful for any other purpose.
 
 
 SOURCE CODE
@@ -56,7 +56,7 @@ $ wine64 msiexec /i wine-mono-6.1.0.msi
 
 Note that if a Wine Mono with a version number >= to this file is already installed, that command will do nothing, so you may have to remove the existing version (using 'wine64 uninstaller') first.
 
-If you are building for development, you may find it more convenient to use the dev target, which builds a runtime in image/ and configures a wine prefix to use it. You can then rebuild individual dlls using their filename with no path. See 'make help' for details.
+If you are building for development, you may find it more convenient to use the 'make dev' target, which builds a runtime in image/ and configures a wine prefix to use it. You can then rebuild individual dlls using their filename with no path. See 'make help' for details.
 
 
 COMPOSITION
