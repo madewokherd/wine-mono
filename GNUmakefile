@@ -201,7 +201,7 @@ include tools/tests/tests.make
 test: tests image
 	WINEPREFIX=$(BUILDDIR_ABS)/.wine-test-prefix $(WINE) reg add 'HKCU\Software\Wine\WineDbg' /v ShowCrashDialog /t REG_DWORD /d 0 /f
 	WINEPREFIX=$(BUILDDIR_ABS)/.wine-test-prefix $(MAKE) dev-setup
-	WINEPREFIX=$(BUILDDIR_ABS)/.wine-test-prefix $(WINE) explorer /desktop=wine-mono-test '$(shell $(WINE) winepath -w $(TESTS_OUTDIR)/run-tests.exe)' -skip-list:'$(shell $(WINE) winepath -w $(SRCDIR)/tools/run-tests/skip-always.txt)' -skip-list:'$(shell $(WINE) winepath -w $(SRCDIR)/tools/run-tests/windows-failing.txt)' -fail-list:'$(shell $(WINE) winepath -w $(SRCDIR)/tools/run-tests/wine-failing.txt)' -pass-list:'$(shell $(WINE) winepath -w $(SRCDIR)/tools/run-tests/wine-passing.txt)'
+	WINEPREFIX=$(BUILDDIR_ABS)/.wine-test-prefix $(WINE) explorer /desktop=wine-mono-test '$(shell $(WINE) winepath -w $(TESTS_OUTDIR)/run-tests.exe)' 
 
 clean-build-test-prefix:
 	-WINEPREFIX=$(BUILDDIR_ABS)/.wine-test-prefix wineserver -k
