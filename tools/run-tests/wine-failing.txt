@@ -1643,7 +1643,6 @@ x86_64.LateBindingTests6:LateBind_IndexOfReturnObjectFromProperty1
 x86_64.LateBindingTests6:LateBind_IndexOfReturnObjectFromProperty2
 Devices.PortsTests:Test
 Devices.PortsTests
-x86.processnames
 # definitely unreliable:
 delegate2
 x86_64.MonoTests.System.Threading.ThreadLocalTests:DisposeOnThreadExit
