@@ -59,3 +59,5 @@ FileIO.FileSystemTest:MoveFileTest6
 FileIO.FileSystemTest:MoveFileTest7
 FileIO.FileSystemTest:MoveFileTest8
 InteractionTests:MsgBoxTest
+MonoTests.System.ServiceModel.NetTcpBindingTest:BufferedConnection
+MonoTests.System.ServiceModel.NetTcpBindingTest:StreamedConnection
