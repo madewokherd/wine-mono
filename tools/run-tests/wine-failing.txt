@@ -1413,7 +1413,6 @@ x86_64.MonoTests.System.Windows.Markup.ValueSerializerTest
 MonoTests.System.TimeZoneInfoTest+IsDaylightSavingTimeTests:Bug_16395
 MonoTests.System.Security.Cryptography.X509Certificates.X509CertificateTest:Certificate7 // Considered a bad test by upstream
 MonoTests.System.Windows.Forms.FormTest
-MonoTests.System.Windows.Forms.DefaultLayoutTest:Bug82762 # Fails in virtual desktop
 MonoTests.System.Windows.Forms.FormTest:MethodScaleControl # Fails in virtual desktop
 MonoTests.System.Windows.Forms.FormTest:RestoreBounds # Fails in virtual desktop
 MonoTests.System.Xaml.XamlLanguageTest
@@ -1667,3 +1666,4 @@ MonoTests.Remoting.TcpSyncCallTest
 MonoTests.System.Windows.Forms.DateTimePickerTest:TextTest # depends on current date, and possibly locale - .NET and win32 may disagree on long date format, and 1-digit vs 2-digit day of month
 MonoTests.System.NumberFormatterTest:Test13000
 MonoTests.System.NumberFormatterTest
+MonoTests.System.Windows.Forms.DefaultLayoutTest:Bug82762 # Fails in virtual desktop
