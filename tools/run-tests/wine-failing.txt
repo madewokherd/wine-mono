@@ -662,7 +662,6 @@ x86.MonoTests.System.Diagnostics.ProcessTest:TestDoubleBeginOutputReadLine
 x86.MonoTests.System.Diagnostics.ProcessTest:TestEnableEventsAfterExitedEvent
 x86.MonoTests.System.Diagnostics.ProcessTest:TestEnableEventsBeforeExitedEvent
 x86.MonoTests.System.Diagnostics.ProcessTest:TestEventRaising
-x86.MonoTests.System.Diagnostics.TraceTest:TestMultiThreadModify
 x86.MonoTests.System.IO.Compression.DeflateStreamTest:CheckInvalidDataRead
 x86.MonoTests.System.IO.Compression.GZipStreamTest:CheckInvalidDataRead
 x86.MonoTests.System.IO.Ports.SerialPortTest:DiscardNull
@@ -1378,7 +1377,6 @@ x86_64.MonoTests.System.Diagnostics.ProcessTest:TestDoubleBeginOutputReadLine
 x86_64.MonoTests.System.Diagnostics.ProcessTest:TestEnableEventsAfterExitedEvent
 x86_64.MonoTests.System.Diagnostics.ProcessTest:TestEnableEventsBeforeExitedEvent
 x86_64.MonoTests.System.Diagnostics.ProcessTest:TestEventRaising
-x86_64.MonoTests.System.Diagnostics.TraceTest:TestMultiThreadModify
 x86_64.MonoTests.System.IO.Compression.DeflateStreamTest:CheckInvalidDataRead
 x86_64.MonoTests.System.IO.Compression.GZipStreamTest:CheckInvalidDataRead
 x86_64.MonoTests.System.IO.Ports.SerialPortTest:DiscardNull
@@ -1667,3 +1665,5 @@ MonoTests.System.Windows.Forms.DateTimePickerTest:TextTest # depends on current 
 MonoTests.System.NumberFormatterTest:Test13000
 MonoTests.System.NumberFormatterTest
 MonoTests.System.Windows.Forms.DefaultLayoutTest:Bug82762 # Fails in virtual desktop
+MonoTests.System.Diagnostics.TraceTest:TestMultiThreadModify
+MonoTests.System.Diagnostics.TraceTest
