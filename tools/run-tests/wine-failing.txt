@@ -16,7 +16,6 @@ x86.MonoTests.System.IO.FileTest:GetAttributes_System
 x86.MonoTests.System.IO.MemoryStreamTest:SerializeTest
 x86.MonoTests.System.IO.PathTest:GetFullPath2
 x86.MonoTests.System.IntPtrTest:Test64on32
-x86.MonoTests.System.NumberFormatterTest:Test13000
 x86.MonoTests.System.Reflection.AssemblyNameTest:Constructor1_PublicKey_KeyPair
 x86.MonoTests.System.Reflection.AssemblyNameTest:Constructor1_PublicKey_MS
 x86.MonoTests.System.Reflection.AssemblyTest:LoadFrom_Empty_Assembly
@@ -710,7 +709,6 @@ x86_64.MonoTests.System.IO.FileTest:GetAttributes_Archive
 x86_64.MonoTests.System.IO.FileTest:GetAttributes_System
 x86_64.MonoTests.System.IO.MemoryStreamTest:SerializeTest
 x86_64.MonoTests.System.IO.PathTest:GetFullPath2
-x86_64.MonoTests.System.NumberFormatterTest:Test13000
 x86_64.MonoTests.System.Reflection.AssemblyNameTest:Constructor1_PublicKey_KeyPair
 x86_64.MonoTests.System.Reflection.AssemblyNameTest:Constructor1_PublicKey_MS
 x86_64.MonoTests.System.Reflection.AssemblyTest:LoadFrom_Empty_Assembly
@@ -1667,3 +1665,5 @@ MonoTests.Remoting.TcpDelegateCallTest
 MonoTests.Remoting.TcpReflectionCallTest
 MonoTests.Remoting.TcpSyncCallTest
 MonoTests.System.Windows.Forms.DateTimePickerTest:TextTest # depends on current date, and possibly locale - .NET and win32 may disagree on long date format, and 1-digit vs 2-digit day of month
+MonoTests.System.NumberFormatterTest:Test13000
+MonoTests.System.NumberFormatterTest
