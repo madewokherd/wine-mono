@@ -58,6 +58,10 @@ jobs:
       with:
         name: make tests-zip output
         path: wine-mono-*-tests.zip
+    - name: Check for unnecessary rebuild steps
+      run: |
+        make -n image
+        make -q image
 
   linux-test:
 
