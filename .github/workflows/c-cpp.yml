@@ -62,6 +62,9 @@ jobs:
       run: |
         make -n image
         make -q image
+    - name: Check for untracked files
+      run: |
+        ! (git clean -nd|grep .)
 
   linux-test:
 
