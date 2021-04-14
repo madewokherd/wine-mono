@@ -145,7 +145,7 @@ jobs:
         wine64 winetest64-latest.exe -x winetest64 >/dev/null
         wine64 winetest64/mscoree_test.exe --list 2>/dev/null|sed 's/.$//'|tail -n +2|while read testname; do
           echo BEGIN $testname TEST 1>&2
-          WINETEST_REPORT_SUCCESS=1 WINEDEBUG=mscoree WINE_MONO_TRACE=T:Mono.CSharp.Driver gtimeout -v 300 wine64 winetest64/mscoree_test.exe $testname 1>&2 || printf 'mscoree:%s test failed\n' $testname >> tests-failed
+          WINETEST_REPORT_SUCCESS=1 WINEDEBUG=mscoree WINE_MONO_TRACE=T:Mono.CSharp.Driver,T:CscWrapper,M:System.Diagnostics.Process:WaitForExit gtimeout -v 300 wine64 winetest64/mscoree_test.exe $testname 1>&2 || printf 'mscoree:%s test failed\n' $testname >> tests-failed
           echo END $testname TEST 1>&2
         done
         if test -f tests-failed; then
