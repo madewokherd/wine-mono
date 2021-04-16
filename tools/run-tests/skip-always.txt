@@ -63,3 +63,4 @@ MonoTests.System.ServiceModel.NetTcpBindingTest:BufferedConnection # times out o
 MonoTests.System.ServiceModel.NetTcpBindingTest:StreamedConnection # times out on windows sometimes
 MonoTests.System.ServiceModel.Dispatcher.ChannelDispatcherTest:EndpointDispatcherAddTest8 # times out on windows with admin
 MonoTests.System.ServiceModel.Dispatcher.ChannelDispatcherTest:EndpointDispatcherAddTest # needed because it's a prefix of a test we skip
+x86.MonoTests.System.Runtime.CompilerServices.ConditionalWeakTableTest:FinalizableObjectsThatRetainDeadKeys # crashes on some windows systems
