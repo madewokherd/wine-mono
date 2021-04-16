@@ -1,0 +1,4 @@
+# Tests that seem to reliably fail on Github CI and only on Github CI
+MonoTests.Features.Serialization.AsyncCallTest:TestAsyncCall
+MonoTests.Features.Serialization.AsyncCallTest
+MonoTests.System.Net.HttpListenerRequestTest:HttpRequestIsLocal
