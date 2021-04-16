@@ -1472,7 +1472,6 @@ MonoTests.System.TypeTest:TypeFromCLSIDBogus
 MonoTests.System.Xaml.XamlXmlReaderTest:Skip2
 MonoTests.System.Xaml.XamlXmlReaderTest:Read_AmbientPropertyContainer
 MonoTests.System.Xaml.XamlXmlReaderTest:Read_AmbientPropertyContainer2
-x86.MonoTests.System.Net.Http.HttpClientTest:Send_Complete_ClientHandlerSettings
 x86.MonoTests.System.Net.Http.HttpClientTest:Send_Complete_CustomHeaders_Host
 x86.MonoTests.System.Net.Http.HttpClientTest:Send_Complete_CustomHeaders_SpecialSeparators
 x86.MonoTests.System.Net.Http.HttpClientTest:Send_Content_Put
@@ -1758,3 +1757,4 @@ MonoTests.System.NumberFormatterTest
 MonoTests.System.Windows.Forms.DefaultLayoutTest:Bug82762 # Fails in virtual desktop
 MonoTests.System.Diagnostics.TraceTest:TestMultiThreadModify
 MonoTests.System.Diagnostics.TraceTest
+MonoTests.System.Net.Http.HttpClientTest:Send_Complete_ClientHandlerSettings
