@@ -84,7 +84,7 @@ jobs:
       shell: cmd
       run: |
         for %%z in (wine-mono-*-tests.zip) do tar -xf %%z
-        tests\run-tests.exe
+        tests\run-tests.exe -pass-list:tests\github-windows-passing.txt
 
   linux-test:
 
