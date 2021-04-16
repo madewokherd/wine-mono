@@ -63,6 +63,12 @@ jobs:
     - name: Check for untracked files
       run: |
         ! (git clean -nd|grep .)
+    - name: Test make clean
+      run: |
+        make clean
+        ! find build
+        ! find tests
+        ! find image
 
   linux-test:
 
