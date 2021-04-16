@@ -575,6 +575,9 @@ class RunTests
 		return IntPtr.Zero != GetProcAddress(GetModuleHandleW("ntdll"), "wine_get_version");
 	}
 
+	[DllImport ("shell32", CallingConvention=CallingConvention.StdCall)]
+	extern static bool IsUserAnAdmin();
+
 	int process_arguments(string[] arguments)
 	{
 		foreach (string argument in arguments)
@@ -632,6 +635,10 @@ class RunTests
 			{
 				read_stringlist(Path.Combine(BasePath, "windows-passing.txt"), pass_list);
 				read_stringlist(Path.Combine(BasePath, "windows-failing.txt"), fail_list);
+				if (IsUserAnAdmin())
+					read_stringlist(Path.Combine(BasePath, "windows-admin.txt"), pass_list);
+				else
+					read_stringlist(Path.Combine(BasePath, "windows-admin.txt"), fail_list);
 			}
 		}
 

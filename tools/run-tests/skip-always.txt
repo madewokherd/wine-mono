@@ -59,5 +59,7 @@ FileIO.FileSystemTest:MoveFileTest6
 FileIO.FileSystemTest:MoveFileTest7
 FileIO.FileSystemTest:MoveFileTest8
 InteractionTests:MsgBoxTest
-MonoTests.System.ServiceModel.NetTcpBindingTest:BufferedConnection
-MonoTests.System.ServiceModel.NetTcpBindingTest:StreamedConnection
+MonoTests.System.ServiceModel.NetTcpBindingTest:BufferedConnection # times out on windows sometimes
+MonoTests.System.ServiceModel.NetTcpBindingTest:StreamedConnection # times out on windows sometimes
+MonoTests.System.ServiceModel.Dispatcher.ChannelDispatcherTest:EndpointDispatcherAddTest8 # times out on windows with admin
+MonoTests.System.ServiceModel.Dispatcher.ChannelDispatcherTest:EndpointDispatcherAddTest # needed because it's a prefix of a test we skip
