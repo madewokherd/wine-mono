@@ -1758,3 +1758,4 @@ MonoTests.System.Windows.Forms.DefaultLayoutTest:Bug82762 # Fails in virtual des
 MonoTests.System.Diagnostics.TraceTest:TestMultiThreadModify
 MonoTests.System.Diagnostics.TraceTest
 MonoTests.System.Net.Http.HttpClientTest:Send_Complete_ClientHandlerSettings
+MonoTests.System.Net.HttpListenerBugs:BindToSingleInterface
