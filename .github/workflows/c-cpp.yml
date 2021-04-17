@@ -76,6 +76,11 @@ jobs:
     needs: build
 
     steps:
+    - name: Install XNA4
+      shell: cmd
+      run: |
+        curl https://download.microsoft.com/download/A/C/2/AC2C903B-E6E8-42C2-9FD7-BEBAC362A930/xnafx40_redist.msi --output xna4.msi
+        msiexec /q /i xna4.msi
     - name: Download Wine Mono tests
       uses: actions/download-artifact@v2
       with:
