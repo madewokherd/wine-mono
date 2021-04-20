@@ -2740,7 +2740,6 @@ x86.MonoTests.System.Net.HttpResponseStreamTest:Read_Count_Overflow
 x86.MonoTests.System.Net.HttpWebRequestTest:BeginGetResponse
 x86.MonoTests.System.Net.HttpWebRequestTest:Cookies1
 x86.MonoTests.System.Net.HttpWebRequestTest:EndGetRequestStream_Request_Aborted
-x86.MonoTests.System.Net.HttpWebRequestTest:EndGetResponse_AsyncResult_Null
 x86.MonoTests.System.Net.HttpWebRequestTest:LastModifiedKind
 x86.MonoTests.System.Net.HttpWebRequestTest:NoContentLength
 x86.MonoTests.System.Net.HttpWebRequestTest:NonStandardVerb
@@ -5427,7 +5426,6 @@ x86_64.MonoTests.System.Net.HttpResponseStreamTest:Read_Count_Overflow
 x86_64.MonoTests.System.Net.HttpWebRequestTest:BeginGetResponse
 x86_64.MonoTests.System.Net.HttpWebRequestTest:Cookies1
 x86_64.MonoTests.System.Net.HttpWebRequestTest:EndGetRequestStream_Request_Aborted
-x86_64.MonoTests.System.Net.HttpWebRequestTest:EndGetResponse_AsyncResult_Null
 x86_64.MonoTests.System.Net.HttpWebRequestTest:LastModifiedKind
 x86_64.MonoTests.System.Net.HttpWebRequestTest:NoContentLength
 x86_64.MonoTests.System.Net.HttpWebRequestTest:NonStandardVerb
@@ -5619,6 +5617,12 @@ x86_64.bug-633291
 x86_64.field-access
 x86_64.xnatest
 x86.MonoTests.System.Runtime.CompilerServices.ConditionalWeakTableTest:ConditionalWeakTableEnumerable
+MonoTests.System.ServiceModel.Discovery.EndpointDiscoveryBehaviorTest:Use2
+MonoTests.System.ServiceModel.Discovery.ServiceDiscoveryBehaviorTest:Use2
+MonoTests.System.Diagnostics.EventLogTest:Exists1_Win32
+MonoTests.System.Diagnostics.EventLogTest:Exists2_Win32
+MonoTests.System.Diagnostics.EventLogTest:SourceExists1_Win32
+MonoTests.System.Diagnostics.EventLogTest:SourceExists2_Win32
 # unreliable:
 x86.thread-exit
 MonoTests.System.Threading.Tasks.TaskTests:DoubleWaitTest
@@ -5713,3 +5717,13 @@ MonoTests.System.Net.Sockets.SocketConnectAsyncTest
 MonoTests.System.Net.WebClientTest:UploadDataAsyncCancelEvent
 MonoTests.System.Drawing.Drawing2D.PathGradientBrushTest:Clone
 MonoTests.System.Net.WebClientTest:UploadStringAsyncCancelEvent
+MonoTests.System.Net.HttpWebRequestTest:EndGetResponse_AsyncResult_Null
+MonoCasTests.System.Security.Cryptography.X509Certificates.X509CertificateCas:PartialTrust_DenyUnrestricted
+MonoTests.System.Threading.ManualResetEventSlimTests:Constructor_Defaults
+MonoTests.Microsoft.Build.Execution.ProjectInstanceTest:ItemsAndProperties
+MonoTests.System.ServiceModel.Discovery.AnnouncementClientTest:AnnonceOnlineOfflineAddressSchemeMismatch
+MonoTests.System.Windows.Forms.ToolStripDropDownTests:Constructor # drop shadow probably depends on appearance settings
+MonoTests.System.Diagnostics.TraceTest:TestMultiThreadModify
+MonoTests.System.Net.HttpListenerTest:AbortWhileBegin
+MonoTests.System.Net.HttpListenerTest:CloseWhileBegin
+MonoTests.System.Windows.Markup.DateTimeValueSerializerTest:ConvertToString1
