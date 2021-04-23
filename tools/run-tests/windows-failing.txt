@@ -5688,6 +5688,7 @@ MonoTests.System.Messaging.SelectorTest:SelectById
 MonoTests.System.Messaging.SelectorTest:SelectByIdWithTimeout
 MonoTests.System.Messaging.SelectorTest
 MonoTests.System.ServiceModel.Dispatcher.ChannelDispatcherTest:ServiceThrottle
+MonoTests.System.ServiceModel.Dispatcher.ChannelDispatcherTest
 MonoTests.System.XmlSerialization.DeserializationTests:TimeWithUtc
 MonoTests.System.Net.HttpWebRequestTest:EndGetRequestStream_AsyncResult_Null
 MonoTests.System.Net.Sockets.SocketConnectAsyncTest:Connect
