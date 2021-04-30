@@ -37,7 +37,7 @@ class CscWrapper
 
 		var versionArguments = "";
 		if (addStdlib)
-			versionArguments = String.Format("/nostdlib /r:{0} /lib:{1} ", corlib, api_lib);
+			versionArguments = String.Format("/nostdlib \"/r:{0}\" \"/lib:{1}\" ", corlib, api_lib);
 
 		var process = new Process();
 		process.StartInfo.FileName = mcs_name;
