@@ -1,8 +1,8 @@
 .*.swp
 /build/
 /image/
-/llvm-mingw-20201020-msvcrt-ubuntu-18.04/
-/llvm-mingw-20201020-msvcrt-ubuntu-18.04.tar.xz
+/llvm-mingw-20210423-ucrt-ubuntu-18.04-x86_64.tar.xz
+/llvm-mingw-20210423-ucrt-ubuntu-18.04-x86_64/
 /tests/
 /tools/tests/net_4_x_PresentationCore_test.dll
 /tools/tests/arraypadding.exe
