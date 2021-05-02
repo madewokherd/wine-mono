@@ -5628,6 +5628,7 @@ MonoTests.System.Runtime.Caching.MemoryCacheTest:GetCacheItem
 MonoTests.System.Windows.Forms.FormTest:MethodScaleControl #depends on display size
 MonoTests.Microsoft.Build.BuildEngine.ImportTest:TestAdd1
 MonoTests.System.Runtime.Caching.MemoryCacheTest:GetEnumerator
+MonoTests.System.Runtime.Caching.MemoryCacheTest:Get
 MonoTests.System.AppDomainTest:DefineDynamicAssembly11
 MonoTests.System.AppDomainTest:Load_Loaded_Ignore
 MonoTests.System.Reflection.Emit.AssemblyBuilderTest:AssemblyName_MoreCultureInfo
