@@ -578,6 +578,9 @@ class RunTests
 	[DllImport ("shell32", CallingConvention=CallingConvention.StdCall)]
 	extern static bool IsUserAnAdmin();
 
+	[DllImport ("ntdll", CallingConvention=CallingConvention.Cdecl)]
+	extern static string wine_get_version();
+
 	int process_arguments(string[] arguments)
 	{
 		foreach (string argument in arguments)
@@ -630,6 +633,16 @@ class RunTests
 				read_testlist(Path.Combine(BasePath, "windows-failing.txt"), skip_list);
 				read_stringlist(Path.Combine(BasePath, "wine-passing.txt"), pass_list);
 				read_stringlist(Path.Combine(BasePath, "wine-failing.txt"), fail_list);
+				switch (wine_get_version())
+				{
+				case "6.7":
+					// Winehq bug 51067
+					fail_list.Add("x86_64.MonoTests.Microsoft.Build.Utilities.ToolTaskTest:Execute_2");
+					fail_list.Add("x86_64.MonoTests.Microsoft.Build.Utilities.ToolTaskTest");
+					break;
+				default:
+					break;
+				}
 			}
 			else
 			{
