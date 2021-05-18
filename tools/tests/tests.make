@@ -3,6 +3,7 @@ TEST_CS_EXE_SRCS = \
 	arraypadding.cs \
 	marshalansi.cs \
 	mixedmode-exe.cs \
+	mixedmode-samedir.cs \
 	privatepath1.cs \
 	privatepath2.cs \
 	processnames.cs \
@@ -41,6 +42,8 @@ tools/tests/%.exe: tools/tests/%.cs $(BUILDDIR)/mono-unix/.installed
 tools/tests/%.dll: tools/tests/%.cs $(BUILDDIR)/mono-unix/.installed
 	$(MONO_ENV) csc -target:library -out:$@ $(patsubst %,-r:%,$(filter %.dll,$^)) $< $(shell sed -n '/CSCFLAGS=/s/^.*CSCFLAGS=//p' $<)
 
+tools/tests/mixedmode-managedcaller.exe: vstests/Win32/Release/mixedmodelibrary.dll
+
 tools/tests/privatepath1.exe: tools/tests/testcslib1.dll
 
 tools/tests/privatepath2.exe: tools/tests/testcslib1.dll tools/tests/testcslib2.dll
@@ -68,7 +71,7 @@ endef
 
 $(foreach target,$(TEST_NUNIT_TARGETS), $(eval $(call nunit_target_template,$(target))))
 
-tools-tests-all: $(TEST_CLR_EXE_TARGETS) $(TEST_INSTALL_FILES) tools/tests/tests.make
+tools-tests-all: $(TEST_CLR_EXE_TARGETS) $(TEST_INSTALL_FILES) tools/tests/mixedmode-managedcaller.exe tools/tests/tests.make
 .PHONY: tools-tests-all
 
 tools-tests-install: tools-tests-all $(BUILDDIR)/fixupclr.exe
@@ -98,6 +101,10 @@ tools-tests-install: tools-tests-all $(BUILDDIR)/fixupclr.exe
 		cp $(SRCDIR)/vstests/Win32/Release/$$i $(TESTS_OUTDIR)/tests-x86/vstests ; \
 		cp $(SRCDIR)/vstests/x64/Release/$$i $(TESTS_OUTDIR)/tests-x86_64/vstests ; \
 	done
+	cp tools/tests/mixedmode-managedcaller.exe $(TESTS_OUTDIR)/tests-x86/vstests
+	$(WINE) $(BUILDDIR)/fixupclr.exe x86 $(TESTS_OUTDIR)/tests-x86/vstests/mixedmode-managedcaller.exe
+	cp tools/tests/mixedmode-managedcaller.exe $(TESTS_OUTDIR)/tests-x86_64/vstests
+	$(WINE) $(BUILDDIR)/fixupclr.exe x86_64 $(TESTS_OUTDIR)/tests-x86_64/vstests/mixedmode-managedcaller.exe
 .PHONY: tools-tests-install
 
 tests: tools-tests-install
