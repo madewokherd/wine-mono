@@ -22,3 +22,6 @@
 [submodule "monoDX"]
 	path = monoDX
 	url = git://github.com/madewokherd/monoDX.git
+[submodule "vstests"]
+	path = vstests
+	url = ../wine-mono-vstests

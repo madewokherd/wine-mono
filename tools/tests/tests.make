@@ -2,6 +2,7 @@
 TEST_CS_EXE_SRCS = \
 	arraypadding.cs \
 	marshalansi.cs \
+	mixedmode-exe.cs \
 	privatepath1.cs \
 	privatepath2.cs \
 	processnames.cs \
@@ -25,6 +26,11 @@ TEST_NUNIT_TARGETS = \
 endif
 
 TEST_INSTALL_FILES = $(TEST_RAW_FILES:%=tools/tests/%)
+
+TEST_BINARY_FILES = \
+	mixedmodeexe.exe \
+	mixedmodelibrary.dll \
+	nativelibrary.dll
 
 tools/tests/%.exe: tools/tests/%.il $(BUILDDIR)/mono-unix/.installed
 	$(MONO_ENV) ilasm -target:exe -output:$@ $<
@@ -86,6 +92,12 @@ tools-tests-install: tools-tests-all $(BUILDDIR)/fixupclr.exe
 	cp tools/tests/testcslib2.dll $(TESTS_OUTDIR)/tests-x86/lib2
 	mkdir -p $(TESTS_OUTDIR)/tests-x86_64/lib2
 	cp tools/tests/testcslib2.dll $(TESTS_OUTDIR)/tests-x86_64/lib2
+	mkdir -p $(TESTS_OUTDIR)/tests-x86/vstests
+	mkdir -p $(TESTS_OUTDIR)/tests-x86_64/vstests
+	for i in $(TEST_BINARY_FILES); do \
+		cp $(SRCDIR)/vstests/Win32/Release/$$i $(TESTS_OUTDIR)/tests-x86/vstests ; \
+		cp $(SRCDIR)/vstests/x64/Release/$$i $(TESTS_OUTDIR)/tests-x86_64/vstests ; \
+	done
 .PHONY: tools-tests-install
 
 tests: tools-tests-install
