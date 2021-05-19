@@ -3,6 +3,7 @@ TEST_CS_EXE_SRCS = \
 	arraypadding.cs \
 	marshalansi.cs \
 	mixedmode-exe.cs \
+	mixedmode-managedcaller.cs \
 	mixedmode-samedir.cs \
 	privatepath1.cs \
 	privatepath2.cs \
@@ -13,6 +14,7 @@ TEST_CS_EXE_SRCS = \
 	wpfclipboard.cs
 
 TEST_RAW_FILES = \
+	mixedmode-managedcaller.exe.config \
 	privatepath2.exe.config \
 	privatepath1.exe.config
 
@@ -71,7 +73,7 @@ endef
 
 $(foreach target,$(TEST_NUNIT_TARGETS), $(eval $(call nunit_target_template,$(target))))
 
-tools-tests-all: $(TEST_CLR_EXE_TARGETS) $(TEST_INSTALL_FILES) tools/tests/mixedmode-managedcaller.exe tools/tests/tests.make
+tools-tests-all: $(TEST_CLR_EXE_TARGETS) $(TEST_INSTALL_FILES) tools/tests/tests.make
 .PHONY: tools-tests-all
 
 tools-tests-install: tools-tests-all $(BUILDDIR)/fixupclr.exe
