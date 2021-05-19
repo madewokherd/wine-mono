@@ -1751,7 +1751,8 @@ MonoTests.System.Messaging.TransactionMessageTest:Send2WithTransactionAbort
 MonoTests.System.Messaging.TransactionMessageTest:SendWithTransactionType
 MonoTests.System.Messaging.TransactionMessageTest:SendWithTransactionTypeAndLabel
 MonoTests.System.Messaging.TransactionMessageTest
-mixedmode-managedcaller.exe
+mixedmode-managedcaller
+mixedmode-nativedir
 # definitely unreliable:
 delegate2
 x86_64.MonoTests.System.Threading.ThreadLocalTests:DisposeOnThreadExit

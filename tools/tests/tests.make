@@ -4,6 +4,7 @@ TEST_CS_EXE_SRCS = \
 	marshalansi.cs \
 	mixedmode-exe.cs \
 	mixedmode-managedcaller.cs \
+	mixedmode-nativedir.cs \
 	mixedmode-samedir.cs \
 	privatepath1.cs \
 	privatepath2.cs \
@@ -107,6 +108,18 @@ tools-tests-install: tools-tests-all $(BUILDDIR)/fixupclr.exe
 	$(WINE) $(BUILDDIR)/fixupclr.exe x86 $(TESTS_OUTDIR)/tests-x86/vstests/mixedmode-managedcaller.exe
 	cp tools/tests/mixedmode-managedcaller.exe $(TESTS_OUTDIR)/tests-x86_64/vstests
 	$(WINE) $(BUILDDIR)/fixupclr.exe x86_64 $(TESTS_OUTDIR)/tests-x86_64/vstests/mixedmode-managedcaller.exe
+	mkdir -p $(TESTS_OUTDIR)/tests-x86/vstests-native
+	cp tools/tests/mixedmode-managedcaller.exe vstests/Win32/Release/nativelibrary.dll $(TESTS_OUTDIR)/tests-x86/vstests-native
+	cp tools/tests/mixedmode-managedcaller-nativedir.exe.config $(TESTS_OUTDIR)/tests-x86/vstests-native/mixedmode-managedcaller.exe.config
+	$(WINE) $(BUILDDIR)/fixupclr.exe x86 $(TESTS_OUTDIR)/tests-x86/vstests-native/mixedmode-managedcaller.exe
+	mkdir -p $(TESTS_OUTDIR)/tests-x86_64/vstests-native
+	cp tools/tests/mixedmode-managedcaller.exe vstests/x64/Release/nativelibrary.dll $(TESTS_OUTDIR)/tests-x86_64/vstests-native
+	cp tools/tests/mixedmode-managedcaller-nativedir.exe.config $(TESTS_OUTDIR)/tests-x86_64/vstests-native/mixedmode-managedcaller.exe.config
+	$(WINE) $(BUILDDIR)/fixupclr.exe x86_64 $(TESTS_OUTDIR)/tests-x86_64/vstests-native/mixedmode-managedcaller.exe
+	mkdir -p $(TESTS_OUTDIR)/tests-x86/vstests-mixed
+	cp vstests/Win32/Release/mixedmodelibrary.dll $(TESTS_OUTDIR)/tests-x86/vstests-mixed
+	mkdir -p $(TESTS_OUTDIR)/tests-x86_64/vstests-mixed
+	cp vstests/x64/Release/mixedmodelibrary.dll $(TESTS_OUTDIR)/tests-x86_64/vstests-mixed
 .PHONY: tools-tests-install
 
 tests: tools-tests-install
