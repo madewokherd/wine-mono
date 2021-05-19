@@ -8,6 +8,7 @@
 /tools/tests/arraypadding.exe
 /tools/tests/marshalansi.exe
 /tools/tests/mixedmode-exe.exe
+/tools/tests/mixedmode-managedcaller.exe
 /tools/tests/mixedmode-samedir.exe
 /tools/tests/privatepath1.exe
 /tools/tests/privatepath2.exe
