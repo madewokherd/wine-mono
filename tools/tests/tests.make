@@ -5,6 +5,7 @@ TEST_CS_EXE_SRCS = \
 	mixedmode-exe.cs \
 	mixedmode-managedcaller.cs \
 	mixedmode-nativedir.cs \
+	mixedmode-path.cs \
 	mixedmode-samedir.cs \
 	privatepath1.cs \
 	privatepath2.cs \
