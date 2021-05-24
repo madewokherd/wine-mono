@@ -116,10 +116,10 @@ tools-tests-install: tools-tests-all $(BUILDDIR)/fixupclr.exe
 	cp tools/tests/mixedmode-managedcaller.exe vstests/x64/Release/nativelibrary.dll $(TESTS_OUTDIR)/tests-x86_64/vstests-native
 	cp tools/tests/mixedmode-managedcaller-nativedir.exe.config $(TESTS_OUTDIR)/tests-x86_64/vstests-native/mixedmode-managedcaller.exe.config
 	$(WINE) $(BUILDDIR)/fixupclr.exe x86_64 $(TESTS_OUTDIR)/tests-x86_64/vstests-native/mixedmode-managedcaller.exe
-	mkdir -p $(TESTS_OUTDIR)/tests-x86/vstests-mixed
-	cp vstests/Win32/Release/mixedmodelibrary.dll $(TESTS_OUTDIR)/tests-x86/vstests-mixed
-	mkdir -p $(TESTS_OUTDIR)/tests-x86_64/vstests-mixed
-	cp vstests/x64/Release/mixedmodelibrary.dll $(TESTS_OUTDIR)/tests-x86_64/vstests-mixed
+	mkdir -p $(TESTS_OUTDIR)/tests-x86/vstests-native/vstests-mixed
+	cp vstests/Win32/Release/mixedmodelibrary.dll $(TESTS_OUTDIR)/tests-x86/vstests-native/vstests-mixed
+	mkdir -p $(TESTS_OUTDIR)/tests-x86_64/vstests-native/vstests-mixed
+	cp vstests/x64/Release/mixedmodelibrary.dll $(TESTS_OUTDIR)/tests-x86_64/vstests-native/vstests-mixed
 .PHONY: tools-tests-install
 
 tests: tools-tests-install
