@@ -67,3 +67,4 @@ x86.MonoTests.System.Runtime.CompilerServices.ConditionalWeakTableTest:Finalizab
 System.Web.Extensions # Test dll is signed with a remapped publickeytoken
 MonoTests.System.Windows.Forms.ApplicationTest:OpenFormsTest # usually causes crash dialog leading to timeout on windows
 x86.MonoTests.System.Threading.ThreadTest:TestStart # tends to hang on Windows
+MonoTests.System.Threading.CancellationTokenSourceTest:DisposeRace # sometimes crashes on windows
