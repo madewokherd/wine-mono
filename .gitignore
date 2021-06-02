@@ -7,6 +7,7 @@
 /tools/tests/net_4_x_PresentationCore_test.dll
 /tools/tests/arraypadding.exe
 /tools/tests/marshalansi.exe
+/tools/tests/mixedmode-call.exe
 /tools/tests/mixedmode-exe.exe
 /tools/tests/mixedmode-managedcaller.exe
 /tools/tests/mixedmode-nativedir.exe

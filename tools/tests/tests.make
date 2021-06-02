@@ -2,6 +2,7 @@
 TEST_CS_EXE_SRCS = \
 	arraypadding.cs \
 	marshalansi.cs \
+	mixedmode-call.cs \
 	mixedmode-exe.cs \
 	mixedmode-managedcaller.cs \
 	mixedmode-nativedir.cs \
@@ -78,7 +79,7 @@ $(foreach target,$(TEST_NUNIT_TARGETS), $(eval $(call nunit_target_template,$(ta
 tools-tests-all: $(TEST_CLR_EXE_TARGETS) $(TEST_INSTALL_FILES) tools/tests/tests.make
 .PHONY: tools-tests-all
 
-tools-tests-install: tools-tests-all $(BUILDDIR)/fixupclr.exe
+tools-tests-install: tools-tests-all $(BUILDDIR)/fixupclr.exe $(BUILDDIR)/call-mixedmode-x86.exe $(BUILDDIR)/call-mixedmode-x86_64.exe
 	mkdir -p $(TESTS_OUTDIR)/tests-x86
 	mkdir -p $(TESTS_OUTDIR)/tests-x86_64
 	for i in $(TEST_CLR_EXE_TARGETS); do \
@@ -107,8 +108,10 @@ tools-tests-install: tools-tests-all $(BUILDDIR)/fixupclr.exe
 	done
 	cp tools/tests/mixedmode-managedcaller.exe $(TESTS_OUTDIR)/tests-x86/vstests
 	$(WINE) $(BUILDDIR)/fixupclr.exe x86 $(TESTS_OUTDIR)/tests-x86/vstests/mixedmode-managedcaller.exe
+	$(INSTALL_PE_x86) $(BUILDDIR)/call-mixedmode-x86.exe $(TESTS_OUTDIR)/tests-x86/vstests/call-mixedmode.exe
 	cp tools/tests/mixedmode-managedcaller.exe $(TESTS_OUTDIR)/tests-x86_64/vstests
 	$(WINE) $(BUILDDIR)/fixupclr.exe x86_64 $(TESTS_OUTDIR)/tests-x86_64/vstests/mixedmode-managedcaller.exe
+	$(INSTALL_PE_x86_64) $(BUILDDIR)/call-mixedmode-x86_64.exe $(TESTS_OUTDIR)/tests-x86_64/vstests/call-mixedmode.exe
 	mkdir -p $(TESTS_OUTDIR)/tests-x86/vstests-native
 	cp tools/tests/mixedmode-managedcaller.exe vstests/Win32/Release/nativelibrary.dll $(TESTS_OUTDIR)/tests-x86/vstests-native
 	cp tools/tests/mixedmode-managedcaller-nativedir.exe.config $(TESTS_OUTDIR)/tests-x86/vstests-native/mixedmode-managedcaller.exe.config
@@ -129,3 +132,19 @@ clean-tools-tests:
 	rm -f $(SRCDIR)/tools/tests/*.dll $(SRCDIR)/tools/tests/*.exe
 .PHONY: clean-tools-tests
 clean: clean-tools-tests
+
+define MINGW_TEMPLATE +=
+
+$$(BUILDDIR)/call-mixedmode-$(1).exe: $$(SRCDIR)/tools/tests/call-mixedmode.c $$(MINGW_DEPS)
+	$$(MINGW_ENV) $$(MINGW_$(1))-gcc $$(filter %.lib,$$^) $$< -o $$@
+
+clean-call-mixedmode-$(1):
+	rm -f $$(BUILDDIR)/call-mixedmode-$(1).exe
+.PHONY: clean-call-mixedmode-$(1)
+clean-build: clean-call-mixedmode-$(1)
+
+endef
+
+$(BUILDDIR)/call-mixedmode-x86.exe: $(SRCDIR)/vstests/Win32/Release/mixedmodelibrary.lib
+
+$(BUILDDIR)/call-mixedmode-x86_64.exe: $(SRCDIR)/vstests/x64/Release/mixedmodelibrary.lib

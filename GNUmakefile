@@ -137,6 +137,8 @@ include wpf.make
 include monodx.make
 include support.make
 
+include tools/tests/tests.make
+
 $(eval $(call MINGW_TEMPLATE,x86))
 $(eval $(call MINGW_TEMPLATE,x86_64))
 
@@ -195,8 +197,6 @@ clean-tests:
 	-rmdir $(TESTS_OUTDIR)
 .PHONY: clean-tests
 clean: clean-tests
-
-include tools/tests/tests.make
 
 test: tests image
 	WINEPREFIX=$(BUILDDIR_ABS)/.wine-test-prefix $(WINE) reg add 'HKCU\Software\Wine\WineDbg' /v ShowCrashDialog /t REG_DWORD /d 0 /f
