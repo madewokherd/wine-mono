@@ -1754,6 +1754,9 @@ MonoTests.System.Net.Sockets.SocketTest:ConnectMultiple
 MonoTests.System.Net.Sockets.SocketTest:DontFragmentChangeTcp
 MonoTests.System.Net.Sockets.SocketTest:DontFragmentChangeUdp
 MonoTests.System.Net.Sockets.SocketTest:ExclusiveAddressUseUnbound
+MonoTests.System.Net.Sockets.SocketTest:BeginConnectToIPV4EndPointUsingDualModelSocket
+MonoTests.System.Net.Sockets.SocketTest:ConnectToIPV4EndPointUsingDualModelSocket
+MonoTests.System.Net.Sockets.SocketTest:Disconnect # re-enable BeginDisconnect test if this is fixed
 # definitely unreliable:
 delegate2
 x86_64.MonoTests.System.Threading.ThreadLocalTests:DisposeOnThreadExit

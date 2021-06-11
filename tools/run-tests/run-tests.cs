@@ -631,6 +631,7 @@ class RunTests
 			if (IsRunningOnWine())
 			{
 				read_testlist(Path.Combine(BasePath, "windows-failing.txt"), skip_list);
+				read_testlist(Path.Combine(BasePath, "skip-wine.txt"), skip_list);
 				read_stringlist(Path.Combine(BasePath, "wine-passing.txt"), pass_list);
 				read_stringlist(Path.Combine(BasePath, "wine-failing.txt"), fail_list);
 				switch (wine_get_version())
