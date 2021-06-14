@@ -1789,3 +1789,4 @@ MonoTests.System.Diagnostics.TraceTest
 MonoTests.System.Net.Http.HttpClientTest:Send_Complete_ClientHandlerSettings
 MonoTests.System.Net.HttpListenerBugs:BindToSingleInterface
 x86.MonoTests.System.Net.HttpListenerRequestTest # unreliable on github CI
+x86_64.MonoTests.System.Net.Http.HttpClientTest:Send_Complete_Content # unreliable on github CI
