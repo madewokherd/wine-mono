@@ -13,6 +13,7 @@
 /tools/tests/mixedmode-nativedir.exe
 /tools/tests/mixedmode-path.exe
 /tools/tests/mixedmode-samedir.exe
+/tools/tests/ordinalimport.exe
 /tools/tests/privatepath1.exe
 /tools/tests/privatepath2.exe
 /tools/tests/processnames.exe

@@ -8,6 +8,7 @@ TEST_CS_EXE_SRCS = \
 	mixedmode-nativedir.cs \
 	mixedmode-path.cs \
 	mixedmode-samedir.cs \
+	ordinalimport.cs \
 	privatepath1.cs \
 	privatepath2.cs \
 	processnames.cs \

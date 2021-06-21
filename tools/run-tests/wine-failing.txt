@@ -1760,6 +1760,7 @@ MonoTests.System.Net.Sockets.SocketTest:Disconnect # re-enable BeginDisconnect t
 MonoTests.System.Security.Principal.SecurityIdentifierTest:AccountDomainSid
 MonoTests.System.Security.Principal.SecurityIdentifierTest:ConstructorString
 MonoTests.System.Security.Principal.SecurityIdentifierTest:IsWellKnown
+ordinalimport
 # definitely unreliable:
 delegate2
 x86_64.MonoTests.System.Threading.ThreadLocalTests:DisposeOnThreadExit
