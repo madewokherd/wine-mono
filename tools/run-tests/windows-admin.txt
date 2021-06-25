@@ -200,6 +200,8 @@ MonoTests.System.Diagnostics.EventLogTest:CreateEventSource1
 MonoTests.System.Diagnostics.EventLogTest:CreateEventSource1_Log_Empty
 MonoTests.System.Diagnostics.EventLogTest:CreateEventSource1_Log_ExistsAsSource
 MonoTests.System.Diagnostics.EventLogTest:CreateEventSource1_Log_Null
+MonoTests.System.Diagnostics.EventLogTest:CreateEventSource1_Log_InvalidCustomerLog
+MonoTests.System.Diagnostics.EventLogTest:CreateEventSource1_Log_NotUnique
 MonoTests.System.Diagnostics.EventLogTest:Delete1
 MonoTests.System.Diagnostics.EventLogTest:Delete1_Log_DoesNotExist
 MonoTests.System.Diagnostics.EventLogTest:Delete2
