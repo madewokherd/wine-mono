@@ -1,6 +1,7 @@
 
 using System;
 using System.Runtime.InteropServices;
+using System.Text;
 
 static class TestMarshalAnsi
 {
@@ -89,6 +90,119 @@ static class TestMarshalAnsi
 		return true;
 	}
 
+	[StructLayout(LayoutKind.Sequential)]
+	struct str_lpstr
+	{
+		[MarshalAs(UnmanagedType.LPStr)] public string str;
+	}
+
+	public static bool TestStringToLpstr()
+	{
+		var s = new str_lpstr();
+
+		s.str = utf16_string;
+
+		var struct_mem = Marshal.AllocCoTaskMem(Marshal.SizeOf(s));
+
+		Marshal.StructureToPtr(s, struct_mem, false);
+
+		var lpstr = Marshal.ReadIntPtr(struct_mem);
+
+		if (!check_mem(lpstr, "TestStringToLpstr"))
+			return false;
+
+		Marshal.DestroyStructure(struct_mem, typeof(str_lpstr));
+		Marshal.FreeCoTaskMem(struct_mem);
+		return true;
+	}
+
+	unsafe public static bool TestLpstrToString()
+	{
+		var struct_mem = Marshal.AllocCoTaskMem(Marshal.SizeOf(typeof(str_lpstr)));
+
+		fixed (byte* mbstr = teststring) {
+			IntPtr pstr = new IntPtr(mbstr);
+
+			Marshal.WriteIntPtr(struct_mem, pstr);
+
+			var s = (str_lpstr)Marshal.PtrToStructure(struct_mem, typeof(str_lpstr));
+
+			string str = s.str;
+
+			Marshal.FreeCoTaskMem(struct_mem);
+
+			if (str != utf16_string)
+			{
+				Console.WriteLine("PtrToStructure[str_lpstr] returned {0} (length {1})", str, str.Length);
+				return false;
+			}
+		}
+		return true;
+	}
+
+	[DllImport("kernel32")]
+	extern static void RtlMoveMemory(IntPtr dst, [MarshalAs(UnmanagedType.LPStr)] StringBuilder src, IntPtr length);
+
+	public static bool TestBuilderToLpstr()
+	{
+		StringBuilder sb = new StringBuilder(utf16_string);
+
+		IntPtr lpstr = Marshal.AllocCoTaskMem(teststring.Length);
+
+		RtlMoveMemory(lpstr, sb, new IntPtr(teststring.Length));
+
+		if (!check_mem(lpstr, "TestBuilderToLpstr"))
+			return false;
+
+		Marshal.FreeCoTaskMem(lpstr);
+
+		return true;
+	}
+
+	[DllImport("kernel32")]
+	extern static void RtlMoveMemory([MarshalAs(UnmanagedType.LPStr)] StringBuilder dst, byte[] src, IntPtr length);
+
+	static bool TestLpstrToBuilder()
+	{
+		StringBuilder sb = new StringBuilder(teststring.Length);
+
+		RtlMoveMemory(sb, teststring, new IntPtr(teststring.Length));
+
+		string str = sb.ToString();
+
+		if (str != utf16_string)
+		{
+			Console.WriteLine("TestLpstrToBuilder got {0} (length {1})", str, str.Length);
+			return false;
+		}
+		return true;
+	}
+
+	[DllImport("kernel32")]
+	extern static void RtlMoveMemory([MarshalAs(UnmanagedType.LPStr)] out StringBuilder dst, ref IntPtr src, IntPtr length);
+
+	unsafe static bool TestLpstrToBuilderOut()
+	{
+		StringBuilder sb;
+
+		IntPtr lpstr = Marshal.AllocCoTaskMem(teststring.Length);
+
+		Marshal.Copy(teststring, 0, lpstr, teststring.Length);
+
+		RtlMoveMemory(out sb, ref lpstr, new IntPtr(Marshal.SizeOf(typeof(IntPtr))));
+
+		// lpstr is freed by pinvoke wrapper
+
+		string str = sb.ToString();
+
+		if (str != utf16_string)
+		{
+			Console.WriteLine("TestLpstrToBuilderOut got {0} (length {1})", str, str.Length);
+			return false;
+		}
+		return true;
+	}
+
     public static int Main()
     {
 		Initialize();
@@ -98,6 +212,16 @@ static class TestMarshalAnsi
 			return 2;
 		if (!TestStringToHGlobalAnsi())
 			return 3;
+		if (!TestStringToLpstr())
+			return 4;
+		if (!TestLpstrToString())
+			return 5;
+		if (!TestBuilderToLpstr())
+			return 6;
+		if (!TestLpstrToBuilder())
+			return 7;
+		if (!TestLpstrToBuilderOut())
+			return 8;
 		return 0;
     }
 }
