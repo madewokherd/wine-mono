@@ -1761,6 +1761,7 @@ MonoTests.System.Security.Principal.SecurityIdentifierTest:AccountDomainSid
 MonoTests.System.Security.Principal.SecurityIdentifierTest:ConstructorString
 MonoTests.System.Security.Principal.SecurityIdentifierTest:IsWellKnown
 ordinalimport
+MonoTests.System.Windows.Forms.PictureBoxTest:ImageLocation_Sync
 # definitely unreliable:
 delegate2
 x86_64.MonoTests.System.Threading.ThreadLocalTests:DisposeOnThreadExit

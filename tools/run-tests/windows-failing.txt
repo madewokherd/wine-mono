@@ -1947,8 +1947,6 @@ x86.MonoTests.System.Windows.Forms.ListViewSubItemTest:SerializeExact_Mono
 x86.MonoTests.System.Windows.Forms.MdiFormTest:AddToControlsTest
 x86.MonoTests.System.Windows.Forms.MonthCalendarTest:MonthCalSelectRangeException
 x86.MonoTests.System.Windows.Forms.MonthCalendarTest:MonthCalSelectRangeException2
-x86.MonoTests.System.Windows.Forms.PictureBoxTest
-x86.MonoTests.System.Windows.Forms.PictureBoxTest
 x86.MonoTests.System.Windows.Forms.PrintPreviewControlTest:StartPage
 x86.MonoTests.System.Windows.Forms.PrintPreviewControlTest
 x86.MonoTests.System.Windows.Forms.ScrollableControlTest:AutoScrollPositionTest
@@ -4629,8 +4627,6 @@ x86_64.MonoTests.System.Windows.Forms.ListViewSubItemTest:SerializeExact_Mono
 x86_64.MonoTests.System.Windows.Forms.MdiFormTest:AddToControlsTest
 x86_64.MonoTests.System.Windows.Forms.MonthCalendarTest:MonthCalSelectRangeException
 x86_64.MonoTests.System.Windows.Forms.MonthCalendarTest:MonthCalSelectRangeException2
-x86_64.MonoTests.System.Windows.Forms.PictureBoxTest
-x86_64.MonoTests.System.Windows.Forms.PictureBoxTest
 x86_64.MonoTests.System.Windows.Forms.PrintPreviewControlTest:StartPage
 x86_64.MonoTests.System.Windows.Forms.PrintPreviewControlTest
 x86_64.MonoTests.System.Windows.Forms.ScrollableControlTest:AutoScrollPositionTest
