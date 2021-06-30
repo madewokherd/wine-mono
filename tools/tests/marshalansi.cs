@@ -203,6 +203,22 @@ static class TestMarshalAnsi
 		return true;
 	}
 
+	unsafe static bool TestStringSByteCtor()
+	{
+		string str;
+		fixed (byte* mbstr = teststring)
+		{
+			str = new String ((sbyte*)mbstr);
+		}
+
+		if (str != utf16_string)
+		{
+			Console.WriteLine("TestStringSByteCtor got {0} (length {1})", str, str.Length);
+			return false;
+		}
+		return true;
+	}
+
     public static int Main()
     {
 		Initialize();
@@ -222,6 +238,8 @@ static class TestMarshalAnsi
 			return 7;
 		if (!TestLpstrToBuilderOut())
 			return 8;
+		if (!TestStringSByteCtor())
+			return 9;
 		return 0;
     }
 }
