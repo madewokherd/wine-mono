@@ -15,7 +15,7 @@ define MINGW_TEMPLATE +=
 # libmono dll's
 $$(BUILDDIR)/mono-$(1)/Makefile: $$(SRCDIR)/mono/configure $$(SRCDIR)/mono.make $$(BUILDDIR)/.dir $$(MINGW_DEPS)
 	mkdir -p $$(@D)
-	cd $$(BUILDDIR)/mono-$(1); $$(MINGW_ENV) CPPFLAGS="-gdwarf-2 -gstrict-dwarf" $$(SRCDIR_ABS)/mono/configure --prefix="$$(BUILDDIR_ABS)/build-cross-$(1)-install" --build=$$(shell $$(SRCDIR)/mono/config.guess) --target=$$(MINGW_$(1)) --host=$$(MINGW_$(1)) --with-tls=none --disable-mcs-build --enable-win32-dllmain=yes --with-libgc-threads=win32 PKG_CONFIG=false mono_cv_clang=no --disable-boehm
+	cd $$(BUILDDIR)/mono-$(1); $$(MINGW_ENV) CFLAGS="$$(PDB_CFLAGS_$(1)) $$$${CFLAGS:--g -O2}" CXXFLAGS="$$(PDB_CFLAGS_$(1)) $$$${CXXFLAGS:--g -O2}" LDFLAGS="$$(PDB_LDFLAGS_$(1))" $$(SRCDIR_ABS)/mono/configure --prefix="$$(BUILDDIR_ABS)/build-cross-$(1)-install" --build=$$(shell $$(SRCDIR)/mono/config.guess) --target=$$(MINGW_$(1)) --host=$$(MINGW_$(1)) --with-tls=none --disable-mcs-build --enable-win32-dllmain=yes --with-libgc-threads=win32 PKG_CONFIG=false mono_cv_clang=no --disable-boehm
 	sed -e 's/-lgcc_s//' -i $$(BUILDDIR)/mono-$(1)/libtool
 
 $$(BUILDDIR)/mono-$(1)/.built: $$(BUILDDIR)/mono-$(1)/Makefile $$(MONO_MONO_SRCS) $$(MINGW_DEPS)
@@ -51,7 +51,7 @@ $$(BUILDDIR)/btls-$(1)/Makefile: $$(SRCDIR)/mono/mono/btls/CMakeLists.txt $$(SRC
 	$(RM_F) $$(@D)/CMakeCache.txt
 	mkdir -p $$(@D)
 	# wincrypt.h interferes with boringssl definitions, so we prevent its inclusion
-	cd $$(@D); $$(MINGW_ENV) cmake -DCMAKE_TOOLCHAIN_FILE="$$(SRCDIR_ABS)/toolchain-$(1).cmake" -DCMAKE_C_COMPILER=$$(MINGW_$(1))-gcc -DCMAKE_C_FLAGS='-D__WINCRYPT_H__ -D_WIN32_WINNT=0x0600 -static-libgcc' -DCMAKE_CXX_COMPILER=$$(MINGW_$(1))-g++ -DOPENSSL_NO_ASM=1 -DBTLS_ROOT="$$(SRCDIR_ABS)/mono/external/boringssl" -DBUILD_SHARED_LIBS=1 $$(SRCDIR_ABS)/mono/mono/btls
+	cd $$(@D); $$(MINGW_ENV) CXXFLAGS="$$(PDB_CFLAGS_$(1))" LDFLAGS="$$(PDB_LDFLAGS_$(1))" cmake -DCMAKE_TOOLCHAIN_FILE="$$(SRCDIR_ABS)/toolchain-$(1).cmake" -DCMAKE_C_COMPILER=$$(MINGW_$(1))-gcc -DCMAKE_C_FLAGS='-D__WINCRYPT_H__ -D_WIN32_WINNT=0x0600 -static-libgcc $$(PDB_CFLAGS_$(1))' -DCMAKE_CXX_COMPILER=$$(MINGW_$(1))-g++ -DOPENSSL_NO_ASM=1 -DBTLS_ROOT="$$(SRCDIR_ABS)/mono/external/boringssl" -DBUILD_SHARED_LIBS=1 $$(SRCDIR_ABS)/mono/mono/btls
 
 $$(BUILDDIR)/btls-$(1)/.built: $$(BUILDDIR)/btls-$(1)/Makefile $$(MONO_BTLS_SRCS) $$(MINGW_DEPS)
 	+WINEPREFIX=/dev/null $$(MINGW_ENV) $$(MAKE) -C $$(BUILDDIR)/btls-$(1)
