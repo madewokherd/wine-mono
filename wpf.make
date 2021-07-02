@@ -5,7 +5,7 @@ define MINGW_TEMPLATE +=
 # wpfgfx
 $$(BUILDDIR)/wpfgfx-$(1)/.built: $$(WPF_SRCS) $$(MINGW_DEPS)
 	mkdir -p $$(@D)
-	+$$(MINGW_ENV) $(MAKE) -C $$(@D) -f $$(SRCDIR_ABS)/wpf/wpfgfx/Makefile ARCH=$(1) SRCDIR="$$(SRCDIR_ABS)/wpf/wpfgfx" "MINGW=$$(MINGW_$(1))"
+	+$$(MINGW_ENV) CFLAGS="$$(PDB_CFLAGS_$(1))" CXXFLAGS="$$(PDB_CFLAGS_$(1))" LDFLAGS="$$(PDB_LDFLAGS_$(1))" $(MAKE) -C $$(@D) -f $$(SRCDIR_ABS)/wpf/wpfgfx/Makefile ARCH=$(1) SRCDIR="$$(SRCDIR_ABS)/wpf/wpfgfx" "MINGW=$$(MINGW_$(1))"
 	touch "$$@"
 ifeq (1,$(ENABLE_DOTNET_CORE_WPF))
 ifneq (1,$(ENABLE_DOTNET_CORE_WPFGFX))
@@ -15,7 +15,7 @@ endif
 
 $$(BUILDDIR)/wpfgfx-netcore-$(1)/.built: $$(WPF_SRCS) $$(MINGW_DEPS)
 	mkdir -p $$(@D)
-	+$$(MINGW_ENV) $(MAKE) OBJDIR=$$(BUILDDIR_ABS)/wpfgfx-netcore-$(1) -C $$(SRCDIR_ABS)/wpf/src/Microsoft.DotNet.Wpf/src/WpfGfx "MINGW=$$(MINGW_$(1))" ARCH=$(1)
+	+$$(MINGW_ENV) CFLAGS="$$(PDB_CFLAGS_$(1))" CXXFLAGS="$$(PDB_CFLAGS_$(1))" LDFLAGS="$$(PDB_LDFLAGS_$(1))" $(MAKE) OBJDIR=$$(BUILDDIR_ABS)/wpfgfx-netcore-$(1) -C $$(SRCDIR_ABS)/wpf/src/Microsoft.DotNet.Wpf/src/WpfGfx "MINGW=$$(MINGW_$(1))" ARCH=$(1)
 	touch "$$@"
 ifeq (1,$(ENABLE_DOTNET_CORE_WPF))
 ifeq (1,$(ENABLE_DOTNET_CORE_WPFGFX))
@@ -54,7 +54,7 @@ clean-build: clean-build-wpfgfx-netcore-$(1)
 # PresentationNative
 $$(BUILDDIR)/PresentationNative-$(1)/.built: $$(WPF_SRCS) $$(MINGW_DEPS)
 	mkdir -p $$(@D)
-	+$$(MINGW_ENV) $(MAKE) -C $$(@D) -f $$(SRCDIR_ABS)/wpf/PresentationNative/Makefile ARCH=$(1) SRCDIR="$$(SRCDIR_ABS)/wpf/PresentationNative" "MINGW=$$(MINGW_$(1))"
+	+$$(MINGW_ENV) CFLAGS="$$(PDB_CFLAGS_$(1))" CXXFLAGS="$$(PDB_CFLAGS_$(1))" LDFLAGS="$$(PDB_LDFLAGS_$(1))" $(MAKE) -C $$(@D) -f $$(SRCDIR_ABS)/wpf/PresentationNative/Makefile ARCH=$(1) SRCDIR="$$(SRCDIR_ABS)/wpf/PresentationNative" "MINGW=$$(MINGW_$(1))"
 	touch "$$@"
 ifeq (1,$(ENABLE_DOTNET_CORE_WPF))
 IMAGEDIR_BUILD_TARGETS += $$(BUILDDIR)/PresentationNative-$(1)/.built
@@ -80,7 +80,7 @@ clean-build: clean-build-PresentationNative-$(1)
 # wmwpfdwhelper - unmanaged helper for DirectWriteForwarder
 $$(BUILDDIR)/wmwpfdwhelper-$(1)/.built: $$(WPF_SRCS) $$(MINGW_DEPS)
 	mkdir -p $$(@D)
-	+$$(MINGW_ENV) $(MAKE) -C $$(@D) -f $$(SRCDIR_ABS)/wpf/wmwpfdwhelper/Makefile ARCH=$(1) SRCDIR="$$(SRCDIR_ABS)/wpf/wmwpfdwhelper" "MINGW=$$(MINGW_$(1))"
+	+$$(MINGW_ENV) CFLAGS="$$(PDB_CFLAGS_$(1))" CXXFLAGS="$$(PDB_CFLAGS_$(1))" LDFLAGS="$$(PDB_LDFLAGS_$(1))" $(MAKE) -C $$(@D) -f $$(SRCDIR_ABS)/wpf/wmwpfdwhelper/Makefile ARCH=$(1) SRCDIR="$$(SRCDIR_ABS)/wpf/wmwpfdwhelper" "MINGW=$$(MINGW_$(1))"
 	touch "$$@"
 ifeq (1,$(ENABLE_DOTNET_CORE_WPF))
 IMAGEDIR_BUILD_TARGETS += $$(BUILDDIR)/wmwpfdwhelper-$(1)/.built
