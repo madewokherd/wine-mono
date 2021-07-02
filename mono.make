@@ -142,9 +142,6 @@ $(BUILDDIR)/mono-unix/.installed: $(BUILDDIR)/mono-unix/.built $(BUILDDIR)/mono-
 	+$(MAKE) -C $(BUILDDIR_ABS)/mono-unix $(MONOLIST_OPTS) HOST_PLATFORM=win32 install
 	mv $(BUILDDIR)/mono-unix-install $(BUILDDIR)/mono-win32-install
 	+$(MAKE) -C $(BUILDDIR_ABS)/mono-unix $(MONOLIST_OPTS) install
-ifneq (1,$(ENABLE_DEBUG_SYMBOLS))
-	for f in `find $(BUILDDIR)/mono-win32-install|grep -E '\.(mdb|pdb)$$'`; do rm "$$f"; done
-endif
 ifeq (1,$(ENABLE_DOTNET_CORE_WINFORMS))
 	rm -rf $(BUILDDIR)/mono-win32-install/lib/mono/gac/Accessibility
 	rm -rf $(BUILDDIR)/mono-win32-install/lib/mono/gac/System.Windows.Forms

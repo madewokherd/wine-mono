@@ -34,6 +34,8 @@ class GetFileHashes
         foreach (var fileinfo in dirinfo.GetFileSystemEntries())
         {
             string id = string.Concat(prefix, fileinfo.Name);
+			if (id.EndsWith(".pdb"))
+				continue;
             switch (fileinfo.FileType)
             {
             case FileTypes.RegularFile:

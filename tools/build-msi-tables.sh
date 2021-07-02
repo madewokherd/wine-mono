@@ -4,10 +4,14 @@ set -e
 
 rm -f "${CABFILENAME}" "${TABLEDIR}/*.idt"
 
-mkdir -p ${TABLEDIR}
-cp ${TABLESRCDIR}/*.idt ${TABLEDIR}
+mkdir -p "${TABLEDIR}"
+cp "${TABLESRCDIR}"/*.idt "${TABLEDIR}"
 
 IMAGECABWINPATH=`${WINE} winepath -w "${CABFILENAME}"`
+
+CONTENTDIR="${TABLEDIR}/cab_contents"
+rm -rf "${CONTENTDIR}"
+mkdir -p "${CONTENTDIR}"
 
 cd "${IMAGEDIR}"
 
@@ -15,7 +19,7 @@ FILEKEY_EXPR='s/\//\\/g'
 FILEKEY_REV_EXPR='s/\\/\//g'
 DIRKEY_EXPR='s/\//|/g'
 
-find . | cut -d '/' -f2- | while read -r f; do
+find . '!' -name '*.pdb' | cut -d '/' -f2- | while read -r f; do
     if test . = "$f"; then
         continue
     fi
@@ -32,28 +36,33 @@ find . | cut -d '/' -f2- | while read -r f; do
 
     if test -d "$f"; then
         GUID=`uuidgen -s -n 26a7bdb4-1612-4e2b-a26e-e548a12e4d48 -N "$f" | tr [a-z] [A-Z]`
-        KEYPATH=`find "$f" -maxdepth 1 -type f|sort|head -n 1|sed -e "$FILEKEY_EXPR"`
+        KEYPATH=`find "$f" -maxdepth 1 -type f '!' -name '*.pdb'|sort|head -n 1|sed -e "$FILEKEY_EXPR"`
 
         case "$f" in
         Microsoft.NET/Framework64*) CONDITION='(VersionNT64)';;
         *) CONDITION=;;
         esac
 
+		mkdir -p "${CONTENTDIR}"/"$f"
+
         printf '%s\t{%s}\t%s\t0\t%s\t%s\n' "$DIRKEY" "$GUID" "$DIRKEY" "$CONDITION" "$KEYPATH" >> ${TABLEDIR}/component.idt
         printf "%s\t%s\n" "$DIRKEY" "$DIRKEY" >> ${TABLEDIR}/createfolder.idt
         printf "%s\t%s\t%s\n" "$DIRKEY" "$PARENTKEY" "$BASENAME" >> ${TABLEDIR}/directory.idt
         printf "wine_mono\t%s\n" "$DIRKEY" >> ${TABLEDIR}/featurecomponents.idt
     elif test -f "$f"; then
-        true
-    else
-        # Don't include symlinks
-        rm "$f" || exit 1
+		ln -s "${IMAGEDIR}"/"$f" "${CONTENTDIR}"/"$f"
     fi
 done
 
 mono "$GENFILEHASHES" >> ${TABLEDIR}/msifilehash.idt
 
+cd "${CONTENTDIR}"
+
 ${WINE} cabarc -m mszip -r -p N "$IMAGECABWINPATH" * || exit 1
+
+cd "${IMAGEDIR}"
+
+rm -rf "${CONTENTDIR}"
 
 # We can't dictate the order of files in the cab, so read it back to find the sequence numbers.
 SEQ=0

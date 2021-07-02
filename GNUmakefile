@@ -24,7 +24,7 @@ ENABLE_DOTNET_CORE_WPF=1
 ENABLE_DOTNET_CORE_WPFGFX=1
 ENABLE_MONODX=1
 
-ENABLE_DEBUG_SYMBOLS=0
+ENABLE_DEBUG_SYMBOLS=1
 
 ENABLE_ARM=0
 
@@ -54,13 +54,13 @@ ifeq (,$(shell which $(WINE)))
 $(error '$(WINE)' command not found. Please install wine or specify its location in the WINE variable)
 endif
 
-all: image targz msi tests tests-zip
-.PHONY: all clean imagedir-targets tests tests-zip
+all: image targz msi tests tests-zip dbgsym
+.PHONY: all clean imagedir-targets tests tests-zip dbgsym
 
 define HELP_TEXT =
 The following targets are defined:
-	msi:	      Build wine-mono-$(MSI_VERSION)-x86.msi
-	bin:	      Build wine-mono-$(MSI_VERSION)-x86.tar.$(COMPRESSED_SUFFIX)
+	msi:          Build wine-mono-$(MSI_VERSION)-x86.msi
+	bin:          Build wine-mono-$(MSI_VERSION)-x86.tar.$(COMPRESSED_SUFFIX)
 	tests:        Build the mono tests.
 	test:         Build and run the mono tests.
 	dev:          Build the runtime locally in image/ and configure $$WINEPREFIX to use it.
@@ -101,14 +101,16 @@ clean: clean-build
 define MINGW_TEMPLATE =
 
 ifeq (1,$(ENABLE_DEBUG_SYMBOLS))
-INSTALL_PE_$(1)=cp
+INSTALL_PE_$(1)=do_install () { cp "$$$$(printf %s "$$$$1"|sed -e 's/\....$$$$/.pdb/')" "$$$$(printf %s "$$$$2"|sed -e 's/\....$$$$/.pdb/')"; cp "$$$$1" "$$$$2"; $$(MINGW_ENV) $$(MINGW_$(1))-strip "$$$$2"; }; do_install
+PDB_CFLAGS_$(1)=-gcodeview -g
+PDB_LDFLAGS_$(1)=-Wl,-pdb=
 else
 INSTALL_PE_$(1)=do_install () { cp "$$$$1" "$$$$2"; $$(MINGW_ENV) $$(MINGW_$(1))-strip "$$$$2"; }; do_install
 endif
 
 # installinf.exe
 $$(BUILDDIR)/installinf-$(1).exe: $$(SRCDIR)/tools/installinf/installinf.c $$(MINGW_DEPS)
-	$$(MINGW_ENV) $$(MINGW_$(1))-gcc $$< -lsetupapi -municode -o $$@
+	$$(MINGW_ENV) $$(MINGW_$(1))-gcc $$< -lsetupapi -municode -o $$@ $$(PDB_CFLAGS_$(1)) $$(PDB_LDFLAGS_$(1))
 
 support-installinf-$(1): $$(BUILDDIR)/installinf-$(1).exe
 	mkdir -p $$(IMAGEDIR)/support/
@@ -148,7 +150,7 @@ $(eval $(call MINGW_TEMPLATE,arm64))
 endif
 
 $(BUILDDIR)/fixupclr.exe: $(SRCDIR)/tools/fixupclr/fixupclr.c $(MINGW_DEPS)
-	$(MINGW_ENV) $(MINGW_x86_64)-gcc -municode -Wall $< -o $@
+	$(MINGW_ENV) $(MINGW_x86_64)-gcc -municode -Wall $< -o $@ $(PDB_CFLAGS_x86_64) $(PDB_LDFLAGS_x86_64)
 
 clean-build-fixupclr:
 	rm -rf $(BUILDDIR)/fixupclr.exe
@@ -265,7 +267,7 @@ clean-msi:
 clean: clean-msi
 
 $(OUTDIR)/wine-mono-$(MSI_VERSION)-x86.tar.$(COMPRESSED_SUFFIX): $(BUILDDIR)/.imagedir-built
-	cd $(IMAGEDIR)/..; tar cf $(OUTDIR_ABS)/wine-mono-$(MSI_VERSION)-x86.tar.$(COMPRESSED_SUFFIX) --transform 's:^$(notdir $(IMAGEDIR_ABS)):wine-mono-$(MSI_VERSION):g' '--use-compress-program=$(COMPRESSOR)' $(notdir $(IMAGEDIR_ABS))
+	cd $(IMAGEDIR)/..; tar cf $(OUTDIR_ABS)/wine-mono-$(MSI_VERSION)-x86.tar.$(COMPRESSED_SUFFIX) --transform 's:^$(notdir $(IMAGEDIR_ABS)):wine-mono-$(MSI_VERSION):g' '--exclude=*.pdb' '--use-compress-program=$(COMPRESSOR)' $(notdir $(IMAGEDIR_ABS))
 
 bin: $(OUTDIR)/wine-mono-$(MSI_VERSION)-x86.tar.$(COMPRESSED_SUFFIX)
 .PHONY: bin
@@ -277,6 +279,17 @@ clean-targz:
 	rm -f $(OUTDIR)/wine-mono-$(MSI_VERSION)-x86.tar.$(COMPRESSED_SUFFIX)
 .PHONY: clean-targz
 clean: clean-targz
+
+$(OUTDIR)/wine-mono-$(MSI_VERSION)-dbgsym.tar.$(COMPRESSED_SUFFIX):
+	cd $(IMAGEDIR)/..; find $(notdir $(IMAGEDIR_ABS)) -name '*.pdb'|tar cf $(OUTDIR_ABS)/wine-mono-$(MSI_VERSION)-dbgsym.tar.$(COMPRESSED_SUFFIX) --transform 's:^$(notdir $(IMAGEDIR_ABS)):wine-mono-$(MSI_VERSION):g' -T - '--use-compress-program=$(COMPRESSOR)'
+
+dbgsym: $(OUTDIR)/wine-mono-$(MSI_VERSION)-dbgsym.tar.$(COMPRESSED_SUFFIX)
+.PHONY: dbgsym
+
+clean-dbgsym:
+	rm -f $(OUTDIR)/wine-mono-$(MSI_VERSION)-dbgsym.tar.$(COMPRESSED_SUFFIX)
+.PHONY: clean-dbgsym
+clean: clean-dbgsym
 
 $(OUTDIR)/wine-mono-$(MSI_VERSION)-src.tar.$(COMPRESSED_SUFFIX): $(BUILDDIR)/mono-unix/.built $(FETCH_LLVM_MINGW)/.dir
 	$(SRCDIR)/tools/archive.sh `git describe` $(OUTDIR_ABS) wine-mono-$(MSI_VERSION)-src $(FETCH_LLVM_MINGW_DIRECTORY)
