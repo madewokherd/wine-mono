@@ -5,7 +5,7 @@ define MINGW_TEMPLATE +=
 # libtheorafile
 $$(BUILDDIR)/Theorafile-$(1)/.built: $$(THEORAFILE_SRCS) $$(BUILDDIR)/.dir $$(MINGW_DEPS)
 	mkdir -p $$(BUILDDIR)/Theorafile-$(1)
-	+$$(MINGW_ENV) $$(MAKE) -C $$(BUILDDIR_ABS)/Theorafile-$(1) "CC=$$(MINGW_$(1))-gcc" -f $$(SRCDIR_ABS)/FNA/lib/Theorafile/Makefile
+	+$$(MINGW_ENV) CFLAGS="$$(PDB_CFLAGS_$(1))" LDFLAGS="$$(PDB_LDFLAGS_$(1))" $$(MAKE) -C $$(BUILDDIR_ABS)/Theorafile-$(1) "CC=$$(MINGW_$(1))-gcc" -f $$(SRCDIR_ABS)/FNA/lib/Theorafile/Makefile
 	touch "$$@"
 IMAGEDIR_BUILD_TARGETS += $$(BUILDDIR)/Theorafile-$(1)/.built
 
