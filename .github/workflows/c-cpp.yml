@@ -50,12 +50,17 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: make bin output
-        path: wine-mono-*.tar.xz
+        path: wine-mono-*-x86.tar.xz
     - name: tests-zip capture
       uses: actions/upload-artifact@v2
       with:
         name: make tests-zip output
         path: wine-mono-*-tests.zip
+    - name: dbgsym capture
+      uses: actions/upload-artifact@v2
+      with:
+        name: make dbgsym output
+        path: wine-mono-*-dbgsym.tar.xz
     - name: Check for unnecessary rebuild steps
       run: |
         make -n image
