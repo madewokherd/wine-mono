@@ -280,7 +280,7 @@ clean-targz:
 .PHONY: clean-targz
 clean: clean-targz
 
-$(OUTDIR)/wine-mono-$(MSI_VERSION)-dbgsym.tar.$(COMPRESSED_SUFFIX):
+$(OUTDIR)/wine-mono-$(MSI_VERSION)-dbgsym.tar.$(COMPRESSED_SUFFIX): $(BUILDDIR)/.imagedir-built
 	cd $(IMAGEDIR)/..; find $(notdir $(IMAGEDIR_ABS)) -name '*.pdb'|tar cf $(OUTDIR_ABS)/wine-mono-$(MSI_VERSION)-dbgsym.tar.$(COMPRESSED_SUFFIX) --transform 's:^$(notdir $(IMAGEDIR_ABS)):wine-mono-$(MSI_VERSION):g' -T - '--use-compress-program=$(COMPRESSOR)'
 
 dbgsym: $(OUTDIR)/wine-mono-$(MSI_VERSION)-dbgsym.tar.$(COMPRESSED_SUFFIX)
