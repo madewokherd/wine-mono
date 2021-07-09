@@ -675,10 +675,6 @@ x86.MonoTests.System.Net.NetworkInformation.PingTest:SendAsyncIPV4Succeeds
 x86.MonoTests.System.Net.NetworkInformation.PingTest:SendPingAsyncIPV4Fails
 x86.MonoTests.System.Net.NetworkInformation.PingTest:SendPingAsyncIPV4Succeeds
 x86.MonoTests.System.Net.NetworkInformation.PingTest
-x86.MonoTests.System.Net.Sockets.SocketTest:ReceiveBufferSizeChange
-x86.MonoTests.System.Net.Sockets.SocketTest:ReceiveTimeoutChange
-x86.MonoTests.System.Net.Sockets.SocketTest:SendBufferSizeChange
-x86.MonoTests.System.Net.Sockets.SocketTest:SendTimeoutChange
 x86.MonoTests.System.Net.Sockets.SocketTest:SetSocketOption_MulticastInterfaceIndex_Loopback
 x86.MonoTests.System.Net.Sockets.UdpClientTest:ExclusiveAddressUseUnbound
 x86.MonoTests.System.Net.WebSockets.ClientWebSocketTest:ServerHandshakeReturnCrapStatusCodeTest
@@ -1387,10 +1383,6 @@ x86_64.MonoTests.System.Net.NetworkInformation.PingTest:SendAsyncIPV4Succeeds
 x86_64.MonoTests.System.Net.NetworkInformation.PingTest:SendPingAsyncIPV4Fails
 x86_64.MonoTests.System.Net.NetworkInformation.PingTest:SendPingAsyncIPV4Succeeds
 x86_64.MonoTests.System.Net.NetworkInformation.PingTest
-x86_64.MonoTests.System.Net.Sockets.SocketTest:ReceiveBufferSizeChange
-x86_64.MonoTests.System.Net.Sockets.SocketTest:ReceiveTimeoutChange
-x86_64.MonoTests.System.Net.Sockets.SocketTest:SendBufferSizeChange
-x86_64.MonoTests.System.Net.Sockets.SocketTest:SendTimeoutChange
 x86_64.MonoTests.System.Net.Sockets.SocketTest:SetSocketOption_MulticastInterfaceIndex_Loopback
 x86_64.MonoTests.System.Net.Sockets.UdpClientTest:ExclusiveAddressUseUnbound
 x86_64.MonoTests.System.Net.WebSockets.ClientWebSocketTest:ServerHandshakeReturnCrapStatusCodeTest
@@ -1749,7 +1741,6 @@ MonoTests.System.Messaging.TransactionMessageTest:Send2WithTransactionAbort
 MonoTests.System.Messaging.TransactionMessageTest:SendWithTransactionType
 MonoTests.System.Messaging.TransactionMessageTest:SendWithTransactionTypeAndLabel
 MonoTests.System.Messaging.TransactionMessageTest
-MonoTests.System.Net.Sockets.SocketTest:BuffersCheck_None
 MonoTests.System.Net.Sockets.SocketTest:ConnectMultiple
 MonoTests.System.Net.Sockets.SocketTest:DontFragmentChangeTcp
 MonoTests.System.Net.Sockets.SocketTest:DontFragmentChangeUdp
