@@ -641,6 +641,12 @@ class RunTests
 					fail_list.Add("x86_64.MonoTests.Microsoft.Build.Utilities.ToolTaskTest:Execute_2");
 					fail_list.Add("x86_64.MonoTests.Microsoft.Build.Utilities.ToolTaskTest");
 					break;
+				case "6.12":
+					// Winehq bug 51366
+					fail_list.Add("MonoTests.System.Net.HttpWebRequestTest:TestTimeoutWithEndpointThatDoesntExistThrowsConnectFailureBeforeTimeout");
+					add_to_testlist("MonoTests.System.Net.Sockets.SocketTest:ConnectFailAsync", skip_list);
+					fail_list.Add("MonoTests.System.Net.WebRequestTest:TestFailedConnection");
+					break;
 				default:
 					break;
 				}
