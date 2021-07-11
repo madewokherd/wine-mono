@@ -645,6 +645,8 @@ class RunTests
 					// Winehq bug 51366
 					fail_list.Add("MonoTests.System.Net.HttpWebRequestTest:TestTimeoutWithEndpointThatDoesntExistThrowsConnectFailureBeforeTimeout");
 					add_to_testlist("MonoTests.System.Net.Sockets.SocketTest:ConnectFailAsync", skip_list);
+					add_to_testlist("MonoTests.System.Net.Sockets.SocketTest:BogusEndConnect", skip_list);
+					fail_list.Add("MonoTests.System.Net.Sockets.SocketTest:BeginConnectMultiple");
 					fail_list.Add("MonoTests.System.Net.WebRequestTest:TestFailedConnection");
 					break;
 				default:
