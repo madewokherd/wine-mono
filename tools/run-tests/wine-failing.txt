@@ -1751,7 +1751,6 @@ MonoTests.System.Net.Sockets.SocketTest:Disconnect # re-enable BeginDisconnect t
 MonoTests.System.Security.Principal.SecurityIdentifierTest:AccountDomainSid
 MonoTests.System.Security.Principal.SecurityIdentifierTest:ConstructorString
 MonoTests.System.Security.Principal.SecurityIdentifierTest:IsWellKnown
-ordinalimport
 MonoTests.System.Windows.Forms.PictureBoxTest:ImageLocation_Sync
 MonoTests.System.StringTest:TestSbytePtrConstructorDefault # Encoding.Default needs to be changed to CP_ACP to match String ctor
 # definitely unreliable:
