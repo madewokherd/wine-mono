@@ -1557,7 +1557,6 @@ x86.MonoTests.Microsoft_VisualBasic.StringsTest:Split_4
 x86.MonoTests.Microsoft_VisualBasic.StringsTest:StrConv_2
 x86.MonoTests.Microsoft_VisualBasic.StringsTest:StrConv_SimplifiedChinese
 x86.MonoTests.Microsoft_VisualBasic.StringsTest:StrConv_TraditionalChinese
-x86.CompilerServices.DateTypeTest:FromObject
 x86.ExceptionFilteringTests:ExceptionFilter_FilterThrow
 x86.LateBindingTests:LateBind_PrimitiveTypes_220
 x86.LateBindingTests:LateBind_PrimitiveTypes_260
@@ -1602,7 +1601,6 @@ x86_64.MonoTests.Microsoft_VisualBasic.StringsTest:Split_7
 x86_64.MonoTests.Microsoft_VisualBasic.StringsTest:StrConv_2
 x86_64.MonoTests.Microsoft_VisualBasic.StringsTest:StrConv_SimplifiedChinese
 x86_64.MonoTests.Microsoft_VisualBasic.StringsTest:StrConv_TraditionalChinese
-x86_64.CompilerServices.DateTypeTest:FromObject
 x86_64.ExceptionFilteringTests:ExceptionFilter_FilterThrow
 x86_64.LateBindingTests:LateBind_PrimitiveTypes_220
 x86_64.LateBindingTests:LateBind_PrimitiveTypes_260
