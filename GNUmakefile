@@ -30,7 +30,7 @@ ENABLE_ARM=0
 
 -include user-config.make
 
-MSI_VERSION=6.2.1
+MSI_VERSION=6.2.2
 
 # variables
 SRCDIR_ABS=$(shell cd $(SRCDIR); pwd)
