@@ -1,6 +1,8 @@
 
 VBRUNTIME_BASE=$(SRCDIR)/mono-basic/vbruntime/Microsoft.VisualBasic
 
+WINFORMS_FORMS=$(SRCDIR)/winforms/src/Microsoft.VisualBasic.Forms/src
+
 VBRUNTIME_SRCS= \
 	$(VBRUNTIME_BASE)/AssemblyInfo.vb \
 	$(VBRUNTIME_BASE)/Helper.vb \
@@ -8,24 +10,19 @@ VBRUNTIME_SRCS= \
 	$(VBRUNTIME_BASE)/Microsoft.VisualBasic/ArrayList.vb \
 	$(VBRUNTIME_BASE)/Microsoft.VisualBasic.ApplicationServices/ApplicationBase.vb \
 	$(VBRUNTIME_BASE)/Microsoft.VisualBasic.ApplicationServices/AssemblyInfo.vb \
-	$(VBRUNTIME_BASE)/Microsoft.VisualBasic.ApplicationServices/AuthenticationMode.vb \
 	$(VBRUNTIME_BASE)/Microsoft.VisualBasic.ApplicationServices/BuiltInRole.vb \
 	$(VBRUNTIME_BASE)/Microsoft.VisualBasic.ApplicationServices/BuiltInRoleConverter.vb \
 	$(VBRUNTIME_BASE)/Microsoft.VisualBasic.ApplicationServices/CantStartSingleInstanceException.vb \
-	$(VBRUNTIME_BASE)/Microsoft.VisualBasic.ApplicationServices/ConsoleApplicationBase.vb \
+	$(WINFORMS_FORMS)/Microsoft/VisualBasic/ApplicationServices/ConsoleApplicationBase.vb \
 	$(VBRUNTIME_BASE)/Microsoft.VisualBasic.ApplicationServices/WebUser.vb \
 	$(VBRUNTIME_BASE)/Microsoft.VisualBasic.ApplicationServices/UnhandledExceptionEventArgs.vb \
-	$(VBRUNTIME_BASE)/Microsoft.VisualBasic.ApplicationServices/UnhandledExceptionEventHandler.vb \
 	$(VBRUNTIME_BASE)/Microsoft.VisualBasic.ApplicationServices/NoStartupFormException.vb \
-	$(VBRUNTIME_BASE)/Microsoft.VisualBasic.ApplicationServices/ShutdownEventHandler.vb \
-	$(VBRUNTIME_BASE)/Microsoft.VisualBasic.ApplicationServices/ShutdownMode.vb \
+	$(WINFORMS_FORMS)/Microsoft/VisualBasic/ApplicationServices/SingleInstanceHelpers.vb \
 	$(VBRUNTIME_BASE)/Microsoft.VisualBasic.ApplicationServices/StartupEventArgs.vb \
-	$(VBRUNTIME_BASE)/Microsoft.VisualBasic.ApplicationServices/StartupEventHandler.vb \
 	$(VBRUNTIME_BASE)/Microsoft.VisualBasic.ApplicationServices/StartupNextInstanceEventArgs.vb \
-	$(VBRUNTIME_BASE)/Microsoft.VisualBasic.ApplicationServices/StartupNextInstanceEventHandler.vb \
 	$(VBRUNTIME_BASE)/Microsoft.VisualBasic.ApplicationServices/User.vb \
-	$(VBRUNTIME_BASE)/Microsoft.VisualBasic.ApplicationServices/WindowsFormsApplicationBase.vb \
-	$(VBRUNTIME_BASE)/Microsoft.VisualBasic.ApplicationServices/WindowsFormsApplicationContext.vb \
+	$(WINFORMS_FORMS)/Microsoft/VisualBasic/ApplicationServices/WindowsFormsApplicationBase.vb \
+	$(WINFORMS_FORMS)/Microsoft/VisualBasic/ApplicationServices/WindowsFormsApplicationBase.WinFormsAppContext.vb \
 	$(VBRUNTIME_BASE)/Microsoft.VisualBasic.CompilerServices/BooleanType.vb \
 	$(VBRUNTIME_BASE)/Microsoft.VisualBasic.CompilerServices/ByteType.vb \
 	$(VBRUNTIME_BASE)/Microsoft.VisualBasic.CompilerServices/CharArrayType.vb \
@@ -37,6 +34,7 @@ VBRUNTIME_SRCS= \
 	$(VBRUNTIME_BASE)/Microsoft.VisualBasic.CompilerServices/LikeOperator.vb \
 	$(VBRUNTIME_BASE)/Microsoft.VisualBasic.CompilerServices/InternalErrorException.vb \
 	$(VBRUNTIME_BASE)/Microsoft.VisualBasic.CompilerServices/ExceptionUtils.vb \
+	$(WINFORMS_FORMS)/Microsoft/VisualBasic/CompilerServices/ExceptionUtils.vb \
 	$(VBRUNTIME_BASE)/Microsoft.VisualBasic.CompilerServices/DesignerGeneratedAttribute.vb \
 	$(VBRUNTIME_BASE)/Microsoft.VisualBasic.CompilerServices/OptionTextAttribute.vb \
 	$(VBRUNTIME_BASE)/Microsoft.VisualBasic.CompilerServices/TypeCombinations.vb \
@@ -57,10 +55,12 @@ VBRUNTIME_SRCS= \
 	$(VBRUNTIME_BASE)/Microsoft.VisualBasic.CompilerServices/Operators.vb \
 	$(VBRUNTIME_BASE)/Microsoft.VisualBasic.CompilerServices/ProjectData.vb \
 	$(VBRUNTIME_BASE)/Microsoft.VisualBasic.CompilerServices/ShortType.vb \
+	$(WINFORMS_FORMS)/Microsoft/VisualBasic/CompilerServices/SR.vb \
 	$(VBRUNTIME_BASE)/Microsoft.VisualBasic.CompilerServices/SingleType.vb \
 	$(VBRUNTIME_BASE)/Microsoft.VisualBasic.CompilerServices/StandardModuleAttribute.vb \
 	$(VBRUNTIME_BASE)/Microsoft.VisualBasic.CompilerServices/StaticLocalInitFlag.vb \
 	$(VBRUNTIME_BASE)/Microsoft.VisualBasic.CompilerServices/StringType.vb \
+	$(WINFORMS_FORMS)/Microsoft/VisualBasic/CompilerServices/Utils.vb \
 	$(VBRUNTIME_BASE)/Microsoft.VisualBasic.CompilerServices/Utils.vb \
 	$(VBRUNTIME_BASE)/Microsoft.VisualBasic.Devices/Audio.jvm.vb \
 	$(VBRUNTIME_BASE)/Microsoft.VisualBasic.Devices/Audio.vb \
@@ -153,17 +153,20 @@ VBRUNTIME_SRCS= \
 
 VBRUNTIME_RESOURCES= \
 	$(BUILDDIR)/Microsoft.VisualBasic/strings2.resources \
-	$(VBRUNTIME_BASE)/strings.resources
+	$(BUILDDIR)/Microsoft.VisualBasic/strings.resources
 
-$(BUILDDIR)/Microsoft.VisualBasic/strings2.txt: $(VBRUNTIME_BASE)/strings.txt $(VBRUNTIME_BASE)/strings-only2.txt
+$(BUILDDIR)/Microsoft.VisualBasic/strings2.txt: $(VBRUNTIME_BASE)/strings.txt $(VBRUNTIME_BASE)/strings-only2.txt mono-basic.make
 	mkdir -p $(BUILDDIR)/Microsoft.VisualBasic
-	cat $^ > $@
+	cat $(VBRUNTIME_BASE)/strings.txt $(VBRUNTIME_BASE)/strings-only2.txt > $@
 
 $(BUILDDIR)/Microsoft.VisualBasic/strings2.resources: $(BUILDDIR)/mono-unix/.installed $(BUILDDIR)/Microsoft.VisualBasic/strings2.txt
 	$(MONO_ENV) resgen2 $(BUILDDIR)/Microsoft.VisualBasic/strings2.txt $@
 
+$(BUILDDIR)/Microsoft.VisualBasic/strings.resources: $(BUILDDIR)/mono-unix/.installed $(BUILDDIR)/Microsoft.VisualBasic/strings2.txt
+	$(MONO_ENV) resgen2 $(VBRUNTIME_BASE)/strings.txt $@
+
 $(BUILDDIR)/Microsoft.VisualBasic.dll: $(BUILDDIR)/mono-unix/.installed $(VBRUNTIME_SRCS) $(VBRUNTIME_RESOURCES) $(VBRUNTIME_BASE)/msfinal.pub $(VBRUNTIME_BASE)/mono.snk
-	$(MONO_ENV) vbc -target:library -debug+ -out:$@ -define:NET_VER=4.5 $(foreach res,$(VBRUNTIME_RESOURCES),-res:$(res)) -r:System.dll -r:mscorlib.dll -r:System.Windows.Forms.dll -r:System.Data.dll -r:System.Drawing.dll -r:System.Web.dll -r:System.Xml.dll -vbruntime- -define:_MYTYPE="Empty" -define:DONTSIGN=True -delaysign+ -keyfile:$(VBRUNTIME_BASE)/msfinal.pub -optionstrict+ -imports:System,System.Collections,System.Data,System.Diagnostics,System.Collections.Generic -noconfig $(VBRUNTIME_SRCS)
+	$(MONO_ENV) vbc -target:library -debug+ -out:$@ -define:NET_VER=4.5 $(foreach res,$(VBRUNTIME_RESOURCES),-res:$(res)) -r:System.dll -r:mscorlib.dll -r:System.Windows.Forms.dll -r:System.Core.dll -r:System.Data.dll -r:System.Drawing.dll -r:System.Web.dll -r:System.Xml.dll -vbruntime- -define:_MYTYPE="Empty" -define:DONTSIGN=True -delaysign+ -keyfile:$(VBRUNTIME_BASE)/msfinal.pub -optionstrict+ -optioninfer+ -imports:System,System.Collections,System.Data,System.Diagnostics,System.Collections.Generic,System.Threading.Tasks -noconfig $(VBRUNTIME_SRCS)
 	$(MONO_ENV) sn -R $@ $(VBRUNTIME_BASE)/mono.snk
 
 Microsoft.VisualBasic.dll: $(BUILDDIR)/Microsoft.VisualBasic.dll
