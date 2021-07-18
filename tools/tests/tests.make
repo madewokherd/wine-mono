@@ -14,6 +14,7 @@ TEST_CS_EXE_SRCS = \
 	processnames.cs \
 	releasebadptr.cs \
 	runtimeinterface.cs \
+	vbstartup.cs \
 	webbrowsertest.cs \
 	wpfclipboard.cs
 
@@ -55,6 +56,8 @@ tools/tests/privatepath1.exe: tools/tests/testcslib1.dll
 tools/tests/privatepath2.exe: tools/tests/testcslib1.dll tools/tests/testcslib2.dll
 
 tools/tests/wpfclipboard.exe: $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/PresentationCore/.built
+
+tools/tests/vbstartup.exe: $(BUILDDIR)/Microsoft.VisualBasic.dll
 
 tools/tests/net_4_x_%_test.dll: $(BUILDDIR)/nunitlite.dll
 	$(MONO_ENV) csc -target:library -out:$@ $(patsubst %,-r:%,$(filter %.dll,$^)) $(foreach path,$(filter %/.built,$^),-r:$(dir $(path))/$(notdir $(realpath $(dir $(path)))).dll) $(filter %.cs,$^)
