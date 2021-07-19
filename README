@@ -52,11 +52,13 @@ INSTALL
 
 To install Wine Mono, run the generated msi file with msiexec:
 
-$ wine64 msiexec /i wine-mono-6.1.0.msi
+$ wine64 msiexec /i wine-mono-6.1.0-x86.msi
 
 Note that if a Wine Mono with a version number >= to this file is already installed, that command will do nothing, so you may have to remove the existing version (using 'wine64 uninstaller') first.
 
 If you are building for development, you may find it more convenient to use the 'make dev' target, which builds a runtime in image/ and configures a wine prefix to use it. You can then rebuild individual dlls using their filename with no path. See 'make help' for details.
+
+Packagers should extract the tarball from the "make bin" target to /usr/share/wine/mono or the corresponding directory for the prefix used to configure Wine. This should create a directory named something like /usr/share/wine/mono/wine-mono-6.1.0. This conserves space compared to the msi because it doesn't need to be copied into every prefix.
 
 
 COMPOSITION
@@ -73,8 +75,14 @@ Bugs involving the use of this package to run Windows programs in Wine should be
 
 PATCHES
 
-Patches should be sent as a pull request to https://github.com/madewokherd/wine-mono or the appropriate submodule.
+Patches that are not for a fork should be sent as a pull request to https://github.com/madewokherd/wine-mono.
 
-Before sending a patch for one of Wine Mono's forks, please consider whether it would be more appropriate to send to the upstream project. We'd like to keep the diff from upstream to a minimum, but we are willing to maintain diffs as long as we have a test for them in the test suite. This can be as simple as a .cs or .il program that returns 0 on success and non-zero on failure. If the bug cannot be reliably tested, we may accept changes without a test case.
+Changes to upstream projects that make sense only within the context of wine-mono and not in any other use case should be sent as a pull request to the appropriate fork.
 
-The winforms and wpf projects are not being updated from upstream, and have diverged significantly. Since they are supporting .NET Core, which adds new features and is not binary-compatible with .NET Framework 4, their use case is very different from ours. In most cases, it doesn't make sense to send changes to these projects upstream.
+The mono project is maintained but slow to review pull requests. Please send them anyway when possible so we can get reviews and keep the diff as small as we can, but be aware that there's a strong possibility that they'll stagnate upstream, and we'll have to merge them in wine-mono. For diffs from mono, it's important to have an automated test for them. This can be as simple as a .cs or .il program that returns 0 on success and non-zero on failure. If the bug cannot be reliably tested, we may accept changes without a test case.
+
+FNA and related projects have been very responsive to pull requests, and it's worth sending changes upstream. monoDX is similar, even though it doesn't really have a separate use case.
+
+The mono-basic project is abandoned and PRs can be made directly to the fork. However, before doing any substantial work on mono-basic, it may be worth checking whether there's an implementation in dotnet/winforms or dotnet/runtime.
+
+The winforms and wpf projects are not being updated from upstream, and have diverged significantly. Since they are supporting .NET Core, which adds new features and is not binary-compatible with .NET Framework 4, their use case is very different from ours. Any changes should be sent directly to the appropriate fork, but feel free to also send them upstream if it makes sense.
