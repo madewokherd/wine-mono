@@ -152,18 +152,17 @@ VBRUNTIME_SRCS= \
 	$(VBRUNTIME_BASE)/MonoTODOAttribute.vb
 
 VBRUNTIME_RESOURCES= \
-	$(BUILDDIR)/Microsoft.VisualBasic/strings2.resources \
 	$(BUILDDIR)/Microsoft.VisualBasic/strings.resources
 
-$(BUILDDIR)/Microsoft.VisualBasic/strings2.txt: $(VBRUNTIME_BASE)/strings.txt $(VBRUNTIME_BASE)/strings-only2.txt mono-basic.make
+$(BUILDDIR)/Microsoft.VisualBasic/.dir: mono-basic.make
 	mkdir -p $(BUILDDIR)/Microsoft.VisualBasic
+	touch $@
+
+$(BUILDDIR)/Microsoft.VisualBasic/strings.txt: $(VBRUNTIME_BASE)/strings.txt $(VBRUNTIME_BASE)/strings-only2.txt $(BUILDDIR)/Microsoft.VisualBasic/.dir
 	cat $(VBRUNTIME_BASE)/strings.txt $(VBRUNTIME_BASE)/strings-only2.txt > $@
 
-$(BUILDDIR)/Microsoft.VisualBasic/strings2.resources: $(BUILDDIR)/mono-unix/.installed $(BUILDDIR)/Microsoft.VisualBasic/strings2.txt
-	$(MONO_ENV) resgen2 $(BUILDDIR)/Microsoft.VisualBasic/strings2.txt $@
-
-$(BUILDDIR)/Microsoft.VisualBasic/strings.resources: $(BUILDDIR)/mono-unix/.installed $(BUILDDIR)/Microsoft.VisualBasic/strings2.txt
-	$(MONO_ENV) resgen2 $(VBRUNTIME_BASE)/strings.txt $@
+$(BUILDDIR)/Microsoft.VisualBasic/strings.resources: $(BUILDDIR)/mono-unix/.installed $(BUILDDIR)/Microsoft.VisualBasic/strings.txt
+	$(MONO_ENV) resgen2 $(BUILDDIR)/Microsoft.VisualBasic/strings.txt $@
 
 $(BUILDDIR)/Microsoft.VisualBasic.dll: $(BUILDDIR)/mono-unix/.installed $(VBRUNTIME_SRCS) $(VBRUNTIME_RESOURCES) $(VBRUNTIME_BASE)/msfinal.pub $(VBRUNTIME_BASE)/mono.snk
 	$(MONO_ENV) vbc -target:library -debug+ -out:$@ -define:NET_VER=4.5 $(foreach res,$(VBRUNTIME_RESOURCES),-res:$(res)) -r:System.dll -r:mscorlib.dll -r:System.Windows.Forms.dll -r:System.Core.dll -r:System.Data.dll -r:System.Drawing.dll -r:System.Web.dll -r:System.Xml.dll -vbruntime- -define:_MYTYPE="Empty" -define:DONTSIGN=True -delaysign+ -keyfile:$(VBRUNTIME_BASE)/msfinal.pub -optionstrict+ -optioninfer+ -imports:System,System.Collections,System.Data,System.Diagnostics,System.Collections.Generic,System.Threading.Tasks -noconfig $(VBRUNTIME_SRCS)
