@@ -295,7 +295,6 @@ MonoTests.System.Diagnostics.PerformanceCounterTest:PerformanceCounter_CreateCou
 MonoTests.System.Net.HttpListenerBugs:BindToAllInterfaces
 MonoTests.System.Net.HttpListenerBugs:BindToSingleInterface
 MonoTests.System.Net.HttpListenerBugs:ClosePort
-MonoTests.System.Net.HttpListenerBugs:TestNonChunkedAsync
 MonoTests.System.Net.HttpListenerBugs:Test_EmptyLineAtStart
 MonoTests.System.Net.HttpListenerBugs:Test_HostInUri
 MonoTests.System.Net.HttpListenerBugs:Test_MultipleConnections
