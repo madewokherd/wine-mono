@@ -12,6 +12,7 @@ TEST_CS_EXE_SRCS = \
 	privatepath1.cs \
 	privatepath2.cs \
 	processnames.cs \
+	rcw-visible.cs \
 	releasebadptr.cs \
 	runtimeinterface.cs \
 	vbstartup.cs \
