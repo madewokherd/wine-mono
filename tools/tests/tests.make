@@ -3,6 +3,10 @@ TEST_CS_EXE_SRCS = \
 	arraypadding.cs \
 	marshalansi.cs \
 	mixedmode-call.cs \
+	mixedmode-dllimport-0.cs \
+	mixedmode-dllimport-assemblydirectory.cs \
+	mixedmode-dllimport-default.cs \
+	mixedmode-dllimport-usedlldirectory.cs \
 	mixedmode-exe.cs \
 	mixedmode-managedcaller.cs \
 	mixedmode-nativedir.cs \
@@ -21,6 +25,10 @@ TEST_CS_EXE_SRCS = \
 
 TEST_RAW_FILES = \
 	mixedmode-managedcaller.exe.config \
+	mixedmode-dllimport-0.exe.config \
+	mixedmode-dllimport-assemblydirectory.exe.config \
+	mixedmode-dllimport-default.exe.config \
+	mixedmode-dllimport-usedlldirectory.exe.config \
 	privatepath2.exe.config \
 	privatepath1.exe.config
 
@@ -51,6 +59,11 @@ tools/tests/%.dll: tools/tests/%.cs $(BUILDDIR)/mono-unix/.installed
 	$(MONO_ENV) csc -target:library -out:$@ $(patsubst %,-r:%,$(filter %.dll,$^)) $< $(shell sed -n '/CSCFLAGS=/s/^.*CSCFLAGS=//p' $<)
 
 tools/tests/mixedmode-managedcaller.exe: vstests/Win32/Release/mixedmodelibrary.dll
+
+tools/tests/mixedmode-dllimport-0.exe: tools/tests/mixedmode-dllimport.dll
+tools/tests/mixedmode-dllimport-assemblydirectory.exe: tools/tests/mixedmode-dllimport.dll
+tools/tests/mixedmode-dllimport-default.exe: tools/tests/mixedmode-dllimport.dll
+tools/tests/mixedmode-dllimport-usedlldirectory.exe: tools/tests/mixedmode-dllimport.dll
 
 tools/tests/privatepath1.exe: tools/tests/testcslib1.dll
 
@@ -111,10 +124,10 @@ tools-tests-install: tools-tests-all $(BUILDDIR)/fixupclr.exe $(BUILDDIR)/call-m
 		cp $(SRCDIR)/vstests/Win32/Release/$$i $(TESTS_OUTDIR)/tests-x86/vstests ; \
 		cp $(SRCDIR)/vstests/x64/Release/$$i $(TESTS_OUTDIR)/tests-x86_64/vstests ; \
 	done
-	cp tools/tests/mixedmode-managedcaller.exe $(TESTS_OUTDIR)/tests-x86/vstests
+	cp tools/tests/mixedmode-managedcaller.exe tools/tests/mixedmode-dllimport.dll $(TESTS_OUTDIR)/tests-x86/vstests
 	$(WINE) $(BUILDDIR)/fixupclr.exe x86 $(TESTS_OUTDIR)/tests-x86/vstests/mixedmode-managedcaller.exe
 	$(INSTALL_PE_x86) $(BUILDDIR)/call-mixedmode-x86.exe $(TESTS_OUTDIR)/tests-x86/vstests/call-mixedmode.exe
-	cp tools/tests/mixedmode-managedcaller.exe $(TESTS_OUTDIR)/tests-x86_64/vstests
+	cp tools/tests/mixedmode-managedcaller.exe tools/tests/mixedmode-dllimport.dll $(TESTS_OUTDIR)/tests-x86_64/vstests
 	$(WINE) $(BUILDDIR)/fixupclr.exe x86_64 $(TESTS_OUTDIR)/tests-x86_64/vstests/mixedmode-managedcaller.exe
 	$(INSTALL_PE_x86_64) $(BUILDDIR)/call-mixedmode-x86_64.exe $(TESTS_OUTDIR)/tests-x86_64/vstests/call-mixedmode.exe
 	mkdir -p $(TESTS_OUTDIR)/tests-x86/vstests-native
