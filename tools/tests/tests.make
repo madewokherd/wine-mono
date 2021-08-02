@@ -21,6 +21,7 @@ TEST_CS_EXE_SRCS = \
 	runtimeinterface.cs \
 	vbstartup.cs \
 	webbrowsertest.cs \
+	winemono-ccw.cs \
 	wpfclipboard.cs
 
 TEST_RAW_FILES = \
@@ -166,7 +167,7 @@ clean-call-mixedmode-$(1):
 clean-build: clean-call-mixedmode-$(1)
 
 $$(BUILDDIR)/winemonotest-$(1).dll: $$(SRCDIR)/tools/tests/winemonotest.c $$(MINGW_DEPS)
-	$$(MINGW_ENV) $$(MINGW_$(1))-gcc -shared $$(filter %.lib,$$^) $$< -o $$@
+	$$(MINGW_ENV) $$(MINGW_$(1))-gcc -shared $$(filter %.lib,$$^) -loleaut32 $$< -o $$@
 
 tools-tests-all: $$(BUILDDIR)/winemonotest-$(1).dll
 
