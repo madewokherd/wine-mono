@@ -97,7 +97,7 @@ $(foreach target,$(TEST_NUNIT_TARGETS), $(eval $(call nunit_target_template,$(ta
 tools-tests-all: $(TEST_CLR_EXE_TARGETS) $(TEST_INSTALL_FILES) tools/tests/tests.make
 .PHONY: tools-tests-all
 
-tools-tests-install: tools-tests-all $(BUILDDIR)/fixupclr.exe $(BUILDDIR)/call-mixedmode-x86.exe $(BUILDDIR)/call-mixedmode-x86_64.exe
+tools-tests-install: tools-tests-all $(BUILDDIR)/fixupclr.exe
 	mkdir -p $(TESTS_OUTDIR)/tests-x86
 	mkdir -p $(TESTS_OUTDIR)/tests-x86_64
 	for i in $(TEST_CLR_EXE_TARGETS); do \
@@ -142,6 +142,8 @@ tools-tests-install: tools-tests-all $(BUILDDIR)/fixupclr.exe $(BUILDDIR)/call-m
 	cp vstests/Win32/Release/mixedmodelibrary.dll $(TESTS_OUTDIR)/tests-x86/vstests-native/vstests-mixed
 	mkdir -p $(TESTS_OUTDIR)/tests-x86_64/vstests-native/vstests-mixed
 	cp vstests/x64/Release/mixedmodelibrary.dll $(TESTS_OUTDIR)/tests-x86_64/vstests-native/vstests-mixed
+	cp build/winemonotest-x86.dll $(TESTS_OUTDIR)/tests-x86/winemonotest.dll
+	cp build/winemonotest-x86_64.dll $(TESTS_OUTDIR)/tests-x86_64/winemonotest.dll
 .PHONY: tools-tests-install
 
 tests: tools-tests-install
@@ -156,10 +158,22 @@ define MINGW_TEMPLATE +=
 $$(BUILDDIR)/call-mixedmode-$(1).exe: $$(SRCDIR)/tools/tests/call-mixedmode.c $$(MINGW_DEPS)
 	$$(MINGW_ENV) $$(MINGW_$(1))-gcc $$(filter %.lib,$$^) $$< -o $$@
 
+tools-tests-all: $$(BUILDDIR)/call-mixedmode-$(1).exe
+
 clean-call-mixedmode-$(1):
 	rm -f $$(BUILDDIR)/call-mixedmode-$(1).exe
 .PHONY: clean-call-mixedmode-$(1)
 clean-build: clean-call-mixedmode-$(1)
+
+$$(BUILDDIR)/winemonotest-$(1).dll: $$(SRCDIR)/tools/tests/winemonotest.c $$(MINGW_DEPS)
+	$$(MINGW_ENV) $$(MINGW_$(1))-gcc -shared $$(filter %.lib,$$^) $$< -o $$@
+
+tools-tests-all: $$(BUILDDIR)/winemonotest-$(1).dll
+
+clean-winemonotest-$(1):
+	rm -f $$(BUILDDIR)/winemonotest-$(1).dll
+.PHONY: clean-winemonotest-$(1)
+clean-build: clean-winemonotest-$(1)
 
 endef
 
