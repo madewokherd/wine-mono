@@ -5,6 +5,15 @@ static class Test
 {
 	static public int Main()
 	{
-		return MixedModeDllImport.dllimport_usedlldirectory(-5);
+		try
+		{
+			if (MixedModeDllImport.dllimport_usedlldirectory(-5) != 0)
+				return 1;
+		}
+		catch (DllNotFoundException)
+		{
+			return 0;
+		}
+		return 2;
 	}
 }
