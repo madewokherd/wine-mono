@@ -132,7 +132,7 @@ include fna.make
 include fna3d.make
 include faudio.make
 include sdl2.make
-include theorafile.make
+include fnamf.make
 include winforms.make
 include winforms-datavisualization.make
 include wpf.make
