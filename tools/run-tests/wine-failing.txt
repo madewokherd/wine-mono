@@ -1753,7 +1753,6 @@ MonoTests.System.Windows.Forms.PictureBoxTest:ImageLocation_Sync
 MonoTests.System.StringTest:TestSbytePtrConstructorDefault # Encoding.Default needs to be changed to CP_ACP to match String ctor
 mixedmode-dllimport-0
 mixedmode-dllimport-usedlldirectory
-winemono-ccw
 # definitely unreliable:
 delegate2
 x86_64.MonoTests.System.Threading.ThreadLocalTests:DisposeOnThreadExit
