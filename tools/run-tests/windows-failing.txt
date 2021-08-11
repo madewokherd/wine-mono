@@ -5594,6 +5594,7 @@ MonoTests.System.Diagnostics.EventLogTest:Exists1_Win32
 MonoTests.System.Diagnostics.EventLogTest:Exists2_Win32
 MonoTests.System.Diagnostics.EventLogTest:SourceExists1_Win32
 MonoTests.System.Diagnostics.EventLogTest:SourceExists2_Win32
+x86_64.bug-15767
 # unreliable:
 x86.thread-exit
 MonoTests.System.Threading.Tasks.TaskTests:DoubleWaitTest
