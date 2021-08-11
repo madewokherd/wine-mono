@@ -15,7 +15,7 @@ define MINGW_TEMPLATE +=
 # libmono dll's
 $$(BUILDDIR)/mono-$(1)/Makefile: $$(SRCDIR)/mono/configure $$(SRCDIR)/mono.make $$(BUILDDIR)/.dir $$(MINGW_DEPS)
 	mkdir -p $$(@D)
-	cd $$(BUILDDIR)/mono-$(1); $$(MINGW_ENV) CFLAGS="$$(PDB_CFLAGS_$(1)) $$$${CFLAGS:--g -O2}" CXXFLAGS="$$(PDB_CFLAGS_$(1)) $$$${CXXFLAGS:--g -O2}" LDFLAGS="$$(PDB_LDFLAGS_$(1))" $$(SRCDIR_ABS)/mono/configure --prefix="$$(BUILDDIR_ABS)/build-cross-$(1)-install" --build=$$(shell $$(SRCDIR)/mono/config.guess) --target=$$(MINGW_$(1)) --host=$$(MINGW_$(1)) --with-tls=none --disable-mcs-build --enable-win32-dllmain=yes --with-libgc-threads=win32 PKG_CONFIG=false mono_cv_clang=no --disable-boehm
+	cd $$(BUILDDIR)/mono-$(1); $$(MINGW_ENV) CFLAGS="$$(PDB_CFLAGS_$(1)) $$$${CFLAGS:--g -O2}" CXXFLAGS="$$(PDB_CFLAGS_$(1)) $$$${CXXFLAGS:--g -O2}" LDFLAGS="$$(PDB_LDFLAGS_$(1))" $$(SRCDIR_ABS)/mono/configure --prefix="$$(BUILDDIR_ABS)/build-cross-$(1)-install" --build=$$(shell $$(SRCDIR)/mono/config.guess) --target=$$(MINGW_$(1)) --host=$$(MINGW_$(1)) --with-tls=none --disable-mcs-build --enable-win32-dllmain=yes --with-libgc-threads=win32 PKG_CONFIG=false mono_cv_clang=no --disable-boehm mono_feature_disable_cleanup=yes
 	sed -e 's/-lgcc_s//' -i $$(BUILDDIR)/mono-$(1)/libtool
 
 $$(BUILDDIR)/mono-$(1)/.built: $$(BUILDDIR)/mono-$(1)/Makefile $$(MONO_MONO_SRCS) $$(MINGW_DEPS)
