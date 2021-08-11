@@ -445,8 +445,6 @@ x86.MonoTests.System.ServiceModel.Syndication.Atom10FeedFormatterTest:ReadFrom_W
 x86.MonoTests.System.ServiceModel.Syndication.Rss20ItemFormatterTest:ReadFrom_WrongDate2
 x86.MonoTests.System.UriTemplateTest:BindByNameFileUriBaseAddress
 x86.MonoTests.System.UriTemplateTest:BindByPositionFileUriBaseAddress
-x86.MonoTests.System.ServiceModel.CallbackBehaviorAttributeTest
-x86.MonoTests.System.ServiceModel.CallbackBehaviorAttributeTest
 x86.MonoTests.System.ServiceModel.Channels.AsymmetricSecurityBindingElementTest:ClientInitiatorHasNoKeys1
 x86.MonoTests.System.ServiceModel.Channels.AsymmetricSecurityBindingElementTest:ClientInitiatorHasNoKeys2
 x86.MonoTests.System.ServiceModel.Channels.AsymmetricSecurityBindingElementTest:ClientInitiatorHasNoKeys3
@@ -1148,8 +1146,6 @@ x86_64.MonoTests.System.ServiceModel.Syndication.Atom10FeedFormatterTest:ReadFro
 x86_64.MonoTests.System.ServiceModel.Syndication.Rss20ItemFormatterTest:ReadFrom_WrongDate2
 x86_64.MonoTests.System.UriTemplateTest:BindByNameFileUriBaseAddress
 x86_64.MonoTests.System.UriTemplateTest:BindByPositionFileUriBaseAddress
-x86_64.MonoTests.System.ServiceModel.CallbackBehaviorAttributeTest
-x86_64.MonoTests.System.ServiceModel.CallbackBehaviorAttributeTest
 x86_64.MonoTests.System.ServiceModel.Channels.AsymmetricSecurityBindingElementTest:ClientInitiatorHasNoKeys1
 x86_64.MonoTests.System.ServiceModel.Channels.AsymmetricSecurityBindingElementTest:ClientInitiatorHasNoKeys2
 x86_64.MonoTests.System.ServiceModel.Channels.AsymmetricSecurityBindingElementTest:ClientInitiatorHasNoKeys3
@@ -1753,6 +1749,8 @@ MonoTests.System.Windows.Forms.PictureBoxTest:ImageLocation_Sync
 MonoTests.System.StringTest:TestSbytePtrConstructorDefault # Encoding.Default needs to be changed to CP_ACP to match String ctor
 mixedmode-dllimport-0
 mixedmode-dllimport-usedlldirectory
+MonoTests.System.ServiceModel.CallbackBehaviorAttributeTest:CallbackExample2
+MonoTests.System.ServiceModel.CallbackBehaviorAttributeTest:ConcurrencyModeSingleAndCallbackInsideServiceMethod
 # definitely unreliable:
 delegate2
 x86_64.MonoTests.System.Threading.ThreadLocalTests:DisposeOnThreadExit
@@ -1786,3 +1784,4 @@ MonoTests.System.Net.Http.HttpClientTest:Send_Complete_ClientHandlerSettings
 MonoTests.System.Net.HttpListenerBugs:BindToSingleInterface
 x86.MonoTests.System.Net.HttpListenerRequestTest # unreliable on github CI
 x86_64.MonoTests.System.Net.Http.HttpClientTest:Send_Complete_Content # unreliable on github CI
+MonoTests.System.ServiceModel.CallbackBehaviorAttributeTest:CallbackExample1

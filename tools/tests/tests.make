@@ -19,6 +19,7 @@ TEST_CS_EXE_SRCS = \
 	rcw-visible.cs \
 	releasebadptr.cs \
 	runtimeinterface.cs \
+	thread-exit-bk.cs \
 	vbstartup.cs \
 	webbrowsertest.cs \
 	winemono-ccw.cs \
