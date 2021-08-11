@@ -70,7 +70,7 @@ int set_32only_flag(const wchar_t* path)
 
 	hfile = CreateFile(path, GENERIC_READ|GENERIC_WRITE, 0, NULL, OPEN_EXISTING,
 		FILE_ATTRIBUTE_NORMAL, NULL);
-	if (!hfile)
+	if (!hfile || hfile == INVALID_HANDLE_VALUE)
 	{
 		fwprintf(stderr, L"%ls: Cannot open, error %d\n", path, GetLastError());
 		return 1;
