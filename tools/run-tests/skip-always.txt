@@ -68,3 +68,4 @@ MonoTests.System.Windows.Forms.ApplicationTest:OpenFormsTest # usually causes cr
 x86.MonoTests.System.Threading.ThreadTest:TestStart # tends to hang on Windows
 MonoTests.System.Threading.CancellationTokenSourceTest:DisposeRace # sometimes crashes on windows
 MonoTests.System.Windows.Forms.PictureBoxTest:ImageLocation_Async # usually hangs
+make-imt-test # not intended to be run directly
