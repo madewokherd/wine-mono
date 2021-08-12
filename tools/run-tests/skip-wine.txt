@@ -1,1 +1,2 @@
 MonoTests.System.Net.Sockets.SocketTest:BeginDisconnect # Disconnect fails with WSAESHUTDOWN
+MonoTests.System.ServiceModel.Channels.TcpTransportBindingElementTest:SimpleDuplexBuffered # sometimes crashes on wine
