@@ -124,7 +124,7 @@ jobs:
         wine winetest64-latest.exe -x winetest64 >/dev/null
         wine winetest64/mscoree_test.exe --list 2>/dev/null|sed 's/\r//'|tail -n +2|while read testname; do
           echo BEGIN 64-BIT $testname TEST 1>&2
-          WINETEST_REPORT_SUCCESS=1 WINEDEBUG=mscoree WINE_MONO_TRACE=x timeout -v 300 wine64 winetest64/mscoree_test.exe $testname 1>&2 || printf 'mscoree:%s 64-bit test failed\n' $testname >> tests-failed
+          WINE_MONO_VERBOSE=1 WINETEST_REPORT_SUCCESS=1 WINEDEBUG=mscoree WINE_MONO_TRACE=x timeout -v 300 wine64 winetest64/mscoree_test.exe $testname 1>&2 || printf 'mscoree:%s 64-bit test failed\n' $testname >> tests-failed
           echo END 64-BIT $testname TEST >&2
         done
     - name: Run 32-bit Wine mscoree tests
