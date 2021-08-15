@@ -5716,3 +5716,4 @@ MonoTests.System.Net.HttpListenerTest:AbortWhileBegin
 MonoTests.System.Net.HttpListenerTest:CloseWhileBegin
 MonoTests.System.Windows.Markup.DateTimeValueSerializerTest:ConvertToString1
 MonoTests.System.Net.HttpListenerBugs:TestNonChunkedAsync
+MonoTests.System.Runtime.Caching.MemoryCacheTest:TimedExpiration
