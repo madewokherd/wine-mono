@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.11)
+cmake_minimum_required(VERSION 3.0.0)
 project(SDL2 C)
 
 # Global settings for all of the test targets
@@ -13,7 +13,14 @@ if(WINDOWS)
     add_definitions(-Dmain=SDL_main)
 endif()
 
+find_package(OpenGL)
+
+if (OPENGL_FOUND)
+add_definitions(-DHAVE_OPENGL)
+endif()
+
 add_executable(checkkeys checkkeys.c)
+add_executable(checkkeysthreads checkkeysthreads.c)
 add_executable(loopwave loopwave.c)
 add_executable(loopwavequeue loopwavequeue.c)
 add_executable(testresample testresample.c)
@@ -88,15 +95,22 @@ add_executable(controllermap controllermap.c)
 add_executable(testvulkan testvulkan.c)
 add_executable(testoffscreen testoffscreen.c)
 
+if(OPENGL_FOUND)
+add_dependencies(testshader OpenGL::GL)
+add_dependencies(testgl2 OpenGL::GL)
+target_link_libraries(testshader OpenGL::GL)
+target_link_libraries(testgl2 OpenGL::GL)
+endif()
+
 # HACK: Dummy target to cause the resource files to be copied to the build directory.
 # Need to make it an executable so we can use the TARGET_FILE_DIR generator expression.
 # This is needed so they get copied to the correct Debug/Release subdirectory in Xcode.
 file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/resources_dummy.c "int main(int argc, const char **argv){ return 1; }\n")
-add_executable(SDL2_test_resoureces ${CMAKE_CURRENT_BINARY_DIR}/resources_dummy.c)
+add_executable(SDL2_test_resources ${CMAKE_CURRENT_BINARY_DIR}/resources_dummy.c)
 
-file(GLOB RESOURCE_FILES *.bmp *.wav moose.dat utf8.txt)
+file(GLOB RESOURCE_FILES *.bmp *.wav *.hex moose.dat utf8.txt)
 foreach(RESOURCE_FILE ${RESOURCE_FILES})
-    add_custom_command(TARGET SDL2_test_resoureces POST_BUILD COMMAND ${CMAKE_COMMAND} ARGS -E copy_if_different ${RESOURCE_FILE} $<TARGET_FILE_DIR:SDL2_test_resoureces>)
+    add_custom_command(TARGET SDL2_test_resources POST_BUILD COMMAND ${CMAKE_COMMAND} ARGS -E copy_if_different ${RESOURCE_FILE} $<TARGET_FILE_DIR:SDL2_test_resources>)
 endforeach(RESOURCE_FILE)
 
 file(COPY ${RESOURCE_FILES} DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
@@ -124,7 +138,7 @@ set(NEEDS_RESOURCES
     testmultiaudio
 )
 foreach(APP IN LISTS NEEDS_RESOURCES)
-    add_dependencies(${APP} SDL2_test_resoureces)
+    add_dependencies(${APP} SDL2_test_resources)
     if(APPLE)
         # Make sure resource files get installed into macOS/iOS .app bundles.  
         target_sources(${APP} PRIVATE "${RESOURCE_FILES}")

@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 1997-2020 Sam Lantinga <slouken@libsdl.org>
+  Copyright (C) 1997-2021 Sam Lantinga <slouken@libsdl.org>
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any damages
@@ -189,9 +189,15 @@ main(int argc, char *argv[])
         SDL_Event event;
         SDL_Window *window = SDL_CreateWindow("Test", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 480, 0);
 
+        /* On wayland, no window will actually show until something has
+           actually been displayed.
+        */
+        SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, 0);
+        SDL_RenderPresent(renderer);
+
         success = SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR,
                     "Simple MessageBox",
-                    "This is a simple error MessageBox with a parent window",
+                    "This is a simple error MessageBox with a parent window. Press a key or close the window after dismissing this messagebox.",
                     window);
         if (success == -1) {
             SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Error Presenting MessageBox: %s\n", SDL_GetError());

@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 1997-2020 Sam Lantinga <slouken@libsdl.org>
+  Copyright (C) 1997-2021 Sam Lantinga <slouken@libsdl.org>
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any damages
@@ -92,7 +92,11 @@ PrintJoystick(SDL_Joystick *joystick)
 static void
 DrawRect(SDL_Renderer *r, const int x, const int y, const int w, const int h)
 {
-    const SDL_Rect area = { x, y, w, h };
+    SDL_Rect area;
+    area.x = x;
+    area.y = y;
+    area.w = w;
+    area.h = h;
     SDL_RenderFillRect(r, &area);
 }
 

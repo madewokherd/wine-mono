@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 1997-2020 Sam Lantinga <slouken@libsdl.org>
+  Copyright (C) 1997-2021 Sam Lantinga <slouken@libsdl.org>
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any damages
@@ -53,7 +53,7 @@ static struct
     double angle;
     int marker;
 
-} s_arrBindingDisplay[BINDING_COUNT] = {
+} s_arrBindingDisplay[] = {
     { 387, 167, 0.0, MARKER_BUTTON }, /* SDL_CONTROLLER_BUTTON_A */
     { 431, 132, 0.0, MARKER_BUTTON }, /* SDL_CONTROLLER_BUTTON_B */
     { 342, 132, 0.0, MARKER_BUTTON }, /* SDL_CONTROLLER_BUTTON_X */
@@ -86,8 +86,9 @@ static struct
     {  91, -20, 180.0, MARKER_AXIS }, /* SDL_CONTROLLER_BINDING_AXIS_TRIGGERLEFT */
     { 375, -20, 180.0, MARKER_AXIS }, /* SDL_CONTROLLER_BINDING_AXIS_TRIGGERRIGHT */
 };
+SDL_COMPILE_TIME_ASSERT(s_arrBindingDisplay, SDL_arraysize(s_arrBindingDisplay) == BINDING_COUNT);
 
-static int s_arrBindingOrder[BINDING_COUNT] = {
+static int s_arrBindingOrder[] = {
     SDL_CONTROLLER_BUTTON_A,
     SDL_CONTROLLER_BUTTON_B,
     SDL_CONTROLLER_BUTTON_Y,
@@ -118,7 +119,9 @@ static int s_arrBindingOrder[BINDING_COUNT] = {
     SDL_CONTROLLER_BUTTON_PADDLE2,
     SDL_CONTROLLER_BUTTON_PADDLE3,
     SDL_CONTROLLER_BUTTON_PADDLE4,
+    -1,
 };
+SDL_COMPILE_TIME_ASSERT(s_arrBindingOrder, SDL_arraysize(s_arrBindingOrder) == BINDING_COUNT);
 
 typedef struct
 {
@@ -162,6 +165,7 @@ static Uint32 s_unPendingAdvanceTime;
 static SDL_bool s_bBindingComplete;
 
 static SDL_Window *window;
+static SDL_Renderer *screen;
 static SDL_bool done = SDL_FALSE;
 
 SDL_Texture *
@@ -221,6 +225,12 @@ SetCurrentBinding(int iBinding)
 
     if (iBinding == BINDING_COUNT) {
         s_bBindingComplete = SDL_TRUE;
+        return;
+    }
+
+    if (s_arrBindingOrder[iBinding] == -1)
+    {
+        SetCurrentBinding(iBinding + 1);
         return;
     }
 
@@ -366,7 +376,6 @@ BMergeAxisBindings(int iIndex)
 static void
 WatchJoystick(SDL_Joystick * joystick)
 {
-    SDL_Renderer *screen = NULL;
     SDL_Texture *background_front, *background_back, *button, *axis, *marker;
     const char *name = NULL;
     SDL_Event event;
@@ -375,12 +384,6 @@ WatchJoystick(SDL_Joystick * joystick)
     Uint32 alpha_ticks = 0;
     SDL_JoystickID nJoystickID;
 
-    screen = SDL_CreateRenderer(window, -1, 0);
-    if (screen == NULL) {
-        SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Couldn't create renderer: %s\n", SDL_GetError());
-        return;
-    }
-    
     background_front = LoadTexture(screen, "controllermap.bmp", SDL_FALSE);
     background_back = LoadTexture(screen, "controllermap_back.bmp", SDL_FALSE);
     button = LoadTexture(screen, "button.bmp", SDL_TRUE);
@@ -412,10 +415,10 @@ WatchJoystick(SDL_Joystick * joystick)
     s_nNumAxes = SDL_JoystickNumAxes(joystick);
     s_arrAxisState = (AxisState *)SDL_calloc(s_nNumAxes, sizeof(*s_arrAxisState));
 
-	/* Skip any spurious events at start */
-	while (SDL_PollEvent(&event) > 0) {
-		continue;
-	}
+    /* Skip any spurious events at start */
+    while (SDL_PollEvent(&event) > 0) {
+        continue;
+    }
 
     /* Loop, getting joystick events! */
     while (!done && !s_bBindingComplete) {
@@ -737,7 +740,13 @@ main(int argc, char *argv[])
         return 2;
     }
 
-    while (SDL_NumJoysticks() == 0) {
+    screen = SDL_CreateRenderer(window, -1, 0);
+    if (screen == NULL) {
+        SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Couldn't create renderer: %s\n", SDL_GetError());
+        return 2;
+    }
+
+    while (!done && SDL_NumJoysticks() == 0) {
         SDL_Event event;
 
         while (SDL_PollEvent(&event) > 0) {
@@ -754,6 +763,7 @@ main(int argc, char *argv[])
                 break;
             }
         }
+        SDL_RenderPresent(screen);
     }
 
     /* Print information about the joysticks */

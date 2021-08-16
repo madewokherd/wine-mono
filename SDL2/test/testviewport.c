@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 1997-2020 Sam Lantinga <slouken@libsdl.org>
+  Copyright (C) 1997-2021 Sam Lantinga <slouken@libsdl.org>
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any damages
@@ -92,7 +92,7 @@ LoadSprite(char *file, SDL_Renderer *renderer)
 }
 
 void
-DrawOnViewport(SDL_Renderer * renderer, SDL_Rect viewport)
+DrawOnViewport(SDL_Renderer * renderer)
 {    
     SDL_Rect rect;
 
@@ -174,7 +174,7 @@ loop()
             continue;
 
         /* Draw using viewport */
-        DrawOnViewport(state->renderers[i], viewport);
+        DrawOnViewport(state->renderers[i]);
 
         /* Update the screen! */
         if (use_target) {

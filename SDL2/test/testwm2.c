@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 1997-2020 Sam Lantinga <slouken@libsdl.org>
+  Copyright (C) 1997-2021 Sam Lantinga <slouken@libsdl.org>
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any damages
@@ -38,6 +38,7 @@ static const char *cursorNames[] = {
 };
 int system_cursor = -1;
 SDL_Cursor *cursor = NULL;
+SDL_bool relative_mode = SDL_FALSE;
 
 /* Call this instead of exit(), so we can clean up SDL: atexit() is evil. */
 static void
@@ -76,6 +77,17 @@ loop()
                             SDL_GetDisplayName(SDL_GetWindowDisplayIndex(window)));
                     }
                 }
+                if (event.window.event == SDL_WINDOWEVENT_FOCUS_LOST) {
+                    relative_mode = SDL_GetRelativeMouseMode();
+                    if (relative_mode) {
+                        SDL_SetRelativeMouseMode(SDL_FALSE);
+                    }
+                }
+                if (event.window.event == SDL_WINDOWEVENT_FOCUS_GAINED) {
+                    if (relative_mode) {
+                        SDL_SetRelativeMouseMode(SDL_TRUE);
+                    }
+                }
             }
             if (event.type == SDL_KEYUP) {
                 SDL_bool updateCursor = SDL_FALSE;
@@ -104,8 +116,15 @@ loop()
 
         for (i = 0; i < state->num_windows; ++i) {
             SDL_Renderer *renderer = state->renderers[i];
-            SDL_RenderClear(renderer);
-            SDL_RenderPresent(renderer);
+            if (renderer != NULL) {
+                SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+                SDL_RenderClear(renderer);
+
+                SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+                SDLTest_CommonDrawWindowInfo(renderer, state->windows[i]);
+
+                SDL_RenderPresent(renderer);
+            }
         }
 #ifdef __EMSCRIPTEN__
     if (done) {
