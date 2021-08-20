@@ -2143,7 +2143,6 @@ x86.MonoCasTests.System.Xml.XmlSecureResolverCas:DenyUnrestricted_UnitTests
 x86.MonoCasTests.System.Xml.XmlSecureResolverCas:EmptyEvidenceDeniedAccess
 x86.MonoCasTests.System.Xml.Xsl.XsltCompileExceptionCas:DenySerializationFormatter_GetObjectData
 x86.MonoCasTests.System.Xml.Xsl.XsltExceptionCas:DenySerializationFormatter_GetObjectData
-x86.MonoTests.System.Xml.XmlNamespaceManagerTests:NewNamespaceManager
 x86.MonoTests.System.Xml.XmlReaderSettingsTests:LegacyXmlSettingsAreDisabled
 x86.MonoTests.System.Xml.XmlSchemaSetTests:AddReaderTwice
 x86.MonoTests.System.Xml.XmlSecureResolverTests:CreateEvidenceForUrl_Basic
@@ -4820,7 +4819,6 @@ x86_64.MonoCasTests.System.Xml.XmlSecureResolverCas:DenyUnrestricted_UnitTests
 x86_64.MonoCasTests.System.Xml.XmlSecureResolverCas:EmptyEvidenceDeniedAccess
 x86_64.MonoCasTests.System.Xml.Xsl.XsltCompileExceptionCas:DenySerializationFormatter_GetObjectData
 x86_64.MonoCasTests.System.Xml.Xsl.XsltExceptionCas:DenySerializationFormatter_GetObjectData
-x86_64.MonoTests.System.Xml.XmlNamespaceManagerTests:NewNamespaceManager
 x86_64.MonoTests.System.Xml.XmlReaderSettingsTests:LegacyXmlSettingsAreDisabled
 x86_64.MonoTests.System.Xml.XmlReaderSettingsTests
 x86_64.MonoTests.System.Xml.XmlSchemaSetTests:AddReaderTwice
@@ -5717,3 +5715,6 @@ MonoTests.System.Net.HttpListenerTest:CloseWhileBegin
 MonoTests.System.Windows.Markup.DateTimeValueSerializerTest:ConvertToString1
 MonoTests.System.Net.HttpListenerBugs:TestNonChunkedAsync
 MonoTests.System.Runtime.Caching.MemoryCacheTest:TimedExpiration
+MonoTests.System.Xml.XmlNamespaceManagerTests:NewNamespaceManager
+MonoTests.System.Xml.XmlNamespaceManagerTests
+MonoTests.Microsoft_VisualBasic.DateAndTimeTests:Today_1 # race condition with NTP update?
