@@ -20,6 +20,7 @@ TEST_CS_EXE_SRCS = \
 	releasebadptr.cs \
 	runtimeinterface.cs \
 	thread-exit-bk.cs \
+	unmanaged-configpath.cs \
 	vbstartup.cs \
 	webbrowsertest.cs \
 	winemono-ccw.cs \
@@ -129,9 +130,11 @@ tools-tests-install: tools-tests-all $(BUILDDIR)/fixupclr.exe
 	cp tools/tests/mixedmode-managedcaller.exe tools/tests/mixedmode-dllimport.dll $(TESTS_OUTDIR)/tests-x86/vstests
 	$(WINE) $(BUILDDIR)/fixupclr.exe x86 $(TESTS_OUTDIR)/tests-x86/vstests/mixedmode-managedcaller.exe
 	$(INSTALL_PE_x86) $(BUILDDIR)/call-mixedmode-x86.exe $(TESTS_OUTDIR)/tests-x86/vstests/call-mixedmode.exe
+	$(INSTALL_PE_x86) $(BUILDDIR)/call-method-x86.exe $(TESTS_OUTDIR)/tests-x86/vstests/call-method.exe
 	cp tools/tests/mixedmode-managedcaller.exe tools/tests/mixedmode-dllimport.dll $(TESTS_OUTDIR)/tests-x86_64/vstests
 	$(WINE) $(BUILDDIR)/fixupclr.exe x86_64 $(TESTS_OUTDIR)/tests-x86_64/vstests/mixedmode-managedcaller.exe
 	$(INSTALL_PE_x86_64) $(BUILDDIR)/call-mixedmode-x86_64.exe $(TESTS_OUTDIR)/tests-x86_64/vstests/call-mixedmode.exe
+	$(INSTALL_PE_x86_64) $(BUILDDIR)/call-method-x86_64.exe $(TESTS_OUTDIR)/tests-x86_64/vstests/call-method.exe
 	mkdir -p $(TESTS_OUTDIR)/tests-x86/vstests-native
 	cp tools/tests/mixedmode-managedcaller.exe vstests/Win32/Release/nativelibrary.dll $(TESTS_OUTDIR)/tests-x86/vstests-native
 	cp tools/tests/mixedmode-managedcaller-nativedir.exe.config $(TESTS_OUTDIR)/tests-x86/vstests-native/mixedmode-managedcaller.exe.config
@@ -160,12 +163,22 @@ define MINGW_TEMPLATE +=
 $$(BUILDDIR)/call-mixedmode-$(1).exe: $$(SRCDIR)/tools/tests/call-mixedmode.c $$(MINGW_DEPS)
 	$$(MINGW_ENV) $$(MINGW_$(1))-gcc $$(filter %.lib,$$^) $$< -o $$@
 
-tools-tests-all: $$(BUILDDIR)/call-mixedmode-$(1).exe
+tools-tests-all: $$(BUILDDIR)/call-mixedmode-$(1).exe $$(BUILDDIR)/call-method-$(1).exe
 
 clean-call-mixedmode-$(1):
 	rm -f $$(BUILDDIR)/call-mixedmode-$(1).exe
 .PHONY: clean-call-mixedmode-$(1)
 clean-build: clean-call-mixedmode-$(1)
+
+$$(BUILDDIR)/call-method-$(1).exe: $$(SRCDIR)/tools/tests/call-method.c $$(MINGW_DEPS)
+	$$(MINGW_ENV) $$(MINGW_$(1))-gcc -mconsole -municode $$(filter %.lib,$$^) $$< -o $$@
+
+tools-tests-all: $$(BUILDDIR)/call-method-$(1).exe $$(BUILDDIR)/call-method-$(1).exe
+
+clean-call-method-$(1):
+	rm -f $$(BUILDDIR)/call-method-$(1).exe
+.PHONY: clean-call-method-$(1)
+clean-build: clean-call-method-$(1)
 
 $$(BUILDDIR)/winemonotest-$(1).dll: $$(SRCDIR)/tools/tests/winemonotest.c $$(MINGW_DEPS)
 	$$(MINGW_ENV) $$(MINGW_$(1))-gcc -shared $$(filter %.lib,$$^) -loleaut32 $$< -o $$@
