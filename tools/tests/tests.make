@@ -1,6 +1,7 @@
 
 TEST_CS_EXE_SRCS = \
 	arraypadding.cs \
+	dllimport-preload.cs \
 	marshalansi.cs \
 	mixedmode-call.cs \
 	mixedmode-dllimport-0.cs \
