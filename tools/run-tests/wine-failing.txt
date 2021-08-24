@@ -1752,6 +1752,7 @@ mixedmode-dllimport-usedlldirectory
 MonoTests.System.ServiceModel.CallbackBehaviorAttributeTest:CallbackExample2
 MonoTests.System.ServiceModel.CallbackBehaviorAttributeTest:ConcurrencyModeSingleAndCallbackInsideServiceMethod
 unmanaged-configpath
+dllimport-cctor
 # definitely unreliable:
 delegate2
 x86_64.MonoTests.System.Threading.ThreadLocalTests:DisposeOnThreadExit
