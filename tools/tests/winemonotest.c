@@ -87,3 +87,13 @@ int CDECL do_ccw_tests(IUnknown *unk)
 	return 0;
 }
 
+void* CDECL get_valist_argument(INT index, va_list va)
+{
+	while (index-- > 0)
+	{
+		va_arg(va, void*);
+	}
+
+	return va_arg(va, void*);
+}
+
