@@ -21,6 +21,7 @@ TEST_CS_EXE_SRCS = \
 	rcw-visible.cs \
 	releasebadptr.cs \
 	runtimeinterface.cs \
+	seh.cs \
 	thread-exit-bk.cs \
 	unmanaged-configpath.cs \
 	valist.cs \
