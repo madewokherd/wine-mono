@@ -95,6 +95,11 @@ VBRUNTIME_SRCS= \
 	$(VBRUNTIME_BASE)/Microsoft.VisualBasic.FileIO/TextFieldParser.vb \
 	$(VBRUNTIME_BASE)/Microsoft.VisualBasic.FileIO/UICancelOption.vb \
 	$(VBRUNTIME_BASE)/Microsoft.VisualBasic.FileIO/UIOption.vb \
+	$(WINFORMS_FORMS)/Microsoft/VisualBasic/Helpers/NativeMethods.vb \
+	$(WINFORMS_FORMS)/Microsoft/VisualBasic/Helpers/NativeTypes.vb \
+	$(WINFORMS_FORMS)/Microsoft/VisualBasic/Helpers/SafeNativeMethods.vb \
+	$(WINFORMS_FORMS)/Microsoft/VisualBasic/Helpers/UnsafeNativeMethods.vb \
+	$(WINFORMS_FORMS)/Microsoft/VisualBasic/Helpers/VBInputBox.vb \
 	$(VBRUNTIME_BASE)/Microsoft.VisualBasic.Logging/AspLog.vb \
 	$(VBRUNTIME_BASE)/Microsoft.VisualBasic.Logging/DiskSpaceExhaustedOption.vb \
 	$(VBRUNTIME_BASE)/Microsoft.VisualBasic.Logging/FileLogTraceListener.vb \
@@ -139,6 +144,7 @@ VBRUNTIME_SRCS= \
 	$(VBRUNTIME_BASE)/Microsoft.VisualBasic/HideModuleNameAttribute.vb \
 	$(VBRUNTIME_BASE)/Microsoft.VisualBasic/Information.vb \
 	$(VBRUNTIME_BASE)/Microsoft.VisualBasic/Interaction.vb \
+	$(WINFORMS_FORMS)/Microsoft/VisualBasic/Interaction.vb \
 	$(VBRUNTIME_BASE)/Microsoft.VisualBasic/MsgBoxResult.vb \
 	$(VBRUNTIME_BASE)/Microsoft.VisualBasic/MsgBoxStyle.vb \
 	$(VBRUNTIME_BASE)/Microsoft.VisualBasic/OpenAccess.vb \
