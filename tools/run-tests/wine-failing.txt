@@ -1751,7 +1751,6 @@ mixedmode-dllimport-0
 mixedmode-dllimport-usedlldirectory
 MonoTests.System.ServiceModel.CallbackBehaviorAttributeTest:CallbackExample2
 MonoTests.System.ServiceModel.CallbackBehaviorAttributeTest:ConcurrencyModeSingleAndCallbackInsideServiceMethod
-unmanaged-configpath
 seh
 # definitely unreliable:
 delegate2
