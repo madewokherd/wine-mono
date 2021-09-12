@@ -10,7 +10,7 @@ $ git clone --recursive git://github.com/madewokherd/wine-mono.git
 To get to the source code for a specific release, check out the appropriate tag, and update the submodules:
 
 $ git checkout wine-mono-6.0.0
-$ git submodule update --recursive
+$ git submodule update --init --recursive
 
 Source tarballs and binary packages are available at http://dl.winehq.org/wine/wine-mono/
 
@@ -77,9 +77,9 @@ PATCHES
 
 Patches that are not for a fork should be sent as a pull request to https://github.com/madewokherd/wine-mono.
 
-Changes to upstream projects that make sense only within the context of wine-mono and not in any other use case should be sent as a pull request to the appropriate fork.
+Patches to Mono should be sent as a pull request to https://github.com/madewokherd/mono.
 
-The mono project is maintained but slow to review pull requests. Please send them anyway when possible so we can get reviews and keep the diff as small as we can, but be aware that there's a strong possibility that they'll stagnate upstream, and we'll have to merge them in wine-mono. For diffs from mono, it's important to have an automated test for them. This can be as simple as a .cs or .il program that returns 0 on success and non-zero on failure. If the bug cannot be reliably tested, we may accept changes without a test case.
+Changes to upstream projects that make sense only within the context of wine-mono and not in any other use case should be sent as a pull request to the appropriate fork.
 
 FNA and related projects have been very responsive to pull requests, and it's worth sending changes upstream. monoDX is similar, even though it doesn't really have a separate use case.
 
