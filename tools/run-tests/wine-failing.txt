@@ -1752,6 +1752,7 @@ mixedmode-dllimport-usedlldirectory
 MonoTests.System.ServiceModel.CallbackBehaviorAttributeTest:CallbackExample2
 MonoTests.System.ServiceModel.CallbackBehaviorAttributeTest:ConcurrencyModeSingleAndCallbackInsideServiceMethod
 seh
+MonoTests.System.TimeZoneInfoTest+IsDaylightSavingTimeTests:Bug_9664 # winehq bug 51758
 # definitely unreliable:
 delegate2
 x86_64.MonoTests.System.Threading.ThreadLocalTests:DisposeOnThreadExit
