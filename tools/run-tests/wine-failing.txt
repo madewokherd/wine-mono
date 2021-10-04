@@ -131,7 +131,6 @@ x86.MonoTests.System.Security.SecurityElementTest:FromString_CharacterReferences
 x86.MonoTests.System.Security.SecurityElementTest:FromString_Quote_Delimiter_MS
 x86.MonoTests.System.Threading.WaitHandleTest:DuplicateWaitAll
 x86.MonoTests.System.Threading.WaitHandleTest:WaitAnyWithSecondMutexAbandoned
-x86.MonoTests.System.TimeZoneInfoTest+FindSystemTimeZoneByIdTests:FindIsraelStandardTime
 x86.MonoTests.System.TypeTest
 x86.MonoTests.Microsoft.Build.BuildEngine.BuildItemGroupTest:TestClone1
 x86.MonoTests.Microsoft.Build.BuildEngine.BuildItemGroupTest:TestClone2
@@ -588,24 +587,9 @@ x86.MonoTests.System.Windows.Forms.MonthCalendarTest:MonthCalMaxSelectionCountEx
 x86.MonoTests.System.Windows.Forms.MonthCalendarTest:MonthCalMinDateException
 x86.MonoTests.System.Windows.Forms.NumericUpDownTest:Height
 x86.MonoTests.System.Windows.Forms.ProgressBarTest:MinMax
-x86.MonoTests.System.Windows.Forms.PropertyGridTest:PropertyGrid_ArrayChildrenTest
-x86.MonoTests.System.Windows.Forms.PropertyGridTest:PropertyGrid_ArrayParentTest
-x86.MonoTests.System.Windows.Forms.PropertyGridTest:PropertyGrid_ArrayRootTest
-x86.MonoTests.System.Windows.Forms.PropertyGridTest:PropertyGrid_ArrayTest
-x86.MonoTests.System.Windows.Forms.PropertyGridTest:PropertyGrid_ItemSelectTest
 x86.MonoTests.System.Windows.Forms.PropertyGridTest:PropertyGrid_MergedRootTest
 x86.MonoTests.System.Windows.Forms.PropertyGridTest:PropertyGrid_MergedTest
 x86.MonoTests.System.Windows.Forms.PropertyGridTest:PropertySort_Valid
-x86.MonoTests.System.Windows.Forms.PropertyGridTest:SelectedGridItem_Null
-x86.MonoTests.System.Windows.Forms.PropertyGridTest:SelectedObject
-x86.MonoTests.System.Windows.Forms.PropertyGridTest:SelectedObject_NoProperties
-x86.MonoTests.System.Windows.Forms.PropertyGridTest:SelectedObject_Null
-x86.MonoTests.System.Windows.Forms.PropertyGridTest:SelectedObject_Null2
-x86.MonoTests.System.Windows.Forms.PropertyGridTest:SelectedObjects_Multiple
-x86.MonoTests.System.Windows.Forms.PropertyGridTest:SelectedObjects_Null
-x86.MonoTests.System.Windows.Forms.PropertyGrid_GridEntryTest:CustomExpandableConverterTest
-x86.MonoTests.System.Windows.Forms.PropertyGrid_GridEntryTest:ITypeDescriptorContextTest
-x86.MonoTests.System.Windows.Forms.PropertyGrid_GridEntryTest
 x86.MonoTests.System.Windows.Forms.RichTextBoxTest:SelectionLength_Negative
 x86.MonoTests.System.Windows.Forms.RichTextBoxTest:SelectionStart_Negative
 x86.MonoTests.System.Windows.Forms.SaveFileDialogTest:Filter_InvalidFormat
@@ -814,7 +798,6 @@ x86_64.MonoTests.System.Security.SecurityElementTest:FromString_CharacterReferen
 x86_64.MonoTests.System.Security.SecurityElementTest:FromString_Quote_Delimiter_MS
 x86_64.MonoTests.System.Threading.WaitHandleTest:DuplicateWaitAll
 x86_64.MonoTests.System.Threading.WaitHandleTest:WaitAnyWithSecondMutexAbandoned
-x86_64.MonoTests.System.TimeZoneInfoTest+FindSystemTimeZoneByIdTests:FindIsraelStandardTime
 x86_64.MonoTests.System.TypeTest
 x86_64.MonoTests.Microsoft.Build.BuildEngine.BuildItemGroupTest:TestClone1
 x86_64.MonoTests.Microsoft.Build.BuildEngine.BuildItemGroupTest:TestClone2
@@ -1290,24 +1273,9 @@ x86_64.MonoTests.System.Windows.Forms.MonthCalendarTest:MonthCalMaxSelectionCoun
 x86_64.MonoTests.System.Windows.Forms.MonthCalendarTest:MonthCalMinDateException
 x86_64.MonoTests.System.Windows.Forms.NumericUpDownTest:Height
 x86_64.MonoTests.System.Windows.Forms.ProgressBarTest:MinMax
-x86_64.MonoTests.System.Windows.Forms.PropertyGridTest:PropertyGrid_ArrayChildrenTest
-x86_64.MonoTests.System.Windows.Forms.PropertyGridTest:PropertyGrid_ArrayParentTest
-x86_64.MonoTests.System.Windows.Forms.PropertyGridTest:PropertyGrid_ArrayRootTest
-x86_64.MonoTests.System.Windows.Forms.PropertyGridTest:PropertyGrid_ArrayTest
-x86_64.MonoTests.System.Windows.Forms.PropertyGridTest:PropertyGrid_ItemSelectTest
 x86_64.MonoTests.System.Windows.Forms.PropertyGridTest:PropertyGrid_MergedRootTest
 x86_64.MonoTests.System.Windows.Forms.PropertyGridTest:PropertyGrid_MergedTest
 x86_64.MonoTests.System.Windows.Forms.PropertyGridTest:PropertySort_Valid
-x86_64.MonoTests.System.Windows.Forms.PropertyGridTest:SelectedGridItem_Null
-x86_64.MonoTests.System.Windows.Forms.PropertyGridTest:SelectedObject
-x86_64.MonoTests.System.Windows.Forms.PropertyGridTest:SelectedObject_NoProperties
-x86_64.MonoTests.System.Windows.Forms.PropertyGridTest:SelectedObject_Null
-x86_64.MonoTests.System.Windows.Forms.PropertyGridTest:SelectedObject_Null2
-x86_64.MonoTests.System.Windows.Forms.PropertyGridTest:SelectedObjects_Multiple
-x86_64.MonoTests.System.Windows.Forms.PropertyGridTest:SelectedObjects_Null
-x86_64.MonoTests.System.Windows.Forms.PropertyGrid_GridEntryTest:CustomExpandableConverterTest
-x86_64.MonoTests.System.Windows.Forms.PropertyGrid_GridEntryTest:ITypeDescriptorContextTest
-x86_64.MonoTests.System.Windows.Forms.PropertyGrid_GridEntryTest
 x86_64.MonoTests.System.Windows.Forms.RichTextBoxTest:SelectionLength_Negative
 x86_64.MonoTests.System.Windows.Forms.RichTextBoxTest:SelectionStart_Negative
 x86_64.MonoTests.System.Windows.Forms.SaveFileDialogTest:Filter_InvalidFormat
@@ -1390,7 +1358,6 @@ x86_64.MonoTests.System.Timers.TimersDescriptionAttributeTest:ExistingResourceNa
 x86_64.MonoTests.System.Timers.TimersDescriptionAttributeTest
 x86_64.MonoTests.System.Windows.Markup.DateTimeValueSerializerTest:ConvertToString1
 x86_64.MonoTests.System.Windows.Markup.ValueSerializerTest
-MonoTests.System.TimeZoneInfoTest+IsDaylightSavingTimeTests:Bug_16395
 MonoTests.System.Security.Cryptography.X509Certificates.X509CertificateTest:Certificate7 // Considered a bad test by upstream
 MonoTests.System.Windows.Forms.FormTest
 MonoTests.System.Windows.Forms.FormTest:MethodScaleControl # Fails in virtual desktop
@@ -1752,8 +1719,6 @@ mixedmode-dllimport-usedlldirectory
 MonoTests.System.ServiceModel.CallbackBehaviorAttributeTest:CallbackExample2
 MonoTests.System.ServiceModel.CallbackBehaviorAttributeTest:ConcurrencyModeSingleAndCallbackInsideServiceMethod
 seh
-MonoTests.System.TimeZoneInfoTest+IsDaylightSavingTimeTests:Bug_9664 # winehq bug 51758
-timezonetest # wine bug 51758
 # definitely unreliable:
 delegate2
 x86_64.MonoTests.System.Threading.ThreadLocalTests:DisposeOnThreadExit
