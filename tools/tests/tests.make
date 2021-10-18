@@ -41,6 +41,7 @@ TEST_RAW_FILES = \
 	privatepath1.exe.config
 
 TEST_IL_EXE_SRCS = \
+	marshalcopy.il \
 	xnatest.il
 
 TEST_CLR_EXE_TARGETS = $(TEST_CS_EXE_SRCS:%.cs=tools/tests/%.exe) $(TEST_IL_EXE_SRCS:%.il=tools/tests/%.exe)
@@ -186,7 +187,7 @@ clean-call-method-$(1):
 clean-build: clean-call-method-$(1)
 
 $$(BUILDDIR)/winemonotest-$(1).dll: $$(SRCDIR)/tools/tests/winemonotest.c $$(MINGW_DEPS)
-	$$(MINGW_ENV) $$(MINGW_$(1))-gcc -shared $$(filter %.lib,$$^) -loleaut32 $$< -o $$@
+	$$(MINGW_ENV) $$(MINGW_$(1))-gcc -shared -Wl,--kill-at $$(filter %.lib,$$^) -loleaut32 $$< -o $$@
 
 tools-tests-all: $$(BUILDDIR)/winemonotest-$(1).dll
 

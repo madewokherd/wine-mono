@@ -97,3 +97,18 @@ void* CDECL get_valist_argument(INT index, va_list va)
 	return va_arg(va, void*);
 }
 
+#ifdef __i386__
+/* For some reason, on x86 IsCopyConstructed marshaling behaves differently. */
+int __stdcall dereference_int(int val)
+{
+	return val;
+}
+#else
+int __stdcall dereference_int(int* ptr)
+{
+	int result = *ptr;
+	*ptr = 25;
+	return result;
+}
+#endif
+
