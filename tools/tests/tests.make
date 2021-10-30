@@ -3,6 +3,7 @@ TEST_CS_EXE_SRCS = \
 	arraypadding.cs \
 	dllimport-cctor.cs \
 	dllimport-preload.cs \
+	interactioncommand.cs \
 	marshalansi.cs \
 	mixedmode-call.cs \
 	mixedmode-dllimport-0.cs \
@@ -79,6 +80,8 @@ tools/tests/privatepath1.exe: tools/tests/testcslib1.dll
 tools/tests/privatepath2.exe: tools/tests/testcslib1.dll tools/tests/testcslib2.dll
 
 tools/tests/wpfclipboard.exe: $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/PresentationCore/.built
+
+tools/tests/interactioncommand.exe: $(BUILDDIR)/Microsoft.VisualBasic.dll
 
 tools/tests/vbstartup.exe: $(BUILDDIR)/Microsoft.VisualBasic.dll
 
