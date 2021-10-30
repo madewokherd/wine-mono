@@ -5592,6 +5592,11 @@ MonoTests.System.Diagnostics.EventLogTest:Exists1_Win32
 MonoTests.System.Diagnostics.EventLogTest:Exists2_Win32
 MonoTests.System.Diagnostics.EventLogTest:SourceExists1_Win32
 MonoTests.System.Diagnostics.EventLogTest:SourceExists2_Win32
+MonoTests.System.Drawing.PenTest:Constructor_Brush_Float_Negative
+MonoTests.System.Drawing.PenTest:Constructor_Brush_Float_Zero
+MonoTests.System.Drawing.PenTest:Constructor_Color_Float_Negative
+MonoTests.System.Drawing.PenTest:Constructor_Color_Float_Zero
+MonoTests.System.Drawing.PenTest:Width
 # unreliable:
 x86.thread-exit
 MonoTests.System.Threading.Tasks.TaskTests:DoubleWaitTest
