@@ -1,27 +1,27 @@
 [submodule "mono"]
 	path = mono
-	url = git://github.com/madewokherd/mono.git
+	url = ../mono
 [submodule "mono-basic"]
 	path = mono-basic
-	url = git://github.com/madewokherd/mono-basic.git
+	url = ../mono-basic
 [submodule "FNA"]
 	path = FNA
-	url = git://github.com/madewokherd/FNA.git
+	url = ../FNA
 [submodule "FNA.NetStub"]
 	path = FNA.NetStub
-	url = git://github.com/madewokherd/FNA.NetStub.git
+	url = ../FNA.NetStub
 [submodule "winforms"]
 	path = winforms
-	url = git://github.com/madewokherd/winforms.git
+	url = ../winforms
 [submodule "winforms-datavisualization"]
 	path = winforms-datavisualization
-	url = git://github.com/madewokherd/winforms-datavisualization.git
+	url = ../winforms-datavisualization
 [submodule "wpf"]
 	path = wpf
-	url = git://github.com/madewokherd/wpf.git
+	url = ../wpf
 [submodule "monoDX"]
 	path = monoDX
-	url = git://github.com/madewokherd/monoDX.git
+	url = ../monoDX
 [submodule "vstests"]
 	path = vstests
 	url = ../wine-mono-vstests
