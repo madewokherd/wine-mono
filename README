@@ -5,7 +5,7 @@ SOURCE CODE
 
 To obtain the source code, clone it from github:
 
-$ git clone --recursive git://github.com/madewokherd/wine-mono.git
+$ git clone --recursive https://github.com/madewokherd/wine-mono.git
 
 To get to the source code for a specific release, check out the appropriate tag, and update the submodules:
 
