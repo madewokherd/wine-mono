@@ -9,7 +9,7 @@ $ git clone --recursive https://github.com/madewokherd/wine-mono.git
 
 To get to the source code for a specific release, check out the appropriate tag, and update the submodules:
 
-$ git checkout wine-mono-6.0.0
+$ git checkout wine-mono-7.0.0
 $ git submodule update --init --recursive
 
 Source tarballs and binary packages are available at http://dl.winehq.org/wine/wine-mono/
@@ -24,6 +24,8 @@ To build Wine Mono, you will need the following:
  * libgdiplus, to support Mono's resource compiler.
  * The dos2unix command.
  * Optional: The zip or 7z command, for the tests-zip target only.
+
+When using the Vagrant build VM, only Vagrant is required on the host machine.
 
 
 BUILD
@@ -52,7 +54,7 @@ INSTALL
 
 To install Wine Mono, run the generated msi file with msiexec:
 
-$ wine64 msiexec /i wine-mono-6.1.0-x86.msi
+$ wine64 msiexec /i wine-mono-7.0.0-x86.msi
 
 Note that if a Wine Mono with a version number >= to this file is already installed, that command will do nothing, so you may have to remove the existing version (using 'wine64 uninstaller') first.
 
