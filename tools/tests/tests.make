@@ -23,6 +23,7 @@ TEST_CS_EXE_SRCS = \
 	releasebadptr.cs \
 	runtimeinterface.cs \
 	seh.cs \
+	system-resources.cs \
 	timezonetest.cs \
 	thread-exit-bk.cs \
 	unmanaged-configpath.cs \
