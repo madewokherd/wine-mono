@@ -5722,3 +5722,4 @@ MonoTests.System.Xml.XmlNamespaceManagerTests
 MonoTests.Microsoft_VisualBasic.DateAndTimeTests:Today_1 # race condition with NTP update?
 MonoTests.System.Net.Http.HttpClientTest:Send_Complete_CustomHeaders_Host
 MonoTests.System.ServiceModel.Description.MetadataResolverTest:ResolveNonContract
+MonoTests.System.Net.WebClientTestAsync:Cancellation # fails on my VM, seems related to https redirect
