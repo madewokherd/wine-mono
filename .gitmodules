@@ -25,3 +25,6 @@
 [submodule "vstests"]
 	path = vstests
 	url = ../wine-mono-vstests
+[submodule "monolite"]
+	path = monolite
+	url = ../monolite-binaries.git

@@ -210,3 +210,9 @@ clean-tests-clr:
 .PHONY: clean-tests-clr
 clean-tests: clean-tests-clr
 
+monolite: $(BUILDDIR)/mono-unix/.built
+	for f in mscorlib.dll System.dll System.Xml.dll Mono.Security.dll Mono.Cecil.dll System.Core.dll System.Security.dll System.Configuration.dll System.IO.Compression.dll System.Numerics.dll System.Xml.Linq.dll Facades; do $(CP_R) mono/mcs/class/lib/build/$$f monolite/; done
+	cp mono/mcs/class/lib/net_4_x/mcs.exe monolite/
+	
+.PHONY: monolite
+

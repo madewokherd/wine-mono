@@ -36,31 +36,11 @@ recursivearchivefiles ()
     rm "$TEMPFILE"
 }
 
-# check that we have a usable build of monolite
-for f in mscorlib.dll System.dll System.Xml.dll Mono.Security.dll Mono.Cecil.dll System.Core.dll System.Security.dll System.Configuration.dll System.IO.Compression.dll System.Numerics.dll System.Xml.Linq.dll Facades; do
-    if test ! -e mono/mcs/class/lib/build/$f; then
-        echo Need a basic mcs build to generate a tarball.
-        exit 1
-    elif test -d mono/mcs/class/lib/build/$f; then
-		MONOLITE_FILES="$MONOLITE_FILES mono/mcs/class/lib/build/$f/*.dll"
-	else
-		MONOLITE_FILES="$MONOLITE_FILES mono/mcs/class/lib/build/$f"
-	fi
-done
-if test ! -e mono/mcs/class/lib/net_4_x/mcs.exe; then
-	echo Need a basic mcs build to generate a tarball. 1>&2
-	exit 1
-fi
-MONOLITE_FILES="$MONOLITE_FILES mono/mcs/class/lib/net_4_x/mcs.exe"
-
 OUTPUT_FILE="$2/$3.tar"
 
 rm -f "$OUTPUT_FILE"
 
 recursivearchivefiles "$PWD" "$1"/ "$1" "$OUTPUT_FILE"
-
-# add monolite
-tar rf "$OUTPUT_FILE" --transform 's:^mono/mcs/class/lib/[^/]*/:'"$1"'/monolite/:g' $MONOLITE_FILES
 
 # add llvm-mingw
 tar rf "$OUTPUT_FILE" --transform 's:^./:'"$1"'/:g' ./$4
