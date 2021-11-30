@@ -210,13 +210,9 @@ clean-tests-clr:
 .PHONY: clean-tests-clr
 clean-tests: clean-tests-clr
 
-monolite: $(BUILDDIR)/mono-unix/.built $(BUILDDIR)/fixup-monolite.exe
+monolite: $(BUILDDIR)/mono-unix/.built
 	for f in mscorlib.dll System.dll System.Xml.dll Mono.Security.dll Mono.Cecil.dll System.Core.dll System.Security.dll System.Configuration.dll System.IO.Compression.dll System.Numerics.dll System.Xml.Linq.dll Facades; do $(CP_R) mono/mcs/class/lib/build/$$f monolite/; done
 	cp mono/mcs/class/lib/net_4_x/mcs.exe monolite/
-	$(MONO_ENV) $(BUILDDIR)/fixup-monolite.exe monolite/mcs.exe monolite/*.dll monolite/Facades/*.dll
 	
 .PHONY: monolite
-
-$(BUILDDIR)/fixup-monolite.exe: tools/fixup-monolite.cs $(BUILDDIR)/mono-unix/.installed
-	$(MONO_ENV) mcs -out:$@ $< -r:$(BUILDDIR)/mono-unix-install/lib/mono/gac/Mono.Cecil/0.11.1.0__0738eb9f132ed756/Mono.Cecil.dll
 
