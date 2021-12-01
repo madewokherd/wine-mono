@@ -1719,6 +1719,12 @@ mixedmode-dllimport-usedlldirectory
 MonoTests.System.ServiceModel.CallbackBehaviorAttributeTest:CallbackExample2
 MonoTests.System.ServiceModel.CallbackBehaviorAttributeTest:ConcurrencyModeSingleAndCallbackInsideServiceMethod
 seh
+MonoTests.System.Runtime.Serialization.Exceptions:Exception_SerializeObjectState
+MonoTests.System.Runtime.Serialization.Exceptions
+MonoTests.System.ServiceModel.Discovery.IntegratedDiscoveryTest:UseCase1
+MonoTests.System.ServiceModel.Discovery.IntegratedDiscoveryTest:UseCase2
+MonoTests.System.ServiceModel.Discovery.IntegratedDiscoveryTest:UseCase3
+MonoTests.System.ServiceModel.Discovery.IntegratedDiscoveryTest
 # definitely unreliable:
 delegate2
 x86_64.MonoTests.System.Threading.ThreadLocalTests:DisposeOnThreadExit
