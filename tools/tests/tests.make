@@ -207,7 +207,7 @@ $(BUILDDIR)/call-mixedmode-x86.exe: $(SRCDIR)/vstests/Win32/Release/mixedmodelib
 $(BUILDDIR)/call-mixedmode-x86_64.exe: $(SRCDIR)/vstests/x64/Release/mixedmodelibrary.lib
 
 tools-tests-csharp: $(BUILDDIR)/mono-unix/.installed $(BUILDDIR)/fixupclr.exe
-	mkdir $(TESTS_OUTDIR)/csharp
+	mkdir -p $(TESTS_OUTDIR)/csharp
 	cp $(BUILDDIR)/mono-unix-install/lib/mono/4.5/csharp.exe $(BUILDDIR)/mono-unix-install/lib/mono/4.5/Mono.CSharp.dll $(BUILDDIR)/mono-unix-install/lib/mono/4.5/Mono.Management.dll $(BUILDDIR)/mono-unix-install/lib/mono/4.5/Mono.Posix.dll $(TESTS_OUTDIR)/csharp
 	cp $(TESTS_OUTDIR)/csharp/csharp.exe $(TESTS_OUTDIR)/csharp/csharp32.exe
 	$(WINE) $(BUILDDIR)/fixupclr.exe x86 $(TESTS_OUTDIR)/csharp/csharp32.exe
