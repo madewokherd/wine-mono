@@ -146,6 +146,10 @@ $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/PresentationUI/.built: $(BUILDDIR)/mo
 	+$(MONO_ENV) $(MAKE) -C $(@D) MONO_PREFIX=$(BUILDDIR_ABS)/mono-unix-install RESX2SRID=$(BUILDDIR_ABS)/resx2srid.exe WINE_MONO_SRCDIR=$(SRCDIR_ABS)
 	touch $@
 
+$(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/Themes/PresentationFramework.Aero/.built: $(BUILDDIR)/mono-unix/.installed $(WPF_SRCS) $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/PresentationUI/.built $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/PresentationFramework/.built $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/System.Xaml/.built $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/WindowsBase/.built $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/PresentationCore/.built
+	+$(MONO_ENV) $(MAKE) -C $(@D) MONO_PREFIX=$(BUILDDIR_ABS)/mono-unix-install WINE_MONO_SRCDIR=$(SRCDIR_ABS)
+	touch $@
+
 $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/Themes/PresentationFramework.Classic/.built: $(BUILDDIR)/mono-unix/.installed $(WPF_SRCS) $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/PresentationUI/.built $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/PresentationFramework/.built $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/System.Xaml/.built $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/WindowsBase/.built $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/PresentationCore/.built
 	+$(MONO_ENV) $(MAKE) -C $(@D) MONO_PREFIX=$(BUILDDIR_ABS)/mono-unix-install WINE_MONO_SRCDIR=$(SRCDIR_ABS)
 	touch $@
@@ -228,6 +232,13 @@ PresentationUI.dll: $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/PresentationUI/.b
 	$(MONO_ENV) gacutil -i $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/PresentationUI/PresentationUI.dll -root $(IMAGEDIR)/lib
 .PHONY: PresentationUI.dll
 imagedir-targets: PresentationUI.dll
+
+IMAGEDIR_BUILD_TARGETS += $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/Themes/PresentationFramework.Aero/.built
+
+PresentationFramework.Aero.dll: $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/Themes/PresentationFramework.Aero/.built
+	$(MONO_ENV) gacutil -i $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/Themes/PresentationFramework.Aero/PresentationFramework.Aero.dll -root $(IMAGEDIR)/lib
+.PHONY: PresentationFramework.Aero.dll
+imagedir-targets: PresentationFramework.Aero.dll
 
 IMAGEDIR_BUILD_TARGETS += $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/Themes/PresentationFramework.Classic/.built
 
