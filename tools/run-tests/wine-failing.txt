@@ -1288,7 +1288,6 @@ x86_64.MonoTests.System.Windows.Forms.SendKeysTest
 x86_64.MonoTests.System.Windows.Forms.TabControlTest:GetTabRectTest
 x86_64.MonoTests.System.Windows.Forms.TabControlTest:SelectedIndex_Negative
 x86_64.MonoTests.System.Windows.Forms.TestControlStyle:DateTimePickerStyleTest
-MonoTests.System.Windows.Forms.TextBoxTest:Bug6357
 MonoTests.System.Windows.Forms.TextBoxTest:SelectionLength_Negative
 MonoTests.System.Windows.Forms.TextBoxTest:SelectionStart_Negative
 x86_64.MonoTests.System.Windows.Forms.ToolStripDropDownTests:Constructor
