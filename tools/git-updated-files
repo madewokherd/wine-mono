@@ -43,6 +43,8 @@ _source_suffixes = (
 	'.vb',
 	'.il',
 	'.config',
+	'.resx',
+	'.xaml',
 )
 
 _ignore_file_suffixes = (
