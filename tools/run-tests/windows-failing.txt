@@ -5554,3 +5554,7 @@ MonoTests.Microsoft_VisualBasic.DateAndTimeTests:Today_1 # race condition with N
 MonoTests.System.Net.Http.HttpClientTest:Send_Complete_CustomHeaders_Host
 MonoTests.System.ServiceModel.Description.MetadataResolverTest:ResolveNonContract
 MonoTests.System.Net.WebClientTestAsync:Cancellation # fails on my VM, seems related to https redirect
+MonoTests.System.ServiceModel.Discovery.IntegratedDiscoveryTest:UseCase1
+MonoTests.System.ServiceModel.Discovery.IntegratedDiscoveryTest:UseCase2
+MonoTests.System.ServiceModel.Discovery.IntegratedDiscoveryTest:UseCase3
+MonoTests.System.ServiceModel.Discovery.IntegratedDiscoveryTest
