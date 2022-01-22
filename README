@@ -12,7 +12,7 @@ To get to the source code for a specific release, check out the appropriate tag,
 $ git checkout wine-mono-7.0.0
 $ git submodule update --init --recursive
 
-Source tarballs and binary packages are available at http://dl.winehq.org/wine/wine-mono/
+Source tarballs and binary packages are available at https://dl.winehq.org/wine/wine-mono/
 
 
 DEPENDENCIES
@@ -68,6 +68,7 @@ COMPOSITION
 An installed Wine Mono contains the following:
  * Registry keys and files in C:\windows\Microsoft.NET intended to make it look as if Microsoft .NET Framework is installed, so that applications won't complain that it's missing, and the installers for Microsoft .NET won't install. This is part of an msi package named "Wine Mono Windows Support". (Wine Mono should always be removed before installing Microsoft .NET Framework 4.x and earlier. Wine Mono can coexist with .NET Core and .NET 5 or later.)
  * A modified version of the Mono runtime and class libraries, in the "Wine Mono Runtime" msi or a shared location outside the prefix.
+ * Other supporting libraries that are not part of Mono, in some cases replacing Mono's version.
 
 
 BUGS
