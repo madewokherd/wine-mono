@@ -9,6 +9,8 @@ InstallValidate		400
 RemoveExistingProducts		450
 InstallInitialize		500
 ProcessComponents		600
+UNREGISTERDLLS	(&wine_mono=2)	650
+UNREGISTERDLLS64	(&wine_mono=2) AND (VersionNT64)	651
 RemoveFiles		700
 CreateFolders		750
 RemoveFolders		760

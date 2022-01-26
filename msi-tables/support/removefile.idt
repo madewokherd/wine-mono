@@ -14,6 +14,7 @@ Framework30wcfServiceModelReg	Microsoft.NET|Framework	servicemodelreg.exe	Micros
 Framework30wpfPresentationFontCache	Microsoft.NET|Framework	presentationfontcache.exe	Microsoft.NET|Framework|v3.0|wpf	2
 Framework40Ngen	Microsoft.NET|Framework	ngen.exe	Microsoft.NET|Framework|v4.0.30319	2
 Framework40Fusion	Microsoft.NET|Framework	fusion.dll	Microsoft.NET|Framework|v4.0.30319	2
+Framework40DiaSymReader	Microsoft.NET|Framework	diasymreader.dll	Microsoft.NET|Framework|v4.0.30319	2
 Framework11AspnetRegiis64	Microsoft.NET|Framework64	aspnet_regiis.exe	Microsoft.NET|Framework64|v1.1.4322	2
 Framework11Ngen64	Microsoft.NET|Framework64	ngen.exe	Microsoft.NET|Framework64|v1.1.4322	2
 Framework11Fusion64	Microsoft.NET|Framework64	fusion.dll	Microsoft.NET|Framework64|v1.1.4322	2
@@ -27,4 +28,5 @@ Framework30wcfServiceModelReg64	Microsoft.NET|Framework64	servicemodelreg.exe	Mi
 Framework30wpfPresentationFontCache64	Microsoft.NET|Framework64	presentationfontcache.exe	Microsoft.NET|Framework64|v3.0|wpf	2
 Framework40Ngen64	Microsoft.NET|Framework64	ngen.exe	Microsoft.NET|Framework64|v4.0.30319	2
 Framework40Fusion64	Microsoft.NET|Framework64	fusion.dll	Microsoft.NET|Framework64|v4.0.30319	2
+Framework40DiaSymReader64	Microsoft.NET|Framework64	diasymreader.dll	Microsoft.NET|Framework64|v4.0.30319	2
 

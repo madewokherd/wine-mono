@@ -3,3 +3,5 @@ s72	i2	S72	L0	I4
 CustomAction	Action
 INSTALLFAKEDLLS	1058	WindowsFolder	"[SourceDir]\installinf-x86.exe" "[SourceDir]\dotnetfakedlls.inf"	
 INSTALLFAKEDLLS64	1058	WindowsFolder	"[SourceDir]\installinf-x86_64.exe" "[SourceDir]\dotnetfakedlls.inf"	
+UNREGISTERDLLS	1058	WindowsFolder	"[SystemFolder]\regsvr32.exe" /u /s "[WindowsFolder]\Microsoft.NET\Framework\v4.0.30319\diasymreader.dll"	
+UNREGISTERDLLS64	1058	WindowsFolder	"[System64Folder]\regsvr32.exe" /u /s "[WindowsFolder]\Microsoft.NET\Framework64\v4.0.30319\diasymreader.dll"	
