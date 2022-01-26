@@ -291,7 +291,7 @@ clean-dbgsym:
 .PHONY: clean-dbgsym
 clean: clean-dbgsym
 
-$(OUTDIR)/wine-mono-$(MSI_VERSION)-src.tar.$(COMPRESSED_SUFFIX): $(BUILDDIR)/mono-unix/.built $(FETCH_LLVM_MINGW)/.dir
+$(OUTDIR)/wine-mono-$(MSI_VERSION)-src.tar.$(COMPRESSED_SUFFIX): $(FETCH_LLVM_MINGW)/.dir
 	$(SRCDIR)/tools/archive.sh `git describe` $(OUTDIR_ABS) wine-mono-$(MSI_VERSION)-src $(FETCH_LLVM_MINGW_DIRECTORY)
 	rm -f $@
 	$(COMPRESSOR) $(OUTDIR)/wine-mono-$(MSI_VERSION)-src.tar
