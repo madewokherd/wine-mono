@@ -135,6 +135,7 @@ include sdl2.make
 include fnamf.make
 include winforms.make
 include winforms-datavisualization.make
+include directoryservices-accountmanagement.make
 include wpf.make
 include monodx.make
 include support.make
