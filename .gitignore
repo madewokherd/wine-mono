@@ -12,4 +12,8 @@
 /wine-mono-*.*.*-src.tar.xz
 /wine-mono-*.*.*-dbgsym.tar.xz
 /wine-mono-*.*.*-tests.zip
-
+/directoryservices-accountmanagement/.built
+/directoryservices-accountmanagement/Resources/
+/directoryservices-accountmanagement/SR.generated.cs
+/directoryservices-accountmanagement/System.DirectoryServices.AccountManagement.dll
+/directoryservices-accountmanagement/embeddedresources.flags

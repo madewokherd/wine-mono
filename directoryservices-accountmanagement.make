@@ -10,3 +10,8 @@ System.DirectoryServices.AccountManagement.dll: $(SRCDIR)/directoryservices-acco
 	$(MONO_ENV) gacutil -i $(SRCDIR)/directoryservices-accountmanagement/System.DirectoryServices.AccountManagement.dll -root $(IMAGEDIR)/lib
 .PHONY: System.DirectoryServices.AccountManagement.dll
 imagedir-targets: System.DirectoryServices.AccountManagement.dll
+
+clean-directoryservices-accountmanagement:
+	$(MAKE) -C $(SRCDIR)/directoryservices-accountmanagement clean
+.PHNOY: clean-directoryservices-accountmanagement
+clean: clean-directoryservices-accountmanagement
