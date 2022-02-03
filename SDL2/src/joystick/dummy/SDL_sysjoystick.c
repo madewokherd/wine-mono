@@ -95,10 +95,10 @@ DUMMY_JoystickRumbleTriggers(SDL_Joystick *joystick, Uint16 left_rumble, Uint16 
     return SDL_Unsupported();
 }
 
-static Uint32
-DUMMY_JoystickGetCapabilities(SDL_Joystick *joystick)
+static SDL_bool
+DUMMY_JoystickHasLED(SDL_Joystick *joystick)
 {
-    return 0;
+    return SDL_FALSE;
 }
 
 static int
@@ -153,7 +153,7 @@ SDL_JoystickDriver SDL_DUMMY_JoystickDriver =
     DUMMY_JoystickOpen,
     DUMMY_JoystickRumble,
     DUMMY_JoystickRumbleTriggers,
-    DUMMY_JoystickGetCapabilities,
+    DUMMY_JoystickHasLED,
     DUMMY_JoystickSetLED,
     DUMMY_JoystickSendEffect,
     DUMMY_JoystickSetSensorsEnabled,

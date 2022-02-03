@@ -114,10 +114,6 @@ typedef struct
     int gl_minor_version;
     int gl_debug;
     int gl_profile_mask;
-
-    /* Additional fields added in 2.0.18 */
-    SDL_Rect confine;
-
 } SDLTest_CommonState;
 
 #include "begin_code.h"
@@ -219,10 +215,9 @@ void SDLTest_CommonQuit(SDLTest_CommonState * state);
  *
  * \param renderer The renderer to draw to.
  * \param window The window whose information should be displayed.
- * \param usedHeight Returns the height used, so the caller can draw more below.
  *
  */
-void SDLTest_CommonDrawWindowInfo(SDL_Renderer * renderer, SDL_Window * window, int * usedHeight);
+void SDLTest_CommonDrawWindowInfo(SDL_Renderer * renderer, SDL_Window * window);
 
 /* Ends C function definitions when using C++ */
 #ifdef __cplusplus

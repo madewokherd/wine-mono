@@ -44,17 +44,14 @@ static const char *sys_class_power_supply_path = "/sys/class/power_supply";
 static int
 open_power_file(const char *base, const char *node, const char *key)
 {
-    int fd;
-    const size_t pathlen = SDL_strlen(base) + SDL_strlen(node) + SDL_strlen(key) + 3;
-    char *path = SDL_stack_alloc(char, pathlen);
+    const size_t pathlen = strlen(base) + strlen(node) + strlen(key) + 3;
+    char *path = (char *) alloca(pathlen);
     if (path == NULL) {
         return -1;  /* oh well. */
     }
 
-    SDL_snprintf(path, pathlen, "%s/%s/%s", base, node, key);
-    fd = open(path, O_RDONLY | O_CLOEXEC);
-    SDL_stack_free(path);
-    return fd;
+    snprintf(path, pathlen, "%s/%s/%s", base, node, key);
+    return open(path, O_RDONLY);
 }
 
 
@@ -149,20 +146,20 @@ check_proc_acpi_battery(const char * node, SDL_bool * have_battery,
 
     ptr = &state[0];
     while (make_proc_acpi_key_val(&ptr, &key, &val)) {
-        if (SDL_strcmp(key, "present") == 0) {
-            if (SDL_strcmp(val, "yes") == 0) {
+        if (strcmp(key, "present") == 0) {
+            if (strcmp(val, "yes") == 0) {
                 *have_battery = SDL_TRUE;
             }
-        } else if (SDL_strcmp(key, "charging state") == 0) {
+        } else if (strcmp(key, "charging state") == 0) {
             /* !!! FIXME: what exactly _does_ charging/discharging mean? */
-            if (SDL_strcmp(val, "charging/discharging") == 0) {
+            if (strcmp(val, "charging/discharging") == 0) {
                 charge = SDL_TRUE;
-            } else if (SDL_strcmp(val, "charging") == 0) {
+            } else if (strcmp(val, "charging") == 0) {
                 charge = SDL_TRUE;
             }
-        } else if (SDL_strcmp(key, "remaining capacity") == 0) {
+        } else if (strcmp(key, "remaining capacity") == 0) {
             char *endptr = NULL;
-            const int cvt = (int) SDL_strtol(val, &endptr, 10);
+            const int cvt = (int) strtol(val, &endptr, 10);
             if (*endptr == ' ') {
                 remaining = cvt;
             }
@@ -171,9 +168,9 @@ check_proc_acpi_battery(const char * node, SDL_bool * have_battery,
 
     ptr = &info[0];
     while (make_proc_acpi_key_val(&ptr, &key, &val)) {
-        if (SDL_strcmp(key, "design capacity") == 0) {
+        if (strcmp(key, "design capacity") == 0) {
             char *endptr = NULL;
-            const int cvt = (int) SDL_strtol(val, &endptr, 10);
+            const int cvt = (int) strtol(val, &endptr, 10);
             if (*endptr == ' ') {
                 maximum = cvt;
             }
@@ -228,8 +225,8 @@ check_proc_acpi_ac_adapter(const char * node, SDL_bool * have_ac)
 
     ptr = &state[0];
     while (make_proc_acpi_key_val(&ptr, &key, &val)) {
-        if (SDL_strcmp(key, "state") == 0) {
-            if (SDL_strcmp(val, "on-line") == 0) {
+        if (strcmp(key, "state") == 0) {
+            if (strcmp(val, "on-line") == 0) {
                 *have_ac = SDL_TRUE;
             }
         }
@@ -318,7 +315,7 @@ static SDL_bool
 int_string(char *str, int *val)
 {
     char *endptr = NULL;
-    *val = (int) SDL_strtol(str, &endptr, 0);
+    *val = (int) strtol(str, &endptr, 0);
     return ((*str != '\0') && (*endptr == '\0'));
 }
 
@@ -333,7 +330,7 @@ SDL_GetPowerInfo_Linux_proc_apm(SDL_PowerState * state,
     int battery_flag = 0;
     int battery_percent = 0;
     int battery_time = 0;
-    const int fd = open(proc_apm_path, O_RDONLY | O_CLOEXEC);
+    const int fd = open(proc_apm_path, O_RDONLY);
     char buf[128];
     char *ptr = &buf[0];
     char *str = NULL;
@@ -380,8 +377,8 @@ SDL_GetPowerInfo_Linux_proc_apm(SDL_PowerState * state,
     if (!next_string(&ptr, &str)) {     /* remaining battery life percent */
         return SDL_FALSE;
     }
-    if (str[SDL_strlen(str) - 1] == '%') {
-        str[SDL_strlen(str) - 1] = '\0';
+    if (str[strlen(str) - 1] == '%') {
+        str[strlen(str) - 1] = '\0';
     }
     if (!int_string(str, &battery_percent)) {
         return SDL_FALSE;
@@ -395,7 +392,7 @@ SDL_GetPowerInfo_Linux_proc_apm(SDL_PowerState * state,
 
     if (!next_string(&ptr, &str)) {     /* remaining battery life time units */
         return SDL_FALSE;
-    } else if (SDL_strcmp(str, "min") == 0) {
+    } else if (strcmp(str, "min") == 0) {
         battery_time *= 60;
     }
 

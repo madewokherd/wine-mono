@@ -104,9 +104,10 @@ SDL_TicksQuit(void)
     ticks_started = SDL_FALSE;
 }
 
-Uint64
-SDL_GetTicks64(void)
+Uint32
+SDL_GetTicks(void)
 {
+    Uint32 ticks;
     if (!ticks_started) {
         SDL_TicksInit();
     }
@@ -115,19 +116,21 @@ SDL_GetTicks64(void)
 #if HAVE_CLOCK_GETTIME
         struct timespec now;
         clock_gettime(SDL_MONOTONIC_CLOCK, &now);
-        return (Uint64)(((Sint64)(now.tv_sec - start_ts.tv_sec) * 1000) + ((now.tv_nsec - start_ts.tv_nsec) / 1000000));
+        ticks = (Uint32)((now.tv_sec - start_ts.tv_sec) * 1000 + (now.tv_nsec - start_ts.tv_nsec) / 1000000);
 #elif defined(__APPLE__)
-        const uint64_t now = mach_absolute_time();
-        return ((((now - start_mach) * mach_base_info.numer) / mach_base_info.denom) / 1000000);
+        uint64_t now = mach_absolute_time();
+        ticks = (Uint32)((((now - start_mach) * mach_base_info.numer) / mach_base_info.denom) / 1000000);
 #else
         SDL_assert(SDL_FALSE);
-        return 0;
+        ticks = 0;
 #endif
     } else {
         struct timeval now;
+
         gettimeofday(&now, NULL);
-        return (Uint64)(((Sint64)(now.tv_sec - start_tv.tv_sec) * 1000) + ((now.tv_usec - start_tv.tv_usec) / 1000));
+        ticks = (Uint32)((now.tv_sec - start_tv.tv_sec) * 1000 + (now.tv_usec - start_tv.tv_usec) / 1000);
     }
+    return (ticks);
 }
 
 Uint64
@@ -200,7 +203,7 @@ SDL_Delay(Uint32 ms)
     struct timespec elapsed, tv;
 #else
     struct timeval tv;
-    Uint64 then, now, elapsed;
+    Uint32 then, now, elapsed;
 #endif
 
     /* Set the timeout interval */
@@ -208,7 +211,7 @@ SDL_Delay(Uint32 ms)
     elapsed.tv_sec = ms / 1000;
     elapsed.tv_nsec = (ms % 1000) * 1000000;
 #else
-    then = SDL_GetTicks64();
+    then = SDL_GetTicks();
 #endif
     do {
         errno = 0;
@@ -219,13 +222,13 @@ SDL_Delay(Uint32 ms)
         was_error = nanosleep(&tv, &elapsed);
 #else
         /* Calculate the time interval left (in case of interrupt) */
-        now = SDL_GetTicks64();
+        now = SDL_GetTicks();
         elapsed = (now - then);
         then = now;
-        if (elapsed >= ((Uint64)ms)) {
+        if (elapsed >= ms) {
             break;
         }
-        ms -= (Uint32)elapsed;
+        ms -= elapsed;
         tv.tv_sec = ms / 1000;
         tv.tv_usec = (ms % 1000) * 1000;
 

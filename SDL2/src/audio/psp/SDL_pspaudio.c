@@ -25,6 +25,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <malloc.h>
 
 #include "SDL_audio.h"
 #include "SDL_error.h"
@@ -89,7 +90,7 @@ PSPAUDIO_OpenDevice(_THIS, void *handle, const char *devname, int iscapture)
         return SDL_SetError("Couldn't reserve hardware channel");
     }
 
-    SDL_memset(this->hidden->rawbuf, 0, mixlen);
+    memset(this->hidden->rawbuf, 0, mixlen);
     for (i = 0; i < NUM_BUFFERS; i++) {
         this->hidden->mixbufs[i] = &this->hidden->rawbuf[i * this->spec.size];
     }

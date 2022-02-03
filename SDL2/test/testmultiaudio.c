@@ -180,11 +180,13 @@ main(int argc, char **argv)
     if (devcount < 1) {
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Don't see any specific audio devices!\n");
     } else {
-        const char *file = (argc < 2) ? "sample.wav" : argv[1];
+        if (argv[1] == NULL) {
+            argv[1] = "sample.wav";
+        }
 
         /* Load the wave file into memory */
-        if (SDL_LoadWAV(file, &spec, &sound, &soundlen) == NULL) {
-            SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Couldn't load %s: %s\n", file,
+        if (SDL_LoadWAV(argv[1], &spec, &sound, &soundlen) == NULL) {
+            SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Couldn't load %s: %s\n", argv[1],
                     SDL_GetError());
         } else {
             test_multi_audio(devcount);

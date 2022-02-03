@@ -238,7 +238,7 @@ SDL_EVDEV_kbd_init(void)
     kbd->npadch = -1;
 
     /* This might fail if we're not connected to a tty (e.g. on the Steam Link) */
-    kbd->keyboard_fd = kbd->console_fd = open("/dev/tty", O_RDONLY | O_CLOEXEC);
+    kbd->keyboard_fd = kbd->console_fd = open("/dev/tty", O_RDONLY);
 
     kbd->shift_state = 0;
 
@@ -268,13 +268,13 @@ SDL_EVDEV_kbd_init(void)
             kbd->key_map = &keymap_default_us_acc;
         }
         /* Allow inhibiting keyboard mute with env. variable for debugging etc. */
-        if (SDL_getenv("SDL_INPUT_FREEBSD_KEEP_KBD") == NULL) {
+        if (getenv("SDL_INPUT_FREEBSD_KEEP_KBD") == NULL) {
             /* Take keyboard from console and open the actual keyboard device.
              * Ensures that the keystrokes do not leak through to the console.
              */
             ioctl(kbd->console_fd, CONS_RELKBD, 1ul);
-            SDL_asprintf(&devicePath, "/dev/kbd%d", kbd->kbInfo->kb_index);
-            kbd->keyboard_fd = open(devicePath, O_WRONLY | O_CLOEXEC);
+            asprintf(&devicePath, "/dev/kbd%d", kbd->kbInfo->kb_index);         
+            kbd->keyboard_fd = open(devicePath, O_WRONLY);
             if (kbd->keyboard_fd == -1)
             {
                 // Give keyboard back.
@@ -288,7 +288,7 @@ SDL_EVDEV_kbd_init(void)
             if (!SDL_GetHintBoolean(SDL_HINT_NO_SIGNAL_HANDLERS, SDL_FALSE)) {
                 kbd_register_emerg_cleanup(kbd);
             }
-            SDL_free(devicePath);
+            free(devicePath);
         }
         else kbd->keyboard_fd = kbd->console_fd;
     }

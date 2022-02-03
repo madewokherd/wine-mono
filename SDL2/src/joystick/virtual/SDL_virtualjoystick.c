@@ -345,10 +345,10 @@ VIRTUAL_JoystickRumbleTriggers(SDL_Joystick *joystick, Uint16 left_rumble, Uint1
 }
 
 
-static Uint32
-VIRTUAL_JoystickGetCapabilities(SDL_Joystick *joystick)
+static SDL_bool
+VIRTUAL_JoystickHasLED(SDL_Joystick *joystick)
 {
-    return 0;
+    return SDL_FALSE;
 }
 
 
@@ -442,7 +442,7 @@ SDL_JoystickDriver SDL_VIRTUAL_JoystickDriver =
     VIRTUAL_JoystickOpen,
     VIRTUAL_JoystickRumble,
     VIRTUAL_JoystickRumbleTriggers,
-    VIRTUAL_JoystickGetCapabilities,
+    VIRTUAL_JoystickHasLED,
     VIRTUAL_JoystickSetLED,
     VIRTUAL_JoystickSendEffect,
     VIRTUAL_JoystickSetSensorsEnabled,

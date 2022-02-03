@@ -25,6 +25,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <malloc.h>
 
 #include "SDL_audio.h"
 #include "SDL_error.h"
@@ -99,7 +100,7 @@ VITAAUD_OpenDevice(_THIS, void *handle, const char *devname, int iscapture)
 
     sceAudioOutSetVolume(this->hidden->channel, SCE_AUDIO_VOLUME_FLAG_L_CH|SCE_AUDIO_VOLUME_FLAG_R_CH, vols);
 
-    SDL_memset(this->hidden->rawbuf, 0, mixlen);
+    memset(this->hidden->rawbuf, 0, mixlen);
     for (i = 0; i < NUM_BUFFERS; i++) {
         this->hidden->mixbufs[i] = &this->hidden->rawbuf[i * this->spec.size];
     }

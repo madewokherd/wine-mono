@@ -155,7 +155,7 @@ SDL_SYS_HapticOpen(SDL_Haptic *haptic)
 int
 SDL_SYS_HapticMouse(void)
 {
-    return -1;
+    return 0;
 }
 
 

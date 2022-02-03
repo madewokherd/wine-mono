@@ -1227,7 +1227,7 @@ RLEAlphaSurface(SDL_Surface * surface)
         surface->flags &= ~SDL_SIMD_ALIGNED;
     }
 
-    /* reallocate the buffer to release unused memory */
+    /* realloc the buffer to release unused memory */
     {
         Uint8 *p = SDL_realloc(rlebuf, dst - rlebuf);
         if (!p)
@@ -1391,9 +1391,9 @@ RLEColorkeySurface(SDL_Surface * surface)
         surface->flags &= ~SDL_SIMD_ALIGNED;
     }
 
-    /* reallocate the buffer to release unused memory */
+    /* realloc the buffer to release unused memory */
     {
-        /* If SDL_realloc returns NULL, the original block is left intact */
+        /* If realloc returns NULL, the original block is left intact */
         Uint8 *p = SDL_realloc(rlebuf, dst - rlebuf);
         if (!p)
             p = rlebuf;

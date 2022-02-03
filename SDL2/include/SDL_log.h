@@ -116,8 +116,6 @@ typedef enum
  *
  * \param priority the SDL_LogPriority to assign
  *
- * \since This function is available since SDL 2.0.0.
- *
  * \sa SDL_LogSetPriority
  */
 extern DECLSPEC void SDLCALL SDL_LogSetAllPriority(SDL_LogPriority priority);
@@ -127,8 +125,6 @@ extern DECLSPEC void SDLCALL SDL_LogSetAllPriority(SDL_LogPriority priority);
  *
  * \param category the category to assign a priority to
  * \param priority the SDL_LogPriority to assign
- *
- * \since This function is available since SDL 2.0.0.
  *
  * \sa SDL_LogGetPriority
  * \sa SDL_LogSetAllPriority
@@ -142,8 +138,6 @@ extern DECLSPEC void SDLCALL SDL_LogSetPriority(int category,
  * \param category the category to query
  * \returns the SDL_LogPriority for the requested category
  *
- * \since This function is available since SDL 2.0.0.
- *
  * \sa SDL_LogSetPriority
  */
 extern DECLSPEC SDL_LogPriority SDLCALL SDL_LogGetPriority(int category);
@@ -152,8 +146,6 @@ extern DECLSPEC SDL_LogPriority SDLCALL SDL_LogGetPriority(int category);
  * Reset all priorities to default.
  *
  * This is called by SDL_Quit().
- *
- * \since This function is available since SDL 2.0.0.
  *
  * \sa SDL_LogSetAllPriority
  * \sa SDL_LogSetPriority
@@ -167,8 +159,6 @@ extern DECLSPEC void SDLCALL SDL_LogResetPriorities(void);
  *
  * \param ... additional parameters matching % tokens in the `fmt` string, if
  *            any
- *
- * \since This function is available since SDL 2.0.0.
  *
  * \sa SDL_LogCritical
  * \sa SDL_LogDebug
@@ -189,8 +179,6 @@ extern DECLSPEC void SDLCALL SDL_Log(SDL_PRINTF_FORMAT_STRING const char *fmt, .
  * \param ... additional parameters matching % tokens in the **fmt** string,
  *            if any
  *
- * \since This function is available since SDL 2.0.0.
- *
  * \sa SDL_Log
  * \sa SDL_LogCritical
  * \sa SDL_LogDebug
@@ -209,8 +197,6 @@ extern DECLSPEC void SDLCALL SDL_LogVerbose(int category, SDL_PRINTF_FORMAT_STRI
  * \param fmt a printf() style message format string
  * \param ... additional parameters matching % tokens in the **fmt** string,
  *            if any
- *
- * \since This function is available since SDL 2.0.0.
  *
  * \sa SDL_Log
  * \sa SDL_LogCritical
@@ -231,8 +217,6 @@ extern DECLSPEC void SDLCALL SDL_LogDebug(int category, SDL_PRINTF_FORMAT_STRING
  * \param ... additional parameters matching % tokens in the **fmt** string,
  *            if any
  *
- * \since This function is available since SDL 2.0.0.
- *
  * \sa SDL_Log
  * \sa SDL_LogCritical
  * \sa SDL_LogDebug
@@ -251,8 +235,6 @@ extern DECLSPEC void SDLCALL SDL_LogInfo(int category, SDL_PRINTF_FORMAT_STRING 
  * \param fmt a printf() style message format string
  * \param ... additional parameters matching % tokens in the **fmt** string,
  *            if any
- *
- * \since This function is available since SDL 2.0.0.
  *
  * \sa SDL_Log
  * \sa SDL_LogCritical
@@ -273,8 +255,6 @@ extern DECLSPEC void SDLCALL SDL_LogWarn(int category, SDL_PRINTF_FORMAT_STRING 
  * \param ... additional parameters matching % tokens in the **fmt** string,
  *            if any
  *
- * \since This function is available since SDL 2.0.0.
- *
  * \sa SDL_Log
  * \sa SDL_LogCritical
  * \sa SDL_LogDebug
@@ -293,8 +273,6 @@ extern DECLSPEC void SDLCALL SDL_LogError(int category, SDL_PRINTF_FORMAT_STRING
  * \param fmt a printf() style message format string
  * \param ... additional parameters matching % tokens in the **fmt** string,
  *            if any
- *
- * \since This function is available since SDL 2.0.0.
  *
  * \sa SDL_Log
  * \sa SDL_LogDebug
@@ -315,8 +293,6 @@ extern DECLSPEC void SDLCALL SDL_LogCritical(int category, SDL_PRINTF_FORMAT_STR
  * \param fmt a printf() style message format string
  * \param ... additional parameters matching % tokens in the **fmt** string,
  *            if any
- *
- * \since This function is available since SDL 2.0.0.
  *
  * \sa SDL_Log
  * \sa SDL_LogCritical
@@ -374,8 +350,6 @@ typedef void (SDLCALL *SDL_LogOutputFunction)(void *userdata, int category, SDL_
  * \param userdata a pointer filled in with the pointer that is passed to
  *                 `callback`
  *
- * \since This function is available since SDL 2.0.0.
- *
  * \sa SDL_LogSetOutputFunction
  */
 extern DECLSPEC void SDLCALL SDL_LogGetOutputFunction(SDL_LogOutputFunction *callback, void **userdata);
@@ -385,8 +359,6 @@ extern DECLSPEC void SDLCALL SDL_LogGetOutputFunction(SDL_LogOutputFunction *cal
  *
  * \param callback an SDL_LogOutputFunction to call instead of the default
  * \param userdata a pointer that is passed to `callback`
- *
- * \since This function is available since SDL 2.0.0.
  *
  * \sa SDL_LogGetOutputFunction
  */

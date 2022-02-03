@@ -78,7 +78,7 @@ static HMODULE  hmodVMan = NULLHANDLE;
 static FNVMIENTRY *pfnVMIEntry = NULL;
 static ULONG        ulVRAMAddress = 0;
 
-static VOID APIENTRY ExitVMan(VOID)
+VOID APIENTRY ExitVMan(VOID)
 {
     if (ulVRAMAddress != 0 && hmodVMan != NULLHANDLE) {
         pfnVMIEntry(0, VMI_CMD_TERMPROC, NULL, NULL);

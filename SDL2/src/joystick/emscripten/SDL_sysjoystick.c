@@ -414,10 +414,10 @@ EMSCRIPTEN_JoystickGetGamepadMapping(int device_index, SDL_GamepadMapping *out)
     return SDL_FALSE;
 }
 
-static Uint32
-EMSCRIPTEN_JoystickGetCapabilities(SDL_Joystick *joystick)
+static SDL_bool
+EMSCRIPTEN_JoystickHasLED(SDL_Joystick *joystick)
 {
-    return 0;
+    return SDL_FALSE;
 }
 
 static int
@@ -451,7 +451,7 @@ SDL_JoystickDriver SDL_EMSCRIPTEN_JoystickDriver =
     EMSCRIPTEN_JoystickOpen,
     EMSCRIPTEN_JoystickRumble,
     EMSCRIPTEN_JoystickRumbleTriggers,
-    EMSCRIPTEN_JoystickGetCapabilities,
+    EMSCRIPTEN_JoystickHasLED,
     EMSCRIPTEN_JoystickSetLED,
     EMSCRIPTEN_JoystickSendEffect,
     EMSCRIPTEN_JoystickSetSensorsEnabled,

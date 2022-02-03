@@ -25,6 +25,10 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 /*
  * includes
  */
+#include <stdlib.h>
+#include <string.h>             /* strstr */
+#include <ctype.h>              /* isdigit */
+
 #include "SDL.h"
 
 #ifndef SDL_HAPTIC_DISABLED
@@ -52,7 +56,7 @@ main(int argc, char **argv)
     if (argc > 1) {
         size_t l;
         name = argv[1];
-        if ((SDL_strcmp(name, "--help") == 0) || (SDL_strcmp(name, "-h") == 0)) {
+        if ((strcmp(name, "--help") == 0) || (strcmp(name, "-h") == 0)) {
             SDL_Log("USAGE: %s [device]\n"
                    "If device is a two-digit number it'll use it as an index, otherwise\n"
                    "it'll use it as if it were part of the device's name.\n",
@@ -79,7 +83,7 @@ main(int argc, char **argv)
         /* Try to find matching device */
         else {
             for (i = 0; i < SDL_NumHaptics(); i++) {
-                if (SDL_strstr(SDL_HapticName(i), name) != NULL)
+                if (strstr(SDL_HapticName(i), name) != NULL)
                     break;
             }
 

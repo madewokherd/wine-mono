@@ -163,11 +163,11 @@ HIDAPI_DriverPS4_GetDeviceName(Uint16 vendor_id, Uint16 product_id)
     return NULL;
 }
 
-static int ReadFeatureReport(SDL_hid_device *dev, Uint8 report_id, Uint8 *report, size_t length)
+static int ReadFeatureReport(hid_device *dev, Uint8 report_id, Uint8 *report, size_t length)
 {
     SDL_memset(report, 0, length);
     report[0] = report_id;
-    return SDL_hid_get_feature_report(dev, report, length);
+    return hid_get_feature_report(dev, report, length);
 }
 
 static SDL_bool HIDAPI_DriverPS4_CanRumble(Uint16 vendor_id, Uint16 product_id)
@@ -415,7 +415,7 @@ HIDAPI_DriverPS4_TickleBluetooth(SDL_HIDAPI_Device *device)
     /* This is just a dummy packet that should have no effect, since we don't set the CRC */
     Uint8 data[78];
 
-    SDL_zeroa(data);
+    SDL_zero(data);
 
     data[0] = k_EPS4ReportIdBluetoothEffects;
     data[1] = 0xC0;  /* Magic value HID + CRC */
@@ -479,7 +479,7 @@ HIDAPI_DriverPS4_OpenJoystick(SDL_HIDAPI_Device *device, SDL_Joystick *joystick)
     ctx->joystick = joystick;
     ctx->last_packet = SDL_GetTicks();
 
-    device->dev = SDL_hid_open_path(device->path, 0);
+    device->dev = hid_open_path(device->path, 0);
     if (!device->dev) {
         SDL_free(ctx);
         SDL_SetError("Couldn't open %s", device->path);
@@ -511,7 +511,7 @@ HIDAPI_DriverPS4_OpenJoystick(SDL_HIDAPI_Device *device, SDL_Joystick *joystick)
             ctx->is_bluetooth = SDL_TRUE;
 
             /* Read a report to see if we're in enhanced mode */
-            size = SDL_hid_read_timeout(device->dev, data, sizeof(data), 16);
+            size = hid_read_timeout(device->dev, data, sizeof(data), 16);
 #ifdef DEBUG_PS4_PROTOCOL
             if (size > 0) {
                 HIDAPI_DumpPacket("PS4 first packet: size = %d", data, size);
@@ -598,17 +598,10 @@ HIDAPI_DriverPS4_RumbleJoystickTriggers(SDL_HIDAPI_Device *device, SDL_Joystick 
     return SDL_Unsupported();
 }
 
-static Uint32
-HIDAPI_DriverPS4_GetJoystickCapabilities(SDL_HIDAPI_Device *device, SDL_Joystick *joystick)
+static SDL_bool
+HIDAPI_DriverPS4_HasJoystickLED(SDL_HIDAPI_Device *device, SDL_Joystick *joystick)
 {
-    SDL_DriverPS4_Context *ctx = (SDL_DriverPS4_Context *)device->context;
-    Uint32 result = 0;
-
-    if (ctx->enhanced_mode && ctx->effects_supported) {
-        result |= SDL_JOYCAP_LED | SDL_JOYCAP_RUMBLE;
-    }
-
-    return result;
+    return SDL_TRUE;
 }
 
 static int
@@ -639,7 +632,7 @@ HIDAPI_DriverPS4_SendJoystickEffect(SDL_HIDAPI_Device *device, SDL_Joystick *joy
         HIDAPI_DriverPS4_SetEnhancedMode(device, joystick);
     }
 
-    SDL_zeroa(data);
+    SDL_zero(data);
 
     if (ctx->is_bluetooth) {
         data[0] = k_EPS4ReportIdBluetoothEffects;
@@ -691,7 +684,7 @@ HIDAPI_DriverPS4_SetJoystickSensorsEnabled(SDL_HIDAPI_Device *device, SDL_Joysti
 }
 
 static void
-HIDAPI_DriverPS4_HandleStatePacket(SDL_Joystick *joystick, SDL_hid_device *dev, SDL_DriverPS4_Context *ctx, PS4StatePacket_t *packet)
+HIDAPI_DriverPS4_HandleStatePacket(SDL_Joystick *joystick, hid_device *dev, SDL_DriverPS4_Context *ctx, PS4StatePacket_t *packet)
 {
     static const float TOUCHPAD_SCALEX = 1.0f / 1920;
     static const float TOUCHPAD_SCALEY = 1.0f / 920;    /* This is noted as being 944 resolution, but 920 feels better */
@@ -853,7 +846,7 @@ HIDAPI_DriverPS4_UpdateDevice(SDL_HIDAPI_Device *device)
         return SDL_FALSE;
     }
 
-    while ((size = SDL_hid_read_timeout(device->dev, data, sizeof(data), 0)) > 0) {
+    while ((size = hid_read_timeout(device->dev, data, sizeof(data), 0)) > 0) {
 #ifdef DEBUG_PS4_PROTOCOL
         HIDAPI_DumpPacket("PS4 packet: size = %d", data, size);
 #endif
@@ -915,7 +908,7 @@ HIDAPI_DriverPS4_CloseJoystick(SDL_HIDAPI_Device *device, SDL_Joystick *joystick
 
     SDL_LockMutex(device->dev_lock);
     {
-        SDL_hid_close(device->dev);
+        hid_close(device->dev);
         device->dev = NULL;
 
         SDL_free(device->context);
@@ -933,7 +926,6 @@ SDL_HIDAPI_DeviceDriver SDL_HIDAPI_DriverPS4 =
 {
     SDL_HINT_JOYSTICK_HIDAPI_PS4,
     SDL_TRUE,
-    SDL_TRUE,
     HIDAPI_DriverPS4_IsSupportedDevice,
     HIDAPI_DriverPS4_GetDeviceName,
     HIDAPI_DriverPS4_InitDevice,
@@ -943,7 +935,7 @@ SDL_HIDAPI_DeviceDriver SDL_HIDAPI_DriverPS4 =
     HIDAPI_DriverPS4_OpenJoystick,
     HIDAPI_DriverPS4_RumbleJoystick,
     HIDAPI_DriverPS4_RumbleJoystickTriggers,
-    HIDAPI_DriverPS4_GetJoystickCapabilities,
+    HIDAPI_DriverPS4_HasJoystickLED,
     HIDAPI_DriverPS4_SetJoystickLED,
     HIDAPI_DriverPS4_SendJoystickEffect,
     HIDAPI_DriverPS4_SetJoystickSensorsEnabled,

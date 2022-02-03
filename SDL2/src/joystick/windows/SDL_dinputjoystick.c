@@ -238,25 +238,20 @@ SDL_IsXInputDevice(Uint16 vendor_id, Uint16 product_id, const char* hidPath)
 {
     SDL_GameControllerType type;
 
-    /* XInput and RawInput backends will pick up XInput-compatible devices */
-    if (!SDL_XINPUT_Enabled()
-#ifdef SDL_JOYSTICK_RAWINPUT
-        && !RAWINPUT_IsEnabled()
-#endif
-        ) {
+    if (!SDL_XINPUT_Enabled()) {
         return SDL_FALSE;
-    }
-
-    /* If device path contains "IG_" then its an XInput device */
-    /* See: https://docs.microsoft.com/windows/win32/xinput/xinput-and-directinput */
-    if (SDL_strstr(hidPath, "IG_") != NULL) {
-        return SDL_TRUE;
     }
 
     type = SDL_GetJoystickGameControllerType("", vendor_id, product_id, -1, 0, 0, 0);
     if (type == SDL_CONTROLLER_TYPE_XBOX360 ||
         type == SDL_CONTROLLER_TYPE_XBOXONE ||
         (vendor_id == USB_VENDOR_VALVE && product_id == USB_PRODUCT_STEAM_VIRTUAL_GAMEPAD)) {
+        return SDL_TRUE;
+    }
+
+    /* If device path contains "IG_" then its an XInput device */
+    /* See: https://docs.microsoft.com/windows/win32/xinput/xinput-and-directinput */
+    if (SDL_strstr(hidPath, "IG_") != NULL) {
         return SDL_TRUE;
     }
 
@@ -432,7 +427,7 @@ SDL_DINPUT_JoystickInit(void)
 static BOOL CALLBACK
 EnumJoystickDetectCallback(LPCDIDEVICEINSTANCE pDeviceInstance, LPVOID pContext)
 {
-#define CHECK(expression) { if(!(expression)) goto err; }
+#define CHECK(exp) { if(!(exp)) goto err; }
     JoyStick_DeviceData *pNewJoystick = NULL;
     JoyStick_DeviceData *pPrevJoystick = NULL;
     Uint16 *guid16;
@@ -553,12 +548,11 @@ typedef struct
 static BOOL CALLBACK
 EnumJoystickPresentCallback(LPCDIDEVICEINSTANCE pDeviceInstance, LPVOID pContext)
 {
-#define CHECK(expression) { if(!(expression)) goto err; }
+#define CHECK(exp) { if(!(exp)) goto err; }
     Joystick_PresentData *pData = (Joystick_PresentData *)pContext;
     Uint16 vendor = 0;
     Uint16 product = 0;
     LPDIRECTINPUTDEVICE8 device = NULL;
-    BOOL result = DIENUM_CONTINUE;
 
     /* We are only supporting HID devices. */
     CHECK((pDeviceInstance->dwDevType & DIDEVTYPE_HID) != 0);
@@ -568,7 +562,7 @@ EnumJoystickPresentCallback(LPCDIDEVICEINSTANCE pDeviceInstance, LPVOID pContext
 
     if (vendor == pData->vendor && product == pData->product) {
         pData->present = SDL_TRUE;
-        result = DIENUM_STOP; /* found it */
+        return DIENUM_STOP; /* get next device, please */
     }
 
 err:
@@ -576,7 +570,7 @@ err:
         IDirectInputDevice8_Release(device);
     }
 
-    return result;
+    return DIENUM_CONTINUE; /* get next device, please */
 #undef CHECK
 }
 
@@ -925,18 +919,6 @@ SDL_DINPUT_JoystickRumble(SDL_Joystick * joystick, Uint16 low_frequency_rumble, 
     return 0;
 }
 
-Uint32
-SDL_DINPUT_JoystickGetCapabilities(SDL_Joystick * joystick)
-{
-    Uint32 result = 0;
-
-    if (joystick->hwdata->Capabilities.dwFlags & DIDC_FORCEFEEDBACK) {
-        result |= SDL_JOYCAP_RUMBLE;
-    }
-
-    return result;
-}
-
 static Uint8
 TranslatePOV(DWORD value)
 {
@@ -1179,12 +1161,6 @@ int
 SDL_DINPUT_JoystickRumble(SDL_Joystick * joystick, Uint16 low_frequency_rumble, Uint16 high_frequency_rumble)
 {
     return SDL_Unsupported();
-}
-
-Uint32
-SDL_DINPUT_JoystickGetCapabilities(SDL_Joystick * joystick)
-{
-    return 0;
 }
 
 void

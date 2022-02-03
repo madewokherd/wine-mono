@@ -26,7 +26,7 @@
  */
 #include "SDL_config.h"
 
-#if !defined(_MSC_VER) && !defined(SDL_USE_BUILTIN_OPENGL_DEFINITIONS)
+#ifndef _MSC_VER
 
 #ifdef __IPHONEOS__
 #include <OpenGLES/ES2/gl.h>

@@ -76,7 +76,7 @@
  *    }
  *
  *    // Create the effect
- *    SDL_memset( &effect, 0, sizeof(SDL_HapticEffect) ); // 0 is safe default
+ *    memset( &effect, 0, sizeof(SDL_HapticEffect) ); // 0 is safe default
  *    effect.type = SDL_HAPTIC_SINE;
  *    effect.periodic.direction.type = SDL_HAPTIC_POLAR; // Polar coordinates
  *    effect.periodic.direction.dir[0] = 18000; // Force comes from south
@@ -820,7 +820,6 @@ typedef union SDL_HapticEffect
 
 
 /* Function prototypes */
-
 /**
  * Count the number of haptic devices attached to the system.
  *
@@ -971,8 +970,6 @@ extern DECLSPEC SDL_Haptic *SDLCALL SDL_HapticOpenFromJoystick(SDL_Joystick *
  *
  * \param haptic the SDL_Haptic device to close
  *
- * \since This function is available since SDL 2.0.0.
- *
  * \sa SDL_HapticOpen
  */
 extern DECLSPEC void SDLCALL SDL_HapticClose(SDL_Haptic * haptic);
@@ -1036,8 +1033,6 @@ extern DECLSPEC unsigned int SDLCALL SDL_HapticQuery(SDL_Haptic * haptic);
  * \param haptic the SDL_Haptic device to query
  * \returns the number of axes on success or a negative error code on failure;
  *          call SDL_GetError() for more information.
- *
- * \since This function is available since SDL 2.0.0.
  */
 extern DECLSPEC int SDLCALL SDL_HapticNumAxes(SDL_Haptic * haptic);
 
@@ -1067,8 +1062,6 @@ extern DECLSPEC int SDLCALL SDL_HapticEffectSupported(SDL_Haptic * haptic,
  *               the effect to create
  * \returns the ID of the effect on success or a negative error code on
  *          failure; call SDL_GetError() for more information.
- *
- * \since This function is available since SDL 2.0.0.
  *
  * \sa SDL_HapticDestroyEffect
  * \sa SDL_HapticRunEffect
@@ -1214,8 +1207,6 @@ extern DECLSPEC int SDLCALL SDL_HapticSetGain(SDL_Haptic * haptic, int gain);
  * \returns 0 on success or a negative error code on failure; call
  *          SDL_GetError() for more information.
  *
- * \since This function is available since SDL 2.0.0.
- *
  * \sa SDL_HapticQuery
  */
 extern DECLSPEC int SDLCALL SDL_HapticSetAutocenter(SDL_Haptic * haptic,
@@ -1234,8 +1225,6 @@ extern DECLSPEC int SDLCALL SDL_HapticSetAutocenter(SDL_Haptic * haptic,
  * \returns 0 on success or a negative error code on failure; call
  *          SDL_GetError() for more information.
  *
- * \since This function is available since SDL 2.0.0.
- *
  * \sa SDL_HapticUnpause
  */
 extern DECLSPEC int SDLCALL SDL_HapticPause(SDL_Haptic * haptic);
@@ -1249,8 +1238,6 @@ extern DECLSPEC int SDLCALL SDL_HapticPause(SDL_Haptic * haptic);
  * \returns 0 on success or a negative error code on failure; call
  *          SDL_GetError() for more information.
  *
- * \since This function is available since SDL 2.0.0.
- *
  * \sa SDL_HapticPause
  */
 extern DECLSPEC int SDLCALL SDL_HapticUnpause(SDL_Haptic * haptic);
@@ -1261,8 +1248,6 @@ extern DECLSPEC int SDLCALL SDL_HapticUnpause(SDL_Haptic * haptic);
  * \param haptic the SDL_Haptic device to stop
  * \returns 0 on success or a negative error code on failure; call
  *          SDL_GetError() for more information.
- *
- * \since This function is available since SDL 2.0.0.
  */
 extern DECLSPEC int SDLCALL SDL_HapticStopAll(SDL_Haptic * haptic);
 
@@ -1273,8 +1258,6 @@ extern DECLSPEC int SDLCALL SDL_HapticStopAll(SDL_Haptic * haptic);
  * \returns SDL_TRUE if effect is supported, SDL_FALSE if it isn't, or a
  *          negative error code on failure; call SDL_GetError() for more
  *          information.
- *
- * \since This function is available since SDL 2.0.0.
  *
  * \sa SDL_HapticRumbleInit
  * \sa SDL_HapticRumblePlay
@@ -1307,8 +1290,6 @@ extern DECLSPEC int SDLCALL SDL_HapticRumbleInit(SDL_Haptic * haptic);
  * \returns 0 on success or a negative error code on failure; call
  *          SDL_GetError() for more information.
  *
- * \since This function is available since SDL 2.0.0.
- *
  * \sa SDL_HapticRumbleInit
  * \sa SDL_HapticRumbleStop
  * \sa SDL_HapticRumbleSupported
@@ -1321,8 +1302,6 @@ extern DECLSPEC int SDLCALL SDL_HapticRumblePlay(SDL_Haptic * haptic, float stre
  * \param haptic the haptic device to stop the rumble effect on
  * \returns 0 on success or a negative error code on failure; call
  *          SDL_GetError() for more information.
- *
- * \since This function is available since SDL 2.0.0.
  *
  * \sa SDL_HapticRumbleInit
  * \sa SDL_HapticRumblePlay

@@ -119,7 +119,7 @@ static int s_arrBindingOrder[] = {
     SDL_CONTROLLER_BUTTON_PADDLE2,
     SDL_CONTROLLER_BUTTON_PADDLE3,
     SDL_CONTROLLER_BUTTON_PADDLE4,
-    SDL_CONTROLLER_BUTTON_TOUCHPAD,
+    -1,
 };
 SDL_COMPILE_TIME_ASSERT(s_arrBindingOrder, SDL_arraysize(s_arrBindingOrder) == BINDING_COUNT);
 
@@ -167,7 +167,6 @@ static SDL_bool s_bBindingComplete;
 static SDL_Window *window;
 static SDL_Renderer *screen;
 static SDL_bool done = SDL_FALSE;
-static SDL_bool bind_touchpad = SDL_FALSE;
 
 SDL_Texture *
 LoadTexture(SDL_Renderer *renderer, const char *file, SDL_bool transparent)
@@ -230,13 +229,6 @@ SetCurrentBinding(int iBinding)
     }
 
     if (s_arrBindingOrder[iBinding] == -1)
-    {
-        SetCurrentBinding(iBinding + 1);
-        return;
-    }
-
-    if (s_arrBindingOrder[iBinding] == SDL_CONTROLLER_BUTTON_TOUCHPAD &&
-        !bind_touchpad)
     {
         SetCurrentBinding(iBinding + 1);
         return;
@@ -570,7 +562,7 @@ WatchJoystick(SDL_Joystick * joystick)
                 if ((event.key.keysym.sym != SDLK_ESCAPE)) {
                     break;
                 }
-                SDL_FALLTHROUGH;
+                /* Fall through to signal quit */
             case SDL_QUIT:
                 done = SDL_TRUE;
                 break;
@@ -739,10 +731,6 @@ main(int argc, char *argv[])
         exit(1);
     }
 
-    if (argv[1] && SDL_strcmp(argv[1], "--bind-touchpad") == 0) {
-        bind_touchpad = SDL_TRUE;
-    }
-
     /* Create a window to display joystick axis position */
     window = SDL_CreateWindow("Game Controller Map", SDL_WINDOWPOS_CENTERED,
                               SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH,
@@ -767,7 +755,7 @@ main(int argc, char *argv[])
                 if ((event.key.keysym.sym != SDLK_ESCAPE)) {
                     break;
                 }
-                SDL_FALLTHROUGH;
+                /* Fall through to signal quit */
             case SDL_QUIT:
                 done = SDL_TRUE;
                 break;

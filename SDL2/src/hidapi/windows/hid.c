@@ -21,6 +21,8 @@
 ********************************************************/
 #include "../../SDL_internal.h"
 
+#ifdef SDL_JOYSTICK_HIDAPI
+
 #include <windows.h>
 
 #ifndef _WIN32_WINNT_WIN8
@@ -1097,3 +1099,5 @@ int __cdecl main(int argc, char* argv[])
 #ifdef __cplusplus
 } /* extern "C" */
 #endif
+
+#endif /* SDL_JOYSTICK_HIDAPI */

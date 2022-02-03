@@ -51,17 +51,18 @@ SDL_TicksQuit(void)
     ticks_started = SDL_FALSE;
 }
 
-Uint64
-SDL_GetTicks64(void)
+Uint32 SDL_GetTicks(void)
 {
     uint64_t now;
+    Uint32 ticks;
 
     if (!ticks_started) {
         SDL_TicksInit();
     }
 
     now = sceKernelGetProcessTimeWide();
-    return (Uint64) ((now - start) / 1000);
+    ticks = (now - start)/1000;
+    return (ticks);
 }
 
 Uint64

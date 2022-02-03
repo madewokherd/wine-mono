@@ -135,7 +135,7 @@ FillSound(HWAVEOUT hwo, UINT uMsg, DWORD_PTR dwInstance,
 }
 
 static int
-SetMMerror(const char *function, MMRESULT code)
+SetMMerror(char *function, MMRESULT code)
 {
     int len;
     char errbuf[MAXERRORLENGTH];
@@ -433,6 +433,7 @@ WINMM_OpenDevice(_THIS, void *handle, const char *devname, int iscapture)
 
     return 0;                   /* Ready to go! */
 }
+
 
 static int
 WINMM_Init(SDL_AudioDriverImpl * impl)

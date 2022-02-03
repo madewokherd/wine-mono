@@ -35,6 +35,7 @@
 #include <fcntl.h>              /* O_RDWR */
 #include <limits.h>             /* INT_MAX */
 #include <errno.h>              /* errno, strerror */
+#include <math.h>               /* atan2 */
 #include <sys/stat.h>           /* stat */
 
 /* Just in case. */
@@ -165,7 +166,7 @@ SDL_SYS_HapticInit(void)
     i = 0;
     for (j = 0; j < MAX_HAPTICS; ++j) {
 
-        SDL_snprintf(path, PATH_MAX, joydev_pattern, i++);
+        snprintf(path, PATH_MAX, joydev_pattern, i++);
         MaybeAddDevice(path);
     }
 
@@ -259,7 +260,7 @@ MaybeAddDevice(const char *path)
     }
 
     /* try to open */
-    fd = open(path, O_RDWR | O_CLOEXEC, 0);
+    fd = open(path, O_RDWR, 0);
     if (fd < 0) {
         return -1;
     }
@@ -374,7 +375,7 @@ SDL_SYS_HapticName(int index)
     item = HapticByDevIndex(index);
     /* Open the haptic device. */
     name = NULL;
-    fd = open(item->fname, O_RDONLY | O_CLOEXEC, 0);
+    fd = open(item->fname, O_RDONLY, 0);
 
     if (fd >= 0) {
 
@@ -452,7 +453,7 @@ SDL_SYS_HapticOpen(SDL_Haptic * haptic)
 
     item = HapticByDevIndex(haptic->index);
     /* Open the character device */
-    fd = open(item->fname, O_RDWR | O_CLOEXEC, 0);
+    fd = open(item->fname, O_RDWR, 0);
     if (fd < 0) {
         return SDL_SetError("Haptic: Unable to open %s: %s",
                             item->fname, strerror(errno));
@@ -482,7 +483,7 @@ SDL_SYS_HapticMouse(void)
 
     for (item = SDL_hapticlist; item; item = item->next) {
         /* Open the device. */
-        fd = open(item->fname, O_RDWR | O_CLOEXEC, 0);
+        fd = open(item->fname, O_RDWR, 0);
         if (fd < 0) {
             return SDL_SetError("Haptic: Unable to open %s: %s",
                                 item->fname, strerror(errno));
@@ -569,7 +570,7 @@ SDL_SYS_HapticOpenFromJoystick(SDL_Haptic * haptic, SDL_Joystick * joystick)
         return SDL_SetError("Haptic: Joystick doesn't have Haptic capabilities");
     }
 
-    fd = open(joystick->hwdata->fname, O_RDWR | O_CLOEXEC, 0);
+    fd = open(joystick->hwdata->fname, O_RDWR, 0);
     if (fd < 0) {
         return SDL_SetError("Haptic: Unable to open %s: %s",
                             joystick->hwdata->fname, strerror(errno));
@@ -712,10 +713,10 @@ SDL_SYS_ToDirection(Uint16 *dest, SDL_HapticDirection * src)
         else {
             float f = SDL_atan2(src->dir[1], src->dir[0]);    /* Ideally we'd use fixed point math instead of floats... */
                     /*
-                      SDL_atan2 takes the parameters: Y-axis-value and X-axis-value (in that order)
+                      atan2 takes the parameters: Y-axis-value and X-axis-value (in that order)
                        - Y-axis-value is the second coordinate (from center to SOUTH)
                        - X-axis-value is the first coordinate (from center to EAST)
-                        We add 36000, because SDL_atan2 also returns negative values. Then we practically
+                        We add 36000, because atan2 also returns negative values. Then we practically
                         have the first spherical value. Therefore we proceed as in case
                         SDL_HAPTIC_SPHERICAL and add another 9000 to get the polar value.
                       --> add 45000 in total

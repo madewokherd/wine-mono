@@ -26,7 +26,6 @@
 #include "SDL_test_memory.h"
 
 #ifdef HAVE_LIBUNWIND_H
-#define UNW_LOCAL_ONLY
 #include <libunwind.h>
 #endif
 
@@ -104,13 +103,13 @@ static void SDL_TrackAllocation(void *mem, size_t size)
         stack_index = 0;
         while (unw_step(&cursor) > 0) {
             unw_word_t offset, pc;
-            char sym[236];
+            char sym[256];
 
             unw_get_reg(&cursor, UNW_REG_IP, &pc);
             entry->stack[stack_index] = pc;
 
             if (unw_get_proc_name(&cursor, sym, sizeof(sym), &offset) == 0) {
-                SDL_snprintf(entry->stack_names[stack_index], sizeof(entry->stack_names[stack_index]), "%s+0x%llx", sym, (unsigned long long)offset);
+                snprintf(entry->stack_names[stack_index], sizeof(entry->stack_names[stack_index]), "%s+0x%llx", sym, (unsigned long long)offset);
             }
             ++stack_index;
 

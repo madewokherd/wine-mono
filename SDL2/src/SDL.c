@@ -23,15 +23,15 @@
 #if defined(__WIN32__)
 #include "core/windows/SDL_windows.h"
 #elif defined(__OS2__)
-#include <stdlib.h> /* _exit() */
+#include <stdlib.h> /* For _exit() */
 #elif !defined(__WINRT__)
-#include <unistd.h> /* _exit(), etc. */
+#include <unistd.h> /* For _exit(), etc. */
 #endif
 #if defined(__OS2__)
 #include "core/os2/SDL_os2.h"
+#endif
 #if SDL_THREAD_OS2
 #include "thread/os2/SDL_systls_c.h"
-#endif
 #endif
 
 /* this checks for HAVE_DBUS_DBUS_H internally. */
@@ -150,8 +150,6 @@ SDL_SetMainReady(void)
 int
 SDL_InitSubSystem(Uint32 flags)
 {
-    Uint32 flags_initialized = 0;
-
     if (!SDL_MainIsReady) {
         SDL_SetError("Application didn't initialize properly, did you include SDL_main.h in the file containing your main() function?");
         return -1;
@@ -181,7 +179,7 @@ SDL_InitSubSystem(Uint32 flags)
 #if SDL_VIDEO_DRIVER_WINDOWS
     if ((flags & (SDL_INIT_HAPTIC|SDL_INIT_JOYSTICK))) {
         if (SDL_HelperWindowCreate() < 0) {
-            goto quit_and_error;
+            return -1;
         }
     }
 #endif
@@ -195,14 +193,12 @@ SDL_InitSubSystem(Uint32 flags)
 #if !SDL_EVENTS_DISABLED
         if (SDL_PrivateShouldInitSubsystem(SDL_INIT_EVENTS)) {
             if (SDL_EventsInit() < 0) {
-                goto quit_and_error;
+                return (-1);
             }
         }
         SDL_PrivateSubsystemRefCountIncr(SDL_INIT_EVENTS);
-        flags_initialized |= SDL_INIT_EVENTS;
 #else
-        SDL_SetError("SDL not built with events support");
-        goto quit_and_error;
+        return SDL_SetError("SDL not built with events support");
 #endif
     }
 
@@ -211,14 +207,12 @@ SDL_InitSubSystem(Uint32 flags)
 #if !SDL_TIMERS_DISABLED
         if (SDL_PrivateShouldInitSubsystem(SDL_INIT_TIMER)) {
             if (SDL_TimerInit() < 0) {
-                goto quit_and_error;
+                return (-1);
             }
         }
         SDL_PrivateSubsystemRefCountIncr(SDL_INIT_TIMER);
-        flags_initialized |= SDL_INIT_TIMER;
 #else
-        SDL_SetError("SDL not built with timer support");
-        goto quit_and_error;
+        return SDL_SetError("SDL not built with timer support");
 #endif
     }
 
@@ -227,14 +221,12 @@ SDL_InitSubSystem(Uint32 flags)
 #if !SDL_VIDEO_DISABLED
         if (SDL_PrivateShouldInitSubsystem(SDL_INIT_VIDEO)) {
             if (SDL_VideoInit(NULL) < 0) {
-                goto quit_and_error;
+                return (-1);
             }
         }
         SDL_PrivateSubsystemRefCountIncr(SDL_INIT_VIDEO);
-        flags_initialized |= SDL_INIT_VIDEO;
 #else
-        SDL_SetError("SDL not built with video support");
-        goto quit_and_error;
+        return SDL_SetError("SDL not built with video support");
 #endif
     }
 
@@ -243,14 +235,12 @@ SDL_InitSubSystem(Uint32 flags)
 #if !SDL_AUDIO_DISABLED
         if (SDL_PrivateShouldInitSubsystem(SDL_INIT_AUDIO)) {
             if (SDL_AudioInit(NULL) < 0) {
-                goto quit_and_error;
+                return (-1);
             }
         }
         SDL_PrivateSubsystemRefCountIncr(SDL_INIT_AUDIO);
-        flags_initialized |= SDL_INIT_AUDIO;
 #else
-        SDL_SetError("SDL not built with audio support");
-        goto quit_and_error;
+        return SDL_SetError("SDL not built with audio support");
 #endif
     }
 
@@ -259,14 +249,12 @@ SDL_InitSubSystem(Uint32 flags)
 #if !SDL_JOYSTICK_DISABLED
         if (SDL_PrivateShouldInitSubsystem(SDL_INIT_JOYSTICK)) {
            if (SDL_JoystickInit() < 0) {
-               goto quit_and_error;
+               return (-1);
            }
         }
         SDL_PrivateSubsystemRefCountIncr(SDL_INIT_JOYSTICK);
-        flags_initialized |= SDL_INIT_JOYSTICK;
 #else
-        SDL_SetError("SDL not built with joystick support");
-        goto quit_and_error;
+        return SDL_SetError("SDL not built with joystick support");
 #endif
     }
 
@@ -274,14 +262,12 @@ SDL_InitSubSystem(Uint32 flags)
 #if !SDL_JOYSTICK_DISABLED
         if (SDL_PrivateShouldInitSubsystem(SDL_INIT_GAMECONTROLLER)) {
             if (SDL_GameControllerInit() < 0) {
-                goto quit_and_error;
+                return (-1);
             }
         }
         SDL_PrivateSubsystemRefCountIncr(SDL_INIT_GAMECONTROLLER);
-        flags_initialized |= SDL_INIT_GAMECONTROLLER;
 #else
-        SDL_SetError("SDL not built with joystick support");
-        goto quit_and_error;
+        return SDL_SetError("SDL not built with joystick support");
 #endif
     }
 
@@ -290,14 +276,12 @@ SDL_InitSubSystem(Uint32 flags)
 #if !SDL_HAPTIC_DISABLED
         if (SDL_PrivateShouldInitSubsystem(SDL_INIT_HAPTIC)) {
             if (SDL_HapticInit() < 0) {
-                goto quit_and_error;
+                return (-1);
             }
         }
         SDL_PrivateSubsystemRefCountIncr(SDL_INIT_HAPTIC);
-        flags_initialized |= SDL_INIT_HAPTIC;
 #else
-        SDL_SetError("SDL not built with haptic (force feedback) support");
-        goto quit_and_error;
+        return SDL_SetError("SDL not built with haptic (force feedback) support");
 #endif
     }
 
@@ -306,22 +290,16 @@ SDL_InitSubSystem(Uint32 flags)
 #if !SDL_SENSOR_DISABLED
         if (SDL_PrivateShouldInitSubsystem(SDL_INIT_SENSOR)) {
             if (SDL_SensorInit() < 0) {
-                goto quit_and_error;
+                return (-1);
             }
         }
         SDL_PrivateSubsystemRefCountIncr(SDL_INIT_SENSOR);
-        flags_initialized |= SDL_INIT_SENSOR;
 #else
-        SDL_SetError("SDL not built with sensor support");
-        goto quit_and_error;
+        return SDL_SetError("SDL not built with sensor support");
 #endif
     }
 
     return (0);
-
-quit_and_error:
-    SDL_QuitSubSystem(flags_initialized);
-    return (-1);
 }
 
 int
@@ -333,10 +311,10 @@ SDL_Init(Uint32 flags)
 void
 SDL_QuitSubSystem(Uint32 flags)
 {
-#if defined(__OS2__)
 #if SDL_THREAD_OS2
     SDL_OS2TLSFree(); /* thread/os2/SDL_systls.c */
 #endif
+#if defined(__OS2__)
     SDL_OS2Quit();
 #endif
 
@@ -506,7 +484,7 @@ SDL_GetRevisionNumber(void)
 
 /* Get the name of the platform */
 const char *
-SDL_GetPlatform(void)
+SDL_GetPlatform()
 {
 #if __AIX__
     return "AIX";
@@ -568,7 +546,7 @@ SDL_GetPlatform(void)
 }
 
 SDL_bool
-SDL_IsTablet(void)
+SDL_IsTablet()
 {
 #if __ANDROID__
     extern SDL_bool SDL_IsAndroidTablet(void);

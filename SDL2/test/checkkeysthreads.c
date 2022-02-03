@@ -86,8 +86,6 @@ print_modifiers(char **text, size_t *maxlen)
         print_string(text, maxlen, " CAPS");
     if (mod & KMOD_MODE)
         print_string(text, maxlen, " MODE");
-    if (mod & KMOD_SCROLL)
-        print_string(text, maxlen, " SCROLL");
 }
 
 static void
@@ -138,10 +136,9 @@ PrintKey(SDL_Keysym * sym, SDL_bool pressed, SDL_bool repeat)
 }
 
 static void
-PrintText(const char *eventtype, const char *text)
+PrintText(char *eventtype, char *text)
 {
-    const char *spot;
-    char expanded[1024];
+    char *spot, expanded[1024];
 
     expanded[0] = '\0';
     for ( spot = text; *spot; ++spot )
@@ -210,7 +207,7 @@ static int SDLCALL ping_thread(void *ptr)
 {
     int cnt;
     SDL_Event sdlevent;
-    SDL_memset(&sdlevent, 0 , sizeof(SDL_Event));
+    memset(&sdlevent, 0 , sizeof(SDL_Event));
     for (cnt = 0; cnt < 10; ++cnt) {
         fprintf(stderr, "sending event (%d/%d) from thread.\n", cnt + 1, 10); fflush(stderr);
         sdlevent.type = SDL_KEYDOWN;
@@ -225,7 +222,6 @@ int
 main(int argc, char *argv[])
 {
     SDL_Window *window;
-    SDL_Renderer *renderer;
     SDL_Thread *thread;
 
     /* Enable standard application logging */
@@ -246,12 +242,6 @@ main(int argc, char *argv[])
                 SDL_GetError());
         quit(2);
     }
-
-    /* On wayland, no window will actually show until something has
-       actually been displayed.
-    */
-    renderer = SDL_CreateRenderer(window, -1, 0);
-    SDL_RenderPresent(renderer);
 
 #if __IPHONEOS__
     /* Creating the context creates the view, which we need to show keyboard */

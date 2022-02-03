@@ -24,10 +24,9 @@
 
 #include "../../events/SDL_events_c.h"
 
+#include "SDL_uikitvideo.h"
 #include "SDL_uikitevents.h"
 #include "SDL_uikitopengles.h"
-#include "SDL_uikitvideo.h"
-#include "SDL_uikitwindow.h"
 
 #import <Foundation/Foundation.h>
 
@@ -185,20 +184,20 @@ static id mouse_connect_observer = nil;
 static id mouse_disconnect_observer = nil;
 static bool mouse_relative_mode = SDL_FALSE;
 
-static void UpdatePointerLock()
+static void UpdateMouseGrab()
 {
     SDL_VideoDevice *_this = SDL_GetVideoDevice();
     SDL_Window *window;
 
     for (window = _this->windows; window != NULL; window = window->next) {
-        UIKit_UpdatePointerLock(_this, window);
+        SDL_UpdateWindowGrab(window);
     }
 }
 
 static int SetGCMouseRelativeMode(SDL_bool enabled)
 {
     mouse_relative_mode = enabled;
-    UpdatePointerLock();
+    UpdateMouseGrab();
     return 0;
 }
 
@@ -235,9 +234,7 @@ static void OnGCMouseConnected(GCMouse *mouse) API_AVAILABLE(macos(11.0), ios(14
 
     mouse.mouseInput.mouseMovedHandler = ^(GCMouseInput *mouse, float deltaX, float deltaY)
     {
-        if (SDL_GCMouseRelativeMode()) {
-            SDL_SendMouseMotion(SDL_GetMouseFocus(), mouseID, 1, (int)deltaX, -(int)deltaY);
-        }
+        SDL_SendMouseMotion(SDL_GetMouseFocus(), mouseID, SDL_TRUE, (int)deltaX, -(int)deltaY);
     };
 
     dispatch_queue_t queue = dispatch_queue_create( "org.libsdl.input.mouse", DISPATCH_QUEUE_SERIAL );
@@ -246,7 +243,7 @@ static void OnGCMouseConnected(GCMouse *mouse) API_AVAILABLE(macos(11.0), ios(14
 
     ++mice_connected;
 
-    UpdatePointerLock();
+    UpdateMouseGrab();
 }
 
 static void OnGCMouseDisconnected(GCMouse *mouse) API_AVAILABLE(macos(11.0), ios(14.0), tvos(14.0))
@@ -263,7 +260,7 @@ static void OnGCMouseDisconnected(GCMouse *mouse) API_AVAILABLE(macos(11.0), ios
         button.pressedChangedHandler = nil;
     }
 
-    UpdatePointerLock();
+    UpdateMouseGrab();
 }
 
 void SDL_InitGCMouse(void)
@@ -271,37 +268,29 @@ void SDL_InitGCMouse(void)
     @autoreleasepool {
         /* There is a bug where mouse accumulates duplicate deltas over time in iOS 14.0 */
         if (@available(iOS 14.1, tvOS 14.1, *)) {
-            /* iOS will not send the new pointer touch events if you don't have this key,
-             * and we need them to differentiate between mouse events and real touch events.
-             */
-            BOOL indirect_input_available = [[[[NSBundle mainBundle] infoDictionary] objectForKey:@"UIApplicationSupportsIndirectInputEvents"] boolValue];
-            if (indirect_input_available) {
-                NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+            NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
 
-                mouse_connect_observer = [center addObserverForName:GCMouseDidConnectNotification
-                                                             object:nil
-                                                              queue:nil
-                                                         usingBlock:^(NSNotification *note) {
-                                                             GCMouse *mouse = note.object;
-                                                             OnGCMouseConnected(mouse);
-                                                         }];
+            mouse_connect_observer = [center addObserverForName:GCMouseDidConnectNotification
+                                                         object:nil
+                                                          queue:nil
+                                                     usingBlock:^(NSNotification *note) {
+                                                         GCMouse *mouse = note.object;
+                                                         OnGCMouseConnected(mouse);
+                                                     }];
 
-                mouse_disconnect_observer = [center addObserverForName:GCMouseDidDisconnectNotification
-                                                                object:nil
-                                                                 queue:nil
-                                                            usingBlock:^(NSNotification *note) {
-                                                                GCMouse *mouse = note.object;
-                                                                OnGCMouseDisconnected(mouse);
-                                                           }];
+            mouse_disconnect_observer = [center addObserverForName:GCMouseDidDisconnectNotification
+                                                            object:nil
+                                                             queue:nil
+                                                        usingBlock:^(NSNotification *note) {
+                                                            GCMouse *mouse = note.object;
+                                                            OnGCMouseDisconnected(mouse);
+                                                       }];
 
-                for (GCMouse *mouse in [GCMouse mice]) {
-                    OnGCMouseConnected(mouse);
-                }
-
-                SDL_GetMouse()->SetRelativeMouseMode = SetGCMouseRelativeMode;
-            } else {
-                NSLog(@"You need UIApplicationSupportsIndirectInputEvents in your Info.plist for mouse support");
+            for (GCMouse *mouse in [GCMouse mice]) {
+                OnGCMouseConnected(mouse);
             }
+
+            SDL_GetMouse()->SetRelativeMouseMode = SetGCMouseRelativeMode;
         }
     }
 }

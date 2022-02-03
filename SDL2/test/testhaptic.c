@@ -14,6 +14,10 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 /*
  * includes
  */
+#include <stdlib.h>
+#include <string.h>             /* strstr */
+#include <ctype.h>              /* isdigit */
+
 #include "SDL.h"
 
 #ifndef SDL_HAPTIC_DISABLED
@@ -25,7 +29,7 @@ static SDL_Haptic *haptic;
  * prototypes
  */
 static void abort_execution(void);
-static void HapticPrintSupported(SDL_Haptic *);
+static void HapticPrintSupported(SDL_Haptic * haptic);
 
 
 /**
@@ -51,7 +55,7 @@ main(int argc, char **argv)
     index = -1;
     if (argc > 1) {
         name = argv[1];
-        if ((SDL_strcmp(name, "--help") == 0) || (SDL_strcmp(name, "-h") == 0)) {
+        if ((strcmp(name, "--help") == 0) || (strcmp(name, "-h") == 0)) {
             SDL_Log("USAGE: %s [device]\n"
                    "If device is a two-digit number it'll use it as an index, otherwise\n"
                    "it'll use it as if it were part of the device's name.\n",
@@ -59,9 +63,9 @@ main(int argc, char **argv)
             return 0;
         }
 
-        i = SDL_strlen(name);
-        if ((i < 3) && SDL_isdigit(name[0]) && ((i == 1) || SDL_isdigit(name[1]))) {
-            index = SDL_atoi(name);
+        i = strlen(name);
+        if ((i < 3) && isdigit(name[0]) && ((i == 1) || isdigit(name[1]))) {
+            index = atoi(name);
             name = NULL;
         }
     }
@@ -78,7 +82,7 @@ main(int argc, char **argv)
         /* Try to find matching device */
         else {
             for (i = 0; i < SDL_NumHaptics(); i++) {
-                if (SDL_strstr(SDL_HapticName(i), name) != NULL)
+                if (strstr(SDL_HapticName(i), name) != NULL)
                     break;
             }
 
@@ -106,7 +110,7 @@ main(int argc, char **argv)
     SDL_ClearError();
 
     /* Create effects. */
-    SDL_memset(&efx, 0, sizeof(efx));
+    memset(&efx, 0, sizeof(efx));
     nefx = 0;
     supported = SDL_HapticQuery(haptic);
 
@@ -310,13 +314,13 @@ abort_execution(void)
  * Displays information about the haptic device.
  */
 static void
-HapticPrintSupported(SDL_Haptic * ptr)
+HapticPrintSupported(SDL_Haptic * haptic)
 {
     unsigned int supported;
 
-    supported = SDL_HapticQuery(ptr);
+    supported = SDL_HapticQuery(haptic);
     SDL_Log("   Supported effects [%d effects, %d playing]:\n",
-           SDL_HapticNumEffects(ptr), SDL_HapticNumEffectsPlaying(ptr));
+           SDL_HapticNumEffects(haptic), SDL_HapticNumEffectsPlaying(haptic));
     if (supported & SDL_HAPTIC_CONSTANT)
         SDL_Log("      constant\n");
     if (supported & SDL_HAPTIC_SINE)

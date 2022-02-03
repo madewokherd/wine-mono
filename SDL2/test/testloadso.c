@@ -44,7 +44,7 @@ main(int argc, char *argv[])
         return 2;
     }
 
-    if (SDL_strcmp(argv[1], "--hello") == 0) {
+    if (strcmp(argv[1], "--hello") == 0) {
         hello = 1;
         libname = argv[2];
         symname = "puts";

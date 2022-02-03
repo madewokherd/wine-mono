@@ -84,8 +84,7 @@ GetAppName()
     return SDL_strdup("SDL_App");
 }
 
-static size_t
-Fcitx_GetPreeditString(SDL_DBusContext *dbus, DBusMessage *msg, char **ret) {
+size_t Fcitx_GetPreeditString(SDL_DBusContext *dbus, DBusMessage *msg, char **ret) {
     char *text = NULL, *subtext;
     size_t text_bytes = 0;
     DBusMessageIter iter, array, sub;

@@ -939,21 +939,10 @@ DARWIN_JoystickRumbleTriggers(SDL_Joystick *joystick, Uint16 left_rumble, Uint16
     return SDL_Unsupported();
 }
 
-static Uint32
-DARWIN_JoystickGetCapabilities(SDL_Joystick *joystick)
+static SDL_bool
+DARWIN_JoystickHasLED(SDL_Joystick *joystick)
 {
-    recDevice *device = joystick->hwdata;
-    Uint32 result = 0;
-
-    if (!device) {
-        return 0;
-    }
-
-    if (device->ffservice) {
-        result |= SDL_JOYCAP_RUMBLE;
-    }
-
-    return result;
+    return SDL_FALSE;
 }
 
 static int
@@ -1122,7 +1111,7 @@ SDL_JoystickDriver SDL_DARWIN_JoystickDriver =
     DARWIN_JoystickOpen,
     DARWIN_JoystickRumble,
     DARWIN_JoystickRumbleTriggers,
-    DARWIN_JoystickGetCapabilities,
+    DARWIN_JoystickHasLED,
     DARWIN_JoystickSetLED,
     DARWIN_JoystickSendEffect,
     DARWIN_JoystickSetSensorsEnabled,

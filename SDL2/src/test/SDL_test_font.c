@@ -3109,16 +3109,10 @@ static unsigned char SDLTest_FontData[SDL_TESTFONTDATAMAX] = {
 
 /* ---- Character */
 
-struct SDLTest_CharTextureCache {
-    SDL_Renderer* renderer;
-    SDL_Texture* charTextureCache[256];
-    struct SDLTest_CharTextureCache* next;
-};
-
 /*!
-\brief List of per-renderer caches for 8x8 pixel font textures created at runtime.
+\brief Global cache for 8x8 pixel font textures created at runtime.
 */
-static struct SDLTest_CharTextureCache *SDLTest_CharTextureCacheList;
+static SDL_Texture *SDLTest_CharTextureCache[256];
 
 int SDLTest_DrawCharacter(SDL_Renderer *renderer, int x, int y, char c)
 {
@@ -3137,7 +3131,6 @@ int SDLTest_DrawCharacter(SDL_Renderer *renderer, int x, int y, char c)
     SDL_Surface *character;
     Uint32 ci;
     Uint8 r, g, b, a;
-    struct SDLTest_CharTextureCache *cache;
 
     /*
      * Setup source rectangle
@@ -3158,25 +3151,10 @@ int SDLTest_DrawCharacter(SDL_Renderer *renderer, int x, int y, char c)
     /* Character index in cache */
     ci = (unsigned char)c;
 
-    /* Search for this renderer's cache */
-    for (cache = SDLTest_CharTextureCacheList; cache != NULL; cache = cache->next) {
-        if (cache->renderer == renderer) {
-            break;
-        }
-    }
-
-    /* Allocate a new cache for this renderer if needed */
-    if (cache == NULL) {        
-        cache = (struct SDLTest_CharTextureCache*)SDL_calloc(1, sizeof(struct SDLTest_CharTextureCache));
-        cache->renderer = renderer;
-        cache->next = SDLTest_CharTextureCacheList;
-        SDLTest_CharTextureCacheList = cache;
-    }
-
     /*
      * Create new charWidth x charHeight bitmap surface if not already present.
      */
-    if (cache->charTextureCache[ci] == NULL) {
+    if (SDLTest_CharTextureCache[ci] == NULL) {
         /*
          * Redraw character into surface
          */
@@ -3213,15 +3191,14 @@ int SDLTest_DrawCharacter(SDL_Renderer *renderer, int x, int y, char c)
             linepos += pitch;
         }
 
-
         /* Convert temp surface into texture */
-        cache->charTextureCache[ci] = SDL_CreateTextureFromSurface(renderer, character);
+        SDLTest_CharTextureCache[ci] = SDL_CreateTextureFromSurface(renderer, character);
         SDL_FreeSurface(character);
 
         /*
          * Check pointer
          */
-        if (cache->charTextureCache[ci] == NULL) {
+        if (SDLTest_CharTextureCache[ci] == NULL) {
             return (-1);
         }
     }
@@ -3231,13 +3208,13 @@ int SDLTest_DrawCharacter(SDL_Renderer *renderer, int x, int y, char c)
      */
     result = 0;
     result |= SDL_GetRenderDrawColor(renderer, &r, &g, &b, &a);
-    result |= SDL_SetTextureColorMod(cache->charTextureCache[ci], r, g, b);
-    result |= SDL_SetTextureAlphaMod(cache->charTextureCache[ci], a);
+    result |= SDL_SetTextureColorMod(SDLTest_CharTextureCache[ci], r, g, b);
+    result |= SDL_SetTextureAlphaMod(SDLTest_CharTextureCache[ci], a);
 
     /*
      * Draw texture onto destination
      */
-    result |= SDL_RenderCopy(renderer, cache->charTextureCache[ci], &srect, &drect);
+    result |= SDL_RenderCopy(renderer, SDLTest_CharTextureCache[ci], &srect, &drect);
 
     return (result);
 }
@@ -3262,23 +3239,12 @@ int SDLTest_DrawString(SDL_Renderer * renderer, int x, int y, const char *s)
 void SDLTest_CleanupTextDrawing(void)
 {
     unsigned int i;
-    struct SDLTest_CharTextureCache* cache, *next;
-
-    cache = SDLTest_CharTextureCacheList;
-    do {
-        for (i = 0; i < SDL_arraysize(cache->charTextureCache); ++i) {
-            if (cache->charTextureCache[i]) {
-                SDL_DestroyTexture(cache->charTextureCache[i]);
-                cache->charTextureCache[i] = NULL;
-            }
+    for (i = 0; i < SDL_arraysize(SDLTest_CharTextureCache); ++i) {
+        if (SDLTest_CharTextureCache[i]) {
+            SDL_DestroyTexture(SDLTest_CharTextureCache[i]);
+            SDLTest_CharTextureCache[i] = NULL;
         }
-
-        next = cache->next;
-        SDL_free(cache);
-        cache = next;
-    } while (cache);
-
-    SDLTest_CharTextureCacheList = NULL;
+    }
 }
 
 /* vi: set ts=4 sw=4 expandtab: */

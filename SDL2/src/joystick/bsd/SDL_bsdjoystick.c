@@ -240,7 +240,7 @@ BSD_JoystickInit(void)
     }
     for (i = 0; i < MAX_JOY_JOYS; i++) {
         SDL_snprintf(s, SDL_arraysize(s), "/dev/joy%d", i);
-        fd = open(s, O_RDONLY | O_CLOEXEC);
+        fd = open(s, O_RDONLY);
         if (fd != -1) {
             joynames[numjoysticks++] = SDL_strdup(s);
             close(fd);
@@ -357,7 +357,7 @@ BSD_JoystickOpen(SDL_Joystick *joy, int device_index)
     int fd;
     int i;
 
-    fd = open(path, O_RDONLY | O_CLOEXEC);
+    fd = open(path, O_RDONLY);
     if (fd == -1) {
         return SDL_SetError("%s: %s", path, strerror(errno));
     }
@@ -426,7 +426,7 @@ BSD_JoystickOpen(SDL_Joystick *joy, int device_index)
             str[i] = UGETW(usd.usd_desc.bString[i]);
         }
         str[i] = '\0';
-        SDL_asprintf(&new_name, "%s @ %s", str, path);
+        asprintf(&new_name, "%s @ %s", str, path);
         if (new_name != NULL) {
             SDL_free(joydevnames[numjoysticks]);
             joydevnames[numjoysticks] = new_name;
@@ -552,7 +552,7 @@ BSD_JoystickUpdate(SDL_Joystick *joy)
 
     if (joy->hwdata->type == BSDJOY_JOY) {
         while (read(joy->hwdata->fd, &gameport, sizeof gameport) == sizeof gameport) {
-            if (SDL_abs(x - gameport.x) > 8) {
+            if (abs(x - gameport.x) > 8) {
                 x = gameport.x;
                 if (x < xmin) {
                     xmin = x;
@@ -569,7 +569,7 @@ BSD_JoystickUpdate(SDL_Joystick *joy)
                 v *= 32768 / ((xmax - xmin + 1) / 2);
                 SDL_PrivateJoystickAxis(joy, 0, v);
             }
-            if (SDL_abs(y - gameport.y) > 8) {
+            if (abs(y - gameport.y) > 8) {
                 y = gameport.y;
                 if (y < ymin) {
                     ymin = y;
@@ -777,10 +777,10 @@ BSD_JoystickGetGamepadMapping(int device_index, SDL_GamepadMapping *out)
     return SDL_FALSE;
 }
 
-static Uint32
-BSD_JoystickGetCapabilities(SDL_Joystick *joystick)
+static SDL_bool
+BSD_JoystickHasLED(SDL_Joystick *joystick)
 {
-    return 0;
+    return SDL_FALSE;
 }
 
 static int
@@ -814,7 +814,7 @@ SDL_JoystickDriver SDL_BSD_JoystickDriver =
     BSD_JoystickOpen,
     BSD_JoystickRumble,
     BSD_JoystickRumbleTriggers,
-    BSD_JoystickGetCapabilities,
+    BSD_JoystickHasLED,
     BSD_JoystickSetLED,
     BSD_JoystickSendEffect,
     BSD_JoystickSetSensorsEnabled,

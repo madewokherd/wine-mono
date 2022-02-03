@@ -30,9 +30,6 @@
 #include "../core/android/SDL_android.h"
 #include "../video/android/SDL_androidvideo.h"
 #endif
-#if SDL_VIDEO_DRIVER_RPI
-#include <unistd.h>
-#endif
 
 #include "SDL_sysvideo.h"
 #include "SDL_egl_c.h"
@@ -45,11 +42,6 @@
 #define EGL_OPENGL_ES3_BIT_KHR 0x00000040
 #endif
 #endif /* EGL_KHR_create_context */
-
-#ifndef EGL_EXT_present_opaque
-#define EGL_EXT_present_opaque 1
-#define EGL_PRESENT_OPAQUE_EXT            0x31DF
-#endif /* EGL_EXT_present_opaque */
 
 #if SDL_VIDEO_DRIVER_RPI
 /* Raspbian places the OpenGL ES/EGL binaries in a non standard path */
@@ -110,7 +102,7 @@
 #define EGL_PLATFORM_DEVICE_EXT 0x0
 #endif
 
-#if defined(SDL_VIDEO_STATIC_ANGLE) || defined(SDL_VIDEO_DRIVER_VITA)
+#ifdef SDL_VIDEO_STATIC_ANGLE
 #define LOAD_FUNC(NAME) \
 _this->egl_data->NAME = (void *)NAME;
 #else
@@ -125,6 +117,7 @@ if (!_this->egl_data->NAME) \
 /* it is allowed to not have some of the EGL extensions on start - attempts to use them will fail later. */
 #define LOAD_FUNC_EGLEXT(NAME) \
     _this->egl_data->NAME = _this->egl_data->eglGetProcAddress(#NAME);
+
 
 static const char * SDL_EGL_GetErrorName(EGLint eglErrorCode)
 {
@@ -247,7 +240,7 @@ SDL_EGL_GetProcAddress(_THIS, const char *proc)
         retval = _this->egl_data->eglGetProcAddress(proc);
     }
 
-    #if !defined(__EMSCRIPTEN__) && !defined(SDL_VIDEO_DRIVER_VITA)  /* LoadFunction isn't needed on Emscripten and will call dlsym(), causing other problems. */
+    #ifndef __EMSCRIPTEN__  /* LoadFunction isn't needed on Emscripten and will call dlsym(), causing other problems. */
     /* Try SDL_LoadFunction() first for EGL <= 1.4, or as a fallback for >= 1.5. */
     if (!retval) {
         static char procname[64];
@@ -346,7 +339,7 @@ SDL_EGL_LoadLibraryOnly(_THIS, const char *egl_path)
     }
 #endif
 
-#if !defined(SDL_VIDEO_STATIC_ANGLE) && !defined(SDL_VIDEO_DRIVER_VITA)
+#ifndef SDL_VIDEO_STATIC_ANGLE
     /* A funny thing, loading EGL.so first does not work on the Raspberry, so we load libGL* first */
     path = SDL_getenv("SDL_VIDEO_GL_DRIVER");
     if (path != NULL) {
@@ -432,9 +425,6 @@ SDL_EGL_LoadLibraryOnly(_THIS, const char *egl_path)
 #endif
 
     _this->egl_data->dll_handle = dll_handle;
-#if SDL_VIDEO_DRIVER_VITA
-    _this->egl_data->egl_dll_handle = egl_dll_handle;
-#endif
 
     /* Load new function pointers */
     LOAD_FUNC(eglGetDisplay);
@@ -503,7 +493,6 @@ SDL_EGL_LoadLibrary(_THIS, const char *egl_path, NativeDisplayType native_displa
     _this->egl_data->egl_display = EGL_NO_DISPLAY;
 
 #if !defined(__WINRT__)
-#if !defined(SDL_VIDEO_DRIVER_VITA)
     if (platform) {
         /* EGL 1.5 allows querying for client version with EGL_NO_DISPLAY
          * --
@@ -528,7 +517,6 @@ SDL_EGL_LoadLibrary(_THIS, const char *egl_path, NativeDisplayType native_displa
             }
         }
     }
-#endif
     /* Try the implementation-specific eglGetDisplay even if eglGetPlatformDisplay fails */
     if (_this->egl_data->egl_display == EGL_NO_DISPLAY) {
         _this->egl_data->egl_display = _this->egl_data->eglGetDisplay(native_display);
@@ -549,7 +537,7 @@ SDL_EGL_LoadLibrary(_THIS, const char *egl_path, NativeDisplayType native_displa
     /* Get the EGL version with a valid egl_display, for EGL <= 1.4 */
     SDL_EGL_GetVersion(_this);
 
-    _this->egl_data->is_offscreen = SDL_FALSE;
+    _this->egl_data->is_offscreen = 0;
 
     return 0;
 }
@@ -569,7 +557,7 @@ SDL_EGL_InitializeOffscreen(_THIS, int device)
     EGLint num_egl_devices = 0;
     const char *egl_device_hint;
 
-    if (_this->gl_config.driver_loaded <= 0) {
+    if (_this->gl_config.driver_loaded != 1) {
         return SDL_SetError("SDL_EGL_LoadLibraryOnly() has not been called or has failed.");
     }
 
@@ -637,7 +625,7 @@ SDL_EGL_InitializeOffscreen(_THIS, int device)
     /* Get the EGL version with a valid egl_display, for EGL <= 1.4 */
     SDL_EGL_GetVersion(_this);
 
-    _this->egl_data->is_offscreen = SDL_TRUE;
+    _this->egl_data->is_offscreen = 1;
 
     return 0;
 }
@@ -1013,24 +1001,27 @@ SDL_EGL_CreateContext(_THIS, EGLSurface egl_surface)
         }
     }
 
-#ifdef EGL_KHR_create_context_no_error
     if (_this->gl_config.no_error) {
+#ifdef EGL_KHR_create_context_no_error
         if (SDL_EGL_HasExtension(_this, SDL_EGL_DISPLAY_EXTENSION, "EGL_KHR_create_context_no_error")) {
             attribs[attr++] = EGL_CONTEXT_OPENGL_NO_ERROR_KHR;
             attribs[attr++] = _this->gl_config.no_error;
+        } else
+#endif
+        {
+            SDL_SetError("EGL implementation does not support no_error contexts");
+            return NULL;
         }
     }
-#endif
 
     attribs[attr++] = EGL_NONE;
 
     /* Bind the API */
     if (profile_es) {
-        _this->egl_data->apitype = EGL_OPENGL_ES_API;
+        _this->egl_data->eglBindAPI(EGL_OPENGL_ES_API);
     } else {
-        _this->egl_data->apitype = EGL_OPENGL_API;
+        _this->egl_data->eglBindAPI(EGL_OPENGL_API);
     }
-    _this->egl_data->eglBindAPI(_this->egl_data->apitype);
 
     egl_context = _this->egl_data->eglCreateContext(_this->egl_data->egl_display,
                                       _this->egl_data->egl_config,
@@ -1106,11 +1097,6 @@ SDL_EGL_MakeCurrent(_THIS, EGLSurface egl_surface, SDL_GLContext context)
         } else {
             return SDL_SetError("OpenGL not initialized");  /* something clearly went wrong somewhere. */
         }
-    }
-
-    /* Make sure current thread has a valid API bound to it. */
-    if (_this->egl_data->eglBindAPI) {
-        _this->egl_data->eglBindAPI(_this->egl_data->apitype);
     }
 
     /* The android emulator crashes badly if you try to eglMakeCurrent 
@@ -1196,8 +1182,8 @@ SDL_EGL_CreateSurface(_THIS, NativeWindowType nw)
     EGLint format_wanted;
     EGLint format_got;
 #endif
-    /* max 2 key+value pairs, plus terminator. */
-    EGLint attribs[5];
+    /* max 2 values plus terminator. */
+    EGLint attribs[3];
     int attr = 0;
 
     EGLSurface * surface;
@@ -1229,14 +1215,6 @@ SDL_EGL_CreateSurface(_THIS, NativeWindowType nw)
             return EGL_NO_SURFACE;
         }
     }
-
-#ifdef EGL_EXT_present_opaque
-    if (SDL_EGL_HasExtension(_this, SDL_EGL_DISPLAY_EXTENSION, "EGL_EXT_present_opaque")) {
-        const SDL_bool allow_transparent = SDL_GetHintBoolean(SDL_HINT_VIDEO_EGL_ALLOW_TRANSPARENCY, SDL_FALSE);
-        attribs[attr++] = EGL_PRESENT_OPAQUE_EXT;
-        attribs[attr++] = allow_transparent ? EGL_FALSE : EGL_TRUE;
-    }
-#endif
 
     attribs[attr++] = EGL_NONE;
     

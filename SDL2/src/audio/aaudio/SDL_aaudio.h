@@ -44,7 +44,6 @@ struct SDL_PrivateAudioData
  
 void aaudio_ResumeDevices(void);
 void aaudio_PauseDevices(void);
-SDL_bool aaudio_DetectBrokenPlayState(void);
 
 
 #endif /* _SDL_aaudio_h */

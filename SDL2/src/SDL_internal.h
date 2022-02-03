@@ -51,10 +51,6 @@
 
 #include "SDL_config.h"
 
-#ifndef HAVE_O_CLOEXEC
-#define O_CLOEXEC                       0
-#endif
-
 /* A few #defines to reduce SDL2 footprint.
    Only effective when library is statically linked.
    You have to manually edit this file. */

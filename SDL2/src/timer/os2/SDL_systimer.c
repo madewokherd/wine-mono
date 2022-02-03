@@ -40,26 +40,25 @@
 typedef unsigned long long  ULLONG;
 
 static ULONG    ulTmrFreq = 0;
-static ULLONG   ullTmrStart = 0;
+static ULLONG   ullTmrStart;
 
 void
 SDL_TicksInit(void)
 {
-    ULONG ulTmrStart;  /* for 32-bit fallback. */
-    ULONG ulRC = DosTmrQueryFreq(&ulTmrFreq);
+    ULONG   ulRC;
+
+    ulRC = DosTmrQueryFreq(&ulTmrFreq);
     if (ulRC != NO_ERROR) {
         debug_os2("DosTmrQueryFreq() failed, rc = %u", ulRC);
     } else {
         ulRC = DosTmrQueryTime((PQWORD)&ullTmrStart);
-        if (ulRC == NO_ERROR) {
+        if (ulRC == NO_ERROR)
             return;
-        }
         debug_os2("DosTmrQueryTime() failed, rc = %u", ulRC);
     }
 
     ulTmrFreq = 0; /* Error - use DosQuerySysInfo() for timer. */
-    DosQuerySysInfo(QSV_MS_COUNT, QSV_MS_COUNT, &ulTmrStart, sizeof (ULONG));
-    ullTmrStart = (ULLONG) ulTmrStart;
+    DosQuerySysInfo(QSV_MS_COUNT, QSV_MS_COUNT, (PULONG)&ullTmrStart, sizeof(ULONG));
 }
 
 void
@@ -67,27 +66,24 @@ SDL_TicksQuit(void)
 {
 }
 
-Uint64
-SDL_GetTicks64(void)
+Uint32
+SDL_GetTicks(void)
 {
-    Uint64 ui64Result;
-    ULLONG ullTmrNow;
+    ULONG   ulResult;
+    ULLONG  ullTmrNow;
 
-    if (ulTmrFreq == 0) { /* Was not initialized. */
+    if (ulTmrFreq == 0) /* Was not initialized. */
         SDL_TicksInit();
-    }
 
     if (ulTmrFreq != 0) {
         DosTmrQueryTime((PQWORD)&ullTmrNow);
-        ui64Result = (ullTmrNow - ullTmrStart) * 1000 / ulTmrFreq;
+        ulResult = (ullTmrNow - ullTmrStart) * 1000 / ulTmrFreq;
     } else {
-        /* note that this counter rolls over to 0 every ~49 days. Fix your system so DosTmrQueryTime works if you need to avoid this. */
-        ULONG ulTmrNow;
-        DosQuerySysInfo(QSV_MS_COUNT, QSV_MS_COUNT, &ulTmrNow, sizeof (ULONG));
-        ui64Result = (((Uint64) ulTmrNow) - ullTmrStart);
+        DosQuerySysInfo(QSV_MS_COUNT, QSV_MS_COUNT, (PULONG)&ullTmrNow, sizeof(ULONG));
+        ulResult = (ULONG)ullTmrNow - (ULONG)ullTmrStart;
     }
 
-    return ui64Result;
+    return ulResult;
 }
 
 Uint64
@@ -95,9 +91,9 @@ SDL_GetPerformanceCounter(void)
 {
     QWORD   qwTmrNow;
 
-    if (ulTmrFreq == 0 || (DosTmrQueryTime(&qwTmrNow) != NO_ERROR)) {
-        return SDL_GetTicks64();
-    }
+    if (ulTmrFreq == 0 || (DosTmrQueryTime(&qwTmrNow) != NO_ERROR))
+        return SDL_GetTicks();
+
     return *((Uint64 *)&qwTmrNow);
 }
 

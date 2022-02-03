@@ -51,23 +51,24 @@ SDL_TicksQuit(void)
     ticks_started = SDL_FALSE;
 }
 
-Uint64
-SDL_GetTicks64(void)
+Uint32 SDL_GetTicks(void)
 {
-    struct timeval now;
-
     if (!ticks_started) {
         SDL_TicksInit();
     }
 
+    struct timeval now;
+    Uint32 ticks;
+
     gettimeofday(&now, NULL);
-    return (Uint64)(((Sint64)(now.tv_sec - start.tv_sec) * 1000) + ((now.tv_usec - start.tv_usec) / 1000));
+    ticks=(now.tv_sec-start.tv_sec)*1000+(now.tv_usec-start.tv_usec)/1000;
+    return(ticks);
 }
 
 Uint64
 SDL_GetPerformanceCounter(void)
 {
-    return SDL_GetTicks64();
+    return SDL_GetTicks();
 }
 
 Uint64

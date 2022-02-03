@@ -20,7 +20,6 @@
 */
 #include "../../SDL_internal.h"
 
-#include "SDL.h"
 #include "SDL_error.h"
 #include "SDL_haptic.h"
 #include "../SDL_syshaptic.h"
@@ -71,7 +70,6 @@ SDL_DINPUT_HapticInit(void)
 {
     HRESULT ret;
     HINSTANCE instance;
-    DWORD devClass;
 
     if (dinput != NULL) {       /* Already open. */
         return SDL_SetError("Haptic: SubSystem already open.");
@@ -105,24 +103,16 @@ SDL_DINPUT_HapticInit(void)
     }
 
     /* Look for haptic devices. */
-    for (devClass = DI8DEVCLASS_DEVICE; devClass <= DI8DEVCLASS_GAMECTRL; devClass++) {
-        if (devClass == DI8DEVCLASS_GAMECTRL && SDL_WasInit(SDL_INIT_JOYSTICK)) {
-            /* The joystick subsystem will manage adding DInput joystick haptic devices */
-            continue;
-        }
-
-        ret = IDirectInput8_EnumDevices(dinput,
-                                        devClass,
-                                        EnumHapticsCallback,
-                                        NULL,
-                                        DIEDFL_FORCEFEEDBACK |
-                                        DIEDFL_ATTACHEDONLY);
-        if (FAILED(ret)) {
-            SDL_SYS_HapticQuit();
-            return DI_SetError("Enumerating DirectInput devices", ret);
-        }
+    ret = IDirectInput8_EnumDevices(dinput,
+        0,
+        EnumHapticsCallback,
+        NULL,
+        DIEDFL_FORCEFEEDBACK |
+        DIEDFL_ATTACHEDONLY);
+    if (FAILED(ret)) {
+        SDL_SYS_HapticQuit();
+        return DI_SetError("Enumerating DirectInput devices", ret);
     }
-
     return 0;
 }
 

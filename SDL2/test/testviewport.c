@@ -43,7 +43,7 @@ quit(int rc)
 }
 
 int
-LoadSprite(const char *file, SDL_Renderer *renderer)
+LoadSprite(char *file, SDL_Renderer *renderer)
 {
     SDL_Surface *temp;
 

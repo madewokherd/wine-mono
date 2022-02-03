@@ -42,7 +42,6 @@
 #include "SDL_filesystem.h"
 #include "SDL_gamecontroller.h"
 #include "SDL_haptic.h"
-#include "SDL_hidapi.h"
 #include "SDL_hints.h"
 #include "SDL_joystick.h"
 #include "SDL_loadso.h"
@@ -133,8 +132,6 @@ extern "C" {
  * \returns 0 on success or a negative error code on failure; call
  *          SDL_GetError() for more information.
  *
- * \since This function is available since SDL 2.0.0.
- *
  * \sa SDL_InitSubSystem
  * \sa SDL_Quit
  * \sa SDL_SetMainReady
@@ -150,8 +147,6 @@ extern DECLSPEC int SDLCALL SDL_Init(Uint32 flags);
  * \param flags any of the flags used by SDL_Init(); see SDL_Init for details.
  * \returns 0 on success or a negative error code on failure; call
  *          SDL_GetError() for more information.
- *
- * \since This function is available since SDL 2.0.0.
  *
  * \sa SDL_Init
  * \sa SDL_Quit
@@ -174,8 +169,6 @@ extern DECLSPEC int SDLCALL SDL_InitSubSystem(Uint32 flags);
  *
  * \param flags any of the flags used by SDL_Init(); see SDL_Init for details.
  *
- * \since This function is available since SDL 2.0.0.
- *
  * \sa SDL_InitSubSystem
  * \sa SDL_Quit
  */
@@ -189,8 +182,6 @@ extern DECLSPEC void SDLCALL SDL_QuitSubSystem(Uint32 flags);
  *          returns the initialization status of the specified subsystems.
  *
  *          The return value does not include SDL_INIT_NOPARACHUTE.
- *
- * \since This function is available since SDL 2.0.0.
  *
  * \sa SDL_Init
  * \sa SDL_InitSubSystem
@@ -213,8 +204,6 @@ extern DECLSPEC Uint32 SDLCALL SDL_WasInit(Uint32 flags);
  * You can use this function with atexit() to ensure that it is run when your
  * application is shutdown, but it is not wise to do this from a library or
  * other dynamically loaded code.
- *
- * \since This function is available since SDL 2.0.0.
  *
  * \sa SDL_Init
  * \sa SDL_QuitSubSystem

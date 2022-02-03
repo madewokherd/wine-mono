@@ -38,14 +38,10 @@
         android:name="android.hardware.microphone"
         android:required="false" /> -->
 
-    <!-- Allow downloading to the external storage on Android 5.1 and older -->
-    <!-- <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="22" /> -->
-
+    <!-- Allow writing to external storage -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <!-- Allow access to Bluetooth devices -->
-    <!-- Currently this is just for Steam Controller support and requires setting SDL_HINT_JOYSTICK_HIDAPI_STEAM -->
-    <!-- <uses-permission android:name="android.permission.BLUETOOTH" android:maxSdkVersion="30" /> -->
-    <!-- <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" /> -->
-
+    <uses-permission android:name="android.permission.BLUETOOTH" />
     <!-- Allow access to the vibrator -->
     <uses-permission android:name="android.permission.VIBRATE" />
 
@@ -76,7 +72,6 @@
             android:launchMode="singleInstance"
             android:configChanges="layoutDirection|locale|orientation|uiMode|screenLayout|screenSize|smallestScreenSize|keyboard|keyboardHidden|navigation"
             android:preferMinimalPostProcessing="true"
-            android:exported="true"
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

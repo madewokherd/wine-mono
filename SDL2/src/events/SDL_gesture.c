@@ -32,7 +32,7 @@
 #include <stdio.h>
 */
 
-/* TODO: Replace with SDL_malloc */
+/* TODO: Replace with malloc */
 
 #define MAXPATHSIZE 1024
 

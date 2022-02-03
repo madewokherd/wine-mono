@@ -27,7 +27,7 @@
 #include "SDL_video.h"
 #include "SDL_naclvideo.h"
 
-#ifdef HAVE_DLOPEN
+#if SDL_LOADSO_DLOPEN
 #include "dlfcn.h"
 #endif
 
@@ -45,7 +45,7 @@ NACL_GLES_LoadLibrary(_THIS, const char *path)
 void *
 NACL_GLES_GetProcAddress(_THIS, const char *proc)
 {
-#ifdef HAVE_DLOPEN
+#if SDL_LOADSO_DLOPEN
     return dlsym( 0 /* RTLD_DEFAULT */, proc);
 #else
     return NULL;

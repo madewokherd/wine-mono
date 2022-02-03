@@ -137,7 +137,14 @@ Emscripten_VideoInit(_THIS)
 
     /* Use a fake 32-bpp desktop mode */
     mode.format = SDL_PIXELFORMAT_RGB888;
-    emscripten_get_screen_size(&mode.w, &mode.h);
+
+    mode.w = EM_ASM_INT_V({
+        return screen.width;
+    });
+
+    mode.h = EM_ASM_INT_V({
+        return screen.height;
+    });
 
     mode.refresh_rate = 0;
     mode.driverdata = NULL;
@@ -352,7 +359,12 @@ Emscripten_SetWindowFullscreen(_THIS, SDL_Window * window, SDL_VideoDisplay * di
 
 static void
 Emscripten_SetWindowTitle(_THIS, SDL_Window * window) {
-    emscripten_set_window_title(window->title);
+    EM_ASM_INT({
+      if (typeof setWindowTitle !== 'undefined') {
+        setWindowTitle(UTF8ToString($0));
+      }
+      return 0;
+    }, window->title);
 }
 
 #endif /* SDL_VIDEO_DRIVER_EMSCRIPTEN */
