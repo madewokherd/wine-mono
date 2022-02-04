@@ -2646,7 +2646,6 @@ x86.MonoTests.System.Net.HttpResponseStreamTest:Read_Count_Overflow
 x86.MonoTests.System.Net.HttpWebRequestTest:BeginGetResponse
 x86.MonoTests.System.Net.HttpWebRequestTest:Cookies1
 x86.MonoTests.System.Net.HttpWebRequestTest:EndGetRequestStream_Request_Aborted
-x86.MonoTests.System.Net.HttpWebRequestTest:LastModifiedKind
 x86.MonoTests.System.Net.HttpWebRequestTest:NoContentLength
 x86.MonoTests.System.Net.HttpWebRequestTest:NonStandardVerb
 x86.MonoTests.System.Net.HttpWebRequestTest:NtlmAuthentication
@@ -5236,7 +5235,6 @@ x86_64.MonoTests.System.Net.HttpResponseStreamTest:Read_Count_Overflow
 x86_64.MonoTests.System.Net.HttpWebRequestTest:BeginGetResponse
 x86_64.MonoTests.System.Net.HttpWebRequestTest:Cookies1
 x86_64.MonoTests.System.Net.HttpWebRequestTest:EndGetRequestStream_Request_Aborted
-x86_64.MonoTests.System.Net.HttpWebRequestTest:LastModifiedKind
 x86_64.MonoTests.System.Net.HttpWebRequestTest:NoContentLength
 x86_64.MonoTests.System.Net.HttpWebRequestTest:NonStandardVerb
 x86_64.MonoTests.System.Net.HttpWebRequestTest:NtlmAuthentication
