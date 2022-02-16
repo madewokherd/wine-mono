@@ -1721,6 +1721,8 @@ MonoTests.System.ServiceModel.Discovery.IntegratedDiscoveryTest:UseCase1
 MonoTests.System.ServiceModel.Discovery.IntegratedDiscoveryTest:UseCase2
 MonoTests.System.ServiceModel.Discovery.IntegratedDiscoveryTest:UseCase3
 MonoTests.System.ServiceModel.Discovery.IntegratedDiscoveryTest
+MonoTests.System.Net.WebSockets.ClientWebSocketTest:CloseAsyncTest
+MonoTests.System.Net.WebSockets.ClientWebSocketTest:EchoTest
 # definitely unreliable:
 delegate2
 x86_64.MonoTests.System.Threading.ThreadLocalTests:DisposeOnThreadExit
