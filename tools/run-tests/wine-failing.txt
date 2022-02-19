@@ -644,7 +644,6 @@ x86.MonoTests.System.Diagnostics.ProcessTest:TestEnableEventsBeforeExitedEvent
 x86.MonoTests.System.Diagnostics.ProcessTest:TestEventRaising
 x86.MonoTests.System.IO.Compression.DeflateStreamTest:CheckInvalidDataRead
 x86.MonoTests.System.IO.Compression.GZipStreamTest:CheckInvalidDataRead
-x86.MonoTests.System.IO.Ports.SerialPortTest:DiscardNull
 x86.MonoTests.System.Net.HttpRequestStreamTest:Write_Stream_Closed
 x86.MonoTests.System.Net.HttpResponseStreamTest:CanRead
 x86.MonoTests.System.Net.HttpResponseStreamTest:Read_Stream_Closed
@@ -1333,7 +1332,6 @@ x86_64.MonoTests.System.Diagnostics.ProcessTest:TestEnableEventsBeforeExitedEven
 x86_64.MonoTests.System.Diagnostics.ProcessTest:TestEventRaising
 x86_64.MonoTests.System.IO.Compression.DeflateStreamTest:CheckInvalidDataRead
 x86_64.MonoTests.System.IO.Compression.GZipStreamTest:CheckInvalidDataRead
-x86_64.MonoTests.System.IO.Ports.SerialPortTest:DiscardNull
 x86_64.MonoTests.System.Net.HttpRequestStreamTest:Write_Stream_Closed
 x86_64.MonoTests.System.Net.HttpResponseStreamTest:CanRead
 x86_64.MonoTests.System.Net.HttpResponseStreamTest:Read_Stream_Closed
