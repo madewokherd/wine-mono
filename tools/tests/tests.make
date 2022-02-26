@@ -1,6 +1,7 @@
 
 TEST_CS_EXE_SRCS = \
 	arraypadding.cs \
+	direct3dadapter.cs \
 	dllimport-cctor.cs \
 	dllimport-preload.cs \
 	interactioncommand.cs \
@@ -85,6 +86,8 @@ tools/tests/wpfclipboard.exe: $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/Present
 tools/tests/interactioncommand.exe: $(BUILDDIR)/Microsoft.VisualBasic.dll
 
 tools/tests/vbstartup.exe: $(BUILDDIR)/Microsoft.VisualBasic.dll
+
+tools/tests/direct3dadapter.exe: $(SRCDIR)/monoDX/Microsoft.DirectX.Direct3D/.built
 
 tools/tests/net_4_x_%_test.dll: $(BUILDDIR)/nunitlite.dll
 	$(MONO_ENV) csc -target:library -out:$@ $(patsubst %,-r:%,$(filter %.dll,$^)) $(foreach path,$(filter %/.built,$^),-r:$(dir $(path))/$(notdir $(realpath $(dir $(path)))).dll) $(filter %.cs,$^)

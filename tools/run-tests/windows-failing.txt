@@ -5424,6 +5424,7 @@ MonoTests.System.Drawing.PenTest:Width
 MonoTests.System.Runtime.Serialization.DataContractSerializerTestBugs:KeyPairOfAny
 MonoTests.System.Runtime.Serialization.Json.JsonWriterTest:WriteWhitespace
 MonoTests.System.Runtime.Serialization.XsdDataContractImporterTest2:TestCustomCollection2
+x86_64.direct3dadapter
 # unreliable:
 x86.thread-exit
 MonoTests.System.Threading.Tasks.TaskTests:DoubleWaitTest
