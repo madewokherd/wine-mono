@@ -1721,6 +1721,8 @@ MonoTests.System.ServiceModel.Discovery.IntegratedDiscoveryTest:UseCase3
 MonoTests.System.ServiceModel.Discovery.IntegratedDiscoveryTest
 MonoTests.System.Net.WebSockets.ClientWebSocketTest:CloseAsyncTest
 MonoTests.System.Net.WebSockets.ClientWebSocketTest:EchoTest
+WineMono.Tests.System.Windows.Media.TextFormatting.TextFormatterTest:NewlineCharacterLoggingTest
+WineMono.Tests.System.Windows.Media.TextFormatting.TextFormatterTest:NewlineCharacterTest
 # definitely unreliable:
 delegate2
 x86_64.MonoTests.System.Threading.ThreadLocalTests:DisposeOnThreadExit

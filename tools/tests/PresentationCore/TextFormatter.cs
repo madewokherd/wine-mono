@@ -419,6 +419,130 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 		}
 
 		[Test]
+		public void NewlineCharacterTest ()
+		{
+			using (var formatter = TextFormatter.Create ())
+			{
+				List<string> log = new List<string> ();
+				var textSource = new LoggingTextSource(log);
+				textSource.AddContents("test\ntest2", "test");
+				textSource.AddContents(new TextEndOfLine(1));
+				var textParagraphProperties = new LoggingTextParagraphProperties(log);
+				log.Clear();
+				var line = formatter.FormatLine (textSource, 0, 256.0, textParagraphProperties, null);
+				Assert.AreEqual(147.18+0.02/3.0, line.Height, "line.Height");
+				Assert.AreEqual(5, line.Length, "line.Length");
+				Assert.AreEqual(1, line.NewlineLength, "line.NewlineLength");
+				Assert.AreEqual(117.97, line.Baseline, 0.000000001, "line.Baseline");
+				Assert.AreEqual(206.31+0.01/3.0, line.Width, "line.Width");
+				Assert.IsFalse(line.HasOverflowed, "line.HasOverflowed");
+				Assert.AreEqual(206.31+0.01/3.0, line.WidthIncludingTrailingWhitespace, "line.WidthIncludingTrailingWhitespace");
+				AssertTextRunSpans(
+					new int[] { 5 },
+					new TextRun[] { textSource.contents[0] },
+					line);
+				Assert.AreEqual(new string[] {
+					"DefaultTextRunProperties",
+					"DefaultTextRunProperties.Typeface",
+					"DefaultTextRunProperties.FontRenderingEmSize",
+					"Indent",
+					"LineHeight",
+					"FlowDirection",
+					"AlwaysCollapsible",
+					"TextAlignment",
+					"FirstLineInParagraph",
+					"TextMarkerProperties",
+					"TextWrapping",
+					"GetTextRun(0)",
+					"test.FontRenderingEmSize",
+					"test.CultureInfo",
+					"test.Typeface",
+					"test.TextEffects",
+					"test.TextDecorations",
+					}, log);
+				Assert.IsNull(line.GetTextLineBreak(), "GetTextLineBreak");
+				Assert.AreEqual(0, line.Start, "line.Start");
+			}
+		}
+
+		[Test]
+		public void NewlineCharacterLoggingTest ()
+		{
+			using (var formatter = TextFormatter.Create ())
+			{
+				List<string> log = new List<string> ();
+				var textSource = new LoggingTextSource(log);
+				textSource.AddContents("test\ntest2", "test");
+				textSource.AddContents(new TextEndOfLine(1));
+				var textParagraphProperties = new LoggingTextParagraphProperties(log);
+				textParagraphProperties.alwaysCollapsible = true;
+				log.Clear();
+				var line = formatter.FormatLine (textSource, 0, 256.0, textParagraphProperties, null);
+				Assert.AreEqual(147.18+0.02/3.0, line.Height, "line.Height");
+				Assert.AreEqual(5, line.Length, "line.Length");
+				Assert.AreEqual(1, line.NewlineLength, "line.NewlineLength");
+				Assert.AreEqual(117.97, line.Baseline, 0.000000001, "line.Baseline");
+				Assert.AreEqual(206.31+0.01/3.0, line.Width, "line.Width");
+				Assert.IsFalse(line.HasOverflowed, "line.HasOverflowed");
+				Assert.AreEqual(206.31+0.01/3.0, line.WidthIncludingTrailingWhitespace, "line.WidthIncludingTrailingWhitespace");
+				AssertTextRunSpans(
+					new int[] { 5 },
+					new TextRun[] { textSource.contents[0] },
+					line);
+				Assert.AreEqual(new string[] {
+					"DefaultTextRunProperties",
+					"DefaultTextRunProperties.Typeface",
+					"DefaultTextRunProperties.FontRenderingEmSize",
+					"Indent",
+					"LineHeight",
+					"FlowDirection",
+					"AlwaysCollapsible",
+					"TextAlignment",
+					"TextWrapping",
+					"FirstLineInParagraph",
+					"TextMarkerProperties",
+					"GetTextRun(0)",
+					"test.FontRenderingEmSize",
+					"test.CultureInfo",
+					"test.Typeface",
+					"test.TextEffects",
+					"test.TextDecorations",
+					}, log);
+				Assert.IsNull(line.GetTextLineBreak(), "GetTextLineBreak");
+				Assert.AreEqual(0, line.Start, "line.Start");
+			}
+		}
+
+		[Test]
+		public void NewlineCharacterCollapsibleTest ()
+		{
+			using (var formatter = TextFormatter.Create ())
+			{
+				List<string> log = new List<string> ();
+				var textSource = new LoggingTextSource(log);
+				textSource.AddContents("test\ntest2", "test");
+				textSource.AddContents(new TextEndOfLine(1));
+				var textParagraphProperties = new LoggingTextParagraphProperties(log);
+				textParagraphProperties.alwaysCollapsible = true;
+				log.Clear();
+				var line = formatter.FormatLine (textSource, 0, 256.0, textParagraphProperties, null);
+				Assert.AreEqual(147.18+0.02/3.0, line.Height, "line.Height");
+				Assert.AreEqual(5, line.Length, "line.Length");
+				Assert.AreEqual(1, line.NewlineLength, "line.NewlineLength");
+				Assert.AreEqual(117.97, line.Baseline, 0.000000001, "line.Baseline");
+				Assert.AreEqual(206.31+0.01/3.0, line.Width, "line.Width");
+				Assert.IsFalse(line.HasOverflowed, "line.HasOverflowed");
+				Assert.AreEqual(206.31+0.01/3.0, line.WidthIncludingTrailingWhitespace, "line.WidthIncludingTrailingWhitespace");
+				AssertTextRunSpans(
+					new int[] { 5 },
+					new TextRun[] { textSource.contents[0] },
+					line);
+				Assert.IsNull(line.GetTextLineBreak(), "GetTextLineBreak");
+				Assert.AreEqual(0, line.Start, "line.Start");
+			}
+		}
+
+		[Test]
 		public void SingleWordTahomaTest ()
 		{
 			using (var formatter = TextFormatter.Create ())
