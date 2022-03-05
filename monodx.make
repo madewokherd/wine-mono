@@ -53,7 +53,7 @@ $(SRCDIR)/monoDX/Microsoft.DirectX.DirectPlay/.built: $(BUILDDIR)/mono-unix/.ins
 	+$(MONO_ENV) $(MAKE) -C $(@D)
 	touch $@
 
-$(SRCDIR)/monoDX/Microsoft.DirectX.DirectSound/.built: $(BUILDDIR)/mono-unix/.installed $(MONODX_SRCS) $(SRCDIR)/monoDX/Microsoft.DirectX/.built
+$(SRCDIR)/monoDX/Microsoft.DirectX.DirectSound/.built: $(BUILDDIR)/mono-unix/.installed $(MONODX_SRCS) $(SRCDIR)/monoDX/Microsoft.DirectX/.built $(SRCDIR)/monoDX/FixupConstructors/.built
 	+$(MONO_ENV) $(MAKE) -C $(@D)
 	touch $@
 
