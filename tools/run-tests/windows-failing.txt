@@ -5410,7 +5410,6 @@ x86_64.GlobalsTests:ScriptEngineMajorVersionTest
 assemblyresolve_event7
 x86_64.bug-633291
 x86_64.field-access
-x86_64.xnatest
 x86.MonoTests.System.Runtime.CompilerServices.ConditionalWeakTableTest:ConditionalWeakTableEnumerable
 MonoTests.System.ServiceModel.Discovery.EndpointDiscoveryBehaviorTest:Use2
 MonoTests.System.ServiceModel.Discovery.ServiceDiscoveryBehaviorTest:Use2
@@ -5424,7 +5423,6 @@ MonoTests.System.Drawing.PenTest:Width
 MonoTests.System.Runtime.Serialization.DataContractSerializerTestBugs:KeyPairOfAny
 MonoTests.System.Runtime.Serialization.Json.JsonWriterTest:WriteWhitespace
 MonoTests.System.Runtime.Serialization.XsdDataContractImporterTest2:TestCustomCollection2
-x86_64.direct3dadapter
 # unreliable:
 x86.thread-exit
 MonoTests.System.Threading.Tasks.TaskTests:DoubleWaitTest
