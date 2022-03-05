@@ -661,6 +661,7 @@ class RunTests
 					read_stringlist(Path.Combine(BasePath, "windows-admin.txt"), pass_list);
 				else
 					read_stringlist(Path.Combine(BasePath, "windows-admin.txt"), fail_list);
+				read_testlist(Path.Combine(BasePath, "skip-windows.txt"), skip_list);
 			}
 		}
 
