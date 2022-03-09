@@ -1,2 +1,2 @@
 # Managed DirectX is not installed on GitHub CI
-x86.mdxtest
+x86.direct3dadapter
