@@ -103,12 +103,24 @@ int __stdcall dereference_int(int val)
 {
 	return val;
 }
+
+int __stdcall call_copy_constructed(void* fn, int val)
+{
+	int (__stdcall *fn_typed)(int val) = fn;
+	return fn_typed(val);
+}
 #else
 int __stdcall dereference_int(int* ptr)
 {
 	int result = *ptr;
 	*ptr = 25;
 	return result;
+}
+
+int __stdcall call_copy_constructed(void* fn, int val)
+{
+	int (__stdcall *fn_typed)(int* val) = fn;
+	return fn_typed(&val);
 }
 #endif
 

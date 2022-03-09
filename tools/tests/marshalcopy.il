@@ -95,13 +95,56 @@
 	{
 	}
 
+	// unsafe public delegate int copy_constructed_arg(TestStruct modreq(IsCopyConstructed)* st)
+	.class nested public auto ansi sealed copy_constructed_arg
+	  extends [mscorlib]System.MulticastDelegate
+	{
+	  .custom instance void class [mscorlib]System.Runtime.InteropServices.UnmanagedFunctionPointerAttribute::'.ctor'(valuetype [mscorlib]System.Runtime.InteropServices.CallingConvention) =  (01 00 03 00 00 00 00 00 )
+	
+	
+	  .method public hidebysig specialname rtspecialname 
+	  	   instance default void '.ctor' (object 'object', native int 'method')  runtime managed 
+	  {
+	  }
+	
+	  .method public virtual hidebysig newslot 
+	  	   instance default int32 Invoke (valuetype TestStruct modreq([mscorlib]System.Runtime.CompilerServices.IsCopyConstructed)* st)  runtime managed 
+	  {
+	  }
+	
+	  .method public virtual hidebysig newslot 
+	  	   instance default class [mscorlib]System.IAsyncResult BeginInvoke (valuetype TestStruct modreq([mscorlib]System.Runtime.CompilerServices.IsCopyConstructed)* st, class [mscorlib]System.AsyncCallback callback, object 'object')  runtime managed 
+	  {
+	  }
+	
+	  .method public virtual hidebysig newslot 
+	  	   instance default int32 EndInvoke (class [mscorlib]System.IAsyncResult result)  runtime managed 
+	  {
+	  }
+	}
+
+    .method public static hidebysig pinvokeimpl ("winemonotest" as "call_copy_constructed" winapi )
+           default int32 call_copy_constructed (class MarshalCopyTest/copy_constructed_arg arg, int32 i)  cil managed preservesig 
+    {
+    }
+
+    .method public static hidebysig 
+           default int32 test_managed (valuetype TestStruct modreq([mscorlib]System.Runtime.CompilerServices.IsCopyConstructed)* st)  cil managed 
+    {
+	  // return st->val
+	  ldarg.0 
+	  ldfld int32 TestStruct::val
+	  ret 
+    }
+
 	.method public static hidebysig 
 		   default int32 Main ()  cil managed 
 	{
 	.entrypoint
 	.locals init (
 		valuetype TestStruct	s,
-		valuetype TestStruct	s1)
+		valuetype TestStruct	s1,
+		int32 i)
 
 	  // s = new TestStruct()
 	  ldloca.s 0
@@ -189,6 +232,39 @@
 		ret
 
 	  ok4:
+
+
+	  //TestStruct.copy_val = 0;
+	  ldc.i4.0 
+	  stsfld int32 TestStruct::copy_val
+
+	  //TestStruct.dtor_val = 0;
+	  ldc.i4.0 
+	  stsfld int32 TestStruct::dtor_val
+
+	  // i = call_copy_constructed(new copy_constructed_arg(test_managed), 8);
+	  ldnull 
+	  ldftn int32 class MarshalCopyTest::test_managed(valuetype TestStruct modreq([mscorlib]System.Runtime.CompilerServices.IsCopyConstructed)*)
+	  newobj instance void class MarshalCopyTest/copy_constructed_arg::'.ctor'(object, native int)
+	  ldc.i4.8 
+	  call int32 class MarshalCopyTest::call_copy_constructed(class MarshalCopyTest/copy_constructed_arg, int32)
+	  stloc.2
+
+	  // if (i != 8) ...
+	  ldloc.2
+	  ldc.i4 8
+	  ceq 
+	  brtrue.s ok5
+
+		// Console.WriteLine(i)
+		ldloc.2
+		call void class [mscorlib]System.Console::WriteLine(int32)
+
+		// return 5
+		ldc.i4.5
+		ret
+
+	  ok5:
 
 	  // return 0
 	  ldc.i4.0 
