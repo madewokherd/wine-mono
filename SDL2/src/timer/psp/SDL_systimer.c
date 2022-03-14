@@ -1,6 +1,6 @@
 /*
   Simple DirectMedia Layer
-  Copyright (C) 1997-2021 Sam Lantinga <slouken@libsdl.org>
+  Copyright (C) 1997-2022 Sam Lantinga <slouken@libsdl.org>
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any damages
@@ -20,7 +20,7 @@
 */
 #include "../../SDL_internal.h"
 
-#ifdef SDL_TIMERS_PSP
+#ifdef SDL_TIMER_PSP
 
 #include "SDL_thread.h"
 #include "SDL_timer.h"
@@ -84,7 +84,7 @@ void SDL_Delay(Uint32 ms)
     sceKernelDelayThreadCB(ms * 1000);
 }
 
-#endif /* SDL_TIMERS_PSP */
+#endif /* SDL_TIMER_PSP */
 
 /* vim: ts=4 sw=4
  */

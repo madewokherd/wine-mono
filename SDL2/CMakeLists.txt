@@ -23,6 +23,11 @@ if(WINDOWS_STORE)
   target_compile_options(sdl-build-options INTERFACE "-ZW")
 endif()
 
+# Build in parallel under Visual Studio. Not enabled by default.
+if(MSVC)
+  target_compile_options(sdl-build-options INTERFACE "/MP")
+endif(MSVC)
+
 
 # !!! FIXME: this should probably do "MACOSX_RPATH ON" as a target property
 # !!! FIXME:  for the SDL2 shared library (so you get an
@@ -61,12 +66,12 @@ include(${SDL2_SOURCE_DIR}/cmake/sdlchecks.cmake)
 # set SDL_BINARY_AGE and SDL_INTERFACE_AGE to 0.
 set(SDL_MAJOR_VERSION 2)
 set(SDL_MINOR_VERSION 0)
-set(SDL_MICRO_VERSION 18)
-set(SDL_INTERFACE_AGE 0)
-set(SDL_BINARY_AGE 18)
+set(SDL_MICRO_VERSION 20)
+set(SDL_INTERFACE_AGE 2)
+set(SDL_BINARY_AGE 20)
 set(SDL_VERSION "${SDL_MAJOR_VERSION}.${SDL_MINOR_VERSION}.${SDL_MICRO_VERSION}")
 # the following should match the versions in Xcode project file:
-set(DYLIB_CURRENT_VERSION 19.0.0)
+set(DYLIB_CURRENT_VERSION 19.2.0)
 set(DYLIB_COMPATIBILITY_VERSION 1.0.0)
 
 # Set defaults preventing destination file conflicts
@@ -224,7 +229,7 @@ if(APPLE OR ARCH_64 OR MSVC_CLANG)
     set(OPT_DEF_SSEMATH ON)
   endif()
 endif()
-if(UNIX OR MINGW OR MSYS OR (USE_CLANG AND NOT WINDOWS) OR VITA)
+if(UNIX OR MINGW OR MSYS OR (USE_CLANG AND NOT WINDOWS) OR VITA OR PSP)
   set(OPT_DEF_LIBC ON)
 endif()
 
@@ -328,7 +333,7 @@ if(EMSCRIPTEN)
   set(SDL_CPUINFO_ENABLED_BY_DEFAULT OFF)
 endif()
 
-if(VITA)
+if(VITA OR PSP)
   set(SDL_SHARED_ENABLED_BY_DEFAULT OFF)
   set(SDL_LOADSO_ENABLED_BY_DEFAULT OFF)
 endif()
@@ -914,12 +919,14 @@ if(SDL_LIBC)
     endif()
 
     check_library_exists(iconv iconv_open "" HAVE_LIBICONV)
-    check_library_exists(c iconv_open "" HAVE_BUILTIN_ICONV)
-    if(HAVE_BUILTIN_ICONV)
-      set(HAVE_ICONV 1)
-    elseif(HAVE_LIBICONV)
+    if(HAVE_LIBICONV)
       list(APPEND EXTRA_LIBS iconv)
       set(HAVE_ICONV 1)
+    else()
+      check_library_exists(c iconv_open "" HAVE_BUILTIN_ICONV)
+      if(HAVE_BUILTIN_ICONV)
+        set(HAVE_ICONV 1)
+      endif()
     endif()
 
     if(NOT APPLE)
@@ -1566,10 +1573,15 @@ elseif(WINDOWS)
       #include <xinput.h>
       XINPUT_STATE_EX s1;
       int main(int argc, char **argv) { }" HAVE_XINPUT_STATE_EX)
-    check_include_file(windows.gaming.input.h HAVE_WINDOWS_GAMING_INPUT_H)
+    check_c_source_compiles("
+      #define COBJMACROS
+      #include <windows.gaming.input.h>
+      __x_ABI_CWindows_CGaming_CInput_CIGamepadStatics2 *s2;
+      int main(int argc, char **argv) { }" HAVE_WINDOWS_GAMING_INPUT_H)
   endif()
 
   # headers needed elsewhere
+  check_include_file(tpcshrd.h HAVE_TPCSHRD_H)
   check_include_file(mmdeviceapi.h HAVE_MMDEVICEAPI_H)
   check_include_file(audioclient.h HAVE_AUDIOCLIENT_H)
   check_include_file(sensorsapi.h HAVE_SENSORSAPI_H)
@@ -2199,6 +2211,7 @@ elseif(RISCOS)
   if(SDL_AUDIO)
     CheckOSS()
   endif()
+
 elseif(VITA)
   # SDL_spinlock.c Needs to be compiled in ARM mode.
   check_c_compiler_flag(-marm HAVE_ARM_MODE)
@@ -2279,7 +2292,6 @@ elseif(VITA)
 
     if(VIDEO_VITA_PVR)
       check_include_file(gpu_es4/psp2_pvr_hint.h HAVE_PVR_H)
-
       if(HAVE_PVR_H)
         target_compile_definitions(sdl-build-options INTERFACE "-D__psp2__")
         set(SDL_VIDEO_OPENGL_EGL 1)
@@ -2328,21 +2340,25 @@ elseif(VITA)
           taihen_stub
         )
     endif()
-
+    if(HAVE_VITA_PVR)
+        list(PREPEND EXTRA_LIBS
+          SceIme_stub
+        )
+    endif()
   endif()
 
-  set(HAVE_ARMSIMD TRUE)
-  set(SDL_ARM_SIMD_BLITTERS 1)
-  file(GLOB ARMSIMD_SOURCES ${SDL2_SOURCE_DIR}/src/video/arm/pixman-arm-simd*.S)
-  set(SOURCE_FILES ${SOURCE_FILES} ${ARMSIMD_SOURCES})
+#  set(HAVE_ARMSIMD TRUE)
+#  set(SDL_ARM_SIMD_BLITTERS 1)
+#  file(GLOB ARMSIMD_SOURCES ${SDL2_SOURCE_DIR}/src/video/arm/pixman-arm-simd*.S)
+#  set(SOURCE_FILES ${SOURCE_FILES} ${ARMSIMD_SOURCES})
 
-  set(HAVE_ARMNEON TRUE)
-  set(SDL_ARM_NEON_BLITTERS 1)
-  file(GLOB ARMNEON_SOURCES ${SDL2_SOURCE_DIR}/src/video/arm/pixman-arm-neon*.S)
-  set(SOURCE_FILES ${SOURCE_FILES} ${ARMNEON_SOURCES})
+#  set(HAVE_ARMNEON TRUE)
+#  set(SDL_ARM_NEON_BLITTERS 1)
+#  file(GLOB ARMNEON_SOURCES ${SDL2_SOURCE_DIR}/src/video/arm/pixman-arm-neon*.S)
+#  set(SOURCE_FILES ${SOURCE_FILES} ${ARMNEON_SOURCES})
 
-  set_property(SOURCE ${SDL2_SOURCE_DIR}/src/video/arm/pixman-arm-simd-asm.S PROPERTY LANGUAGE C)
-  set_property(SOURCE ${SDL2_SOURCE_DIR}/src/video/arm/pixman-arm-neon-asm.S PROPERTY LANGUAGE C)
+#  set_property(SOURCE ${SDL2_SOURCE_DIR}/src/video/arm/pixman-arm-simd-asm.S PROPERTY LANGUAGE C)
+#  set_property(SOURCE ${SDL2_SOURCE_DIR}/src/video/arm/pixman-arm-neon-asm.S PROPERTY LANGUAGE C)
 
   target_compile_definitions(sdl-build-options INTERFACE "-D__VITA__")
   target_compile_definitions(sdl-build-options INTERFACE "-Dmemcpy=sceClibMemcpy")
@@ -2352,6 +2368,67 @@ elseif(VITA)
 
 #  CheckPTHREAD()
 
+elseif(PSP)
+ file(GLOB PSP_MAIN_SOURCES ${SDL2_SOURCE_DIR}/src/main/psp/*.c)
+ set(SDLMAIN_SOURCES ${SDLMAIN_SOURCES} ${PSP_MAIN_SOURCES})
+
+  if(SDL_AUDIO)
+    set(SDL_AUDIO_DRIVER_PSP 1)
+    file(GLOB PSP_AUDIO_SOURCES ${SDL2_SOURCE_DIR}/src/audio/psp/*.c)
+    set(SOURCE_FILES ${SOURCE_FILES} ${PSP_AUDIO_SOURCES})
+    set(HAVE_SDL_AUDIO TRUE)
+  endif()
+  if(SDL_FILESYSTEM)
+    set(SDL_FILESYSTEM_PSP 1)
+    file(GLOB PSP_FILESYSTEM_SOURCES ${SDL2_SOURCE_DIR}/src/filesystem/psp/*.c)
+    set(SOURCE_FILES ${SOURCE_FILES} ${PSP_FILESYSTEM_SOURCES})
+    set(HAVE_SDL_FILESYSTEM TRUE)
+  endif()
+  if(SDL_JOYSTICK)
+    set(SDL_JOYSTICK_PSP 1)
+    file(GLOB PSP_JOYSTICK_SOURCES ${SDL2_SOURCE_DIR}/src/joystick/psp/*.c)
+    set(SOURCE_FILES ${SOURCE_FILES} ${PSP_JOYSTICK_SOURCES})
+    set(HAVE_SDL_JOYSTICK TRUE)
+  endif()
+  if(SDL_POWER)
+    set(SDL_POWER_PSP 1)
+    file(GLOB PSP_POWER_SOURCES ${SDL2_SOURCE_DIR}/src/power/psp/*.c)
+    set(SOURCE_FILES ${SOURCE_FILES} ${PSP_POWER_SOURCES})
+    set(HAVE_SDL_POWER TRUE)
+  endif()
+  if(SDL_THREADS)
+    set(SDL_THREAD_PSP 1)
+    file(GLOB PSP_THREAD_SOURCES ${SDL2_SOURCE_DIR}/src/thread/generic/SDL_systls.c ${SDL2_SOURCE_DIR}/src/thread/psp/*.c)
+    set(SOURCE_FILES ${SOURCE_FILES} ${PSP_THREAD_SOURCES})
+    set(HAVE_SDL_THREADS TRUE)
+  endif()
+  if(SDL_TIMERS)
+    set(SDL_TIMER_PSP 1)
+    file(GLOB PSP_TIMER_SOURCES ${SDL2_SOURCE_DIR}/src/timer/psp/*.c)
+    set(SOURCE_FILES ${SOURCE_FILES} ${PSP_TIMER_SOURCES})
+    set(HAVE_SDL_TIMERS TRUE)
+  endif()
+  if(SDL_VIDEO)
+    set(SDL_VIDEO_DRIVER_PSP 1)
+    set(SDL_VIDEO_RENDER_PSP 1)
+    file(GLOB PSP_VIDEO_SOURCES ${SDL2_SOURCE_DIR}/src/video/psp/*.c)
+    set(SOURCE_FILES ${SOURCE_FILES} ${PSP_VIDEO_SOURCES})
+    set(SDL_VIDEO_OPENGL 1)
+    set(HAVE_SDL_VIDEO TRUE)
+  endif()
+
+  list(APPEND EXTRA_LIBS
+      psppower
+      pspctrl
+      psphprm
+      pspge
+      pspgu
+      pspdisplay
+      pspvfpu
+      pspaudio
+      pspvram
+      GL
+    )
 endif()
 
 if(SDL_VULKAN AND NOT SDL_LOADSO)
@@ -2596,7 +2673,7 @@ if (SDL_ASAN)
   asan_check_add_debug_flag("leak")
   # The object size sanitizer has no effect on unoptimized builds on Clang,
   # but causes warnings.
-  if((NOT USE_CLANG) OR (CMAKE_BUILD_TYPE STREQUAL ""))
+  if((NOT USE_CLANG) OR ("${CMAKE_BUILD_TYPE}" STREQUAL ""))
     asan_check_add_debug_flag("object-size")
   endif()
 endif()
@@ -2625,7 +2702,7 @@ foreach(_OPT ${ALLOPTIONS})
   string(RANDOM LENGTH ${_PADLEN} ALPHABET " " _PADDING)
   message_tested_option(${_OPT} ${_PADDING})
 endforeach()
-if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
   message(STATUS "")
   message(STATUS " CMAKE_C_FLAGS_DEBUG:   ${CMAKE_C_FLAGS_DEBUG}")
   message(STATUS " CMAKE_CXX_FLAGS_DEBUG: ${CMAKE_CXX_FLAGS_DEBUG}")
@@ -2677,7 +2754,6 @@ if(NOT WINDOWS_STORE)
   add_library(SDL2::SDL2main ALIAS SDL2main)
   target_include_directories(SDL2main BEFORE PRIVATE "${SDL2_BINARY_DIR}/include")
   target_include_directories(SDL2main PUBLIC "$<BUILD_INTERFACE:${SDL2_SOURCE_DIR}/include>" $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}> $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/SDL2>)
-  set(_INSTALL_LIBS "SDL2main")
   if (NOT ANDROID)
     set_target_properties(SDL2main PROPERTIES DEBUG_POSTFIX "${SDL_CMAKE_DEBUG_POSTFIX}")
   endif()
@@ -2723,7 +2799,6 @@ if(SDL_SHARED)
     endif()
     set_target_properties(SDL2 PROPERTIES STATIC_LIBRARY_FLAGS "/NODEFAULTLIB")
   endif()
-  set(_INSTALL_LIBS "SDL2" ${_INSTALL_LIBS})
   target_link_libraries(SDL2 PRIVATE ${EXTRA_LIBS} ${EXTRA_LDFLAGS})
   target_include_directories(SDL2 BEFORE PRIVATE "${SDL2_BINARY_DIR}/include")
   target_include_directories(SDL2 PUBLIC "$<BUILD_INTERFACE:${SDL2_SOURCE_DIR}/include>;$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>;$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/SDL2>")
@@ -2755,7 +2830,6 @@ if(SDL_STATIC)
   endif()
   # TODO: Win32 platforms keep the same suffix .lib for import and static
   # libraries - do we need to consider this?
-  set(_INSTALL_LIBS "SDL2-static" ${_INSTALL_LIBS})
   target_link_libraries(SDL2-static PRIVATE ${EXTRA_LIBS} ${EXTRA_LDFLAGS})
   target_include_directories(SDL2-static BEFORE PRIVATE "${SDL2_BINARY_DIR}/include")
   target_include_directories(SDL2-static PUBLIC "$<BUILD_INTERFACE:${SDL2_SOURCE_DIR}/include>" $<INSTALL_INTERFACE:include> $<INSTALL_INTERFACE:include/SDL2>)
@@ -2777,10 +2851,26 @@ if(SDL_TEST)
 endif()
 
 ##### Installation targets #####
-install(TARGETS ${_INSTALL_LIBS} EXPORT SDL2Targets
-  LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
-  ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
-  RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}")
+if(SDL_SHARED)
+  install(TARGETS SDL2 EXPORT SDL2Targets
+    LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+    ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+    RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}")
+endif()
+
+if(NOT WINDOWS_STORE)
+  install(TARGETS SDL2main EXPORT SDL2mainTargets
+    LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+    ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+    RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}")
+endif()
+
+if(SDL_STATIC)
+  install(TARGETS SDL2-static EXPORT SDL2staticTargets
+    LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+    ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+    RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}")
+endif()
 
 ##### Export files #####
 if (WINDOWS AND NOT MINGW)
@@ -2795,11 +2885,30 @@ write_basic_package_version_file("${CMAKE_BINARY_DIR}/SDL2ConfigVersion.cmake"
   COMPATIBILITY AnyNewerVersion
 )
 
-install(EXPORT SDL2Targets
-  FILE SDL2Targets.cmake
-  NAMESPACE SDL2::
-  DESTINATION ${PKG_PREFIX}
-)
+if(SDL_SHARED)
+  install(EXPORT SDL2Targets
+    FILE SDL2Targets.cmake
+    NAMESPACE SDL2::
+    DESTINATION ${PKG_PREFIX}
+  )
+endif()
+
+if(NOT WINDOWS_STORE)
+  install(EXPORT SDL2mainTargets
+    FILE SDL2mainTargets.cmake
+    NAMESPACE SDL2::
+    DESTINATION ${PKG_PREFIX}
+  )
+endif()
+
+if(SDL_STATIC)
+  install(EXPORT SDL2staticTargets
+    FILE SDL2staticTargets.cmake
+    NAMESPACE SDL2::
+    DESTINATION ${PKG_PREFIX}
+  )
+endif()
+
 install(
   FILES
     ${CMAKE_CURRENT_SOURCE_DIR}/SDL2Config.cmake

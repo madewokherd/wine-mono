@@ -1,6 +1,6 @@
 /*
   Simple DirectMedia Layer
-  Copyright (C) 1997-2021 Sam Lantinga <slouken@libsdl.org>
+  Copyright (C) 1997-2022 Sam Lantinga <slouken@libsdl.org>
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any damages
@@ -249,7 +249,7 @@ SDLTest_CommonArg(SDLTest_CommonState * state, int index)
     }
     if (SDL_strcasecmp(argv[index], "--windows") == 0) {
         ++index;
-        if (!argv[index] || !SDL_isdigit(*argv[index])) {
+        if (!argv[index] || !SDL_isdigit((unsigned char) *argv[index])) {
             return -1;
         }
         if (!(state->window_flags & SDL_WINDOW_FULLSCREEN)) {
@@ -1292,7 +1292,7 @@ SDLTest_CommonInit(SDLTest_CommonState * state)
             SDL_GetWindowSize(state->windows[i], &w, &h);
             if (!(state->window_flags & SDL_WINDOW_RESIZABLE) &&
                 (w != state->window_w || h != state->window_h)) {
-                printf("Window requested size %dx%d, got %dx%d\n", state->window_w, state->window_h, w, h);
+                SDL_Log("Window requested size %dx%d, got %dx%d\n", state->window_w, state->window_h, w, h);
                 state->window_w = w;
                 state->window_h = h;
             }
@@ -1331,8 +1331,7 @@ SDLTest_CommonInit(SDLTest_CommonState * state)
                     n = SDL_GetNumRenderDrivers();
                     for (j = 0; j < n; ++j) {
                         SDL_GetRenderDriverInfo(j, &info);
-                        if (SDL_strcasecmp(info.name, state->renderdriver) ==
-                            0) {
+                        if (SDL_strcasecmp(info.name, state->renderdriver) == 0) {
                             m = j;
                             break;
                         }
@@ -1937,7 +1936,7 @@ SDLTest_CommonEvent(SDLTest_CommonState * state, SDL_Event * event, int *done)
                     const int delta = 100;
                     int x, y;
                     SDL_GetWindowPosition(window, &x, &y);
-                    
+
                     if (event->key.keysym.sym == SDLK_UP)    y -= delta;
                     if (event->key.keysym.sym == SDLK_DOWN)  y += delta;
                     if (event->key.keysym.sym == SDLK_LEFT)  x -= delta;
@@ -1970,7 +1969,7 @@ SDLTest_CommonEvent(SDLTest_CommonState * state, SDL_Event * event, int *done)
             if (withControl) {
                 /* Ctrl-C copy awesome text! */
                 SDL_SetClipboardText("SDL rocks!\nYou know it!");
-                printf("Copied text to clipboard\n");
+                SDL_Log("Copied text to clipboard\n");
             }
             if (withAlt) {
                 /* Alt-C toggle a render clip rectangle */
@@ -2006,9 +2005,9 @@ SDLTest_CommonEvent(SDLTest_CommonState * state, SDL_Event * event, int *done)
                 /* Ctrl-V paste awesome text! */
                 char *text = SDL_GetClipboardText();
                 if (*text) {
-                    printf("Clipboard: %s\n", text);
+                    SDL_Log("Clipboard: %s\n", text);
                 } else {
-                    printf("Clipboard is empty\n");
+                    SDL_Log("Clipboard is empty\n");
                 }
                 SDL_free(text);
             }

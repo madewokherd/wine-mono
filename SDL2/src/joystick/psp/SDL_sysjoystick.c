@@ -1,6 +1,6 @@
 /*
   Simple DirectMedia Layer
-  Copyright (C) 1997-2021 Sam Lantinga <slouken@libsdl.org>
+  Copyright (C) 1997-2022 Sam Lantinga <slouken@libsdl.org>
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any damages
@@ -63,10 +63,10 @@ static point c = { 78, 32767 };
 static point d = { 128, 32767 };
 
 /* simple linear interpolation between two points */
-static SDL_INLINE void lerp (point *dest, point *a, point *b, float t)
+static SDL_INLINE void lerp (point *dest, point *pt_a, point *pt_b, float t)
 {
-    dest->x = a->x + (b->x - a->x)*t;
-    dest->y = a->y + (b->y - a->y)*t;
+    dest->x = pt_a->x + (pt_b->x - pt_a->x)*t;
+    dest->y = pt_a->y + (pt_b->y - pt_a->y)*t;
 }
 
 /* evaluate a point on a bezier-curve. t goes from 0 to 1.0 */
