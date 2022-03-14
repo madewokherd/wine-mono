@@ -568,10 +568,6 @@ x86.MonoTests.System.Windows.Forms.ListViewItemTest:Constructor10_SubItems_Empty
 x86.MonoTests.System.Windows.Forms.ListViewItemTest:Constructor10_SubItems_Null
 x86.MonoTests.System.Windows.Forms.ListViewItemTest:Constructor4_SubItems_Empty
 x86.MonoTests.System.Windows.Forms.ListViewItemTest:Constructor4_SubItems_Null
-x86.MonoTests.System.Windows.Forms.ListViewSelectedIndexChangedEvent:AddRangeSelectedItems
-x86.MonoTests.System.Windows.Forms.ListViewSelectedIndexChangedEvent:InsertSelectedItem
-x86.MonoTests.System.Windows.Forms.ListViewSelectedIndexChangedEvent:RemoveSelectedItem
-x86.MonoTests.System.Windows.Forms.ListViewSelectedIndexChangedEvent:SelectBeforeCreationOfHandle
 x86.MonoTests.System.Windows.Forms.ListViewSubItemTest:SerializeExact_MS
 x86.MonoTests.System.Windows.Forms.ListViewSubItemTest:SerializeExact_Mono
 x86.MonoTests.System.Windows.Forms.ListViewTest
@@ -594,7 +590,6 @@ x86.MonoTests.System.Windows.Forms.RichTextBoxTest:SelectionLength_Negative
 x86.MonoTests.System.Windows.Forms.RichTextBoxTest:SelectionStart_Negative
 x86.MonoTests.System.Windows.Forms.SaveFileDialogTest:Filter_InvalidFormat
 x86.MonoTests.System.Windows.Forms.ScrollableControlTest:AutoScrollPositionTest
-x86.MonoTests.System.Windows.Forms.ScrollableControlTest:MethodScrollToControl
 x86.MonoTests.System.Windows.Forms.TabControlTest:GetTabRectTest
 x86.MonoTests.System.Windows.Forms.TabControlTest:SelectedIndex_Negative
 x86.MonoTests.System.Windows.Forms.TestControlStyle:DateTimePickerStyleTest
@@ -1253,10 +1248,6 @@ x86_64.MonoTests.System.Windows.Forms.ListViewItemTest:Constructor10_SubItems_Em
 x86_64.MonoTests.System.Windows.Forms.ListViewItemTest:Constructor10_SubItems_Null
 x86_64.MonoTests.System.Windows.Forms.ListViewItemTest:Constructor4_SubItems_Empty
 x86_64.MonoTests.System.Windows.Forms.ListViewItemTest:Constructor4_SubItems_Null
-x86_64.MonoTests.System.Windows.Forms.ListViewSelectedIndexChangedEvent:AddRangeSelectedItems
-x86_64.MonoTests.System.Windows.Forms.ListViewSelectedIndexChangedEvent:InsertSelectedItem
-x86_64.MonoTests.System.Windows.Forms.ListViewSelectedIndexChangedEvent:RemoveSelectedItem
-x86_64.MonoTests.System.Windows.Forms.ListViewSelectedIndexChangedEvent:SelectBeforeCreationOfHandle
 x86_64.MonoTests.System.Windows.Forms.ListViewSubItemTest:SerializeExact_MS
 x86_64.MonoTests.System.Windows.Forms.ListViewSubItemTest:SerializeExact_Mono
 x86_64.MonoTests.System.Windows.Forms.ListViewTest
@@ -1281,7 +1272,6 @@ x86_64.MonoTests.System.Windows.Forms.SaveFileDialogTest:Filter_InvalidFormat
 x86_64.MonoTests.System.Windows.Forms.ScrollBarEventTest
 x86_64.MonoTests.System.Windows.Forms.ScrollBarEventTest
 x86_64.MonoTests.System.Windows.Forms.ScrollableControlTest:AutoScrollPositionTest
-x86_64.MonoTests.System.Windows.Forms.ScrollableControlTest:MethodScrollToControl
 x86_64.MonoTests.System.Windows.Forms.SendKeysTest
 x86_64.MonoTests.System.Windows.Forms.SendKeysTest
 x86_64.MonoTests.System.Windows.Forms.TabControlTest:GetTabRectTest
