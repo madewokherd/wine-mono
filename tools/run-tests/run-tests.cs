@@ -649,6 +649,14 @@ class RunTests
 					fail_list.Add("MonoTests.System.Net.Sockets.SocketTest:BeginConnectMultiple");
 					fail_list.Add("MonoTests.System.Net.WebRequestTest:TestFailedConnection");
 					break;
+				case "7.2":
+					// Winehq bug 52672
+					fail_list.Add("x86.wpfclipboard");
+					fail_list.Add("x86.MonoTests.System.Windows.DependencyObjectTest");
+					fail_list.Add("x86.MonoTests.System.Windows.DependencyObjectTypeTest");
+					fail_list.Add("x86.MonoTests.System.Windows.Threading.DispatcherTest");
+					fail_list.Add("x86.MonoTests.System.Windows.Threading.DispatcherTimerTest");
+					break;
 				default:
 					break;
 				}
