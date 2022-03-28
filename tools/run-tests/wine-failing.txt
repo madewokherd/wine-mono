@@ -1713,10 +1713,10 @@ MonoTests.System.Net.WebSockets.ClientWebSocketTest:CloseAsyncTest
 MonoTests.System.Net.WebSockets.ClientWebSocketTest:EchoTest
 WineMono.Tests.System.Windows.Media.TextFormatting.TextFormatterTest:NewlineCharacterLoggingTest
 WineMono.Tests.System.Windows.Media.TextFormatting.TextFormatterTest:NewlineCharacterTest
-MonoTests.System.Windows.Forms.EventArgsTest:TestToolStripGripRenderEventArgs
-MonoTests.System.Windows.Forms.ToolStripTests:Constructor
-MonoTests.System.Windows.Forms.ToolStripTests:ProtectedProperties
-MonoTests.System.Windows.Forms.ToolStripTests:TestToolStrip
+MonoTests.System.Windows.Forms.EventArgsTest:TestToolStripGripRenderEventArgs # ToolStripGrip is larger when themes are enabled
+MonoTests.System.Windows.Forms.ToolStripTests:Constructor # ToolStripGrip is larger when themes are enabled
+MonoTests.System.Windows.Forms.ToolStripTests:ProtectedProperties # ToolStripGrip is larger when themes are enabled
+MonoTests.System.Windows.Forms.ToolStripTests:TestToolStrip # ToolStripGrip is larger when themes are enabled
 # definitely unreliable:
 delegate2
 x86_64.MonoTests.System.Threading.ThreadLocalTests:DisposeOnThreadExit
