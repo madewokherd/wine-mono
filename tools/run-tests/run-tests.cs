@@ -649,7 +649,8 @@ class RunTests
 					fail_list.Add("MonoTests.System.Net.Sockets.SocketTest:BeginConnectMultiple");
 					fail_list.Add("MonoTests.System.Net.WebRequestTest:TestFailedConnection");
 					break;
-				case "7.2":
+				case "7.4":
+				case "7.5":
 					// Winehq bug 52672
 					fail_list.Add("x86.wpfclipboard");
 					fail_list.Add("x86.MonoTests.System.Windows.DependencyObjectTest");
