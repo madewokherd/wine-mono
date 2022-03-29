@@ -122,8 +122,8 @@ jobs:
     - name: Run 64-bit Wine mscoree tests
       run: |
         wget -nc 'http://test.winehq.org/builds/winetest64-latest.exe' 1>&2
-        wine winetest64-latest.exe -x winetest64 >/dev/null
-        wine winetest64/mscoree_test.exe --list 2>/dev/null|sed 's/\r//'|tail -n +2|while read testname; do
+        wine64 winetest64-latest.exe -x winetest64 >/dev/null
+        wine64 winetest64/mscoree_test.exe --list 2>/dev/null|sed 's/\r//'|tail -n +2|while read testname; do
           echo BEGIN 64-BIT $testname TEST 1>&2
           WINETEST_REPORT_SUCCESS=1 WINEDEBUG=mscoree WINE_MONO_TRACE=x timeout -v 300 wine64 winetest64/mscoree_test.exe $testname 1>&2 || printf 'mscoree:%s 64-bit test failed\n' $testname >> tests-failed
           echo END 64-BIT $testname TEST >&2
@@ -153,7 +153,7 @@ jobs:
         while ! xdpyinfo; do sleep 1; jobs 1 || exit 1; done
         openbox & 1>&2
         wine reg add 'HKCU\Software\Wine\WineDbg' /v ShowCrashDialog /t REG_DWORD /d 0 /f 1>&2
-        wine tests/run-tests.exe -fail-list:tests/github-wine-failing.txt 1>&2 || printf 'Wine Mono tests failed\n' >> tests-failed
+        wine64 tests/run-tests.exe -fail-list:tests/github-wine-failing.txt 1>&2 || printf 'Wine Mono tests failed\n' >> tests-failed
     - name: Check for test failures
       run: |
         if test -f tests-failed; then
