@@ -1,4 +1,4 @@
-Wine Mono is a package containing Mono and other projects, intended as a replacement for the .NET Framework (4.x and earlier) in Wine. It works in conjunction with Wine's builtin mscoree.dll, and it is not intended to be useful for any other purpose.
+Wine Mono is a package containing Mono and other projects, intended as a replacement for the .NET Framework (4.8 and earlier) in Wine. It works in conjunction with Wine's builtin mscoree.dll, and it is not intended to be useful for any other purpose.
 
 
 SOURCE CODE
@@ -58,6 +58,8 @@ $ wine64 msiexec /i wine-mono-7.0.0-x86.msi
 
 Note that if a Wine Mono with a version number >= to this file is already installed, that command will do nothing, so you may have to remove the existing version (using 'wine64 uninstaller') first.
 
+If the install succeeds, it won't output anything. You can use 'wine64 uninstaller' to verify that the version you expect is installed.
+
 If you are building for development, you may find it more convenient to use the 'make dev' target, which builds a runtime in image/ and configures a wine prefix to use it. You can then rebuild individual dlls using their filename with no path. See 'make help' for details.
 
 Packagers should extract the tarball from the "make bin" target to /usr/share/wine/mono or the corresponding directory for the prefix used to configure Wine. This should create a directory named something like /usr/share/wine/mono/wine-mono-6.1.0. This conserves space compared to the msi because it doesn't need to be copied into every prefix.
@@ -66,7 +68,7 @@ Packagers should extract the tarball from the "make bin" target to /usr/share/wi
 COMPOSITION
 
 An installed Wine Mono contains the following:
- * Registry keys and files in C:\windows\Microsoft.NET intended to make it look as if Microsoft .NET Framework is installed, so that applications won't complain that it's missing, and the installers for Microsoft .NET won't install. This is part of an msi package named "Wine Mono Windows Support". (Wine Mono should always be removed before installing Microsoft .NET Framework 4.x and earlier. Wine Mono can coexist with .NET Core and .NET 5 or later.)
+ * Registry keys and files in C:\windows\Microsoft.NET intended to make it look as if .NET Framework is installed, so that applications won't complain that it's missing, and the installers for .NET Framework won't install. This is part of an msi package named "Wine Mono Windows Support". (Wine Mono should always be removed before installing .NET Framework 4.8 and earlier. Wine Mono can coexist with .NET Core and .NET 5 or later.)
  * A modified version of the Mono runtime and class libraries, in the "Wine Mono Runtime" msi or a shared location outside the prefix.
  * Other supporting libraries that are not part of Mono, in some cases replacing Mono's version.
 
@@ -88,4 +90,4 @@ FNA and related projects have been very responsive to pull requests, and it's wo
 
 The mono-basic project is abandoned and PRs can be made directly to the fork. However, before doing any substantial work on mono-basic, it may be worth checking whether there's an implementation in dotnet/winforms or dotnet/runtime.
 
-The winforms and wpf projects are not being updated from upstream, and have diverged significantly. Since they are supporting .NET Core, which adds new features and is not binary-compatible with .NET Framework 4, their use case is very different from ours. Any changes should be sent directly to the appropriate fork, but feel free to also send them upstream if it makes sense.
+The winforms and wpf projects are not being updated from upstream, and have diverged significantly. Since they are supporting .NET Core, which adds new features and is not binary-compatible with .NET Framework, their use case is very different from ours. Any changes should be sent directly to the appropriate fork, but feel free to also send them upstream if it makes sense.
