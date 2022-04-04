@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using System.Threading;
 
 class CscWrapper
 {
@@ -18,7 +19,26 @@ class CscWrapper
 		return corlib.Location;
 	}
 
-	static void Main(string[] arguments)
+	static void ForwardData(StreamReader reader, TextWriter writer)
+	{
+		string line;
+		while ((line = reader.ReadLine()) != null)
+		{
+			writer.WriteLine(line);
+		}
+	}
+
+	static void ForwardOutput(object reader)
+	{
+		ForwardData((StreamReader)reader, Console.Out);
+	}
+
+	static void ForwardError(object reader)
+	{
+		ForwardData((StreamReader)reader, Console.Error);
+	}
+
+	static int Main(string[] arguments)
 	{
 		var addStdlib = true;
 
@@ -44,11 +64,23 @@ class CscWrapper
 		process.StartInfo.Arguments = versionArguments + String.Join(" ", arguments);
 		process.StartInfo.CreateNoWindow = true;
 		process.StartInfo.UseShellExecute = false;
+		process.StartInfo.RedirectStandardInput = true;
 		process.StartInfo.RedirectStandardOutput = true;
-		process.OutputDataReceived += (sender, args) => Console.WriteLine(args.Data);
+		process.StartInfo.RedirectStandardError = true;
 		process.Start();
-		process.BeginOutputReadLine();
+
+		process.StandardInput.Close();
+
+		Thread output_thread = new Thread(ForwardOutput);
+		output_thread.Start(process.StandardOutput);
+
+		Thread error_thread = new Thread(ForwardError);
+		error_thread.Start(process.StandardError);
+
 		process.WaitForExit();
+		output_thread.Join();
+		error_thread.Join();
+		return process.ExitCode;
 	}
 }
 
