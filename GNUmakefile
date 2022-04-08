@@ -124,6 +124,22 @@ clean-build-installinf-$(1):
 .PHONY: clean-build-installinf-$(1)
 clean-build: clean-build-installinf-$(1)
 
+# removeuserinstalls.exe
+$$(BUILDDIR)/removeuserinstalls-$(1).exe: $$(SRCDIR)/tools/removeuserinstalls/removeuserinstalls.c $$(MINGW_DEPS)
+	$$(MINGW_ENV) $$(MINGW_$(1))-gcc $$< -lmsi -lole32 -municode -o $$@ $$(PDB_CFLAGS_$(1)) $$(PDB_LDFLAGS_$(1))
+
+support-removeuserinstalls-$(1): $$(BUILDDIR)/removeuserinstalls-$(1).exe
+	mkdir -p $$(IMAGEDIR)/support/
+	$$(INSTALL_PE_$(1)) $$(BUILDDIR)/removeuserinstalls-$(1).exe $$(IMAGEDIR)/support/removeuserinstalls-$(1).exe
+.PHONY: support-removeuserinstalls-$(1)
+imagedir-targets: support-removeuserinstalls-$(1)
+IMAGEDIR_BUILD_TARGETS += $$(BUILDDIR)/removeuserinstalls-$(1).exe
+
+clean-build-removeuserinstalls-$(1):
+	rm -rf $$(BUILDDIR)/removeuserinstalls-$(1).exe
+.PHONY: clean-build-removeuserinstalls-$(1)
+clean-build: clean-build-removeuserinstalls-$(1)
+
 endef
 
 include mono.make

@@ -5,3 +5,4 @@ INSTALLFAKEDLLS	1058	WindowsFolder	"[SourceDir]\installinf-x86.exe" "[SourceDir]
 INSTALLFAKEDLLS64	1058	WindowsFolder	"[SourceDir]\installinf-x86_64.exe" "[SourceDir]\dotnetfakedlls.inf"	
 UNREGISTERDLLS	1058	WindowsFolder	"[SystemFolder]\regsvr32.exe" /u /s "[WindowsFolder]\Microsoft.NET\Framework\v4.0.30319\diasymreader.dll"	
 UNREGISTERDLLS64	1058	WindowsFolder	"[System64Folder]\regsvr32.exe" /u /s "[WindowsFolder]\Microsoft.NET\Framework64\v4.0.30319\diasymreader.dll"	
+REMOVEUSERINSTALLS	1058	WindowsFolder	"[SourceDir]\removeuserinstalls-x86.exe"	

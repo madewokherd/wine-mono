@@ -7,6 +7,7 @@ FileCost		200
 CostFinalize		300
 InstallValidate		400
 RemoveExistingProducts		450
+REMOVEUSERINSTALLS	(&wine_mono=3)	451
 InstallInitialize		500
 ProcessComponents		600
 UNREGISTERDLLS	(&wine_mono=2)	650
