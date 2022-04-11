@@ -34,8 +34,8 @@ wpfgfx-$(1).dll: $$(BUILDDIR)/wpfgfx-$(1)/.built
 endif
 .PHONY: wpfgfx-$(1).dll
 
-wpfgfx_cor3.dll: wpfgfx-$(1).dll
-.PHONY: wpfgfx_cor3.dll
+wpfgfx_cor3.dll wpfgfx.dll: wpfgfx-$(1).dll
+.PHONY: wpfgfx_cor3.dll wpfgfx.dll
 
 ifeq (1,$(ENABLE_DOTNET_CORE_WPF))
 imagedir-targets: wpfgfx-$(1).dll
@@ -65,8 +65,8 @@ PresentationNative-$(1).dll: $$(BUILDDIR)/PresentationNative-$(1)/.built
 	$$(INSTALL_PE_$(1)) "$$(BUILDDIR)/PresentationNative-$(1)/PresentationNative_cor3.dll" "$$(IMAGEDIR)/lib/$(1)/PresentationNative_cor3.dll"
 .PHONY: PresentationNative-$(1).dll
 
-PresentationNative_cor3.dll: PresentationNative-$(1).dll
-.PHONY: PresentationNative_cor3.dll
+PresentationNative_cor3.dll PresentationNative.dll: PresentationNative-$(1).dll
+.PHONY: PresentationNative_cor3.dll PresentationNative.dll
 
 ifeq (1,$(ENABLE_DOTNET_CORE_WPF))
 imagedir-targets: PresentationNative-$(1).dll

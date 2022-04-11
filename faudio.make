@@ -19,6 +19,9 @@ FAudio-$(1).dll: $$(BUILDDIR)/FAudio-$(1)/.built
 .PHONY: FAudio-$(1).dll
 imagedir-targets: FAudio-$(1).dll
 
+FAudio.dll: FAudio-$(1).dll
+.PHONY: FAudio.dll
+
 clean-build-FAudio-$(1):
 	rm -rf $$(BUILDDIR)/FAudio-$(1)
 .PHONY: clean-build-FAudio-$(1)

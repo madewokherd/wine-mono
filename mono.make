@@ -35,11 +35,17 @@ libmono-2.0-$(1).dll: $$(BUILDDIR)/mono-$(1)/.built
 .PHONY: libmono-2.0-$(1).dll
 imagedir-targets: libmono-2.0-$(1).dll
 
+libmono.dll libmono-2.0.dll: libmono-2.0-$(1).dll
+.PHONY: libmono.dll libmono-2.0.dll
+
 MonoPosixHelper-$(1).dll: $$(BUILDDIR)/mono-$(1)/support/.built
 	mkdir -p "$$(IMAGEDIR)/lib"
 	$$(INSTALL_PE_$(1)) "$$(BUILDDIR)/mono-$(1)/support/.libs/libMonoPosixHelper.dll" "$$(IMAGEDIR)/lib/MonoPosixHelper-$(1).dll"
 .PHONY: MonoPosixHelper-$(1).dll
 imagedir-targets: MonoPosixHelper-$(1).dll
+
+MonoPosixHelper.dll: MonoPosixHelper-$(1).dll
+.PHONY: MonoPosixHelper.dll
 
 clean-build-mono-$(1):
 	rm -rf $$(BUILDDIR)/mono-$(1)
@@ -63,6 +69,9 @@ libmono-btls-$(1).dll: $$(BUILDDIR)/btls-$(1)/.built
 	$$(INSTALL_PE_$(1)) "$$(BUILDDIR)/btls-$(1)/libmono-btls-shared.dll" "$$(IMAGEDIR)/lib/libmono-btls-$(1).dll"
 .PHONY: libmono-btls-$(1).dll
 imagedir-targets: libmono-btls-$(1).dll
+
+libmono-btls.dll: libmono-btls-$(1).dll
+.PHONY: libmono-btls.dll
 
 clean-build-btls-$(1):
 	rm -rf $$(BUILDDIR)/btls-$(1)

@@ -19,6 +19,9 @@ FNA3D-$(1).dll: $$(BUILDDIR)/FNA3D-$(1)/.built
 .PHONY: FNA3D-$(1).dll
 imagedir-targets: FNA3D-$(1).dll
 
+FNA3D.dll: FNA3D-$(1).dll
+.PHONY: FNA3D.dll
+
 clean-build-FNA3D-$(1):
 	rm -rf $$(BUILDDIR)/FNA3D-$(1)
 .PHONY: clean-build-FNA3D-$(1)

@@ -15,6 +15,9 @@ FNAMF-$(1).dll: $$(BUILDDIR)/FNAMF-$(1)/.built
 .PHONY: FNAMF-$(1).dll
 imagedir-targets: FNAMF-$(1).dll
 
+FNAMF.dll: FNAMF-$(1).dll
+.PHONY: FNAMF.dll
+
 clean-build-FNAMF-$(1):
 	rm -rf $$(BUILDDIR)/FNAMF-$(1)
 .PHONY: clean-build-FNAMF-$(1)

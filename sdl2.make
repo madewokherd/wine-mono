@@ -19,6 +19,9 @@ SDL2-$(1).dll: $$(BUILDDIR)/SDL2-$(1)/.built
 .PHONY: SDL2-$(1).dll
 imagedir-targets: SDL2-$(1).dll
 
+SDL2.dll: SDL2-$(1).dll
+.PHONY: SDL2.dll
+
 clean-build-SDL2-$(1):
 	rm -rf $$(BUILDDIR)/SDL2-$(1)
 .PHONY: clean-build-SDL2-$(1)
