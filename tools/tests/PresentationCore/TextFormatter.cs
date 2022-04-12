@@ -415,6 +415,8 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 					}, log);
 				Assert.IsNull(line.GetTextLineBreak(), "GetTextLineBreak");
 				Assert.AreEqual(0, line.Start, "line.Start");
+				Assert.IsFalse(line.HasCollapsed, "line.HasCollapsed");
+				Assert.IsNull(line.GetTextCollapsedRanges(), "GetTextCollapsedRanges");
 			}
 		}
 
@@ -946,6 +948,336 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 				Assert.AreEqual(570, line.Width, "line.Width 2");
 				Assert.IsFalse(line.HasOverflowed, "line.HasOverflowed 2");
 				Assert.AreEqual(570, line.WidthIncludingTrailingWhitespace, "line.WidthIncludingTrailingWhitespace 2");
+			}
+		}
+
+		[Test]
+		public void CollapseFitTest ()
+		{
+			using (var formatter = TextFormatter.Create ())
+			{
+				List<string> log = new List<string> ();
+				var textSource = new LoggingTextSource(log);
+				textSource.AddContents("test");
+				textSource.AddContents(new TextEndOfLine(1));
+				var textParagraphProperties = new LoggingTextParagraphProperties(log);
+				textParagraphProperties.textWrapping = TextWrapping.NoWrap;
+				var line = formatter.FormatLine (textSource, 0, 256.0, textParagraphProperties, null);
+				log.Clear();
+				var collapsed = line.Collapse ();
+				Assert.AreEqual(line, collapsed);
+			}
+		}
+
+		[Test]
+		public void CollapseWrapTest ()
+		{
+			using (var formatter = TextFormatter.Create ())
+			{
+				List<string> log = new List<string> ();
+				var textSource = new LoggingTextSource(log);
+				textSource.AddContents("test");
+				textSource.AddContents(new TextEndOfLine(1));
+				var textParagraphProperties = new LoggingTextParagraphProperties(log);
+				textParagraphProperties.textWrapping = TextWrapping.Wrap;
+				var line = formatter.FormatLine (textSource, 0, 50.0, textParagraphProperties, null);
+				log.Clear();
+				var collapsed = line.Collapse ();
+				Assert.AreEqual(line, collapsed);
+			}
+		}
+
+		[Test]
+		[ExpectedException (typeof(ArgumentNullException))]
+		public void CollapseNullTest ()
+		{
+			using (var formatter = TextFormatter.Create ())
+			{
+				List<string> log = new List<string> ();
+				var textSource = new LoggingTextSource(log);
+				textSource.AddContents("test test");
+				textSource.AddContents(new TextEndOfLine(1));
+				var textParagraphProperties = new LoggingTextParagraphProperties(log);
+				textParagraphProperties.textWrapping = TextWrapping.NoWrap;
+				var line = formatter.FormatLine (textSource, 0, 256.0, textParagraphProperties, null);
+				log.Clear();
+				var collapsed = line.Collapse ();
+			}
+		}
+
+		[Test]
+		public void CollapseFirstWordTest ()
+		{
+			using (var formatter = TextFormatter.Create ())
+			{
+				List<string> log = new List<string> ();
+				var textSource = new LoggingTextSource(log);
+				textSource.AddContents("test test");
+				textSource.AddContents(new TextEndOfLine(1));
+				var textParagraphProperties = new LoggingTextParagraphProperties(log);
+				textParagraphProperties.textWrapping = TextWrapping.NoWrap;
+				var line = formatter.FormatLine (textSource, 0, 256.0, textParagraphProperties, null);
+				log.Clear();
+				var collapsed = line.Collapse (new TextTrailingWordEllipsis (256.0, new LoggingTextRunProperties(log, "CollapseProps")));
+				Assert.AreNotEqual(line, collapsed);
+				line = collapsed;
+				Assert.AreEqual(147.18+0.02/3.0, line.Height, "line.Height");
+				Assert.AreEqual(10, line.Length, "line.Length");
+				Assert.AreEqual(0, line.NewlineLength, "line.NewlineLength");
+				Assert.AreEqual(117.97, line.Baseline, 0.000000001, "line.Baseline");
+				Assert.AreEqual(234.75, line.Width, 0.001, "line.Width");
+				Assert.IsFalse(line.HasOverflowed, "line.HasOverflowed");
+				Assert.AreEqual(234.75, line.WidthIncludingTrailingWhitespace, 0.001, "line.WidthIncludingTrailingWhitespace");
+				AssertTextRunSpans(
+					new int[] { 9, 1 },
+					new TextRun[] { textSource.contents[0], new TextEndOfLine(1) },
+					line);
+				Assert.AreEqual(new string[] {
+					"CollapseProps.Typeface",
+					"CollapseProps.CultureInfo",
+					"CollapseProps.FontRenderingEmSize",
+					"DefaultTextRunProperties",
+					"DefaultTextRunProperties.FontRenderingEmSize",
+					"FirstLineInParagraph",
+					"TextAlignment",
+					"TextWrapping",
+					"test test.TextDecorations",
+					"test test.CultureInfo",
+					}, log);
+				Assert.IsNull(line.GetTextLineBreak(), "GetTextLineBreak");
+				Assert.AreEqual(0, line.Start, "line.Start");
+				Assert.IsTrue(line.HasCollapsed, "line.HasCollapsed");
+				Assert.AreEqual(1, line.GetTextCollapsedRanges().Count, "GetTextCollapsedRanges");
+				Assert.AreEqual(8, line.GetTextCollapsedRanges()[0].Length, "GetTextCollapsedRanges.Length");
+				Assert.AreEqual(2, line.GetTextCollapsedRanges()[0].TextSourceCharacterIndex, "GetTextCollapsedRanges.TextSourceCharacterIndex");
+				AssertCharacterHit(line, 256.0, 2, 8);
+				AssertCharacterHit(line, 236.0, 2, 8);
+				AssertCharacterHit(line, 150.0, 2, 0);
+				AssertCharacterHit(2, 0, line.GetPreviousCaretCharacterHit(new CharacterHit(2, 8)), "previous 2,8");
+				AssertCharacterHit(1, 0, line.GetPreviousCaretCharacterHit(new CharacterHit(2, 0)), "previous 2,0");
+				AssertCharacterHit(1, 1, line.GetNextCaretCharacterHit(new CharacterHit(1, 0)), "next 1,0");
+				AssertCharacterHit(2, 8, line.GetNextCaretCharacterHit(new CharacterHit(1, 1)), "next 1,1");
+				AssertCharacterHit(2, 8, line.GetNextCaretCharacterHit(new CharacterHit(2, 0)), "next 2,0");
+				var glyphRuns = new List<IndexedGlyphRun>(line.GetIndexedGlyphRuns());
+				Assert.AreEqual(1, glyphRuns.Count, "glyphRuns.Count");
+				var glyphRun = glyphRuns[0];
+				Assert.AreEqual(0, glyphRun.TextSourceCharacterIndex, "TextSourceCharacterIndex");
+				Assert.AreEqual(2, glyphRun.TextSourceLength, "TextSourceLength");
+				var tb = line.GetTextBounds(6, 1);
+				Assert.AreEqual(1, tb.Count, "TextBounds.Count");
+				Assert.AreEqual(FlowDirection.LeftToRight, tb[0].FlowDirection, "TextBounds.FlowDirection");
+				Assert.AreEqual(106.75, tb[0].Rectangle.X, 0.001, "TextBounds.Rectangle.X");
+				Assert.AreEqual(0, tb[0].Rectangle.Y, 0.001, "TextBounds.Rectangle.Y");
+				Assert.AreEqual(0, tb[0].Rectangle.Width, 0.001, "TextBounds.Rectangle.Width");
+				Assert.AreEqual(147.186, tb[0].Rectangle.Height, 0.001, "TextBounds.Rectangle.Height");
+				Assert.IsNull(tb[0].TextRunBounds, "TextRunBounds");
+			}
+		}
+
+		[Test]
+		public void CollapseFirstWordCharTest ()
+		{
+			using (var formatter = TextFormatter.Create ())
+			{
+				List<string> log = new List<string> ();
+				var textSource = new LoggingTextSource(log);
+				textSource.AddContents("test test");
+				textSource.AddContents(new TextEndOfLine(1));
+				var textParagraphProperties = new LoggingTextParagraphProperties(log);
+				textParagraphProperties.textWrapping = TextWrapping.NoWrap;
+				var line = formatter.FormatLine (textSource, 0, 256.0, textParagraphProperties, null);
+				log.Clear();
+				var collapsed = line.Collapse (new TextTrailingCharacterEllipsis (256.0, new LoggingTextRunProperties(log, "CollapseProps")));
+				Assert.AreNotEqual(line, collapsed);
+				line = collapsed;
+				Assert.AreEqual(147.18+0.02/3.0, line.Height, "line.Height");
+				Assert.AreEqual(10, line.Length, "line.Length");
+				Assert.AreEqual(0, line.NewlineLength, "line.NewlineLength");
+				Assert.AreEqual(117.97, line.Baseline, 0.000000001, "line.Baseline");
+				Assert.AreEqual(234.75, line.Width, 0.001, "line.Width");
+				Assert.IsFalse(line.HasOverflowed, "line.HasOverflowed");
+				Assert.AreEqual(234.75, line.WidthIncludingTrailingWhitespace, 0.001, "line.WidthIncludingTrailingWhitespace");
+				AssertTextRunSpans(
+					new int[] { 9, 1 },
+					new TextRun[] { textSource.contents[0], new TextEndOfLine(1) },
+					line);
+				Assert.AreEqual(new string[] {
+					"CollapseProps.Typeface",
+					"CollapseProps.CultureInfo",
+					"CollapseProps.FontRenderingEmSize",
+					"DefaultTextRunProperties",
+					"DefaultTextRunProperties.FontRenderingEmSize",
+					"FirstLineInParagraph",
+					"TextAlignment",
+					"TextWrapping",
+					"test test.TextDecorations",
+					"test test.CultureInfo",
+					}, log);
+				Assert.IsNull(line.GetTextLineBreak(), "GetTextLineBreak");
+				Assert.AreEqual(0, line.Start, "line.Start");
+				Assert.IsTrue(line.HasCollapsed, "line.HasCollapsed");
+				Assert.AreEqual(1, line.GetTextCollapsedRanges().Count, "GetTextCollapsedRanges");
+				Assert.AreEqual(8, line.GetTextCollapsedRanges()[0].Length, "GetTextCollapsedRanges.Length");
+				Assert.AreEqual(2, line.GetTextCollapsedRanges()[0].TextSourceCharacterIndex, "GetTextCollapsedRanges.TextSourceCharacterIndex");
+				AssertCharacterHit(line, 256.0, 2, 8);
+				AssertCharacterHit(line, 236.0, 2, 8);
+				AssertCharacterHit(line, 150.0, 2, 0);
+				AssertCharacterHit(2, 0, line.GetPreviousCaretCharacterHit(new CharacterHit(2, 8)), "previous 2,8");
+				AssertCharacterHit(1, 0, line.GetPreviousCaretCharacterHit(new CharacterHit(2, 0)), "previous 2,0");
+				AssertCharacterHit(1, 1, line.GetNextCaretCharacterHit(new CharacterHit(1, 0)), "next 1,0");
+				AssertCharacterHit(2, 8, line.GetNextCaretCharacterHit(new CharacterHit(1, 1)), "next 1,1");
+				AssertCharacterHit(2, 8, line.GetNextCaretCharacterHit(new CharacterHit(2, 0)), "next 2,0");
+				var glyphRuns = new List<IndexedGlyphRun>(line.GetIndexedGlyphRuns());
+				Assert.AreEqual(1, glyphRuns.Count, "glyphRuns.Count");
+				var glyphRun = glyphRuns[0];
+				Assert.AreEqual(0, glyphRun.TextSourceCharacterIndex, "TextSourceCharacterIndex");
+				Assert.AreEqual(2, glyphRun.TextSourceLength, "TextSourceLength");
+				var tb = line.GetTextBounds(6, 1);
+				Assert.AreEqual(1, tb.Count, "TextBounds.Count");
+				Assert.AreEqual(FlowDirection.LeftToRight, tb[0].FlowDirection, "TextBounds.FlowDirection");
+				Assert.AreEqual(106.75, tb[0].Rectangle.X, 0.001, "TextBounds.Rectangle.X");
+				Assert.AreEqual(0, tb[0].Rectangle.Y, 0.001, "TextBounds.Rectangle.Y");
+				Assert.AreEqual(0, tb[0].Rectangle.Width, 0.001, "TextBounds.Rectangle.Width");
+				Assert.AreEqual(147.186, tb[0].Rectangle.Height, 0.001, "TextBounds.Rectangle.Height");
+				Assert.IsNull(tb[0].TextRunBounds, "TextRunBounds");
+			}
+		}
+
+		[Test]
+		public void CollapseSecondWordTest ()
+		{
+			using (var formatter = TextFormatter.Create ())
+			{
+				List<string> log = new List<string> ();
+				var textSource = new LoggingTextSource(log);
+				textSource.AddContents("test test");
+				textSource.AddContents(new TextEndOfLine(1));
+				var textParagraphProperties = new LoggingTextParagraphProperties(log);
+				textParagraphProperties.textWrapping = TextWrapping.NoWrap;
+				var line = formatter.FormatLine (textSource, 0, 406.0, textParagraphProperties, null);
+				log.Clear();
+				var collapsed = line.Collapse (new TextTrailingWordEllipsis (406.0, new LoggingTextRunProperties(log, "CollapseProps")));
+				Assert.AreNotEqual(line, collapsed);
+				line = collapsed;
+				Assert.AreEqual(147.18+0.02/3.0, line.Height, "line.Height");
+				Assert.AreEqual(10, line.Length, "line.Length");
+				Assert.AreEqual(0, line.NewlineLength, "line.NewlineLength");
+				Assert.AreEqual(117.97, line.Baseline, 0.000000001, "line.Baseline");
+				Assert.AreEqual(334.313, line.Width, 0.001, "line.Width");
+				Assert.IsFalse(line.HasOverflowed, "line.HasOverflowed");
+				Assert.AreEqual(369.876, line.WidthIncludingTrailingWhitespace, 0.001, "line.WidthIncludingTrailingWhitespace");
+				AssertTextRunSpans(
+					new int[] { 9, 1 },
+					new TextRun[] { textSource.contents[0], new TextEndOfLine(1) },
+					line);
+				Assert.AreEqual(new string[] {
+					"CollapseProps.Typeface",
+					"CollapseProps.CultureInfo",
+					"CollapseProps.FontRenderingEmSize",
+					"DefaultTextRunProperties",
+					"DefaultTextRunProperties.FontRenderingEmSize",
+					"FirstLineInParagraph",
+					"TextAlignment",
+					"TextWrapping",
+					"test test.TextDecorations",
+					"test test.CultureInfo",
+					}, log);
+				Assert.IsNull(line.GetTextLineBreak(), "GetTextLineBreak");
+				Assert.AreEqual(0, line.Start, "line.Start");
+				Assert.IsTrue(line.HasCollapsed, "line.HasCollapsed");
+				Assert.AreEqual(1, line.GetTextCollapsedRanges().Count, "GetTextCollapsedRanges");
+				Assert.AreEqual(5, line.GetTextCollapsedRanges()[0].Length, "GetTextCollapsedRanges.Length");
+				Assert.AreEqual(5, line.GetTextCollapsedRanges()[0].TextSourceCharacterIndex, "GetTextCollapsedRanges.TextSourceCharacterIndex");
+				AssertCharacterHit(line, 356.0, 5, 5);
+				AssertCharacterHit(line, 336.0, 5, 5);
+				AssertCharacterHit(line, 250.0, 5, 0);
+				AssertCharacterHit(5, 0, line.GetPreviousCaretCharacterHit(new CharacterHit(5, 5)), "previous 5,5");
+				AssertCharacterHit(4, 0, line.GetPreviousCaretCharacterHit(new CharacterHit(5, 0)), "previous 5,0");
+				AssertCharacterHit(4, 1, line.GetNextCaretCharacterHit(new CharacterHit(4, 0)), "next 4,0");
+				AssertCharacterHit(5, 5, line.GetNextCaretCharacterHit(new CharacterHit(4, 1)), "next 4,1");
+				AssertCharacterHit(5, 5, line.GetNextCaretCharacterHit(new CharacterHit(5, 0)), "next 5,0");
+				var glyphRuns = new List<IndexedGlyphRun>(line.GetIndexedGlyphRuns());
+				Assert.AreEqual(1, glyphRuns.Count, "glyphRuns.Count");
+				var glyphRun = glyphRuns[0];
+				Assert.AreEqual(0, glyphRun.TextSourceCharacterIndex, "TextSourceCharacterIndex");
+				Assert.AreEqual(5, glyphRun.TextSourceLength, "TextSourceLength");
+				var tb = line.GetTextBounds(6, 1);
+				Assert.AreEqual(1, tb.Count, "TextBounds.Count");
+				Assert.AreEqual(FlowDirection.LeftToRight, tb[0].FlowDirection, "TextBounds.FlowDirection");
+				Assert.AreEqual(241.876, tb[0].Rectangle.X, 0.001, "TextBounds.Rectangle.X");
+				Assert.AreEqual(0, tb[0].Rectangle.Y, 0.001, "TextBounds.Rectangle.Y");
+				Assert.AreEqual(0, tb[0].Rectangle.Width, 0.001, "TextBounds.Rectangle.Width");
+				Assert.AreEqual(147.186, tb[0].Rectangle.Height, 0.001, "TextBounds.Rectangle.Height");
+				Assert.IsNull(tb[0].TextRunBounds, "TextRunBounds");
+			}
+		}
+
+		[Test]
+		public void CollapseSecondWordCharTest ()
+		{
+			using (var formatter = TextFormatter.Create ())
+			{
+				List<string> log = new List<string> ();
+				var textSource = new LoggingTextSource(log);
+				textSource.AddContents("test test");
+				textSource.AddContents(new TextEndOfLine(1));
+				var textParagraphProperties = new LoggingTextParagraphProperties(log);
+				textParagraphProperties.textWrapping = TextWrapping.NoWrap;
+				var line = formatter.FormatLine (textSource, 0, 406.0, textParagraphProperties, null);
+				log.Clear();
+				var collapsed = line.Collapse (new TextTrailingCharacterEllipsis (406.0, new LoggingTextRunProperties(log, "CollapseProps")));
+				Assert.AreNotEqual(line, collapsed);
+				line = collapsed;
+				Assert.AreEqual(147.18+0.02/3.0, line.Height, "line.Height");
+				Assert.AreEqual(10, line.Length, "line.Length");
+				Assert.AreEqual(0, line.NewlineLength, "line.NewlineLength");
+				Assert.AreEqual(117.97, line.Baseline, 0.000000001, "line.Baseline");
+				Assert.AreEqual(405.44, line.Width, 0.001, "line.Width");
+				Assert.IsFalse(line.HasOverflowed, "line.HasOverflowed");
+				Assert.AreEqual(405.44, line.WidthIncludingTrailingWhitespace, 0.001, "line.WidthIncludingTrailingWhitespace");
+				AssertTextRunSpans(
+					new int[] { 9, 1 },
+					new TextRun[] { textSource.contents[0], new TextEndOfLine(1) },
+					line);
+				Assert.AreEqual(new string[] {
+					"CollapseProps.Typeface",
+					"CollapseProps.CultureInfo",
+					"CollapseProps.FontRenderingEmSize",
+					"DefaultTextRunProperties",
+					"DefaultTextRunProperties.FontRenderingEmSize",
+					"FirstLineInParagraph",
+					"TextAlignment",
+					"TextWrapping",
+					"test test.TextDecorations",
+					"test test.CultureInfo",
+					}, log);
+				Assert.IsNull(line.GetTextLineBreak(), "GetTextLineBreak");
+				Assert.AreEqual(0, line.Start, "line.Start");
+				Assert.IsTrue(line.HasCollapsed, "line.HasCollapsed");
+				Assert.AreEqual(1, line.GetTextCollapsedRanges().Count, "GetTextCollapsedRanges");
+				Assert.AreEqual(4, line.GetTextCollapsedRanges()[0].Length, "GetTextCollapsedRanges.Length");
+				Assert.AreEqual(6, line.GetTextCollapsedRanges()[0].TextSourceCharacterIndex, "GetTextCollapsedRanges.TextSourceCharacterIndex");
+				AssertCharacterHit(line, 406.0, 6, 4);
+				AssertCharacterHit(line, 386.0, 6, 4);
+				AssertCharacterHit(line, 280.0, 6, 0);
+				AssertCharacterHit(6, 0, line.GetPreviousCaretCharacterHit(new CharacterHit(6, 4)), "previous 6,4");
+				AssertCharacterHit(5, 0, line.GetPreviousCaretCharacterHit(new CharacterHit(6, 0)), "previous 6,0");
+				AssertCharacterHit(5, 1, line.GetNextCaretCharacterHit(new CharacterHit(5, 0)), "next 5,0");
+				AssertCharacterHit(6, 4, line.GetNextCaretCharacterHit(new CharacterHit(5, 1)), "next 5,1");
+				AssertCharacterHit(6, 4, line.GetNextCaretCharacterHit(new CharacterHit(6, 0)), "next 6,0");
+				var glyphRuns = new List<IndexedGlyphRun>(line.GetIndexedGlyphRuns());
+				Assert.AreEqual(1, glyphRuns.Count, "glyphRuns.Count");
+				var glyphRun = glyphRuns[0];
+				Assert.AreEqual(0, glyphRun.TextSourceCharacterIndex, "TextSourceCharacterIndex");
+				Assert.AreEqual(6, glyphRun.TextSourceLength, "TextSourceLength");
+				var tb = line.GetTextBounds(6, 1);
+				Assert.AreEqual(1, tb.Count, "TextBounds.Count");
+				Assert.AreEqual(FlowDirection.LeftToRight, tb[0].FlowDirection, "TextBounds.FlowDirection");
+				Assert.AreEqual(277.44, tb[0].Rectangle.X, 0.001, "TextBounds.Rectangle.X");
+				Assert.AreEqual(0, tb[0].Rectangle.Y, 0.001, "TextBounds.Rectangle.Y");
+				Assert.AreEqual(0, tb[0].Rectangle.Width, 0.001, "TextBounds.Rectangle.Width");
+				Assert.AreEqual(147.186, tb[0].Rectangle.Height, 0.001, "TextBounds.Rectangle.Height");
+				Assert.IsNull(tb[0].TextRunBounds, "TextRunBounds");
 			}
 		}
 	}

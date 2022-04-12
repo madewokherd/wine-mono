@@ -1717,6 +1717,11 @@ MonoTests.System.Windows.Forms.EventArgsTest:TestToolStripGripRenderEventArgs # 
 MonoTests.System.Windows.Forms.ToolStripTests:Constructor # ToolStripGrip is larger when themes are enabled
 MonoTests.System.Windows.Forms.ToolStripTests:ProtectedProperties # ToolStripGrip is larger when themes are enabled
 MonoTests.System.Windows.Forms.ToolStripTests:TestToolStrip # ToolStripGrip is larger when themes are enabled
+WineMono.Tests.System.Windows.Media.TextFormatting.TextFormatterTest:CollapseFirstWordCharTest
+WineMono.Tests.System.Windows.Media.TextFormatting.TextFormatterTest:CollapseFirstWordTest
+WineMono.Tests.System.Windows.Media.TextFormatting.TextFormatterTest:CollapseNullTest
+WineMono.Tests.System.Windows.Media.TextFormatting.TextFormatterTest:CollapseSecondWordCharTest
+WineMono.Tests.System.Windows.Media.TextFormatting.TextFormatterTest:CollapseSecondWordTest
 # definitely unreliable:
 delegate2
 x86_64.MonoTests.System.Threading.ThreadLocalTests:DisposeOnThreadExit
