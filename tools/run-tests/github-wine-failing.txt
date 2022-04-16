@@ -2,3 +2,4 @@
 MonoTests.Features.Serialization.AsyncCallTest:TestAsyncCall
 MonoTests.Features.Serialization.AsyncCallTest
 MonoTests.System.Net.HttpListenerRequestTest:HttpRequestIsLocal
+MonoTests.System.Windows.Forms.ScrollableControlTest:MethodScrollToControl
