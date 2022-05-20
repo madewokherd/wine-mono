@@ -42,8 +42,10 @@ IMAGE_SUPPORT_FILES += $(foreach arch,Framework Framework64,$(BUILDDIR)/image-su
 $(BUILDDIR)/.supportemptydirs: $(SRCDIR)/support.make
 	mkdir -p $(BUILDDIR)/image-support/Microsoft.NET/Framework/v3.0/wpf
 	mkdir -p $(BUILDDIR)/image-support/Microsoft.NET/Framework/v3.0/"windows communication foundation"
+	mkdir -p $(BUILDDIR)/image-support/Microsoft.NET/Framework/v3.5
 	mkdir -p $(BUILDDIR)/image-support/Microsoft.NET/Framework64/v3.0/wpf
 	mkdir -p $(BUILDDIR)/image-support/Microsoft.NET/Framework64/v3.0/"windows communication foundation"
+	mkdir -p $(BUILDDIR)/image-support/Microsoft.NET/Framework64/v3.5
 	mkdir -p $(BUILDDIR)/image-support/Microsoft.NET/"DirectX for Managed Code"
 	touch $@
 IMAGE_SUPPORT_FILES += $(BUILDDIR)/.supportemptydirs
