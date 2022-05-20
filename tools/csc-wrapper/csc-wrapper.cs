@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Threading;
 
 class CscWrapper
@@ -13,29 +14,72 @@ class CscWrapper
 	const string VERSION_STRING = "4.0-api";
 #endif
 
+	[DllImport("kernel32", CallingConvention=CallingConvention.StdCall, SetLastError=true)]
+	extern static uint GetConsoleCP();
+
+	[DllImport("kernel32", CallingConvention=CallingConvention.StdCall, SetLastError=true)]
+	extern static IntPtr GetStdHandle(int nStdHandle);
+
+	const int STD_INPUT_HANDLE = -10;
+	const int STD_OUTPUT_HANDLE = -11;
+	const int STD_ERROR_HANDLE = -12;
+
+	[StructLayout(LayoutKind.Sequential, CharSet=CharSet.Unicode)]
+	struct STARTUPINFOW
+	{
+		public uint cb;
+		public string lpReserved;
+		public string lpDesktop;
+		public string lpTitle;
+		public uint dwX;
+		public uint dwY;
+		public uint dwXSize;
+		public uint dwYSize;
+		public uint dwXCountChars;
+		public uint dwYCountChars;
+		public uint dwFillAttribute;
+		public uint dwFlags;
+		public ushort wShowWindow;
+		public ushort cbReserved2;
+		public IntPtr lpReserved2;
+		public IntPtr hStdInput;
+		public IntPtr hStdOutput;
+		public IntPtr hStdError;
+	}
+
+	const uint STARTF_USESTDHANDLES = 0x00000100;
+
+	[StructLayout(LayoutKind.Sequential)]
+	struct PROCESS_INFORMATION
+	{
+		public IntPtr hProcess;
+		public IntPtr hThread;
+		public uint dwProcessId;
+		public uint dwThreadId;
+	}
+
+	[DllImport("kernel32", CallingConvention=CallingConvention.StdCall, CharSet=CharSet.Unicode, SetLastError=true)]
+	extern static bool CreateProcessW(string lpApplicationName, char[] lpCommandLine, IntPtr lpProcessAttributes,
+		IntPtr lpThreadAttributes, bool bInheritHandles, uint dwCreationFlags, IntPtr lpEnvironment,
+		string lpCurrentDirectory, ref STARTUPINFOW lpStartupInfo, ref PROCESS_INFORMATION lpProcessInformation);
+
+	const uint CREATE_NO_WINDOW = 0x08000000;
+
+	[DllImport("kernel32", CallingConvention=CallingConvention.StdCall)]
+	extern static uint WaitForSingleObject(IntPtr hHandle, uint dwMilliseconds);
+
+	const uint INFINITE = 0xffffffff;
+
+	[DllImport("kernel32", CallingConvention=CallingConvention.StdCall)]
+	extern static bool CloseHandle(IntPtr hObject);
+
+	[DllImport("kernel32", CallingConvention=CallingConvention.StdCall)]
+	extern static bool GetExitCodeProcess(IntPtr hProcess, ref int lpExitCode);
+
 	static string GetCorlibName()
 	{
 		Assembly corlib = Assembly.ReflectionOnlyLoad("mscorlib");
 		return corlib.Location;
-	}
-
-	static void ForwardData(StreamReader reader, TextWriter writer)
-	{
-		string line;
-		while ((line = reader.ReadLine()) != null)
-		{
-			writer.WriteLine(line);
-		}
-	}
-
-	static void ForwardOutput(object reader)
-	{
-		ForwardData((StreamReader)reader, Console.Out);
-	}
-
-	static void ForwardError(object reader)
-	{
-		ForwardData((StreamReader)reader, Console.Error);
 	}
 
 	static int Main(string[] arguments)
@@ -55,32 +99,46 @@ class CscWrapper
 		string mcs_name = Path.Combine(current_lib, "mcs.exe");
 		corlib = Path.Combine(api_lib, "mscorlib.dll");
 
-		var versionArguments = "";
+		var versionArguments = mcs_name;
 		if (addStdlib)
 			versionArguments = String.Format("/nostdlib \"/r:{0}\" \"/lib:{1}\" ", corlib, api_lib);
 
-		var process = new Process();
-		process.StartInfo.FileName = mcs_name;
-		process.StartInfo.Arguments = versionArguments + String.Join(" ", arguments);
-		process.StartInfo.CreateNoWindow = true;
-		process.StartInfo.UseShellExecute = false;
-		process.StartInfo.RedirectStandardInput = true;
-		process.StartInfo.RedirectStandardOutput = true;
-		process.StartInfo.RedirectStandardError = true;
-		process.Start();
+		var commandLine = String.Format("\"{0}\" {1}{2}", mcs_name, versionArguments, String.Join(" ", arguments));
 
-		process.StandardInput.Close();
+		uint flags = 0;
 
-		Thread output_thread = new Thread(ForwardOutput);
-		output_thread.Start(process.StandardOutput);
+		var si = new STARTUPINFOW();
+		si.cb = (uint)Marshal.SizeOf(si);
+		
+		if (GetConsoleCP() == 0)
+		{
+			// This process was created without a console. We don't want mcs.exe to create a console,
+			// but this seems to be the only way to pass through the handles, so just hide the window.
+			flags |= CREATE_NO_WINDOW;
+			si.dwFlags |= STARTF_USESTDHANDLES;
+			si.hStdInput = GetStdHandle(STD_INPUT_HANDLE);
+			si.hStdOutput = GetStdHandle(STD_OUTPUT_HANDLE);
+			si.hStdError = GetStdHandle(STD_ERROR_HANDLE);
+		}
 
-		Thread error_thread = new Thread(ForwardError);
-		error_thread.Start(process.StandardError);
+		var pi = new PROCESS_INFORMATION();
 
-		process.WaitForExit();
-		output_thread.Join();
-		error_thread.Join();
-		return process.ExitCode;
+		if (!CreateProcessW(mcs_name, (commandLine+"\0").ToCharArray(), IntPtr.Zero, IntPtr.Zero, true, flags, IntPtr.Zero, null, ref si, ref pi))
+		{
+			throw new Exception(String.Format("CreateProcessW failed with error {0}", Marshal.GetLastWin32Error()));
+		}
+
+		CloseHandle(pi.hThread);
+
+		WaitForSingleObject(pi.hProcess, INFINITE);
+
+		int exit_code = 1;
+
+		GetExitCodeProcess(pi.hProcess, ref exit_code);
+
+		CloseHandle(pi.hProcess);
+
+		return exit_code;
 	}
 }
 
