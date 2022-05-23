@@ -549,7 +549,6 @@ x86.MonoTests.System.IO.DirectoryTest:CreateDirectoryRelativePath
 x86.MonoTests.System.IO.DirectoryTest:EnumerateFilesListSymlinks
 x86.MonoTests.System.IO.DirectoryTest:ExistsAccessDenied
 x86.MonoTests.System.IO.DirectoryTest:ResolvePathBeforeDirectoryExists
-x86.MonoTests.System.IO.DriveInfoTest:GetDrivesValidInfo
 x86.MonoTests.System.IO.FileInfoTest:Serialization
 x86.MonoTests.System.IO.FileSystemInfoTest:Serialization
 x86.MonoTests.System.IO.IsolatedStorageTest.IsolatedStorageFileTest:GetUserStoreForDomain
@@ -3108,7 +3107,6 @@ x86_64.MonoTests.System.IO.DirectoryTest:CreateDirectoryRelativePath
 x86_64.MonoTests.System.IO.DirectoryTest:EnumerateFilesListSymlinks
 x86_64.MonoTests.System.IO.DirectoryTest:ExistsAccessDenied
 x86_64.MonoTests.System.IO.DirectoryTest:ResolvePathBeforeDirectoryExists
-x86_64.MonoTests.System.IO.DriveInfoTest:GetDrivesValidInfo
 x86_64.MonoTests.System.IO.FileInfoTest:Serialization
 x86_64.MonoTests.System.IO.FileSystemInfoTest:Serialization
 x86_64.MonoTests.System.IO.IsolatedStorageTest.IsolatedStorageFileTest:GetUserStoreForDomain
@@ -5556,3 +5554,4 @@ MonoTests.System.ServiceModel.Discovery.IntegratedDiscoveryTest:UseCase3
 MonoTests.System.ServiceModel.Discovery.IntegratedDiscoveryTest
 MonoTests.System.Globalization.CompareInfoTest:GetSortKeyIgnoreNonSpaceKana # fails on Windows Server 2022
 MonoTests.System.Net.HttpWebRequestTest:LastModifiedKind # depends on external web service
+MonoTests.System.IO.DriveInfoTest:GetDrivesValidInfo # fails in virtualbox, works in github CI ?
