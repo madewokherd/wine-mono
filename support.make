@@ -39,6 +39,18 @@ $(foreach arch,Framework Framework64,$(BUILDDIR)/image-support/Microsoft.NET/$(a
 	$(MONO_ENV) mcs $(SRCDIR)/tools/csc-wrapper/csc-wrapper.cs /d:VERSION40 -out:$@ -r:Mono.Posix
 IMAGE_SUPPORT_FILES += $(foreach arch,Framework Framework64,$(BUILDDIR)/image-support/Microsoft.NET/$(arch)/v4.0.30319/csc.exe)
 
+# installutil.exe
+$(foreach version,v2.0.50727 v4.0.30319,$(BUILDDIR)/image-support/Microsoft.NET/Framework/$(version)/installutil.exe): $(BUILDDIR)/mono-unix/.installed $(BUILDDIR)/fixupclr.exe
+	mkdir -p $(@D)
+	cp $(BUILDDIR)/mono-win32-install/lib/mono/4.5/installutil.exe $@
+	$(WINE) $(BUILDDIR)/fixupclr.exe x86 $@
+IMAGE_SUPPORT_FILES += $(foreach version,v2.0.50727 v4.0.30319,$(BUILDDIR)/image-support/Microsoft.NET/Framework/$(version)/installutil.exe)
+
+$(foreach version,v2.0.50727 v4.0.30319,$(BUILDDIR)/image-support/Microsoft.NET/Framework64/$(version)/installutil.exe): $(BUILDDIR)/mono-unix/.installed
+	mkdir -p $(@D)
+	cp $(BUILDDIR)/mono-win32-install/lib/mono/4.5/installutil.exe $@
+IMAGE_SUPPORT_FILES += $(foreach version,v2.0.50727 v4.0.30319,$(BUILDDIR)/image-support/Microsoft.NET/Framework64/$(version)/installutil.exe)
+
 $(BUILDDIR)/.supportemptydirs: $(SRCDIR)/support.make
 	mkdir -p $(BUILDDIR)/image-support/Microsoft.NET/Framework/v3.0/wpf
 	mkdir -p $(BUILDDIR)/image-support/Microsoft.NET/Framework/v3.0/"windows communication foundation"
