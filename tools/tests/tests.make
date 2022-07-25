@@ -1,6 +1,7 @@
 
 TEST_CS_EXE_SRCS = \
 	arraypadding.cs \
+	configuration-with-defaults.cs \
 	direct3dadapter.cs \
 	dllimport-cctor.cs \
 	dllimport-preload.cs \
@@ -36,6 +37,7 @@ TEST_CS_EXE_SRCS = \
 	wpfclipboard.cs
 
 TEST_RAW_FILES = \
+	configuration-with-defaults.exe.config \
 	mixedmode-managedcaller.exe.config \
 	mixedmode-dllimport-0.exe.config \
 	mixedmode-dllimport-assemblydirectory.exe.config \
