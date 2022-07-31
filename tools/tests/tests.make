@@ -30,6 +30,7 @@ TEST_CS_EXE_SRCS = \
 	unmanaged-configpath.cs \
 	valist.cs \
 	vbstartup.cs \
+	vtblgap.cs \
 	webbrowsertest.cs \
 	winemono-ccw.cs \
 	wpfclipboard.cs
@@ -162,6 +163,8 @@ tools-tests-install: tools-tests-all $(BUILDDIR)/fixupclr.exe
 	cp vstests/x64/Release/mixedmodelibrary.dll $(TESTS_OUTDIR)/tests-x86_64/vstests-native/vstests-mixed
 	cp build/winemonotest-x86.dll $(TESTS_OUTDIR)/tests-x86/winemonotest.dll
 	cp build/winemonotest-x86_64.dll $(TESTS_OUTDIR)/tests-x86_64/winemonotest.dll
+	cp build/vtblgap-lib-x86.dll $(TESTS_OUTDIR)/tests-x86/vtblgap-lib.dll
+	cp build/vtblgap-lib-x86_64.dll $(TESTS_OUTDIR)/tests-x86_64/vtblgap-lib.dll
 .PHONY: tools-tests-install
 
 tests: tools-tests-install
@@ -202,6 +205,16 @@ clean-winemonotest-$(1):
 	rm -f $$(BUILDDIR)/winemonotest-$(1).dll
 .PHONY: clean-winemonotest-$(1)
 clean-build: clean-winemonotest-$(1)
+
+$$(BUILDDIR)/vtblgap-lib-$(1).dll: $$(SRCDIR)/tools/tests/vtblgap-lib.cpp $$(MINGW_DEPS)
+	$$(MINGW_ENV) $$(MINGW_$(1))-g++ -shared -luuid -lole32 $$< -static-libgcc -static-libstdc++ -o $$@
+
+tools-tests-all: $$(BUILDDIR)/vtblgap-lib-$(1).dll
+
+clean-vtblgap-lib-$(1):
+	rm -f $$(BUILDDIR)/vtblgap-lib-$(1).dll
+.PHONY: clean-vtblgap-lib-$(1)
+clean-build: clean-vtblgap-lib-$(1)
 
 endef
 
