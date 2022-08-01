@@ -110,7 +110,7 @@ endif
 
 # installinf.exe
 $$(BUILDDIR)/installinf-$(1).exe: $$(SRCDIR)/tools/installinf/installinf.c $$(MINGW_DEPS)
-	$$(MINGW_ENV) $$(MINGW_$(1))-gcc $$< -lsetupapi -municode -o $$@ $$(PDB_CFLAGS_$(1)) $$(PDB_LDFLAGS_$(1))
+	$$(MINGW_ENV) $$(MINGW_$(1))-gcc $$< -lsetupapi -municode -mwindows -o $$@ $$(PDB_CFLAGS_$(1)) $$(PDB_LDFLAGS_$(1))
 
 support-installinf-$(1): $$(BUILDDIR)/installinf-$(1).exe
 	mkdir -p $$(IMAGEDIR)/support/
