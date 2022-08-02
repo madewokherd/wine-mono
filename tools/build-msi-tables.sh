@@ -68,7 +68,7 @@ rm -rf "${CONTENTDIR}"
 SEQ=0
 rm -f "${TABLEDIR}/sequence"
 
-${WINE} cabarc L "$IMAGECABWINPATH" | dos2unix | sed -e "$FILEKEY_REV_EXPR" | while read -r f; do
+${WINE} cabarc L "$IMAGECABWINPATH" | sed 's/\r//' | sed -e "$FILEKEY_REV_EXPR" | while read -r f; do
     FILEKEY=`echo $f|sed -e "$FILEKEY_EXPR"`
     FILESIZE=`ls -l "$f" | awk '{print $5}'`
     PARENT=`dirname "$f"`

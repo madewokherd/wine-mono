@@ -22,7 +22,6 @@ To build Wine Mono, you will need the following:
  * Wine, for the winemsibuilder and cabarc commands. A 32-bit Wine is not necessary, despite the warnings when running 64-bit Wine.
  * Python, to support the build system.
  * libgdiplus, to support Mono's resource compiler.
- * The dos2unix command.
  * Optional: The zip or 7z command, for the tests-zip target only.
 
 When using the Vagrant build VM, only Vagrant is required on the host machine.

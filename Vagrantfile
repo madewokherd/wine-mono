@@ -22,6 +22,6 @@ Vagrant.configure(2) do |config|
     apt-get update
 	# --no-install-recommends to avoid corefonts which needs eula
     apt-get install -y --no-install-recommends wine-stable
-	apt-get install -y mono-mcs autoconf libtool gettext python libtool-bin cmake dos2unix libgdiplus zip g++
+	apt-get install -y mono-mcs autoconf libtool gettext python libtool-bin cmake libgdiplus zip g++
   SHELL
 end
