@@ -24,7 +24,7 @@ namespace System.Speech.Recognition.SrgsGrammar
         }
         protected override string GetKeyForItem(SrgsRule rule)
         {
-            ArgumentNullException.ThrowIfNull(rule);
+            Helpers.ThrowIfNull(rule, "rule");
 
             return rule.Id;
         }

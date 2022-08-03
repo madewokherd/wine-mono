@@ -72,7 +72,7 @@ namespace System.Speech.Internal.Synthesis
                     _waveHdr.lpData = _gcHandle.AddrOfPinnedObject();
                     _waveHdr.dwBufferLength = (uint)_dwBufferLength;
                     _waveHdr.dwBytesRecorded = 0;
-                    _waveHdr.dwUser = 0;
+                    _waveHdr.dwUser = IntPtr.Zero;
                     _waveHdr.dwFlags = 0;
                     _waveHdr.dwLoops = 0;
                     _waveHdr.lpNext = IntPtr.Zero;
