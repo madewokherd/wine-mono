@@ -6,6 +6,7 @@ using System.Globalization;
 using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Speech.Internal;
 using System.Speech.Internal.SapiInterop;
 
 namespace System.Speech.Internal.ObjectTokens
@@ -18,7 +19,7 @@ namespace System.Speech.Internal.ObjectTokens
         protected ObjectToken(ISpObjectToken sapiObjectToken, bool disposeSapiToken)
             : base(sapiObjectToken)
         {
-            ArgumentNullException.ThrowIfNull(sapiObjectToken);
+            Helpers.ThrowIfNull(sapiObjectToken, "sapiObjectToken");
 
             _sapiObjectToken = sapiObjectToken;
             _disposeSapiObjectToken = disposeSapiToken;

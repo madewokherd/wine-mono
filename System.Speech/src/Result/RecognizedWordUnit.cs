@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.Diagnostics;
+using System.Speech.Internal;
 
 namespace System.Speech.Recognition
 {
@@ -18,7 +19,7 @@ namespace System.Speech.Recognition
         // Constructor for recognized 'word'
         public RecognizedWordUnit(string text, float confidence, string pronunciation, string lexicalForm, DisplayAttributes displayAttributes, TimeSpan audioPosition, TimeSpan audioDuration)
         {
-            ArgumentNullException.ThrowIfNull(lexicalForm);
+			Helpers.ThrowIfNull(lexicalForm, "lexicalForm");
 
             if (confidence < 0.0f || confidence > 1.0f)
             {
