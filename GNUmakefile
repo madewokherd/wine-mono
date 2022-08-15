@@ -154,6 +154,7 @@ include winforms-datavisualization.make
 include directoryservices-accountmanagement.make
 include wpf.make
 include monodx.make
+include system-speech.make
 include support.make
 
 include tools/tests/tests.make
