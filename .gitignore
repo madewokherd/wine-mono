@@ -17,3 +17,7 @@
 /directoryservices-accountmanagement/SR.generated.cs
 /directoryservices-accountmanagement/System.DirectoryServices.AccountManagement.dll
 /directoryservices-accountmanagement/embeddedresources.flags
+/System.Speech/src/.built
+/System.Speech/src/ExceptionStringTable.resources
+/System.Speech/src/System.Speech.dll
+/System.Speech/src/embeddedresources.flags
