@@ -112,7 +112,7 @@ jobs:
         sudo add-apt-repository 'deb https://dl.winehq.org/wine-builds/ubuntu/ focal main' 1>&2
         sudo apt update 1>&2
         sudo apt install -y --allow-downgrades libpcre2-8-0:i386 libpcre2-8-0=10.34-7 || true
-        sudo apt install --install-recommends -y --allow-downgrades winehq-devel wine-devel wine-devel-i386 libgphoto2-6:i386 libsane:i386 1>&2
+        sudo apt install --install-recommends -y --allow-downgrades winehq-devel wine-devel wine-devel-i386 libgphoto2-6:i386 libsane:i386 libgd3:i386 1>&2
     - name: Download Wine Mono msi
       uses: actions/download-artifact@v2
       with:
