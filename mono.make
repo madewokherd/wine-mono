@@ -203,6 +203,7 @@ $(BUILDDIR)/mono-unix/builtin-types-32.exe: $(SRCDIR)/mono/mono/mini/builtin-typ
 tests-clr: $(BUILDDIR)/mono-unix/.built-clr-tests $(BUILDDIR)/nunitlite.dll $(BUILDDIR)/fixupclr.exe
 	mkdir -p $(TESTS_OUTDIR)/tests-clr
 	cp $(SRCDIR)/mono/mcs/class/lib/net_4_x/tests/*_test.dll $(SRCDIR)/mono/mcs/class/lib/net_4_x/nunit* $(TESTS_OUTDIR)/tests-clr
+	cp $(SRCDIR)/mono/mcs/class/lib/net_4_x/tests/*_test.dll.nunitlite.config $(TESTS_OUTDIR)/tests-clr
 	cp $(BUILDDIR)/nunitlite.* $(TESTS_OUTDIR)/tests-clr
 	mkdir -p $(TESTS_OUTDIR)/tests-clr/Test/System.Drawing
 	cp -r $(SRCDIR)/mono/mcs/class/System.Drawing/Test/System.Drawing/bitmaps $(TESTS_OUTDIR)/tests-clr/Test/System.Drawing

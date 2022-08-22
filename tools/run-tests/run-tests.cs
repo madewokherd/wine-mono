@@ -473,6 +473,11 @@ class RunTests
 		if (fixtures == null)
 			return;
 
+		bool copied_config = false;
+
+		string nunitlite_config = filename+".nunitlite.config";
+		string exe_config = null;
+
 		foreach (var t in fixtures)
 		{
 			string testfixture = t.Item1;
@@ -480,8 +485,18 @@ class RunTests
 
 			if (should_run_fixture(testfixture, arch, run_all))
 			{
+				if (!copied_config && File.Exists(nunitlite_config)) {
+					exe_config = get_nunit_lite_console(arch)+".config";
+					File.Copy(nunitlite_config, exe_config, true);
+					copied_config = true;
+				}
+
 				run_clr_test_fixture(filename, testfixture, arch, testlist, run_all);
 			}
+		}
+
+		if (copied_config) {
+			File.Delete(exe_config);
 		}
 	}
 
