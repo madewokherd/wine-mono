@@ -1221,7 +1221,6 @@ x86.LDAPConnectionRefusedNUnit.Test
 x86.MonoTests.System.ComponentModel.DataAnnotations.RangeAttributeTest:IsValid
 x86.MonoTests.System.Configuration.AppSettingsSectionTest:TestFile
 x86.MonoTests.System.Configuration.AppSettingsSectionTest
-x86.MonoTests.System.Configuration.ConfigurationManagerTest:TestConnectionStringRetrieval
 x86.MonoTests.System.Linq.EnumerableFixture:OrderBy_KeySelector_ArrayOfPersons_PersonsAreOrderedByAge
 x86.MonoTests.System.Linq.Expressions.ExpressionTest_Convert:ConvertBackwardAssignability
 x86.MonoTests.System.Linq.Expressions.ExpressionTest_Convert:ConvertCheckedInt32ToInt64
@@ -1253,15 +1252,11 @@ x86.MonoTests.System.Data.OracleClient.OracleParameterTest:Constructor2
 x86.MonoTests.System.Data.OracleClient.OracleParameterTest:ParamSize_424908_ConstructorSizeSetTest
 x86.MonoTests.System.Data.OracleClient.OracleParameterTest:ParamSize_424908_SizeNotSetError
 x86.MonoTests.System.Data.OracleClient.OracleParameterTest:ParamSize_424908_ValueError
-x86.MonoTests.System.Configuration.ConnectionStringsSectionTest:GetConfigTest
-x86.MonoTests.System.Configuration.ConnectionStringsSectionTest
 x86.MonoTests.System.Data.BinarySerializationTest:Constraint_Relations_Test2
 x86.MonoTests.System.Data.BinarySerializationTest:DataSetSerializationTest2
 x86.MonoTests.System.Data.BinarySerializationTest:DataTableSerializationTest2
 x86.MonoTests.System.Data.BinarySerializationTest:Test_With_DateTime_Values2
 x86.MonoTests.System.Data.Common.DbConnectionStringBuilderTest:ICTD_GetClassNameTest
-x86.MonoTests.System.Data.Common.DbProviderFactoriesConfigurationHandlerTest:GetConfigTest
-x86.MonoTests.System.Data.Common.DbProviderFactoriesConfigurationHandlerTest:PopulateTest
 x86.MonoTests.System.Data.Common.DbProviderFactoriesConfigurationHandlerTest:PopulateTest_Machine
 x86.MonoTests.System.Data.Connected.Odbc.OdbcDataAdapterTest
 x86.MonoTests.System.Data.DataSetInferXmlSchemaTest:ComplexElementTable1
@@ -2596,8 +2591,6 @@ x86.MonoTests.System.Diagnostics.PerformanceCounterTest:PerformanceCounter_Insta
 x86.MonoTests.System.Diagnostics.PerformanceCounterTest
 x86.MonoTests.System.Diagnostics.ProcessTest:GetProcesses_StartTime
 x86.MonoTests.System.Diagnostics.ProcessTest:Modules
-x86.MonoTests.System.Diagnostics.SwitchesTest:BooleanSwitches
-x86.MonoTests.System.Diagnostics.SwitchesTest:TraceSwitches
 x86.MonoTests.System.IO.FileSystemWatcherTest:CheckDefaults
 x86.MonoTests.System.Net.DnsTest:GetHostAddresses_IPv6
 x86.MonoTests.System.Net.DnsTest:GetHostByAddressString2
@@ -2634,7 +2627,6 @@ x86.MonoTests.System.Net.FileWebResponseTest:GetResponseStream
 x86.MonoTests.System.Net.FileWebResponseTest:Headers
 x86.MonoTests.System.Net.FileWebResponseTest:ResponseUri
 x86.MonoTests.System.Net.FileWebResponseTest
-x86.MonoTests.System.Net.HttpListener2Test
 x86.MonoTests.System.Net.HttpRequestStreamTest:CanWrite
 x86.MonoTests.System.Net.HttpRequestStreamTest:Write_Count_Negative
 x86.MonoTests.System.Net.HttpRequestStreamTest:Write_Count_Overflow
@@ -3786,7 +3778,6 @@ x86_64.LDAPConnectionRefusedNUnit.Test
 x86_64.MonoTests.System.ComponentModel.DataAnnotations.RangeAttributeTest:IsValid
 x86_64.MonoTests.System.Configuration.AppSettingsSectionTest:TestFile
 x86_64.MonoTests.System.Configuration.AppSettingsSectionTest
-x86_64.MonoTests.System.Configuration.ConfigurationManagerTest:TestConnectionStringRetrieval
 x86_64.MonoTests.System.Linq.EnumerableFixture:OrderBy_KeySelector_ArrayOfPersons_PersonsAreOrderedByAge
 x86_64.MonoTests.System.Linq.Expressions.ExpressionTest_Convert:ConvertBackwardAssignability
 x86_64.MonoTests.System.Linq.Expressions.ExpressionTest_Convert:ConvertCheckedInt32ToInt64
@@ -3818,15 +3809,11 @@ x86_64.MonoTests.System.Data.OracleClient.OracleParameterTest:Constructor2
 x86_64.MonoTests.System.Data.OracleClient.OracleParameterTest:ParamSize_424908_ConstructorSizeSetTest
 x86_64.MonoTests.System.Data.OracleClient.OracleParameterTest:ParamSize_424908_SizeNotSetError
 x86_64.MonoTests.System.Data.OracleClient.OracleParameterTest:ParamSize_424908_ValueError
-x86_64.MonoTests.System.Configuration.ConnectionStringsSectionTest:GetConfigTest
-x86_64.MonoTests.System.Configuration.ConnectionStringsSectionTest
 x86_64.MonoTests.System.Data.BinarySerializationTest:Constraint_Relations_Test2
 x86_64.MonoTests.System.Data.BinarySerializationTest:DataSetSerializationTest2
 x86_64.MonoTests.System.Data.BinarySerializationTest:DataTableSerializationTest2
 x86_64.MonoTests.System.Data.BinarySerializationTest:Test_With_DateTime_Values2
 x86_64.MonoTests.System.Data.Common.DbConnectionStringBuilderTest:ICTD_GetClassNameTest
-x86_64.MonoTests.System.Data.Common.DbProviderFactoriesConfigurationHandlerTest:GetConfigTest
-x86_64.MonoTests.System.Data.Common.DbProviderFactoriesConfigurationHandlerTest:PopulateTest
 x86_64.MonoTests.System.Data.Common.DbProviderFactoriesConfigurationHandlerTest:PopulateTest_Machine
 x86_64.MonoTests.System.Data.Connected.Odbc.OdbcDataAdapterTest
 x86_64.MonoTests.System.Data.DataSetInferXmlSchemaTest:ComplexElementTable1
@@ -5184,8 +5171,6 @@ x86_64.MonoTests.System.Diagnostics.PerformanceCounterTest:PerformanceCounter_In
 x86_64.MonoTests.System.Diagnostics.PerformanceCounterTest
 x86_64.MonoTests.System.Diagnostics.ProcessTest:GetProcesses_StartTime
 x86_64.MonoTests.System.Diagnostics.ProcessTest:Modules
-x86_64.MonoTests.System.Diagnostics.SwitchesTest:BooleanSwitches
-x86_64.MonoTests.System.Diagnostics.SwitchesTest:TraceSwitches
 x86_64.MonoTests.System.IO.FileSystemWatcherTest:CheckDefaults
 x86_64.MonoTests.System.Net.DnsTest:GetHostAddresses_IPv6
 x86_64.MonoTests.System.Net.DnsTest:GetHostByAddressString2
@@ -5222,7 +5207,6 @@ x86_64.MonoTests.System.Net.FileWebResponseTest:GetResponseStream
 x86_64.MonoTests.System.Net.FileWebResponseTest:Headers
 x86_64.MonoTests.System.Net.FileWebResponseTest:ResponseUri
 x86_64.MonoTests.System.Net.FileWebResponseTest
-x86_64.MonoTests.System.Net.HttpListener2Test
 x86_64.MonoTests.System.Net.HttpRequestStreamTest:CanWrite
 x86_64.MonoTests.System.Net.HttpRequestStreamTest:Write_Count_Negative
 x86_64.MonoTests.System.Net.HttpRequestStreamTest:Write_Count_Overflow
@@ -5420,6 +5404,22 @@ MonoTests.System.Drawing.PenTest:Width
 MonoTests.System.Runtime.Serialization.DataContractSerializerTestBugs:KeyPairOfAny
 MonoTests.System.Runtime.Serialization.Json.JsonWriterTest:WriteWhitespace
 MonoTests.System.Runtime.Serialization.XsdDataContractImporterTest2:TestCustomCollection2
+MonoTests.System.Threading.ThreadTest:TestApartmentState
+MonoTests.System.Threading.ThreadTest:TestIsBackground1
+MonoTests.System.Threading.ThreadTest:TestName
+MonoTests.System.Threading.ThreadTest:TestNestedThreads1
+MonoTests.System.Threading.ThreadTest:TestPriority1
+MonoTests.System.Threading.ThreadTest:TestPriority3
+MonoTests.System.Threading.ThreadTest:TestStart
+MonoTests.System.Threading.ThreadTest:TestSuspend
+MonoTests.System.Threading.ThreadTest:TestThreadState
+MonoTests.System.Configuration.ConfigurationManagerTest:OpenExeConfiguration1_UserLevel_None
+MonoTests.System.Configuration.ConfigurationManagerTest:mapped_ExeConfiguration_null
+MonoTests.System.Net.HttpListener2Test:MultiResponses
+MonoTests.System.Net.HttpListener2Test:ReceiveCookiesFromClient
+MonoTests.System.Net.HttpListener2Test:SendCookiestoClient
+MonoTests.System.Net.HttpListener2Test:Test2
+MonoTests.System.Net.HttpListener2Test:Test3
 # unreliable:
 x86.thread-exit
 MonoTests.System.Threading.Tasks.TaskTests:DoubleWaitTest
