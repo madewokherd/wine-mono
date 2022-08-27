@@ -1,3 +1,15 @@
+#!/bin/bash
+
+"""true"
+
+if which python3 >/dev/null; then
+	exec python3 "$0" "$@"
+else
+	exec python "$0" "$@"
+fi
+
+"""
+
 # Copy a directory recursively WITHOUT the race condition in cp -r.
 
 # This also ignores symbolic links.

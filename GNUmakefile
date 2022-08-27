@@ -46,7 +46,7 @@ MONO_ENV=PATH="$(MONO_BIN_PATH):$$PATH" LD_LIBRARY_PATH="$(MONO_LD_PATH):$$LD_LI
 
 MINGW_ENV=$(and $(MINGW_PATH),PATH=$(MINGW_PATH):$$PATH)
 
-CP_R=python $(SRCDIR_ABS)/tools/copy_recursive.py
+CP_R=$(SRCDIR_ABS)/tools/copy_recursive.py
 RM_F=rm -f
 
 # dependency checks
