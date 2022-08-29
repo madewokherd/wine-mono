@@ -5413,8 +5413,6 @@ MonoTests.System.Threading.ThreadTest:TestPriority3
 MonoTests.System.Threading.ThreadTest:TestStart
 MonoTests.System.Threading.ThreadTest:TestSuspend
 MonoTests.System.Threading.ThreadTest:TestThreadState
-MonoTests.System.Configuration.ConfigurationManagerTest:OpenExeConfiguration1_UserLevel_None
-MonoTests.System.Configuration.ConfigurationManagerTest:mapped_ExeConfiguration_null
 MonoTests.System.Net.HttpListener2Test:MultiResponses
 MonoTests.System.Net.HttpListener2Test:ReceiveCookiesFromClient
 MonoTests.System.Net.HttpListener2Test:SendCookiestoClient
