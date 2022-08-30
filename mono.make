@@ -208,6 +208,7 @@ tests-clr: $(BUILDDIR)/mono-unix/.built-clr-tests $(BUILDDIR)/nunitlite.dll $(BU
 	mkdir -p $(TESTS_OUTDIR)/tests-clr/Test/System.Drawing
 	cp -r $(SRCDIR)/mono/mcs/class/System.Drawing/Test/System.Drawing/bitmaps $(TESTS_OUTDIR)/tests-clr/Test/System.Drawing
 	cp -r $(SRCDIR)/mono/mcs/class/System.Windows.Forms/Test/resources $(TESTS_OUTDIR)/tests-clr/Test
+	cp $(SRCDIR)/mono/mcs/class/System.Configuration/Test/appSettings.config $(TESTS_OUTDIR)/tests-clr/System.Configuration-appSettings.config
 	cp $(TESTS_OUTDIR)/tests-clr/nunit-lite-console.exe $(TESTS_OUTDIR)/tests-clr/nunit-lite-console32.exe
 	cd $(TESTS_OUTDIR)/tests-clr; $(WINE) $(BUILDDIR_ABS)/fixupclr.exe x86 nunit-lite-console32.exe
 	cd $(TESTS_OUTDIR)/tests-clr; $(WINE) $(BUILDDIR_ABS)/fixupclr.exe x86_64 nunit-lite-console.exe

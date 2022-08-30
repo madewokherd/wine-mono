@@ -1219,8 +1219,6 @@ x86.MonoTests.Monodoc.TreeTest
 x86.LDAPConnectionRefusedNUnit.Test:TestLDAPConnectionRefused
 x86.LDAPConnectionRefusedNUnit.Test
 x86.MonoTests.System.ComponentModel.DataAnnotations.RangeAttributeTest:IsValid
-x86.MonoTests.System.Configuration.AppSettingsSectionTest:TestFile
-x86.MonoTests.System.Configuration.AppSettingsSectionTest
 x86.MonoTests.System.Linq.EnumerableFixture:OrderBy_KeySelector_ArrayOfPersons_PersonsAreOrderedByAge
 x86.MonoTests.System.Linq.Expressions.ExpressionTest_Convert:ConvertBackwardAssignability
 x86.MonoTests.System.Linq.Expressions.ExpressionTest_Convert:ConvertCheckedInt32ToInt64
@@ -3776,8 +3774,6 @@ x86_64.MonoTests.Monodoc.TreeTest
 x86_64.LDAPConnectionRefusedNUnit.Test:TestLDAPConnectionRefused
 x86_64.LDAPConnectionRefusedNUnit.Test
 x86_64.MonoTests.System.ComponentModel.DataAnnotations.RangeAttributeTest:IsValid
-x86_64.MonoTests.System.Configuration.AppSettingsSectionTest:TestFile
-x86_64.MonoTests.System.Configuration.AppSettingsSectionTest
 x86_64.MonoTests.System.Linq.EnumerableFixture:OrderBy_KeySelector_ArrayOfPersons_PersonsAreOrderedByAge
 x86_64.MonoTests.System.Linq.Expressions.ExpressionTest_Convert:ConvertBackwardAssignability
 x86_64.MonoTests.System.Linq.Expressions.ExpressionTest_Convert:ConvertCheckedInt32ToInt64
