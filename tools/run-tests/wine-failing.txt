@@ -644,13 +644,6 @@ x86.MonoTests.System.Net.HttpResponseStreamTest:CanRead
 x86.MonoTests.System.Net.HttpResponseStreamTest:Read_Stream_Closed
 x86.MonoTests.System.Net.HttpWebRequestTest:EndGetResponse_AsyncResult_Invalid
 x86.MonoTests.System.Net.NetworkInformation.NetworkInterfaceTest:FirstInterfaceSpeed
-x86.MonoTests.System.Net.NetworkInformation.PingTest:PingFail
-x86.MonoTests.System.Net.NetworkInformation.PingTest:PingSuccess
-x86.MonoTests.System.Net.NetworkInformation.PingTest:SendAsyncIPV4Fails
-x86.MonoTests.System.Net.NetworkInformation.PingTest:SendAsyncIPV4Succeeds
-x86.MonoTests.System.Net.NetworkInformation.PingTest:SendPingAsyncIPV4Fails
-x86.MonoTests.System.Net.NetworkInformation.PingTest:SendPingAsyncIPV4Succeeds
-x86.MonoTests.System.Net.NetworkInformation.PingTest
 x86.MonoTests.System.Net.Sockets.SocketTest:SetSocketOption_MulticastInterfaceIndex_Loopback
 x86.MonoTests.System.Net.Sockets.UdpClientTest:ExclusiveAddressUseUnbound
 x86.MonoTests.System.Net.WebSockets.ClientWebSocketTest:ServerHandshakeReturnCrapStatusCodeTest
@@ -1327,13 +1320,6 @@ x86_64.MonoTests.System.Net.HttpResponseStreamTest:CanRead
 x86_64.MonoTests.System.Net.HttpResponseStreamTest:Read_Stream_Closed
 x86_64.MonoTests.System.Net.HttpWebRequestTest:EndGetResponse_AsyncResult_Invalid
 x86_64.MonoTests.System.Net.NetworkInformation.NetworkInterfaceTest:FirstInterfaceSpeed
-x86_64.MonoTests.System.Net.NetworkInformation.PingTest:PingFail
-x86_64.MonoTests.System.Net.NetworkInformation.PingTest:PingSuccess
-x86_64.MonoTests.System.Net.NetworkInformation.PingTest:SendAsyncIPV4Fails
-x86_64.MonoTests.System.Net.NetworkInformation.PingTest:SendAsyncIPV4Succeeds
-x86_64.MonoTests.System.Net.NetworkInformation.PingTest:SendPingAsyncIPV4Fails
-x86_64.MonoTests.System.Net.NetworkInformation.PingTest:SendPingAsyncIPV4Succeeds
-x86_64.MonoTests.System.Net.NetworkInformation.PingTest
 x86_64.MonoTests.System.Net.Sockets.SocketTest:SetSocketOption_MulticastInterfaceIndex_Loopback
 x86_64.MonoTests.System.Net.Sockets.UdpClientTest:ExclusiveAddressUseUnbound
 x86_64.MonoTests.System.Net.WebSockets.ClientWebSocketTest:ServerHandshakeReturnCrapStatusCodeTest
@@ -1709,8 +1695,6 @@ MonoTests.System.ServiceModel.Discovery.IntegratedDiscoveryTest:UseCase1
 MonoTests.System.ServiceModel.Discovery.IntegratedDiscoveryTest:UseCase2
 MonoTests.System.ServiceModel.Discovery.IntegratedDiscoveryTest:UseCase3
 MonoTests.System.ServiceModel.Discovery.IntegratedDiscoveryTest
-MonoTests.System.Net.WebSockets.ClientWebSocketTest:CloseAsyncTest
-MonoTests.System.Net.WebSockets.ClientWebSocketTest:EchoTest
 WineMono.Tests.System.Windows.Media.TextFormatting.TextFormatterTest:NewlineCharacterLoggingTest
 WineMono.Tests.System.Windows.Media.TextFormatting.TextFormatterTest:NewlineCharacterTest
 MonoTests.System.Windows.Forms.EventArgsTest:TestToolStripGripRenderEventArgs # ToolStripGrip is larger when themes are enabled
