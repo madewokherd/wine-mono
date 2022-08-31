@@ -2537,7 +2537,6 @@ x86.MonoTests.System.ComponentModel.UInt64ConverterTests:ConvertFrom_InvalidStri
 x86.MonoTests.System.ComponentModel.UInt64ConverterTests:ConvertFrom_InvalidString2
 x86.MonoTests.System.ComponentModel.UInt64ConverterTests:ConvertFrom_InvalidString3
 x86.MonoTests.System.ComponentModel.UInt64ConverterTests:ConvertFrom_InvalidString4
-x86.MonoTests.System.Configuration.ApplicationSettingsBaseTest:TestSettings1_Properties
 x86.MonoTests.System.Configuration.SettingsPropertyValueTest:Binary_Serialize
 x86.MonoTests.System.Diagnostics.DiagnosticsConfigurationHandlerTest:AssertTag
 x86.MonoTests.System.Diagnostics.DiagnosticsConfigurationHandlerTest:PerformanceCountersTag
@@ -5355,7 +5354,6 @@ x86_64.MonoTests.System.ComponentModel.DataAnnotations.MaxMinLengthAttributeTest
 x86_64.MonoTests.System.ServiceModel.Configuration.ServiceBehaviorElementTest:ServiceThrottlingElement_defaults
 x86_64.MonoTests.System.Xaml.XamlXmlReaderTest:Read_AmbientPropertyContainer
 x86_64.MonoTests.System.Xaml.XamlXmlReaderTest:Read_AmbientPropertyContainer2
-x86_64.MonoTests.System.Configuration.ApplicationSettingsBaseTest:TestSettings1_Properties
 x86_64.MonoTests.System.UriTest:Fragment_Escape
 x86_64.MonoTests.System.UriTest:GuardedIPv6Address
 x86_64.MonoTests.System.UriTest:PathDotTrim

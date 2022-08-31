@@ -1707,6 +1707,7 @@ WineMono.Tests.System.Windows.Media.TextFormatting.TextFormatterTest:CollapseNul
 WineMono.Tests.System.Windows.Media.TextFormatting.TextFormatterTest:CollapseSecondWordCharTest
 WineMono.Tests.System.Windows.Media.TextFormatting.TextFormatterTest:CollapseSecondWordTest
 configuration-with-defaults
+MonoTests.System.Configuration.ApplicationSettingsBaseTest:TestSettings1_Properties
 # definitely unreliable:
 delegate2
 x86_64.MonoTests.System.Threading.ThreadLocalTests:DisposeOnThreadExit
