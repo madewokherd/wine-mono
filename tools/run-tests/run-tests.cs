@@ -45,9 +45,12 @@ class RunTests
 		string current_test = null;
 		bool any_passed = false;
 		bool any_failed = false;
+		bool comparison_failed = false;
+		List<string> lines = new List<string>();
 
 		while ((line = p.StandardOutput.ReadLine ()) != null)
 		{
+			lines.Add(line);
 			Console.WriteLine(line);
 			if (line.StartsWith("Running '") && line.EndsWith("' ..."))
 			{
@@ -83,10 +86,30 @@ class RunTests
 			any_failed = true;
 		}
 
+		if (File.Exists(p.StartInfo.FileName + ".expected")) {
+			var expected_lines = new List<string>(File.ReadLines(p.StartInfo.FileName + ".expected"));
+
+			if (expected_lines.Count != lines.Count)
+				comparison_failed = true;
+			else {
+				for (int i=0; i<lines.Count; i++) {
+					if (lines[i] != expected_lines[i]) {
+						comparison_failed = true;
+						break;
+					}
+				}
+			}
+		}
+
 		if (test_timed_out)
 		{
 			failing_tests.Add(test_assembly);
 			Console.WriteLine("Test timed out: {0}", test_assembly);
+		}
+		else if (comparison_failed)
+		{
+			failing_tests.Add(test_assembly);
+			Console.WriteLine("Test failed(output did not match .exe.expected file): {0}", test_assembly);
 		}
 		else if (any_skips)
 		{
