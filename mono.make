@@ -7,6 +7,8 @@ MONO_BTLS_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/mono/mono/btl
 MONO_MONO_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/mono/mono)
 MONO_LIBNATIVE_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/mono/mono/native)
 
+SYSCONFIG_TESTDIR=$(SRCDIR)/mono/mcs/class/System.Configuration/Test/standalone
+
 $(SRCDIR)/mono/configure: $(SRCDIR)/mono/autogen.sh $(SRCDIR)/mono/configure.ac $(MONO_MAKEFILES)
 	cd $(SRCDIR)/mono; NOCONFIGURE=yes ./autogen.sh
 
@@ -106,9 +108,9 @@ clean-tests-$(1):
 .PHONY: clean-tests-$(1)
 clean-tests: clean-tests-$(1)
 
-tests-runtime-$(1): $$(BUILDDIR)/mono-unix/mono/mini/.built-tests $$(BUILDDIR)/mono-unix/mono/tests/.built $$(BUILDDIR)/fixupclr.exe
+tests-runtime-$(1): $$(BUILDDIR)/mono-unix/mono/mini/.built-tests $$(SYSCONFIG_TESTDIR)/.built-tests $$(BUILDDIR)/mono-unix/mono/tests/.built $$(BUILDDIR)/fixupclr.exe
 	mkdir -p $$(TESTS_OUTDIR)/tests-$(1)
-	cp $$(BUILDDIR)/mono-unix/mono/tests/*.exe $$(BUILDDIR)/mono-unix/mono/tests/*.dll $$(BUILDDIR)/mono-unix/mono/mini/*.exe $$(TESTS_OUTDIR)/tests-$(1)
+	cp $$(BUILDDIR)/mono-unix/mono/tests/*.exe $$(BUILDDIR)/mono-unix/mono/tests/*.dll $$(BUILDDIR)/mono-unix/mono/mini/*.exe $$(SYSCONFIG_TESTDIR)/*.exe $$(SYSCONFIG_TESTDIR)/*.dll $$(SYSCONFIG_TESTDIR)/*.exe.config $$(SYSCONFIG_TESTDIR)/*.exe.config2 $$(SYSCONFIG_TESTDIR)/*.exe.expected $$(TESTS_OUTDIR)/tests-$(1)
 	mkdir -p $$(TESTS_OUTDIR)/tests-$(1)/assembly-load-dir1
 	# exclude libsimplename.dll because it's undefined which one we'll get on a case-insensitive filesystem
 	cp $$(BUILDDIR)/mono-unix/mono/tests/assembly-load-dir1/Lib*.dll $$(TESTS_OUTDIR)/tests-$(1)/assembly-load-dir1
@@ -212,6 +214,20 @@ $(BUILDDIR)/mono-unix/mono/tests/.built: $(BUILDDIR)/mono-unix/.built
 
 $(BUILDDIR)/mono-unix/mono/mini/.built-tests: $(BUILDDIR)/mono-unix/.built
 	+$(MAKE) -C $(@D) test-local
+	touch $@
+
+SYSCONFIG_TESTS = t1.exe t2.exe t3.exe t4.exe t5.exe t6.exe t7.exe t8.exe t9.exe t10.exe t11.exe t12.exe t15.exe t16.exe t17.exe t18.exe t19.exe t20.exe t21.exe t22.exe t23.exe t24.exe t25.exe t28.exe t29.exe t30.exe t31.exe t32.exe t33.exe t34.exe t35.exe t36.exe t37.exe t38.exe t39.exe t40.exe t41.exe t42.exe t43.exe t44.exe t45.exe t46.exe t47.exe t48.exe 
+
+$(SYSCONFIG_TESTDIR)/t36.exe: $(SYSCONFIG_TESTDIR)/t36-lib.dll
+$(SYSCONFIG_TESTDIR)/t46.exe: $(SYSCONFIG_TESTDIR)/t46-lib.dll
+
+$(SYSCONFIG_TESTDIR)/%.dll: $(SYSCONFIG_TESTDIR)/%.cs $(BUILDDIR)/mono-unix/.installed
+	$(MONO_ENV) csc $< -target:library -out:$@
+
+$(SYSCONFIG_TESTDIR)/%.exe: $(SYSCONFIG_TESTDIR)/%.cs $(SYSCONFIG_TESTDIR)/Assert.cs $(BUILDDIR)/mono-unix/.installed
+	$(MONO_ENV) csc $< $(SYSCONFIG_TESTDIR)/Assert.cs $(patsubst %,-r:%,$(filter %.dll,$^)) -out:$@
+
+$(SYSCONFIG_TESTDIR)/.built-tests: $(foreach test,$(SYSCONFIG_TESTS),$(SYSCONFIG_TESTDIR)/$(test))
 	touch $@
 
 $(BUILDDIR)/mono-unix/builtin-types-32.exe: $(SRCDIR)/mono/mono/mini/builtin-types.cs $(BUILDDIR)/mono-unix/mono/mini/.built-tests $(BUILDDIR)/mono-unix/.installed
