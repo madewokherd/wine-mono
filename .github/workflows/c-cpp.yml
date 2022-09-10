@@ -10,7 +10,7 @@ on:
 jobs:
   build:
 
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
 
     steps:
     - uses: actions/checkout@v2
@@ -28,8 +28,7 @@ jobs:
         sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF 1>&2
         echo "deb https://download.mono-project.com/repo/ubuntu stable-focal main" | sudo tee /etc/apt/sources.list.d/mono-official-stable.list
         sudo apt update 1>&2
-        sudo apt-get install mono-devel mono-complete libtool-bin gettext cmake libgdiplus zip g++ -y 1>&2
-        # Seems that Github Action Image already includes mono-devel. Still install it explicitly
+        sudo apt-get install libtool-bin gettext cmake libgdiplus zip g++ -y 1>&2
     - name: Check Environment
       run: |
         gcc --version 1>&2
@@ -98,7 +97,7 @@ jobs:
 
   linux-test:
 
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     needs: build
 
     steps:
@@ -109,7 +108,7 @@ jobs:
         sudo dpkg --add-architecture i386 1>&2
         wget -nc https://dl.winehq.org/wine-builds/winehq.key 1>&2
         sudo apt-key add winehq.key 1>&2
-        sudo add-apt-repository 'deb https://dl.winehq.org/wine-builds/ubuntu/ focal main' 1>&2
+        sudo add-apt-repository 'deb https://dl.winehq.org/wine-builds/ubuntu/ jammy main' 1>&2
         sudo apt update 1>&2
         sudo apt remove -y libnginx-mod-http-image-filter || true
         sudo apt install -y --allow-downgrades libpcre2-8-0:i386 libpcre2-8-0=10.34-7 || true
