@@ -5542,3 +5542,4 @@ MonoTests.System.Globalization.CompareInfoTest:GetSortKeyIgnoreNonSpaceKana # fa
 MonoTests.System.Net.HttpWebRequestTest:LastModifiedKind # depends on external web service
 MonoTests.System.IO.DriveInfoTest:GetDrivesValidInfo # fails in virtualbox, works in github CI ?
 MonoTests.System.Threading.ThreadTest:TestNestedThreads1
+MonoTests.System.Security.Cryptography.RandomNumberGeneratorTest:Runs
