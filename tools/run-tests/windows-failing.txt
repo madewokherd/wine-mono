@@ -5396,7 +5396,6 @@ MonoTests.System.Runtime.Serialization.XsdDataContractImporterTest2:TestCustomCo
 MonoTests.System.Threading.ThreadTest:TestApartmentState
 MonoTests.System.Threading.ThreadTest:TestIsBackground1
 MonoTests.System.Threading.ThreadTest:TestName
-MonoTests.System.Threading.ThreadTest:TestNestedThreads1
 MonoTests.System.Threading.ThreadTest:TestPriority1
 MonoTests.System.Threading.ThreadTest:TestPriority3
 MonoTests.System.Threading.ThreadTest:TestStart
@@ -5542,3 +5541,4 @@ MonoTests.System.ServiceModel.Discovery.IntegratedDiscoveryTest
 MonoTests.System.Globalization.CompareInfoTest:GetSortKeyIgnoreNonSpaceKana # fails on Windows Server 2022
 MonoTests.System.Net.HttpWebRequestTest:LastModifiedKind # depends on external web service
 MonoTests.System.IO.DriveInfoTest:GetDrivesValidInfo # fails in virtualbox, works in github CI ?
+MonoTests.System.Threading.ThreadTest:TestNestedThreads1
