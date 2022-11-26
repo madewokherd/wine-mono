@@ -7,6 +7,7 @@ TEST_CS_EXE_SRCS = \
 	dllimport-preload.cs \
 	interactioncommand.cs \
 	marshalansi.cs \
+	mixedmode-apt.cs \
 	mixedmode-call.cs \
 	mixedmode-dllimport-0.cs \
 	mixedmode-dllimport-assemblydirectory.cs \
@@ -60,6 +61,7 @@ endif
 TEST_INSTALL_FILES = $(TEST_RAW_FILES:%=tools/tests/%)
 
 TEST_BINARY_FILES = \
+	mixedapartmentstate.exe \
 	mixedmodeexe.exe \
 	mixedmodelibrary.dll \
 	nativelibrary.dll
