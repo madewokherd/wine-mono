@@ -84,6 +84,7 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 		public TextEffectCollection textEffects = null;
 		public Typeface typeface = new Typeface("Arial");
 		public double fontRenderingEmSize = 128;
+		public Brush foregroundBrush = new SolidColorBrush(Colors.Black);
 
 		public LoggingTextRunProperties(List<string> destination, string name)
 		{
@@ -138,7 +139,8 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 		{
 			get
 			{
-				throw new NotImplementedException("LoggingTextRunProperties.ForegroundBrush");
+				Log("ForegroundBrush");
+				return foregroundBrush;
 			}
 		}
 
@@ -417,6 +419,7 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 				Assert.AreEqual(0, line.Start, "line.Start");
 				Assert.IsFalse(line.HasCollapsed, "line.HasCollapsed");
 				Assert.IsNull(line.GetTextCollapsedRanges(), "GetTextCollapsedRanges");
+				Assert.AreEqual(1.25, line.OverhangLeading, "line.OverhangLeading");
 			}
 		}
 
@@ -464,6 +467,7 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 					}, log);
 				Assert.IsNull(line.GetTextLineBreak(), "GetTextLineBreak");
 				Assert.AreEqual(0, line.Start, "line.Start");
+				Assert.AreEqual(1.25, line.OverhangLeading, "line.OverhangLeading");
 			}
 		}
 
@@ -512,6 +516,7 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 					}, log);
 				Assert.IsNull(line.GetTextLineBreak(), "GetTextLineBreak");
 				Assert.AreEqual(0, line.Start, "line.Start");
+				Assert.AreEqual(1.25, line.OverhangLeading, "line.OverhangLeading");
 			}
 		}
 
@@ -541,6 +546,7 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 					line);
 				Assert.IsNull(line.GetTextLineBreak(), "GetTextLineBreak");
 				Assert.AreEqual(0, line.Start, "line.Start");
+				Assert.AreEqual(1.25, line.OverhangLeading, "line.OverhangLeading");
 			}
 		}
 
@@ -591,6 +597,7 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 					}, log);
 				Assert.IsNull(line.GetTextLineBreak(), "GetTextLineBreak");
 				Assert.AreEqual(0, line.Start, "line.Start");
+				Assert.AreEqual(0.3125, line.OverhangLeading, "line.OverhangLeading");
 			}
 		}
 
@@ -633,6 +640,7 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 					}, log);
 				Assert.IsNull(line.GetTextLineBreak(), "GetTextLineBreak");
 				Assert.AreEqual(0, line.Start, "line.Start");
+				Assert.AreEqual(0, line.OverhangLeading, "line.OverhangLeading");
 			}
 		}
 
@@ -674,6 +682,7 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 				Assert.IsNull(tb[0].TextRunBounds, "TextBounds.TextRunBounds");
 				AssertCharacterHit(0, 0, line.GetPreviousCaretCharacterHit(new CharacterHit(0, 0)), "previous 0,0");
 				AssertCharacterHit(0, 0, line.GetNextCaretCharacterHit(new CharacterHit(0, 0)), "next 0,0");
+				Assert.AreEqual(0, line.OverhangLeading, "line.OverhangLeading");
 			}
 		}
 
@@ -703,6 +712,7 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 					line);
 				Assert.IsNull(line.GetTextLineBreak(), "GetTextLineBreak");
 				Assert.AreEqual(0, line.Start, "line.Start");
+				Assert.AreEqual(1.25, line.OverhangLeading, "line.OverhangLeading");
 			}
 		}
 
@@ -733,6 +743,7 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 					line);
 				Assert.IsNull(line.GetTextLineBreak(), "GetTextLineBreak");
 				Assert.AreEqual(0, line.Start, "line.Start");
+				Assert.AreEqual(1.25, line.OverhangLeading, "line.OverhangLeading");
 			}
 		}
 
@@ -762,6 +773,7 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 					line);
 				Assert.IsNull(line.GetTextLineBreak(), "GetTextLineBreak");
 				Assert.AreEqual(0, line.Start, "line.Start");
+				Assert.AreEqual(1.25, line.OverhangLeading, "line.OverhangLeading");
 
 				var glyphRuns = new List<IndexedGlyphRun>(line.GetIndexedGlyphRuns());
 				Assert.AreEqual(1, glyphRuns.Count, "glyphRuns.Count");
@@ -849,6 +861,7 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 					line);
 				Assert.IsNull(line.GetTextLineBreak(), "GetTextLineBreak");
 				Assert.AreEqual(0, line.Start, "line.Start");
+				Assert.AreEqual(1.25, line.OverhangLeading, "line.OverhangLeading");
 			}
 		}
 
@@ -879,6 +892,7 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 					line);
 				Assert.IsNull(line.GetTextLineBreak(), "GetTextLineBreak");
 				Assert.AreEqual(0, line.Start, "line.Start");
+				Assert.AreEqual(21.25, line.OverhangLeading, "line.OverhangLeading");
 
 				AssertCharacterHit(line, 25.0, 0, 0);
 			}
@@ -915,6 +929,7 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 					line);
 				Assert.IsNull(line.GetTextLineBreak(), "GetTextLineBreak");
 				Assert.AreEqual(0, line.Start, "line.Start");
+				Assert.AreEqual(1.25, line.OverhangLeading, "line.OverhangLeading");
 
 				AssertCharacterHit(line, 30.0, 0, 1);
 				AssertCharacterHit(line, 210.0, 4, 0);
@@ -948,6 +963,8 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 				Assert.AreEqual(570, line.Width, "line.Width 2");
 				Assert.IsFalse(line.HasOverflowed, "line.HasOverflowed 2");
 				Assert.AreEqual(570, line.WidthIncludingTrailingWhitespace, "line.WidthIncludingTrailingWhitespace 2");
+				Assert.AreEqual(0, line.Start, "line.Start");
+				Assert.AreEqual(1.25, line.OverhangLeading, "line.OverhangLeading");
 			}
 		}
 
@@ -1046,6 +1063,7 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 					}, log);
 				Assert.IsNull(line.GetTextLineBreak(), "GetTextLineBreak");
 				Assert.AreEqual(0, line.Start, "line.Start");
+				Assert.AreEqual(1.25, line.OverhangLeading, "line.OverhangLeading");
 				Assert.IsTrue(line.HasCollapsed, "line.HasCollapsed");
 				Assert.AreEqual(1, line.GetTextCollapsedRanges().Count, "GetTextCollapsedRanges");
 				Assert.AreEqual(8, line.GetTextCollapsedRanges()[0].Length, "GetTextCollapsedRanges.Length");
@@ -1115,6 +1133,7 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 					}, log);
 				Assert.IsNull(line.GetTextLineBreak(), "GetTextLineBreak");
 				Assert.AreEqual(0, line.Start, "line.Start");
+				Assert.AreEqual(1.25, line.OverhangLeading, "line.OverhangLeading");
 				Assert.IsTrue(line.HasCollapsed, "line.HasCollapsed");
 				Assert.AreEqual(1, line.GetTextCollapsedRanges().Count, "GetTextCollapsedRanges");
 				Assert.AreEqual(8, line.GetTextCollapsedRanges()[0].Length, "GetTextCollapsedRanges.Length");
@@ -1184,6 +1203,7 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 					}, log);
 				Assert.IsNull(line.GetTextLineBreak(), "GetTextLineBreak");
 				Assert.AreEqual(0, line.Start, "line.Start");
+				Assert.AreEqual(1.25, line.OverhangLeading, "line.OverhangLeading");
 				Assert.IsTrue(line.HasCollapsed, "line.HasCollapsed");
 				Assert.AreEqual(1, line.GetTextCollapsedRanges().Count, "GetTextCollapsedRanges");
 				Assert.AreEqual(5, line.GetTextCollapsedRanges()[0].Length, "GetTextCollapsedRanges.Length");
@@ -1253,6 +1273,7 @@ namespace WineMono.Tests.System.Windows.Media.TextFormatting {
 					}, log);
 				Assert.IsNull(line.GetTextLineBreak(), "GetTextLineBreak");
 				Assert.AreEqual(0, line.Start, "line.Start");
+				Assert.AreEqual(1.25, line.OverhangLeading, "line.OverhangLeading");
 				Assert.IsTrue(line.HasCollapsed, "line.HasCollapsed");
 				Assert.AreEqual(1, line.GetTextCollapsedRanges().Count, "GetTextCollapsedRanges");
 				Assert.AreEqual(4, line.GetTextCollapsedRanges()[0].Length, "GetTextCollapsedRanges.Length");
