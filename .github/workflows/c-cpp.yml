@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
           submodules: recursive
 
@@ -41,22 +41,22 @@ jobs:
     - name: make
       run: make -j$(nproc)
     - name: msi capture
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: make msi output
         path: wine-mono-*.msi
     - name: bin capture
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: make bin output
         path: wine-mono-*-x86.tar.xz
     - name: tests-zip capture
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: make tests-zip output
         path: wine-mono-*-tests.zip
     - name: dbgsym capture
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: make dbgsym output
         path: wine-mono-*-dbgsym.tar.xz
@@ -86,7 +86,7 @@ jobs:
         curl https://download.microsoft.com/download/A/C/2/AC2C903B-E6E8-42C2-9FD7-BEBAC362A930/xnafx40_redist.msi --output xna4.msi
         msiexec /q /i xna4.msi
     - name: Download Wine Mono tests
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: make tests-zip output
     - name: Run Wine Mono tests
@@ -116,7 +116,7 @@ jobs:
         sudo apt install -y --allow-downgrades libgd3:i386=2.3.0-2ubuntu2 libgd3:i386=2.3.0-2ubuntu2 || true
         sudo apt install --install-recommends -y --allow-downgrades winehq-devel wine-devel wine-devel-i386 libgphoto2-6:i386 libsane:i386 libgd3:i386 wine-devel-amd64 libgphoto2-6 libsane 1>&2
     - name: Download Wine Mono msi
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: make msi output
     - name: Install Wine Mono msi
@@ -144,7 +144,7 @@ jobs:
         echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections
         sudo apt install xvfb libgl1-mesa-glx libgl1-mesa-glx:i386 libgl1:i386 libglx-mesa0:i386 libgl1-mesa-dri:i386 unzip ttf-mscorefonts-installer openbox x11-utils -y 1>&2
     - name: Download Wine Mono tests
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: make tests-zip output
     - name: Run Wine Mono tests
@@ -173,7 +173,7 @@ jobs:
         brew install coreutils # for gtimeout
         brew install --cask --no-quarantine homebrew/cask-versions/wine-devel
     - name: Download Wine Mono msi
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: make msi output
     - name: Install Wine Mono msi
