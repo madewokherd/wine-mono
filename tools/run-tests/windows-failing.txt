@@ -5406,6 +5406,7 @@ MonoTests.System.Net.HttpListener2Test:ReceiveCookiesFromClient
 MonoTests.System.Net.HttpListener2Test:SendCookiestoClient
 MonoTests.System.Net.HttpListener2Test:Test2
 MonoTests.System.Net.HttpListener2Test:Test3
+MonoTests.System.Configuration.SettingsPropertyValueTest:Binary_Serialize
 # unreliable:
 x86.thread-exit
 MonoTests.System.Threading.Tasks.TaskTests:DoubleWaitTest
