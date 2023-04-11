@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 1997-2022 Sam Lantinga <slouken@libsdl.org>
+  Copyright (C) 1997-2023 Sam Lantinga <slouken@libsdl.org>
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any damages
@@ -169,7 +169,7 @@ loop()
 
                 SDL_SetCursor(cursors[current_cursor]);
 
-                switch (cursor_types[current_cursor]) {
+                switch ((int)cursor_types[current_cursor]) {
                     case (SDL_SystemCursor)-1:        SDL_Log("Custom cursor"); break;
                     case SDL_SYSTEM_CURSOR_ARROW:     SDL_Log("Arrow"); break;
                     case SDL_SYSTEM_CURSOR_IBEAM:     SDL_Log("I-beam"); break;
