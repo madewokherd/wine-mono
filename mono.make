@@ -114,7 +114,7 @@ endef
 # mono native/classlib build
 $(BUILDDIR)/mono-unix/Makefile: $(SRCDIR)/mono/configure $(SRCDIR)/mono.make $(BUILDDIR)/.dir
 	mkdir -p $(@D)
-	cd $(@D) && $(SRCDIR_ABS)/mono/configure --prefix="$(BUILDDIR_ABS)/mono-unix-install" --with-mcs-docs=no --disable-system-aot --without-compiler-server
+	cd $(@D) && $(SRCDIR_ABS)/mono/configure --prefix="$(BUILDDIR_ABS)/mono-unix-install" --with-mcs-docs=no --disable-system-aot --without-compiler-server --without-mcs-docs
 
 $(BUILDDIR)/mono-unix/mono/lib/libSystem.Native.so: $(BUILDDIR)/mono-unix/Makefile $(MONO_LIBNATIVE_SRCS)
 	mkdir -p $(@D)
