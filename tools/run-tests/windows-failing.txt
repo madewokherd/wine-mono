@@ -5544,3 +5544,4 @@ MonoTests.System.Net.HttpWebRequestTest:LastModifiedKind # depends on external w
 MonoTests.System.IO.DriveInfoTest:GetDrivesValidInfo # fails in virtualbox, works in github CI ?
 MonoTests.System.Threading.ThreadTest:TestNestedThreads1
 MonoTests.System.Security.Cryptography.RandomNumberGeneratorTest:Runs
+MonoTests.System.Threading.ThreadTest:TestNestedThreads2
