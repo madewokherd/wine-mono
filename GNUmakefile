@@ -230,7 +230,7 @@ clean-build-test-prefix:
 clean-build: clean-build-test-prefix
 
 $(BUILDDIR)/genfilehashes.exe: $(BUILDDIR)/mono-unix/.installed $(SRCDIR)/tools/genfilehashes/genfilehashes.cs
-	$(MONO_ENV) mcs $(SRCDIR)/tools/genfilehashes/genfilehashes.cs -out:$@ -r:Mono.Posix
+	$(MONO_ENV) mcs $(SRCDIR)/tools/genfilehashes/genfilehashes.cs -out:$@ -r:WineMono.Posix
 
 clean-genfilehashes:
 	rm -rf $(BUILDDIR)/genfilehashes.exe

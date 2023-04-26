@@ -31,12 +31,12 @@ IMAGE_SUPPORT_FILES += $(foreach arch,Framework Framework64,$(BUILDDIR)/image-su
 # csc.exe
 $(foreach arch,Framework Framework64,$(BUILDDIR)/image-support/Microsoft.NET/$(arch)/v2.0.50727/csc.exe): $(BUILDDIR)/mono-unix/.installed $(SRCDIR)/tools/csc-wrapper/csc-wrapper.cs
 	mkdir -p $(@D)
-	$(MONO_ENV) mcs $(SRCDIR)/tools/csc-wrapper/csc-wrapper.cs /d:VERSION20 -out:$@ -r:Mono.Posix
+	$(MONO_ENV) mcs $(SRCDIR)/tools/csc-wrapper/csc-wrapper.cs /d:VERSION20 -out:$@ -r:WineMono.Posix
 IMAGE_SUPPORT_FILES += $(foreach arch,Framework Framework64,$(BUILDDIR)/image-support/Microsoft.NET/$(arch)/v2.0.50727/csc.exe)
 
 $(foreach arch,Framework Framework64,$(BUILDDIR)/image-support/Microsoft.NET/$(arch)/v4.0.30319/csc.exe): $(BUILDDIR)/mono-unix/.installed $(SRCDIR)/tools/csc-wrapper/csc-wrapper.cs
 	mkdir -p $(@D)
-	$(MONO_ENV) mcs $(SRCDIR)/tools/csc-wrapper/csc-wrapper.cs /d:VERSION40 -out:$@ -r:Mono.Posix
+	$(MONO_ENV) mcs $(SRCDIR)/tools/csc-wrapper/csc-wrapper.cs /d:VERSION40 -out:$@ -r:WineMono.Posix
 IMAGE_SUPPORT_FILES += $(foreach arch,Framework Framework64,$(BUILDDIR)/image-support/Microsoft.NET/$(arch)/v4.0.30319/csc.exe)
 
 # installutil.exe
