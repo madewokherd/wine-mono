@@ -5545,3 +5545,4 @@ MonoTests.System.IO.DriveInfoTest:GetDrivesValidInfo # fails in virtualbox, work
 MonoTests.System.Threading.ThreadTest:TestNestedThreads1
 MonoTests.System.Security.Cryptography.RandomNumberGeneratorTest:Runs
 MonoTests.System.Threading.ThreadTest:TestNestedThreads2
+MonoTests.System.Threading.ThreadTest:TestIsBackground2
