@@ -172,9 +172,9 @@ tools-tests-install: tools-tests-all $(BUILDDIR)/fixupclr.exe
 	cp build/winemonotest-x86_64.dll $(TESTS_OUTDIR)/tests-x86_64/winemonotest.dll
 	cp build/vtblgap-lib-x86.dll $(TESTS_OUTDIR)/tests-x86/vtblgap-lib.dll
 	cp build/vtblgap-lib-x86_64.dll $(TESTS_OUTDIR)/tests-x86_64/vtblgap-lib.dll
-	mkdir $(TESTS_OUTDIR)/tests-x86/searchgacbeforepath
+	mkdir -p $(TESTS_OUTDIR)/tests-x86/searchgacbeforepath
 	cp tools/tests/System.Windows.Forms.dll $(TESTS_OUTDIR)/tests-x86/webbrowsertest.exe $(TESTS_OUTDIR)/tests-x86/searchgacbeforepath/
-	mkdir $(TESTS_OUTDIR)/tests-x86_64/searchgacbeforepath
+	mkdir -p $(TESTS_OUTDIR)/tests-x86_64/searchgacbeforepath
 	cp tools/tests/System.Windows.Forms.dll $(TESTS_OUTDIR)/tests-x86_64/webbrowsertest.exe $(TESTS_OUTDIR)/tests-x86_64/searchgacbeforepath/
 .PHONY: tools-tests-install
 
