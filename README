@@ -9,7 +9,7 @@ $ git clone --recursive https://github.com/madewokherd/wine-mono.git
 
 To get to the source code for a specific release, check out the appropriate tag, and update the submodules:
 
-$ git checkout wine-mono-7.0.0
+$ git checkout wine-mono-8.0.0
 $ git submodule update --init --recursive
 
 Source tarballs and binary packages are available at https://dl.winehq.org/wine/wine-mono/
@@ -53,7 +53,7 @@ INSTALL
 
 To install Wine Mono, run the generated msi file with msiexec:
 
-$ wine64 msiexec /i wine-mono-7.0.0-x86.msi
+$ wine64 msiexec /i wine-mono-8.0.0-x86.msi
 
 Note that if a Wine Mono with a version number >= to this file is already installed, that command will do nothing, so you may have to remove the existing version (using 'wine64 uninstaller') first.
 
@@ -61,7 +61,7 @@ If the install succeeds, it won't output anything. You can use 'wine64 uninstall
 
 If you are building for development, you may find it more convenient to use the 'make dev' target, which builds a runtime in image/ and configures a wine prefix to use it. You can then rebuild individual dlls using their filename with no path. See 'make help' for details.
 
-Packagers should extract the tarball from the "make bin" target to /usr/share/wine/mono or the corresponding directory for the prefix used to configure Wine. This should create a directory named something like /usr/share/wine/mono/wine-mono-6.1.0. This conserves space compared to the msi because it doesn't need to be copied into every prefix.
+Packagers should extract the tarball from the "make bin" target to /usr/share/wine/mono or the corresponding directory for the prefix used to configure Wine. This should create a directory named something like /usr/share/wine/mono/wine-mono-8.0.0. This conserves space compared to the msi because it doesn't need to be copied into every prefix.
 
 
 COMPOSITION
@@ -74,7 +74,7 @@ An installed Wine Mono contains the following:
 
 BUGS
 
-Bugs involving the use of this package to run Windows programs in Wine should be filed in the Wine bugzilla (http://bugs.winehq.org/) with product set to "Wine" and component set to "mscoree". Bugs in Wine Mono's build system or packaging can also be filed in Wine's bugzilla, or they can be filed as an issue on the wine-mono github.
+Bugs should be filed in the Wine bugzilla (http://bugs.winehq.org/) with product set to "Wine" and component set to "mscoree", or they can be filed as an issue on the wine-mono github.
 
 
 PATCHES
