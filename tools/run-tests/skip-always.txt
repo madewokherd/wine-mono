@@ -62,7 +62,7 @@ InteractionTests:MsgBoxTest
 MonoTests.System.ServiceModel.NetTcpBindingTest:BufferedConnection # times out on windows sometimes
 MonoTests.System.ServiceModel.NetTcpBindingTest:StreamedConnection # times out on windows sometimes
 MonoTests.System.ServiceModel.Dispatcher.ChannelDispatcherTest:EndpointDispatcherAddTest8 # times out on windows with admin
-x86.MonoTests.System.Runtime.CompilerServices.ConditionalWeakTableTest:FinalizableObjectsThatRetainDeadKeys # crashes on some windows systems
+MonoTests.System.Runtime.CompilerServices.ConditionalWeakTableTest:FinalizableObjectsThatRetainDeadKeys # crashes on some windows systems
 System.Web.Extensions # Test dll is signed with a remapped publickeytoken
 MonoTests.System.Windows.Forms.ApplicationTest:OpenFormsTest # usually causes crash dialog leading to timeout on windows
 x86.MonoTests.System.Threading.ThreadTest:TestStart # tends to hang on Windows
