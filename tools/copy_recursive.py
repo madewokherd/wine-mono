@@ -46,8 +46,12 @@ def copy_recursive(src, destdir):
 	else:
 		raise Exception('unknown file type for: '+src)
 
-if len(sys.argv) < 3:
-	print('Usage: copy_recursive.py FILE DIRECTORY')
+def copy_files(srcs, destdir):
+	for src in srcs:
+		copy_recursive(src, destdir)
 
-copy_recursive(sys.argv[1], sys.argv[2])
+if len(sys.argv) < 3:
+	print('Usage: copy_recursive.py FILE [FILE2 [...]] DIRECTORY')
+
+copy_files(sys.argv[1:-1], sys.argv[-1])
 
