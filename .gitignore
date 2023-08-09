@@ -1,4 +1,5 @@
 .*.swp
+/.vagrant/
 /build/
 /image/
 /llvm-mingw-20210423-ucrt-ubuntu-18.04-x86_64.tar.xz
