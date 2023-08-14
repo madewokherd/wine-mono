@@ -29,6 +29,10 @@
 #define SDL_WAYLAND_SYM(rc,fn,params)
 #endif
 
+#ifndef SDL_WAYLAND_SYM_OPT
+#define SDL_WAYLAND_SYM_OPT(rc,fn,params)
+#endif
+
 #ifndef SDL_WAYLAND_INTERFACE
 #define SDL_WAYLAND_INTERFACE(iface)
 #endif
@@ -212,10 +216,22 @@ SDL_WAYLAND_SYM(bool, libdecor_configuration_get_content_size, (struct libdecor_
 SDL_WAYLAND_SYM(bool, libdecor_configuration_get_window_state, (struct libdecor_configuration *,\
                                                                 enum libdecor_window_state *))
 SDL_WAYLAND_SYM(int, libdecor_dispatch, (struct libdecor *, int))
+
+#if defined(SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_LIBDECOR) || defined(SDL_HAVE_LIBDECOR_GET_MIN_MAX)
+/* Only found in libdecor 0.1.1 or higher, so failure to load them is not fatal. */
+SDL_WAYLAND_SYM_OPT(void, libdecor_frame_get_min_content_size, (struct libdecor_frame *,\
+                                                            int *,\
+                                                            int *))
+SDL_WAYLAND_SYM_OPT(void, libdecor_frame_get_max_content_size, (struct libdecor_frame *,\
+                                                            int *,\
+                                                            int *))
+#endif
+
 #endif
 
 #undef SDL_WAYLAND_MODULE
 #undef SDL_WAYLAND_SYM
+#undef SDL_WAYLAND_SYM_OPT
 #undef SDL_WAYLAND_INTERFACE
 
 /* *INDENT-ON* */ /* clang-format on */

@@ -127,6 +127,7 @@ add_sdl_test_executable(testgesture testgesture.c)
 add_sdl_test_executable(testgl2 testgl2.c)
 add_sdl_test_executable(testgles testgles.c)
 add_sdl_test_executable(testgles2 testgles2.c)
+add_sdl_test_executable(testgles2_sdf NEEDS_RESOURCES testgles2_sdf.c testutils.c)
 add_sdl_test_executable(testhaptic testhaptic.c)
 add_sdl_test_executable(testhotplug testhotplug.c)
 add_sdl_test_executable(testrumble testrumble.c)
@@ -159,6 +160,8 @@ elseif(WINDOWS)
 elseif(HAVE_X11)
     add_sdl_test_executable(testnative NEEDS_RESOURCES testnative.c testnativex11.c testutils.c)
     target_link_libraries(testnative X11)
+elseif(OS2)
+    add_sdl_test_executable(testnative NEEDS_RESOURCES testnative.c testnativeos2.c testutils.c)
 endif()
 
 add_sdl_test_executable(testoverlay2 NEEDS_RESOURCES testoverlay2.c testyuv_cvt.c testutils.c)
@@ -329,7 +332,7 @@ if(N3DS)
     foreach(APP IN LISTS SDL_TEST_EXECUTABLES)
         get_target_property(TARGET_BINARY_DIR ${APP} BINARY_DIR)
         set(SMDH_FILE "${TARGET_BINARY_DIR}/${APP}.smdh")
-        ctr_generate_smdh("${SMDH_FILE}" 
+        ctr_generate_smdh("${SMDH_FILE}"
             NAME "SDL-${APP}"
             DESCRIPTION "SDL2 Test suite"
             AUTHOR "SDL2 Contributors"
@@ -366,7 +369,7 @@ foreach(APP IN LISTS SDL_TESTS_NEEDS_RESOURCES)
         endif()
     endforeach(RESOURCE_FILE)
     if(APPLE)
-        # Make sure resource files get installed into macOS/iOS .app bundles.  
+        # Make sure resource files get installed into macOS/iOS .app bundles.
         target_sources(${APP} PRIVATE "${RESOURCE_FILES}")
         set_target_properties(${APP} PROPERTIES RESOURCE "${RESOURCE_FILES}")
     endif()
