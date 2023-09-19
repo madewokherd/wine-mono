@@ -162,6 +162,10 @@ $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/WindowsFormsIntegration/.built: $(BUI
 	+$(MONO_ENV) $(MAKE) -C $(@D) MONO_PREFIX=$(BUILDDIR_ABS)/mono-unix-install RESX2SRID=$(BUILDDIR_ABS)/resx2srid.exe WINE_MONO_SRCDIR=$(SRCDIR_ABS) WINFORMS_DLL=$(SRCDIR_ABS)/winforms/src/System.Windows.Forms/src/System.Windows.Forms.dll
 	touch $@
 
+$(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/System.Windows.Controls.Ribbon/.built: $(BUILDDIR)/mono-unix/.installed $(WPF_SRCS) $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/System.Xaml/.built $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/WindowsBase/.built $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/UIAutomation/UIAutomationTypes/.built $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/UIAutomation/UIAutomationProvider/.built $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/PresentationCore/.built $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/PresentationFramework/.built $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/Themes/PresentationFramework.Classic/.built $(BUILDDIR)/resx2srid.exe
+	+$(MONO_ENV) $(MAKE) -C $(@D) MONO_PREFIX=$(BUILDDIR_ABS)/mono-unix-install RESX2SRID=$(BUILDDIR_ABS)/resx2srid.exe WINE_MONO_SRCDIR=$(SRCDIR_ABS)
+	touch $@
+
 ifeq (1,$(ENABLE_DOTNET_CORE_WPF))
 IMAGEDIR_BUILD_TARGETS += $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/System.Xaml/.built
 
@@ -260,5 +264,12 @@ WindowsFormsIntegration.dll: $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/WindowsF
 	$(MONO_ENV) gacutil -i $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/WindowsFormsIntegration/WindowsFormsIntegration.dll -root $(IMAGEDIR)/lib
 .PHONY: WindowsFormsIntegration.dll
 imagedir-targets: WindowsFormsIntegration.dll
+
+IMAGEDIR_BUILD_TARGETS += $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/System.Windows.Controls.Ribbon/.built
+
+System.Windows.Controls.Ribbon.dll: $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/System.Windows.Controls.Ribbon/.built
+	$(MONO_ENV) gacutil -i $(SRCDIR)/wpf/src/Microsoft.DotNet.Wpf/src/System.Windows.Controls.Ribbon/System.Windows.Controls.Ribbon.dll -root $(IMAGEDIR)/lib
+.PHONY: System.Windows.Controls.Ribbon.dll
+imagedir-targets: System.Windows.Controls.Ribbon.dll
 endif
 
