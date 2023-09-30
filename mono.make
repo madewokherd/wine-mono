@@ -98,6 +98,7 @@ tests-runtime-$(1): $$(BUILDDIR)/mono-unix/mono/mini/.built-tests $$(BUILDDIR)/m
 	cp $$(BUILDDIR)/mono-unix/mono/tests/assembly-load-dir1/Lib*.dll $$(TESTS_OUTDIR)/tests-$(1)/assembly-load-dir1
 	mkdir -p $$(TESTS_OUTDIR)/tests-$(1)/assembly-load-dir2
 	cp $$(BUILDDIR)/mono-unix/mono/tests/assembly-load-dir2/*.dll $$(TESTS_OUTDIR)/tests-$(1)/assembly-load-dir2
+	$$(CP_R) $$(BUILDDIR)/mono-unix/mono/tests/assemblyresolve_deps $$(TESTS_OUTDIR)/tests-$(1)/
 ifeq ($(1),x86)
 	cp $$(BUILDDIR)/mono-unix/builtin-types-32.exe $$(TESTS_OUTDIR)/tests-$(1)/builtin-types.exe
 endif
