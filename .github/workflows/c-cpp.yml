@@ -120,6 +120,13 @@ jobs:
         name: make msi output
     - name: Install Wine Mono msi
       run: wine msiexec /i wine-mono-*.msi 1>&2
+    - name: Install Wine Gecko
+      run: |
+        GECKO_VERSION=2.47.4
+        wget -nc "https://dl.winehq.org/wine/wine-gecko/${GECKO_VERSION}/wine-gecko-${GECKO_VERSION}-x86.msi" -O wine-gecko-${GECKO_VERSION}-x86.msi
+        wine msiexec /i wine-gecko-${GECKO_VERSION}-x86.msi
+        wget -nc "https://dl.winehq.org/wine/wine-gecko/${GECKO_VERSION}/wine-gecko-${GECKO_VERSION}-x86_64.msi" -O wine-gecko-${GECKO_VERSION}-x86_64.msi
+        wine msiexec /i wine-gecko-${GECKO_VERSION}-x86_64.msi
     - name: Run 64-bit Wine mscoree tests
       run: |
         wget -nc 'https://gitlab.winehq.org/wine/wine/-/jobs/artifacts/master/raw/winetest64.exe?job=build-winetest' -O winetest64.exe 1>&2
