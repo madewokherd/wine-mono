@@ -247,10 +247,7 @@ x86.MonoTests.System.Drawing.BitmapFullTrustTest:Hicon96
 x86.MonoTests.System.Drawing.Drawing2D.GraphicsPathTest:AddClosedCurve_PointF_2
 x86.MonoTests.System.Drawing.Drawing2D.GraphicsPathTest:AddClosedCurve_Point_2
 x86.MonoTests.System.Drawing.Drawing2D.GraphicsPathTest:AddCurve
-x86.MonoTests.System.Drawing.Drawing2D.GraphicsPathTest:AddString_StringFormat
 x86.MonoTests.System.Drawing.Drawing2D.GraphicsPathTest:Flatten_Bezier
-x86.MonoTests.System.Drawing.Drawing2D.GraphicsPathTest:IsOutlineVisible_Line_WithGraphics_PageUnit
-x86.MonoTests.System.Drawing.Drawing2D.GraphicsPathTest:IsOutlineVisible_Line_WithGraphics_Transform
 x86.MonoTests.System.Drawing.Drawing2D.GraphicsPathTest:Reverse_Line
 x86.MonoTests.System.Drawing.Drawing2D.GraphicsPathTest:Reverse_Line_Closed
 x86.MonoTests.System.Drawing.Drawing2D.GraphicsPathTest:Reverse_Marker
@@ -528,7 +525,6 @@ x86.MonoTests.System.Windows.Forms.ControlTest:FontTest_Names
 x86.MonoTests.System.Windows.Forms.CursorTest:CursorPropertyTag
 x86.MonoTests.System.Windows.Forms.DataGridTextBoxTest:TestKeyPress_GridButNoColumns
 x86.MonoTests.System.Windows.Forms.DataGridViewLinkCellTest:Defaults
-x86.MonoTests.System.Windows.Forms.DataGridViewRowHeaderTest:MethodGetErrorIconBounds
 x86.MonoTests.System.Windows.Forms.DateTimePickerTest:MaxDate_Invalid
 x86.MonoTests.System.Windows.Forms.DateTimePickerTest:MinDate_Invalid
 x86.MonoTests.System.Windows.Forms.Design.ControlBindingsConverterTest:TestProperties
@@ -536,7 +532,6 @@ x86.MonoTests.System.Windows.Forms.Design.ControlBindingsConverterTest
 x86.MonoTests.System.Windows.Forms.EventArgsTest:TestToolStripItemTextRenderEventArgs
 x86.MonoTests.System.Windows.Forms.FocusTest:ActiveControl_NoChild
 x86.MonoTests.System.Windows.Forms.FormTest:FormPropertyTest
-x86.MonoTests.System.Windows.Forms.GroupBoxTest:AutoSize
 x86.MonoTests.System.Windows.Forms.InputLanguageTest:Test
 x86.MonoTests.System.Windows.Forms.Layout.TableLayoutSettingsTypeConverterTest:ConvertTo_CurrentCultureHasComma
 x86.MonoTests.System.Windows.Forms.Layout.TableLayoutSettingsTypeConverterTest:ConvertTo_Loop_CurrentCultureWithComma_CultureWithComma
@@ -568,7 +563,6 @@ x86.MonoTests.System.Windows.Forms.MdiFormTest:Text_MdiContainer
 x86.MonoTests.System.Windows.Forms.MonthCalendarTest:MonthCalMaxDateException
 x86.MonoTests.System.Windows.Forms.MonthCalendarTest:MonthCalMaxSelectionCountException
 x86.MonoTests.System.Windows.Forms.MonthCalendarTest:MonthCalMinDateException
-x86.MonoTests.System.Windows.Forms.NumericUpDownTest:Height
 x86.MonoTests.System.Windows.Forms.ProgressBarTest:MinMax
 x86.MonoTests.System.Windows.Forms.PropertyGridTest:PropertyGrid_MergedRootTest
 x86.MonoTests.System.Windows.Forms.PropertyGridTest:PropertyGrid_MergedTest
@@ -616,7 +610,6 @@ x86.MonoTests.System.Diagnostics.FileVersionInfoTest:DefineUnmanagedResource1c
 x86.MonoTests.System.Diagnostics.FileVersionInfoTest:DefineUnmanagedResource1d
 x86.MonoTests.System.Diagnostics.ProcessTest:DisposeWithDisposedStreams
 x86.MonoTests.System.Diagnostics.ProcessTest:ProcessName_AfterExit
-x86.MonoTests.System.Diagnostics.ProcessTest:StandardInputWrite
 x86.MonoTests.System.Diagnostics.ProcessTest:Start1_FileName_InvalidPathCharacters
 x86.MonoTests.System.Diagnostics.ProcessTest:TestDisableEventsBeforeExitedEvent
 x86.MonoTests.System.Diagnostics.ProcessTest:TestDoubleBeginErrorReadLine
@@ -887,10 +880,7 @@ x86_64.MonoTests.System.Drawing.BitmapFullTrustTest:Hicon96
 x86_64.MonoTests.System.Drawing.Drawing2D.GraphicsPathTest:AddClosedCurve_PointF_2
 x86_64.MonoTests.System.Drawing.Drawing2D.GraphicsPathTest:AddClosedCurve_Point_2
 x86_64.MonoTests.System.Drawing.Drawing2D.GraphicsPathTest:AddCurve
-x86_64.MonoTests.System.Drawing.Drawing2D.GraphicsPathTest:AddString_StringFormat
 x86_64.MonoTests.System.Drawing.Drawing2D.GraphicsPathTest:Flatten_Bezier
-x86_64.MonoTests.System.Drawing.Drawing2D.GraphicsPathTest:IsOutlineVisible_Line_WithGraphics_PageUnit
-x86_64.MonoTests.System.Drawing.Drawing2D.GraphicsPathTest:IsOutlineVisible_Line_WithGraphics_Transform
 x86_64.MonoTests.System.Drawing.Drawing2D.GraphicsPathTest:Reverse_Line
 x86_64.MonoTests.System.Drawing.Drawing2D.GraphicsPathTest:Reverse_Line_Closed
 x86_64.MonoTests.System.Drawing.Drawing2D.GraphicsPathTest:Reverse_Marker
@@ -932,7 +922,6 @@ x86_64.MonoTests.System.Drawing.GraphicsTest:Clip_TranslateTransform
 x86_64.MonoTests.System.Drawing.GraphicsTest:DefaultProperties
 x86_64.MonoTests.System.Drawing.GraphicsTest:DrawImage_ImageFloatFloat_Overflow
 x86_64.MonoTests.System.Drawing.GraphicsTest:DrawImage_ImageIntInt_Overflow
-x86_64.MonoTests.System.Drawing.GraphicsTest:DrawImage_ImagePoint4RectangleGraphicsUnit
 x86_64.MonoTests.System.Drawing.GraphicsTest:DrawImage_ImagePointArray
 x86_64.MonoTests.System.Drawing.GraphicsTest:DrawImage_ImagePointFArray
 x86_64.MonoTests.System.Drawing.GraphicsTest:DrawImage_ImageRectangleRectangleGraphicsUnit_Display
@@ -1187,7 +1176,6 @@ x86_64.MonoTests.System.Windows.Forms.ControlTest:FontTest_Names
 x86_64.MonoTests.System.Windows.Forms.CursorTest:CursorPropertyTag
 x86_64.MonoTests.System.Windows.Forms.DataGridTextBoxTest:TestKeyPress_GridButNoColumns
 x86_64.MonoTests.System.Windows.Forms.DataGridViewLinkCellTest:Defaults
-x86_64.MonoTests.System.Windows.Forms.DataGridViewRowHeaderTest:MethodGetErrorIconBounds
 x86_64.MonoTests.System.Windows.Forms.DateTimePickerTest:MaxDate_Invalid
 x86_64.MonoTests.System.Windows.Forms.DateTimePickerTest:MinDate_Invalid
 x86_64.MonoTests.System.Windows.Forms.Design.ControlBindingsConverterTest:TestProperties
@@ -1195,7 +1183,6 @@ x86_64.MonoTests.System.Windows.Forms.Design.ControlBindingsConverterTest
 x86_64.MonoTests.System.Windows.Forms.EventArgsTest:TestToolStripItemTextRenderEventArgs
 x86_64.MonoTests.System.Windows.Forms.FocusTest:ActiveControl_NoChild
 x86_64.MonoTests.System.Windows.Forms.FormTest:FormPropertyTest
-x86_64.MonoTests.System.Windows.Forms.GroupBoxTest:AutoSize
 x86_64.MonoTests.System.Windows.Forms.InputLanguageTest:Test
 x86_64.MonoTests.System.Windows.Forms.Layout.TableLayoutSettingsTypeConverterTest:ConvertTo_CurrentCultureHasComma
 x86_64.MonoTests.System.Windows.Forms.Layout.TableLayoutSettingsTypeConverterTest:ConvertTo_Loop_CurrentCultureWithComma_CultureWithComma
@@ -1227,7 +1214,6 @@ x86_64.MonoTests.System.Windows.Forms.MdiFormTest:Text_MdiContainer
 x86_64.MonoTests.System.Windows.Forms.MonthCalendarTest:MonthCalMaxDateException
 x86_64.MonoTests.System.Windows.Forms.MonthCalendarTest:MonthCalMaxSelectionCountException
 x86_64.MonoTests.System.Windows.Forms.MonthCalendarTest:MonthCalMinDateException
-x86_64.MonoTests.System.Windows.Forms.NumericUpDownTest:Height
 x86_64.MonoTests.System.Windows.Forms.ProgressBarTest:MinMax
 x86_64.MonoTests.System.Windows.Forms.PropertyGridTest:PropertyGrid_MergedRootTest
 x86_64.MonoTests.System.Windows.Forms.PropertyGridTest:PropertyGrid_MergedTest
@@ -1278,7 +1264,6 @@ x86_64.MonoTests.System.Diagnostics.FileVersionInfoTest:DefineUnmanagedResource1
 x86_64.MonoTests.System.Diagnostics.FileVersionInfoTest:DefineUnmanagedResource1d
 x86_64.MonoTests.System.Diagnostics.ProcessTest:DisposeWithDisposedStreams
 x86_64.MonoTests.System.Diagnostics.ProcessTest:ProcessName_AfterExit
-x86_64.MonoTests.System.Diagnostics.ProcessTest:StandardInputWrite
 x86_64.MonoTests.System.Diagnostics.ProcessTest:Start1_FileName_InvalidPathCharacters
 x86_64.MonoTests.System.Diagnostics.ProcessTest:TestDisableEventsBeforeExitedEvent
 x86_64.MonoTests.System.Diagnostics.ProcessTest:TestDoubleBeginErrorReadLine
@@ -1390,8 +1375,6 @@ MonoTests.System.Drawing.GDIPlusTest:GdipCreateBitmapFromFile_FileNotFound
 MonoTests.System.Drawing.GDIPlusTest:GdipLoadImageFromFile_FileNotFound
 MonoTests.System.Drawing.GDIPlusTest:GetImageThumbnail
 MonoTests.System.Drawing.GDIPlusTest:GetPointCount_Zero
-MonoTests.System.Drawing.GDIPlusTest:GraphicsPathIterator
-MonoTests.System.Drawing.GDIPlusTest:GraphicsPathIterator_WithoutPath
 MonoTests.System.Drawing.GDIPlusTest:Matrix3
 MonoTests.System.Drawing.GDIPlusTest:MetafileAsImage_InImageAPI
 MonoTests.System.Drawing.GDIPlusTest:Metafile_GetMetafileHeaderFromFile
@@ -1413,7 +1396,6 @@ x86.MonoTests.System.Drawing.GraphicsTest:Clip_TranslateTransform
 x86.MonoTests.System.Drawing.GraphicsTest:DefaultProperties
 x86.MonoTests.System.Drawing.GraphicsTest:DrawImage_ImageFloatFloat_Overflow
 x86.MonoTests.System.Drawing.GraphicsTest:DrawImage_ImageIntInt_Overflow
-x86.MonoTests.System.Drawing.GraphicsTest:DrawImage_ImagePoint4RectangleGraphicsUnit
 x86.MonoTests.System.Drawing.GraphicsTest:DrawImage_ImagePointArray
 x86.MonoTests.System.Drawing.GraphicsTest:DrawImage_ImagePointFArray
 x86.MonoTests.System.Drawing.GraphicsTest:DrawImage_ImageRectangleRectangleGraphicsUnit_Display
