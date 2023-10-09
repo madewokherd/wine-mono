@@ -12,7 +12,6 @@ assembly-loadfrom-bindingredirect
 assembly-loadfrom-simplename:test_0_LoadFromSimpleNamePreload
 assembly-loadfrom-simplename
 assemblyresolve_event3
-assemblyresolve_event4
 assemblyresolve_event6
 assembly_append_ordering
 assignable-tests
