@@ -19,7 +19,9 @@ namespace System.Speech.Internal.ObjectTokens
         protected RegistryDataKey(string fullPath, SafeRegistryHandle regHandle)
         {
             ISpRegDataKey regKey = (ISpRegDataKey)new SpDataKey();
-            SAPIErrorCodes hresult = (SAPIErrorCodes)regKey.SetKey(regHandle, false);
+            bool success = false;
+            regHandle.DangerousAddRef(ref success);
+            SAPIErrorCodes hresult = (SAPIErrorCodes)regKey.SetKey(regHandle.DangerousGetHandle(), false);
             regHandle?.Close();
             if ((hresult != SAPIErrorCodes.S_OK) && (hresult != SAPIErrorCodes.SPERR_ALREADY_INITIALIZED))
             {

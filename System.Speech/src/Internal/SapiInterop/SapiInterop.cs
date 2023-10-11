@@ -205,7 +205,7 @@ namespace System.Speech.Internal.SapiInterop
 
         // ISpRegDataKey Method
         [PreserveSig]
-        int SetKey(SafeRegistryHandle hkey, bool fReadOnly);
+        int SetKey(IntPtr hkey, bool fReadOnly);
     }
 
     [ComImport, Guid("2D3D3845-39AF-4850-BBF9-40B49780011D"), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
