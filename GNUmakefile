@@ -221,7 +221,9 @@ clean: clean-tests
 test: tests image
 	WINEPREFIX=$(BUILDDIR_ABS)/.wine-test-prefix $(WINE) reg add 'HKCU\Software\Wine\WineDbg' /v ShowCrashDialog /t REG_DWORD /d 0 /f
 	WINEPREFIX=$(BUILDDIR_ABS)/.wine-test-prefix $(MAKE) dev-setup
-	WINEPREFIX=$(BUILDDIR_ABS)/.wine-test-prefix $(WINE) explorer /desktop=wine-mono-test '$(shell $(WINE) winepath -w $(TESTS_OUTDIR)/run-tests.exe)' 
+	$(RM_F) test-output.txt
+	WINEPREFIX=$(BUILDDIR_ABS)/.wine-test-prefix $(WINE) explorer /desktop=wine-mono-test cmd /c '$(shell $(WINE) winepath -w $(TESTS_OUTDIR)/run-tests.exe) >test-output.txt 2>&1'
+	! grep -q 'The following tests failed but were not in fail-list:' test-output.txt
 
 clean-build-test-prefix:
 	-WINEPREFIX=$(BUILDDIR_ABS)/.wine-test-prefix wineserver -k
