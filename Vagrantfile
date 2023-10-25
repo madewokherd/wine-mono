@@ -4,7 +4,7 @@
 # Vagrant file for setting up a build environment for Wine Mono.
 
 Vagrant.configure(2) do |config|
-  config.vm.box = "ubuntu/lunar64"
+  config.vm.box = "ubuntu/mantic64"
 
   config.vm.provider "virtualbox" do |v|
     v.cpus = `nproc`.to_i
