@@ -16,7 +16,7 @@ clean-FNA:
 .PHONY: clean-FNA
 clean: clean-FNA
 
-$(SRCDIR)/FNA.NetStub/bin/Strongname/WineMono.FNA.NetStub.dll: $(BUILDDIR)/mono-unix/.installed $(SRCDIR)/FNA/bin/Release/WineMono.FNA.dll $(FNA_SRCS)
+$(SRCDIR)/FNA.NetStub/bin/Strongname/WineMono.FNA.NetStub.dll: $(BUILDDIR)/mono-unix/.installed $(SRCDIR)/FNA/bin/Release/WineMono.FNA.dll $(FNA_SRCS) $(FNA_NETSTUB_SRCS)
 	+$(MONO_ENV) $(MAKE) -C $(SRCDIR)/FNA.NetStub
 IMAGEDIR_BUILD_TARGETS += $(SRCDIR)/FNA.NetStub/bin/Strongname/WineMono.FNA.NetStub.dll
 
