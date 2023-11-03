@@ -596,6 +596,9 @@ class RunTests
 	[DllImport ("ntdll", CallingConvention=CallingConvention.Cdecl)]
 	extern static string wine_get_version();
 
+	[DllImport ("ntdll", CallingConvention=CallingConvention.Cdecl)]
+	extern static void wine_get_host_version(out string sysname, out string release);
+
 	int process_arguments(string[] arguments)
 	{
 		foreach (string argument in arguments)
@@ -674,6 +677,17 @@ class RunTests
 					fail_list.Add("x86.MonoTests.System.Windows.Threading.DispatcherTimerTest");
 					break;
 				default:
+					break;
+				}
+				wine_get_host_version(out var sysname, out var release);
+				switch (sysname)
+				{
+				case "Linux":
+					break;
+				case "Darwin": // macOS
+					break;
+				default:
+					Console.WriteLine($"unknown host OS: {sysname}");
 					break;
 				}
 			}
