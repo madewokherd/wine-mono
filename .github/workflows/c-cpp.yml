@@ -177,7 +177,8 @@ jobs:
     - name: Install Wine
       run: |
         brew install coreutils # for gtimeout
-        brew install --cask --no-quarantine homebrew/cask-versions/wine-devel
+        brew tap homebrew/cask-versions
+        brew install --cask --no-quarantine wine-devel
     - name: Download Wine Mono msi
       uses: actions/download-artifact@v3
       with:
