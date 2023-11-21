@@ -1,0 +1,6 @@
+WineMono.Tests.System.Windows.Media.TextFormatting.TextFormatterTest:SingleWordTest
+MonoTests.System.Windows.Forms.FormTest:FormStartupPositionChangeTest
+MonoTests.System.Windows.Forms.FormTest:FormStartupPositionTest
+MonoTests.System.Windows.Forms.FormTest:MaximizedParentedFormTest
+MonoTests.System.Net.Sockets.SocketTest
+MonoTests.System.Net.Sockets.UdpClientTest:Available

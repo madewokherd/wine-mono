@@ -683,8 +683,12 @@ class RunTests
 				switch (sysname)
 				{
 				case "Linux":
+					read_stringlist(Path.Combine(BasePath, "wine-linux-passing.txt"), pass_list);
+					read_stringlist(Path.Combine(BasePath, "wine-linux-failing.txt"), fail_list);
 					break;
 				case "Darwin": // macOS
+					read_stringlist(Path.Combine(BasePath, "wine-macos-passing.txt"), pass_list);
+					read_stringlist(Path.Combine(BasePath, "wine-macos-failing.txt"), fail_list);
 					break;
 				default:
 					Console.WriteLine($"unknown host OS: {sysname}");

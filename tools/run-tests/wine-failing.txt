@@ -363,7 +363,6 @@ x86.MonoTests.System.Drawing.RegionNonRectTest:Region_Polygon4_IsInfinite
 x86.MonoTests.System.Drawing.RegionNonRectTest:Region_Polygon5_IsInfinite
 x86.MonoTests.System.Drawing.RegionNonRectTest:Region_Rectangle_IsInfinite
 x86.MonoTests.System.Drawing.StringFormatTest:SetMeasurableCharacterRanges_TooBig
-x86.MonoTests.System.Drawing.SystemFontsTest:DefaultFont_Names
 x86.MonoTests.System.Drawing.TestBitmap:FileDoesNotExists
 x86.MonoTests.System.Drawing.TestBitmap:Format16bppArgb1555
 x86.MonoTests.System.Drawing.TestBitmap:Format16bppGrayScale
@@ -520,7 +519,6 @@ x86.MonoTests.System.Windows.Forms.ComboBoxTest:DropDownWidth
 x86.MonoTests.System.Windows.Forms.ComboBoxTest:ItemHeight
 x86.MonoTests.System.Windows.Forms.ComboBoxTest:SelectionWithAdd
 x86.MonoTests.System.Windows.Forms.ComboBoxTest:SelectionWithInsert
-x86.MonoTests.System.Windows.Forms.ControlTest:FontTest_Names
 x86.MonoTests.System.Windows.Forms.CursorTest:CursorPropertyTag
 x86.MonoTests.System.Windows.Forms.DataGridTextBoxTest:TestKeyPress_GridButNoColumns
 x86.MonoTests.System.Windows.Forms.DataGridViewLinkCellTest:Defaults
@@ -623,7 +621,6 @@ x86.MonoTests.System.Net.HttpResponseStreamTest:CanRead
 x86.MonoTests.System.Net.HttpResponseStreamTest:Read_Stream_Closed
 x86.MonoTests.System.Net.HttpWebRequestTest:EndGetResponse_AsyncResult_Invalid
 x86.MonoTests.System.Net.NetworkInformation.NetworkInterfaceTest:FirstInterfaceSpeed
-x86.MonoTests.System.Net.Sockets.SocketTest:SetSocketOption_MulticastInterfaceIndex_Loopback
 x86.MonoTests.System.Net.WebSockets.ClientWebSocketTest:ServerHandshakeReturnCrapStatusCodeTest
 x86.MonoTests.System.Security.Cryptography.X509Certificates.X509Cert20Test:Export_Pfx
 x86.MonoTests.System.Security.Cryptography.X509Certificates.X509Cert20Test:Export_Pkcs12
@@ -1013,7 +1010,6 @@ x86_64.MonoTests.System.Drawing.RegionNonRectTest:Region_Polygon4_IsInfinite
 x86_64.MonoTests.System.Drawing.RegionNonRectTest:Region_Polygon5_IsInfinite
 x86_64.MonoTests.System.Drawing.RegionNonRectTest:Region_Rectangle_IsInfinite
 x86_64.MonoTests.System.Drawing.StringFormatTest:SetMeasurableCharacterRanges_TooBig
-x86_64.MonoTests.System.Drawing.SystemFontsTest:DefaultFont_Names
 x86_64.MonoTests.System.Drawing.TestBitmap:FileDoesNotExists
 x86_64.MonoTests.System.Drawing.TestBitmap:Format16bppArgb1555
 x86_64.MonoTests.System.Drawing.TestBitmap:Format16bppGrayScale
@@ -1170,7 +1166,6 @@ x86_64.MonoTests.System.Windows.Forms.ComboBoxTest:DropDownWidth
 x86_64.MonoTests.System.Windows.Forms.ComboBoxTest:ItemHeight
 x86_64.MonoTests.System.Windows.Forms.ComboBoxTest:SelectionWithAdd
 x86_64.MonoTests.System.Windows.Forms.ComboBoxTest:SelectionWithInsert
-x86_64.MonoTests.System.Windows.Forms.ControlTest:FontTest_Names
 x86_64.MonoTests.System.Windows.Forms.CursorTest:CursorPropertyTag
 x86_64.MonoTests.System.Windows.Forms.DataGridTextBoxTest:TestKeyPress_GridButNoColumns
 x86_64.MonoTests.System.Windows.Forms.DataGridViewLinkCellTest:Defaults
@@ -1276,7 +1271,6 @@ x86_64.MonoTests.System.Net.HttpResponseStreamTest:CanRead
 x86_64.MonoTests.System.Net.HttpResponseStreamTest:Read_Stream_Closed
 x86_64.MonoTests.System.Net.HttpWebRequestTest:EndGetResponse_AsyncResult_Invalid
 x86_64.MonoTests.System.Net.NetworkInformation.NetworkInterfaceTest:FirstInterfaceSpeed
-x86_64.MonoTests.System.Net.Sockets.SocketTest:SetSocketOption_MulticastInterfaceIndex_Loopback
 x86_64.MonoTests.System.Net.WebSockets.ClientWebSocketTest:ServerHandshakeReturnCrapStatusCodeTest
 x86_64.MonoTests.System.Security.Cryptography.X509Certificates.X509Cert20Test:Export_Pfx
 x86_64.MonoTests.System.Security.Cryptography.X509Certificates.X509Cert20Test:Export_Pkcs12
@@ -1289,7 +1283,6 @@ x86_64.MonoTests.System.Windows.Markup.ValueSerializerTest
 MonoTests.System.Security.Cryptography.X509Certificates.X509CertificateTest:Certificate7 // Considered a bad test by upstream
 MonoTests.System.Windows.Forms.FormTest
 MonoTests.System.Windows.Forms.FormTest:MethodScaleControl # Fails in virtual desktop
-MonoTests.System.Windows.Forms.FormTest:RestoreBounds # Fails in virtual desktop
 MonoTests.System.Xaml.XamlLanguageTest
 MonoTests.System.Xaml.XamlMemberTest
 MonoTests.System.Xaml.XamlObjectReaderTest
@@ -1404,7 +1397,6 @@ x86.MonoTests.System.Drawing.GraphicsTest:DrawImage_ImageRectangleRectangleGraph
 x86.MonoTests.System.Drawing.GraphicsTest:DrawImage_ImageRectangleRectangleGraphicsUnit_World
 MonoTests.System.Windows.Forms.ListBoxTest:HeightAndIntegralHeight
 MonoTests.System.Reflection.Emit.DynamicMethodTest:InvalidUnicodeName
-WineMono.Tests.System.Windows.Media.TextFormatting.TextFormatterTest:SingleWordTahomaTest
 MonoTests.System.Reflection.Emit.DynamicMethodTest
 MonoTests.System.TimeZoneInfoTest+PropertiesTests:LocalId # This expects a DllNotFoundException for "libc", but our dllmap changes the exception type, it doesn't test anything on Windows anyway.
 x86.MonoTests.Microsoft_VisualBasic.DateAndTimeTests:DateString_1
@@ -1600,7 +1592,6 @@ MonoTests.System.ServiceModel.Discovery.IntegratedDiscoveryTest:UseCase2
 MonoTests.System.ServiceModel.Discovery.IntegratedDiscoveryTest:UseCase3
 MonoTests.System.ServiceModel.Discovery.IntegratedDiscoveryTest
 WineMono.Tests.System.Windows.Media.TextFormatting.TextFormatterTest:NewlineCharacterLoggingTest
-WineMono.Tests.System.Windows.Media.TextFormatting.TextFormatterTest:NewlineCharacterTest
 MonoTests.System.Windows.Forms.EventArgsTest:TestToolStripGripRenderEventArgs # ToolStripGrip is larger when themes are enabled
 MonoTests.System.Windows.Forms.ToolStripTests:Constructor # ToolStripGrip is larger when themes are enabled
 MonoTests.System.Windows.Forms.ToolStripTests:ProtectedProperties # ToolStripGrip is larger when themes are enabled
