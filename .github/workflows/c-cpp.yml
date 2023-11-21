@@ -174,12 +174,10 @@ jobs:
     needs: build
 
     steps:
-    - name: Install GStreamer
-      run: |
-        wget -nc 'https://gstreamer.freedesktop.org/data/pkg/osx/1.22.7/gstreamer-1.0-1.22.7-universal.pkg'
-        sudo installer -pkg gstreamer-1.0-1.22.7-universal.pkg -target /
     - name: Install Wine
       run: |
+        brew update-reset
+        brew update
         brew install coreutils # for gtimeout
         brew tap homebrew/cask-versions
         brew install --cask --no-quarantine wine-devel
