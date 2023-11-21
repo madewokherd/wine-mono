@@ -212,3 +212,12 @@ jobs:
           cat tests-failed
           exit 1
         fi
+    - name: Download Wine Mono tests
+      uses: actions/download-artifact@v3
+      with:
+        name: make tests-zip output
+    - name: Run Wine Mono tests
+      run: |
+        unzip wine-mono-*-tests.zip 1>&2
+        wine reg add 'HKCU\Software\Wine\WineDbg' /v ShowCrashDialog /t REG_DWORD /d 0 /f
+        wine64 tests/run-tests.exe -fail-list:tests/github-wine-failing.txt -fail-list:tests/github-macos-failing.txt
