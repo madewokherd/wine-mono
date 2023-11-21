@@ -357,7 +357,6 @@ x86.MonoTests.System.Drawing.PenTest:MultiplyTransform2_InvalidMatrixOrder
 x86.MonoTests.System.Drawing.PenTest:MultiplyTransform_NonInvertible
 x86.MonoTests.System.Drawing.PenTest:RotateTransform
 x86.MonoTests.System.Drawing.PenTest:SetLineCap_InvalidDashCap
-x86.MonoTests.System.Drawing.PenTest:Transform_NonInvertible
 x86.MonoTests.System.Drawing.RegionNonRectTest:EmptyPathWithInfiniteRegion
 x86.MonoTests.System.Drawing.RegionNonRectTest:EmptyRegionWithInfiniteRegion
 x86.MonoTests.System.Drawing.RegionNonRectTest:Region_Polygon4_IsInfinite
@@ -1008,7 +1007,6 @@ x86_64.MonoTests.System.Drawing.PenTest:MultiplyTransform2_InvalidMatrixOrder
 x86_64.MonoTests.System.Drawing.PenTest:MultiplyTransform_NonInvertible
 x86_64.MonoTests.System.Drawing.PenTest:RotateTransform
 x86_64.MonoTests.System.Drawing.PenTest:SetLineCap_InvalidDashCap
-x86_64.MonoTests.System.Drawing.PenTest:Transform_NonInvertible
 x86_64.MonoTests.System.Drawing.RegionNonRectTest:EmptyPathWithInfiniteRegion
 x86_64.MonoTests.System.Drawing.RegionNonRectTest:EmptyRegionWithInfiniteRegion
 x86_64.MonoTests.System.Drawing.RegionNonRectTest:Region_Polygon4_IsInfinite
