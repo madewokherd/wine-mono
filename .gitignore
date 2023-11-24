@@ -2,8 +2,8 @@
 /.vagrant/
 /build/
 /image/
-/llvm-mingw-20231017-ucrt-ubuntu-20.04-x86_64.tar.xz
-/llvm-mingw-20231017-ucrt-ubuntu-20.04-x86_64/
+/llvm-mingw-20231114-ucrt-ubuntu-20.04-x86_64.tar.xz
+/llvm-mingw-20231114-ucrt-ubuntu-20.04-x86_64/
 /tests/
 /tools/tests/*.exe
 /tools/tests/*.dll
