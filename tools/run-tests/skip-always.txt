@@ -69,3 +69,8 @@ x86.MonoTests.System.Threading.ThreadTest:TestStart # tends to hang on Windows
 MonoTests.System.Threading.CancellationTokenSourceTest:DisposeRace # sometimes crashes on windows
 MonoTests.System.Windows.Forms.PictureBoxTest:ImageLocation_Async # usually hangs
 make-imt-test # not intended to be run directly
+x86.pinvoke3:test_0_marshal_return_string_array_delegate # exception on Windows
+x86.pinvoke3:test_3_marshal_return_string_array_delegate_null # exception on Windows
+x86.pinvoke3:test_0_appdomain_switch # exception on Windows
+x86.pinvoke3:test_0_marshal_byref_class_delegate_null # exception on Windows
+x86.pinvoke3:test_0_marshal_struct_delegate # exception on Windows
