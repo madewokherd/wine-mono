@@ -5399,8 +5399,6 @@ MonoTests.System.Net.HttpListener2Test:SendCookiestoClient
 MonoTests.System.Net.HttpListener2Test:Test2
 MonoTests.System.Net.HttpListener2Test:Test3
 MonoTests.System.Configuration.SettingsPropertyValueTest:Binary_Serialize
-x86.pinvoke3:test_0_marshal_small_struct_delegate8 # clang uses incorrect return convention
-x86.pinvoke3:test_0_marshal_small_struct_delegate9 # clang uses incorrect return convention
 # unreliable:
 x86.thread-exit
 MonoTests.System.Threading.Tasks.TaskTests:DoubleWaitTest
