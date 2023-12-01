@@ -74,3 +74,4 @@ x86.pinvoke3:test_3_marshal_return_string_array_delegate_null # exception on Win
 x86.pinvoke3:test_0_appdomain_switch # exception on Windows
 x86.pinvoke3:test_0_marshal_byref_class_delegate_null # exception on Windows
 x86.pinvoke3:test_0_marshal_struct_delegate # exception on Windows
+MonoTests.System.Drawing.GDIPlusTest:DisposeImage_Dual # intentional use-after-free, can cause exception
