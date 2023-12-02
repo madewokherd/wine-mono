@@ -5538,3 +5538,4 @@ MonoTests.System.Threading.ThreadTest:TestNestedThreads1
 MonoTests.System.Security.Cryptography.RandomNumberGeneratorTest:Runs
 MonoTests.System.Threading.ThreadTest:TestNestedThreads2
 MonoTests.System.Threading.ThreadTest:TestIsBackground2
+x86.pinvoke3:test_0_marshal_byref_class_delegate
