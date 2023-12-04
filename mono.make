@@ -80,14 +80,14 @@ $$(BUILDDIR)/btls-$(1)/.built: $$(BUILDDIR)/btls-$(1)/Makefile $$(MONO_BTLS_SRCS
 	touch "$$@"
 IMAGEDIR_BUILD_TARGETS += $$(BUILDDIR)/btls-$(1)/.built
 
-libmono-btls-$(1).dll: $$(BUILDDIR)/btls-$(1)/.built
-	mkdir -p "$$(IMAGEDIR)/lib"
-	$$(INSTALL_PE_$(1)) "$$(BUILDDIR)/btls-$(1)/libmono-btls-shared.dll" "$$(IMAGEDIR)/lib/libmono-btls-$(1).dll"
-.PHONY: libmono-btls-$(1).dll
-imagedir-targets: libmono-btls-$(1).dll
+libmono-btls-shared-$(1).dll: $$(BUILDDIR)/btls-$(1)/.built
+	mkdir -p "$$(IMAGEDIR)/lib/$(1)"
+	$$(INSTALL_PE_$(1)) "$$(BUILDDIR)/btls-$(1)/libmono-btls-shared.dll" "$$(IMAGEDIR)/lib/$(1)/libmono-btls-shared.dll"
+.PHONY: libmono-btls-shared-$(1).dll
+imagedir-targets: libmono-btls-shared-$(1).dll
 
-libmono-btls.dll: libmono-btls-$(1).dll
-.PHONY: libmono-btls.dll
+libmono-btls-shared.dll: libmono-btls-shared-$(1).dll
+.PHONY: libmono-btls-shared.dll
 
 clean-build-btls-$(1):
 	rm -rf $$(BUILDDIR)/btls-$(1)
