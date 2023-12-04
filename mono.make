@@ -12,13 +12,28 @@ $(SRCDIR)/mono/configure: $(SRCDIR)/mono/autogen.sh $(SRCDIR)/mono/configure.ac 
 
 define MINGW_TEMPLATE +=
 
+ifeq (1,$(ENABLE_DEBUG_SYMBOLS))
+PDB_LDFLAGS_LIBMONO_$(1)=$$(PDB_LDFLAGS_$(1))libmono-2.0-$(1).pdb
+endif
+
 # libmono dll's
 $$(BUILDDIR)/mono-$(1)/Makefile: $$(SRCDIR)/mono/configure $$(SRCDIR)/mono.make $$(BUILDDIR)/.dir $$(MINGW_DEPS)
 	mkdir -p $$(@D)
 	cd $$(BUILDDIR)/mono-$(1); $$(MINGW_ENV) CFLAGS="$$(PDB_CFLAGS_$(1)) $$$${CFLAGS:--g -O2}" CXXFLAGS="$$(PDB_CFLAGS_$(1)) $$$${CXXFLAGS:--g -O2}" LDFLAGS="$$(PDB_LDFLAGS_$(1))" $$(SRCDIR_ABS)/mono/configure --prefix="$$(BUILDDIR_ABS)/build-cross-$(1)-install" --build=$$(shell $$(SRCDIR)/mono/config.guess) --target=$$(MINGW_$(1)) --host=$$(MINGW_$(1)) --with-tls=none --disable-mcs-build --enable-win32-dllmain=yes --with-libgc-threads=win32 PKG_CONFIG=false mono_cv_clang=no --disable-boehm mono_feature_disable_cleanup=yes
 	sed -e 's/-lgcc_s//' -i $$(BUILDDIR)/mono-$(1)/libtool
 
-$$(BUILDDIR)/mono-$(1)/.built: $$(BUILDDIR)/mono-$(1)/Makefile $$(MONO_MONO_SRCS) $$(MINGW_DEPS)
+$$(BUILDDIR)/mono-$(1)/mono/%/.built: $$(BUILDDIR)/mono-$(1)/Makefile $$(MINGW_DEPS)
+	+WINEPREFIX=/dev/null $$(MINGW_ENV) $$(MAKE) -C $$(BUILDDIR)/mono-$(1)/mono/$$*
+	touch "$$@"
+
+$$(BUILDDIR)/mono-$(1)/mono/metadata/.built: $$(BUILDDIR)/mono-$(1)/mono/culture/.built $$(BUILDDIR)/mono-$(1)/mono/zlib/.built
+
+$$(BUILDDIR)/mono-$(1)/mono/mini/.built: $$(BUILDDIR)/mono-$(1)/Makefile $$(BUILDDIR)/mono-$(1)/mono/metadata/.built $$(BUILDDIR)/mono-$(1)/mono/sgen/.built $$(BUILDDIR)/mono-$(1)/mono/utils/.built $$(BUILDDIR)/mono-$(1)/mono/eglib/.built $$(MONO_MONO_SRCS) $$(MINGW_DEPS)
+	+WINEPREFIX=/dev/null $$(MINGW_ENV) $$(MAKE) -C $$(BUILDDIR)/mono-$(1)/mono/mini built_sources
+	+WINEPREFIX=/dev/null $$(MINGW_ENV) $$(MAKE) -C $$(BUILDDIR)/mono-$(1)/mono/mini LDFLAGS="$$(PDB_LDFLAGS_LIBMONO_$(1))" libmonosgen-2.0.la
+	touch "$$@"
+
+$$(BUILDDIR)/mono-$(1)/.built: $$(BUILDDIR)/mono-$(1)/mono/mini/.built $$(MONO_MONO_SRCS) $$(MINGW_DEPS)
 	+WINEPREFIX=/dev/null $$(MINGW_ENV) $$(MAKE) -C $$(BUILDDIR)/mono-$(1)
 	touch "$$@"
 IMAGEDIR_BUILD_TARGETS += $$(BUILDDIR)/mono-$(1)/.built
@@ -28,9 +43,10 @@ $$(BUILDDIR)/mono-$(1)/support/.built: $$(BUILDDIR)/mono-$(1)/.built $$(MINGW_DE
 	touch "$$@"
 IMAGEDIR_BUILD_TARGETS += $$(BUILDDIR)/mono-$(1)/support/.built
 
-libmono-2.0-$(1).dll: $$(BUILDDIR)/mono-$(1)/.built
+libmono-2.0-$(1).dll: $$(BUILDDIR)/mono-$(1)/mono/mini/.built
 	mkdir -p "$$(IMAGEDIR)/bin"
 	$$(INSTALL_PE_$(1)) "$$(BUILDDIR)/mono-$(1)/mono/mini/.libs/libmonosgen-2.0.dll" "$$(IMAGEDIR)/bin/libmono-2.0-$(1).dll"
+	if test x1 = x$(ENABLE_DEBUG_SYMBOLS); then cp "$$(BUILDDIR)/mono-$(1)/mono/mini/libmono-2.0-$(1).pdb" "$$(IMAGEDIR)/bin/libmono-2.0-$(1).pdb"; fi
 
 .PHONY: libmono-2.0-$(1).dll
 imagedir-targets: libmono-2.0-$(1).dll
