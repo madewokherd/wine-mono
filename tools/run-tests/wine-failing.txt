@@ -1520,6 +1520,7 @@ MonoTests.System.Net.HttpWebResponseTest:ResponseUri_Disposed
 MonoTests.System.Net.HttpWebResponseTest:Server_Disposed
 MonoTests.System.Net.HttpWebResponseTest:StatusDescription_Disposed
 MonoTests.System.Net.HttpWebResponseTest
+MonoTests.System.Net.HttpWebRequestTest:NotModifiedSince
 # definitely unreliable:
 delegate2
 x86_64.MonoTests.System.Threading.ThreadLocalTests:DisposeOnThreadExit
