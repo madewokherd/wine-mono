@@ -55,8 +55,8 @@ libmono.dll libmono-2.0.dll: libmono-2.0-$(1).dll
 .PHONY: libmono.dll libmono-2.0.dll
 
 MonoPosixHelper-$(1).dll: $$(BUILDDIR)/mono-$(1)/support/.built
-	mkdir -p "$$(IMAGEDIR)/lib"
-	$$(INSTALL_PE_$(1)) "$$(BUILDDIR)/mono-$(1)/support/.libs/libMonoPosixHelper.dll" "$$(IMAGEDIR)/lib/MonoPosixHelper-$(1).dll"
+	mkdir -p "$$(IMAGEDIR)/lib/$(1)"
+	$$(INSTALL_PE_$(1)) "$$(BUILDDIR)/mono-$(1)/support/.libs/libMonoPosixHelper.dll" "$$(IMAGEDIR)/lib/$(1)/MonoPosixHelper.dll"
 .PHONY: MonoPosixHelper-$(1).dll
 imagedir-targets: MonoPosixHelper-$(1).dll
 
