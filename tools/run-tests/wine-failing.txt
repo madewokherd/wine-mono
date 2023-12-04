@@ -287,7 +287,6 @@ x86.MonoTests.System.Drawing.ImageTest:FromStream_Metafile_Emf_NotOrigin
 x86.MonoTests.System.Drawing.ImageTest:FromStream_Metafile_Wmf
 x86.MonoTests.System.Drawing.ImageTest:FromStream_Metafile_Wmf_NotOrigin
 x86.MonoTests.System.Drawing.ImageTest:StreamJunkSaveLoad
-x86.MonoTests.System.Drawing.Imaging.BmpCodecTest:Save_32bppArgb
 x86.MonoTests.System.Drawing.Imaging.BmpCodecTest:Save_32bppPArgb
 x86.MonoTests.System.Drawing.Imaging.BmpCodecTest:Save_64bppArgb
 x86.MonoTests.System.Drawing.Imaging.BmpCodecTest:Save_64bppPArgb
@@ -837,7 +836,6 @@ x86_64.MonoTests.System.Drawing.ImageTest:FromStream_Metafile_Emf_NotOrigin
 x86_64.MonoTests.System.Drawing.ImageTest:FromStream_Metafile_Wmf
 x86_64.MonoTests.System.Drawing.ImageTest:FromStream_Metafile_Wmf_NotOrigin
 x86_64.MonoTests.System.Drawing.ImageTest:StreamJunkSaveLoad
-x86_64.MonoTests.System.Drawing.Imaging.BmpCodecTest:Save_32bppArgb
 x86_64.MonoTests.System.Drawing.Imaging.BmpCodecTest:Save_32bppPArgb
 x86_64.MonoTests.System.Drawing.Imaging.BmpCodecTest:Save_64bppArgb
 x86_64.MonoTests.System.Drawing.Imaging.BmpCodecTest:Save_64bppPArgb
