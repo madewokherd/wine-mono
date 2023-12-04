@@ -14,8 +14,8 @@ $$(BUILDDIR)/FAudio-$(1)/.built: $$(BUILDDIR)/FAudio-$(1)/Makefile $$(FAUDIO_SRC
 IMAGEDIR_BUILD_TARGETS += $$(BUILDDIR)/FAudio-$(1)/.built
 
 FAudio-$(1).dll: $$(BUILDDIR)/FAudio-$(1)/.built
-	mkdir -p "$$(IMAGEDIR)/lib"
-	$$(INSTALL_PE_$(1)) "$$(BUILDDIR)/FAudio-$(1)/FAudio.dll" "$$(IMAGEDIR)/lib/FAudio-$(1).dll"
+	mkdir -p "$$(IMAGEDIR)/lib/$(1)"
+	$$(INSTALL_PE_$(1)) "$$(BUILDDIR)/FAudio-$(1)/FAudio.dll" "$$(IMAGEDIR)/lib/$(1)/FAudio.dll"
 .PHONY: FAudio-$(1).dll
 imagedir-targets: FAudio-$(1).dll
 
