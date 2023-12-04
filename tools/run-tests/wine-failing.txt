@@ -1565,3 +1565,4 @@ MonoTests.System.Net.NetworkInformation.PingTest:SendPingAsyncIPV4Succeeds
 MonoTests.System.Net.NetworkInformation.PingTest
 MonoTests.System.Transactions.AsyncTest:AsyncFail3
 MonoTests.System.Net.WebSockets.ClientWebSocketTest:CloseAsyncTest
+MonoTests.System.ServiceModel.Description.ServiceDebugBehaviorTest:InitializeRuntime3
