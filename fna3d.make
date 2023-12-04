@@ -14,7 +14,7 @@ $$(BUILDDIR)/FNA3D-$(1)/.built: $$(BUILDDIR)/FNA3D-$(1)/Makefile $$(FNA3D_SRCS) 
 IMAGEDIR_BUILD_TARGETS += $$(BUILDDIR)/FNA3D-$(1)/.built
 
 FNA3D-$(1).dll: $$(BUILDDIR)/FNA3D-$(1)/.built
-	mkdir -p "$$(IMAGEDIR)/lib"
+	mkdir -p "$$(IMAGEDIR)/lib/$(1)"
 	$$(INSTALL_PE_$(1)) "$$(BUILDDIR)/FNA3D-$(1)/FNA3D.dll" "$$(IMAGEDIR)/lib/$(1)/FNA3D.dll"
 .PHONY: FNA3D-$(1).dll
 imagedir-targets: FNA3D-$(1).dll
