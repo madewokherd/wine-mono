@@ -10,8 +10,8 @@ $$(BUILDDIR)/FNAMF-$(1)/.built: $$(FNAMF_SRCS) $$(BUILDDIR)/.dir $$(MINGW_DEPS)
 IMAGEDIR_BUILD_TARGETS += $$(BUILDDIR)/FNAMF-$(1)/.built
 
 FNAMF-$(1).dll: $$(BUILDDIR)/FNAMF-$(1)/.built
-	mkdir -p "$$(IMAGEDIR)/lib"
-	$$(INSTALL_PE_$(1)) "$$(BUILDDIR)/FNAMF-$(1)/FNAMF.dll" "$$(IMAGEDIR)/lib/FNAMF-$(1).dll"
+	mkdir -p "$$(IMAGEDIR)/lib/$(1)"
+	$$(INSTALL_PE_$(1)) "$$(BUILDDIR)/FNAMF-$(1)/FNAMF.dll" "$$(IMAGEDIR)/lib/$(1)/FNAMF.dll"
 .PHONY: FNAMF-$(1).dll
 imagedir-targets: FNAMF-$(1).dll
 
