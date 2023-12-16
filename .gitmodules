@@ -28,3 +28,6 @@
 [submodule "monolite"]
 	path = monolite
 	url = ../monolite-binaries.git
+[submodule "mono-basic-compat"]
+	path = mono-basic-compat
+	url = ../mono-basic-compat.git

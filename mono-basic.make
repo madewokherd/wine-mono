@@ -179,6 +179,17 @@ Microsoft.VisualBasic.dll: $(BUILDDIR)/Microsoft.VisualBasic.dll
 .PHONY: Microsoft.VisualBasic.dll
 imagedir-targets: Microsoft.VisualBasic.dll
 
+MONO_BASIC_COMPAT_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/
+
+$(SRCDIR)/mono-basic-compat/.built: $(BUILDDIR)/Microsoft.VisualBasic.dll $(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/mono-basic-compat)
+	+$(MONO_ENV) $(MAKE) -C $(@D) VBC='vbc -libpath:$(SRCDIR)/mono/mcs/class/lib/net_4_x/ -libpath:$(BUILDDIR_ABS) -vbruntime:$(BUILDDIR_ABS)/Microsoft.VisualBasic.dll'
+	touch $@
+
+Microsoft.VisualBasic.Compatibility.dll: $(SRCDIR)/mono-basic-compat/.built
+	$(MONO_ENV) gacutil -i $(SRCDIR)/mono-basic-compat/Microsoft.VisualBasic.Compatibility.dll -root $(IMAGEDIR)/lib
+.PHONY: Microsoft.VisualBasic.Compatibility.dll
+imagedir-targets: Microsoft.VisualBasic.Compatibility.dll
+
 clean-build-mono-basic:
 	rm -rf $(BUILDDIR)/Microsoft.VisualBasic
 	rm -f $(BUILDDIR)/Microsoft.VisualBasic.dll
