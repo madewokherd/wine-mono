@@ -1447,34 +1447,6 @@ configuration-with-defaults
 MonoTests.System.Configuration.ApplicationSettingsBaseTest:TestSettings1_Properties
 MonoTests.System.Configuration.SettingsPropertyValueTest:Binary_Serialize
 MonoTests.System.Drawing.Drawing2D.GraphicsPathTest:IsOutlineVisible_Line_WithGraphics # winehq bug 55717
-MonoTests.System.Net.HttpResponseStreamTest:BeginRead_Buffer_Null # winehq bug 55952
-MonoTests.System.Net.HttpResponseStreamTest:BeginWrite
-MonoTests.System.Net.HttpResponseStreamTest:CanSeek
-MonoTests.System.Net.HttpResponseStreamTest:CanTimeout
-MonoTests.System.Net.HttpResponseStreamTest:CanWrite
-MonoTests.System.Net.HttpResponseStreamTest:Read
-MonoTests.System.Net.HttpResponseStreamTest:ReadTimeout
-MonoTests.System.Net.HttpResponseStreamTest:Read_Buffer_Null
-MonoTests.System.Net.HttpResponseStreamTest:Read_Offset_Negative
-MonoTests.System.Net.HttpResponseStreamTest:Read_Offset_Overflow
-MonoTests.System.Net.HttpResponseStreamTest:Write
-MonoTests.System.Net.HttpResponseStreamTest:WriteTimeout
-MonoTests.System.Net.HttpResponseStreamTest
-MonoTests.System.Net.HttpWebResponseTest:CharacterSet_Disposed
-MonoTests.System.Net.HttpWebResponseTest:Close_Disposed
-MonoTests.System.Net.HttpWebResponseTest:ContentEncoding_Disposed
-MonoTests.System.Net.HttpWebResponseTest:ContentType_Disposed
-MonoTests.System.Net.HttpWebResponseTest:Cookies_Disposed
-MonoTests.System.Net.HttpWebResponseTest:GetResponseHeader_Disposed
-MonoTests.System.Net.HttpWebResponseTest:GetResponseStream_Disposed
-MonoTests.System.Net.HttpWebResponseTest:LastModified_Disposed
-MonoTests.System.Net.HttpWebResponseTest:Method_Disposed
-MonoTests.System.Net.HttpWebResponseTest:ProtocolVersion_Disposed
-MonoTests.System.Net.HttpWebResponseTest:ResponseUri_Disposed
-MonoTests.System.Net.HttpWebResponseTest:Server_Disposed
-MonoTests.System.Net.HttpWebResponseTest:StatusDescription_Disposed
-MonoTests.System.Net.HttpWebResponseTest
-MonoTests.System.Net.HttpWebRequestTest:NotModifiedSince
 # definitely unreliable:
 delegate2
 x86_64.MonoTests.System.Threading.ThreadLocalTests:DisposeOnThreadExit
