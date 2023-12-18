@@ -49,6 +49,7 @@ _source_suffixes = (
 
 _ignore_file_suffixes = (
 	'.generated.cs',
+	'.generated.vb',
 	'.resources.cs',
 	'mcs/build/common/Consts.cs',
 	'/config.make',
