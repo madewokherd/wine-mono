@@ -174,6 +174,8 @@ $(BUILDDIR)/Microsoft.VisualBasic.dll: $(BUILDDIR)/mono-unix/.installed $(VBRUNT
 	$(MONO_ENV) vbc -target:library -debug+ -out:$@ -define:NET_VER=4.5 $(foreach res,$(VBRUNTIME_RESOURCES),-res:$(res)) -r:System.dll -r:mscorlib.dll -r:System.Windows.Forms.dll -r:System.Core.dll -r:System.Data.dll -r:System.Drawing.dll -r:System.Web.dll -r:System.Xml.dll -vbruntime- -define:_MYTYPE="Empty" -define:DONTSIGN=True -delaysign+ -keyfile:$(VBRUNTIME_BASE)/msfinal.pub -optionstrict+ -optioninfer+ -imports:System,System.Collections,System.Data,System.Diagnostics,System.Collections.Generic,System.Threading.Tasks -noconfig $(VBRUNTIME_SRCS)
 	$(MONO_ENV) sn -R $@ $(VBRUNTIME_BASE)/mono.snk
 
+IMAGEDIR_BUILD_TARGETS += $(BUILDDIR)/Microsoft.VisualBasic.dll
+
 Microsoft.VisualBasic.dll: $(BUILDDIR)/Microsoft.VisualBasic.dll
 	$(MONO_ENV) gacutil -i $(BUILDDIR)/Microsoft.VisualBasic.dll -root $(IMAGEDIR)/lib
 .PHONY: Microsoft.VisualBasic.dll
@@ -184,6 +186,8 @@ MONO_BASIC_COMPAT_SRCS=$(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/
 $(SRCDIR)/mono-basic-compat/.built: $(BUILDDIR)/Microsoft.VisualBasic.dll $(shell $(SRCDIR)/tools/git-updated-files $(SRCDIR)/mono-basic-compat)
 	+$(MONO_ENV) $(MAKE) -C $(@D) VBC='vbc -libpath:$(SRCDIR)/mono/mcs/class/lib/net_4_x/ -libpath:$(BUILDDIR_ABS) -vbruntime:$(BUILDDIR_ABS)/Microsoft.VisualBasic.dll'
 	touch $@
+
+IMAGEDIR_BUILD_TARGETS += $(SRCDIR)/mono-basic-compat/.built
 
 Microsoft.VisualBasic.Compatibility.dll: $(SRCDIR)/mono-basic-compat/.built
 	$(MONO_ENV) gacutil -i $(SRCDIR)/mono-basic-compat/Microsoft.VisualBasic.Compatibility.dll -root $(IMAGEDIR)/lib
