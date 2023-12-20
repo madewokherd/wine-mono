@@ -203,10 +203,10 @@ jobs:
     - name: Run 32-bit Wine mscoree tests
       run: |
         wget -nc 'https://gitlab.winehq.org/wine/wine/-/jobs/artifacts/master/raw/winetest.exe?job=build-daily-winetest' -O winetest.exe
-        wine winetest.exe -x winetest
-        wine winetest/mscoree_test.exe --list 2>/dev/null|sed 's/.$//'|tail -n +2|while read testname; do
+        wine64 winetest.exe -x winetest
+        wine64 winetest/mscoree_test.exe --list 2>/dev/null|sed 's/.$//'|tail -n +2|while read testname; do
           echo BEGIN $testname TEST
-          WINETEST_REPORT_SUCCESS=1 WINEDEBUG=mscoree WINE_MONO_TRACE=x gtimeout -v 300 wine winetest/mscoree_test.exe $testname || printf 'mscoree:%s 32-bit test failed\n' $testname >> tests-failed
+          WINETEST_REPORT_SUCCESS=1 WINEDEBUG=mscoree WINE_MONO_TRACE=x gtimeout -v 300 wine64 winetest/mscoree_test.exe $testname || printf 'mscoree:%s 32-bit test failed\n' $testname >> tests-failed
           echo END $testname TEST
         done
         if test -f tests-failed; then
