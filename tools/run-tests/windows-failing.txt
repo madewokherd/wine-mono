@@ -5399,7 +5399,6 @@ MonoTests.System.Net.HttpListener2Test:SendCookiestoClient
 MonoTests.System.Net.HttpListener2Test:Test2
 MonoTests.System.Net.HttpListener2Test:Test3
 MonoTests.System.Configuration.SettingsPropertyValueTest:Binary_Serialize
-t12
 t46
 # unreliable:
 x86.thread-exit
