@@ -52,7 +52,7 @@ TEST_IL_EXE_SRCS = \
 	marshalcopy.il \
 	xnatest.il
 
-TEST_CLR_EXE_TARGETS = $(TEST_CS_EXE_SRCS:%.cs=tools/tests/%.exe) $(TEST_IL_EXE_SRCS:%.il=tools/tests/%.exe)
+TEST_CLR_EXE_TARGETS = $(TEST_CS_EXE_SRCS:%.cs=tools/tests/%.exe) $(TEST_IL_EXE_SRCS:%.il=tools/tests/%.exe) vstests/wpfapptest/bin/Release/wpfapptest.exe
 
 ifeq (1,$(ENABLE_DOTNET_CORE_WPF))
 TEST_NUNIT_TARGETS = \
