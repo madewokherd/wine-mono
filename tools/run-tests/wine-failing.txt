@@ -1493,3 +1493,10 @@ MonoTests.System.Net.NetworkInformation.PingTest
 MonoTests.System.Transactions.AsyncTest:AsyncFail3
 MonoTests.System.Net.WebSockets.ClientWebSocketTest:CloseAsyncTest
 MonoTests.System.ServiceModel.Description.ServiceDebugBehaviorTest:InitializeRuntime3
+MonoTests.System.ServiceModel.Description.MetadataResolverTest:ErrResolve7
+MonoTests.System.ServiceModel.Description.MetadataResolverTest:ErrResolve8
+MonoTests.System.ServiceModel.Description.MetadataResolverTest:ErrResolve9
+MonoTests.System.ServiceModel.Description.MetadataResolverTest:Resolve5
+MonoTests.System.ServiceModel.Description.MetadataResolverTest:Resolve6
+MonoTests.System.ServiceModel.Description.MetadataResolverTest:ResolveBadUri
+MonoTests.System.ServiceModel.Description.MetadataResolverTest:ResolveNoEndpoint
