@@ -552,7 +552,6 @@ x86.MonoTests.System.Windows.Forms.RichTextBoxTest:SelectionLength_Negative
 x86.MonoTests.System.Windows.Forms.RichTextBoxTest:SelectionStart_Negative
 x86.MonoTests.System.Windows.Forms.SaveFileDialogTest:Filter_InvalidFormat
 x86.MonoTests.System.Windows.Forms.ScrollableControlTest:AutoScrollPositionTest
-x86.MonoTests.System.Windows.Forms.TabControlTest:GetTabRectTest
 x86.MonoTests.System.Windows.Forms.TabControlTest:SelectedIndex_Negative
 x86.MonoTests.System.Windows.Forms.TestControlStyle:DateTimePickerStyleTest
 x86.MonoTests.System.Windows.Forms.TextBoxTest
@@ -1062,7 +1061,6 @@ x86_64.MonoTests.System.Windows.Forms.ScrollBarEventTest
 x86_64.MonoTests.System.Windows.Forms.ScrollableControlTest:AutoScrollPositionTest
 x86_64.MonoTests.System.Windows.Forms.SendKeysTest
 x86_64.MonoTests.System.Windows.Forms.SendKeysTest
-x86_64.MonoTests.System.Windows.Forms.TabControlTest:GetTabRectTest
 x86_64.MonoTests.System.Windows.Forms.TabControlTest:SelectedIndex_Negative
 x86_64.MonoTests.System.Windows.Forms.TestControlStyle:DateTimePickerStyleTest
 MonoTests.System.Windows.Forms.TextBoxTest:SelectionLength_Negative
