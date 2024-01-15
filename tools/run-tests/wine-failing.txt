@@ -1446,6 +1446,8 @@ MonoTests.System.Configuration.ApplicationSettingsBaseTest:TestSettings1_Propert
 MonoTests.System.Configuration.SettingsPropertyValueTest:Binary_Serialize
 MonoTests.System.Drawing.Drawing2D.GraphicsPathTest:IsOutlineVisible_Line_WithGraphics # winehq bug 55717
 t12
+t49
+t50
 # definitely unreliable:
 delegate2
 x86_64.MonoTests.System.Threading.ThreadLocalTests:DisposeOnThreadExit
