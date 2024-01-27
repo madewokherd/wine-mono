@@ -79,8 +79,8 @@ help:
 
 include llvm.make
 
-dev-setup:
-	for i in `$(WINE) uninstaller --list|grep '|||Wine Mono'|sed -e 's/|||.*$$//'`; do $(WINE) uninstaller --remove "$$i"; done
+dev-setup: build/removeuserinstalls-x86.exe
+	$(WINE) build/removeuserinstalls-x86.exe -a
 	$(WINE) msiexec /i '$(shell $(WINE) winepath -w $(IMAGEDIR)/support/winemono-support.msi)'
 	$(WINE) reg add 'HKCU\Software\Wine\Mono' /v RuntimePath /d '$(shell $(WINE) winepath -w $(IMAGEDIR))' /f
 
