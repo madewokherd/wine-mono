@@ -45,7 +45,7 @@ $(SRCDIR)/monoDX/Microsoft.DirectX.Direct3DX/.built: $(BUILDDIR)/mono-unix/.inst
 	+$(MONO_ENV) $(MAKE) -C $(@D)
 	touch $@
 
-$(SRCDIR)/monoDX/Microsoft.DirectX.DirectInput/.built: $(BUILDDIR)/mono-unix/.installed $(MONODX_SRCS) $(SRCDIR)/monoDX/Microsoft.DirectX/.built
+$(SRCDIR)/monoDX/Microsoft.DirectX.DirectInput/.built: $(BUILDDIR)/mono-unix/.installed $(MONODX_SRCS) $(SRCDIR)/monoDX/FixupConstructors/.built $(SRCDIR)/monoDX/Microsoft.DirectX/.built
 	+$(MONO_ENV) $(MAKE) -C $(@D)
 	touch $@
 
