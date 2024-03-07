@@ -82,7 +82,7 @@ helper_dtod(const char *func_name, d_to_d_func func,
     Uint32 i;
     for (i = 0; i < cases_size; i++) {
         const double result = func(cases[i].input);
-        SDLTest_AssertCheck((result - cases[i].expected) < FLT_EPSILON,
+        SDLTest_AssertCheck(SDL_fabs(result - cases[i].expected) < FLT_EPSILON,
                             "%s(%f), expected %f, got %f",
                             func_name,
                             cases[i].input,
@@ -117,11 +117,10 @@ helper_dtod_inexact(const char *func_name, d_to_d_func func,
             max_err = -max_err;
         }
         SDLTest_AssertCheck(diff <= max_err,
-                            "%s(%f), expected [%f,%f], got %f",
+                            "%s(%f), expected %f +/- %g, got %f",
                             func_name,
                             cases[i].input,
-                            cases[i].expected - EPSILON,
-                            cases[i].expected + EPSILON,
+                            cases[i].expected, max_err,
                             result);
     }
 
@@ -182,11 +181,10 @@ helper_ddtod_inexact(const char *func_name, dd_to_d_func func,
         }
 
         SDLTest_AssertCheck(diff <= max_err,
-                            "%s(%f,%f), expected [%f,%f], got %f",
+                            "%s(%f,%f), expected %f +/- %g, got %f",
                             func_name,
                             cases[i].x_input, cases[i].y_input,
-                            cases[i].expected - EPSILON,
-                            cases[i].expected + EPSILON,
+                            cases[i].expected, max_err,
                             result);
     }
 
@@ -1114,7 +1112,7 @@ exp_regularCases(void *args)
         { 112.89, 10653788283588960962604279261058893737879589093376.0 },
         { 539.483, 1970107755334319939701129934673541628417235942656909222826926175622435588279443011110464355295725187195188154768877850257012251677751742837992843520967922303961718983154427294786640886286983037548604937796221048661733679844353544028160.0 },
     };
-    return helper_dtod("Exp", SDL_exp, regular_cases, SDL_arraysize(regular_cases));
+    return helper_dtod_inexact("Exp", SDL_exp, regular_cases, SDL_arraysize(regular_cases));
 }
 
 /* SDL_log tests functions */
@@ -1161,7 +1159,7 @@ log_baseCases(void *args)
                         1.0, 0.0, result);
 
     result = SDL_log(EULER);
-    SDLTest_AssertCheck((result - 1.) < FLT_EPSILON,
+    SDLTest_AssertCheck(SDL_fabs(result - 1.) < FLT_EPSILON,
                         "Log(%f), expected %f, got %f",
                         EULER, 1.0, result);
 
