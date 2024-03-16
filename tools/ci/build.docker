@@ -1,0 +1,18 @@
+# FROM debian:bookworm # FROM line will be added by CI process
+
+WORKDIR /tmp
+
+RUN export DEBIAN_FRONTEND=noninteractive; \
+    echo 'path-exclude=/usr/share/doc/*' > /etc/dpkg/dpkg.cfg.d/99-exclude-cruft && \
+    echo 'path-exclude=/usr/share/locale/*' >> /etc/dpkg/dpkg.cfg.d/99-exclude-cruft && \
+    echo 'path-exclude=/usr/share/man/*' >> /etc/dpkg/dpkg.cfg.d/99-exclude-cruft && \
+    echo 'APT::Install-Recommends "false";' > /etc/apt/apt.conf && \
+    echo '#!/bin/sh' > /usr/sbin/policy-rc.d && \
+    echo 'exit 101' >> /usr/sbin/policy-rc.d && \
+    chmod +x /usr/sbin/policy-rc.d && \
+    apt-get update && \
+    apt-get install -y git build-essential ca-certificates autoconf libtool automake cmake python3 gettext wget wine64 wine64-tools libgdiplus zip && \
+    apt-get clean && \
+    useradd -m gitlab
+
+USER gitlab

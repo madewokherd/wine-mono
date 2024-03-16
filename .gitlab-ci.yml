@@ -1,0 +1,8 @@
+stages:
+    - image
+
+variables:
+    GIT_SUBMODULE_STRATEGY: "none"
+
+include:
+    - local: "scripts/ci/image.yml"

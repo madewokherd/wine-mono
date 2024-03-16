@@ -1,0 +1,19 @@
+build-image-build:
+  stage: image
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'push' && $CI_PROJECT_PATH == "wine-mono/wine-mono" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      changes:
+        - tools/ci/image.yml
+        - tools/ci/build.docker
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  variables:
+    IMAGE_SOURCE: "$CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX/debian:bookworm"
+    IMAGE_LOCAL: "$CI_REGISTRY_IMAGE:debian-bookworm-build"
+    DOCKER_FILE: "$CI_PROJECT_DIR/scripts/ci/build.docker"
+  script:
+    - mkdir -p /kaniko/.docker
+    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"auth\":\"$(printf "%s:%s" "$CI_REGISTRY_USER" "$CI_REGISTRY_PASSWORD" | base64 | tr -d '\n')\"},\"$CI_DEPENDENCY_PROXY_SERVER\":{\"auth\":\"$(printf "%s:%s" "$CI_DEPENDENCY_PROXY_USER" "$CI_DEPENDENCY_PROXY_PASSWORD" | base64 | tr -d '\n')\"}}}" > /kaniko/.docker/config.json
+    - sed -i "1iFROM $IMAGE_SOURCE" "$DOCKER_FILE"
+    - /kaniko/executor --context "$CI_PROJECT_DIR" --dockerfile "$DOCKER_FILE" --destination "$IMAGE_LOCAL"
