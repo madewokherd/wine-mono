@@ -5,4 +5,4 @@ variables:
     GIT_SUBMODULE_STRATEGY: "none"
 
 include:
-    - local: "scripts/ci/image.yml"
+    - local: "tools/ci/image.yml"
