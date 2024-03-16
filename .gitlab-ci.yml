@@ -1,8 +1,10 @@
 stages:
     - image
+    - build
 
 variables:
     GIT_SUBMODULE_STRATEGY: "none"
 
 include:
     - local: "tools/ci/image.yml"
+    - local: "tools/ci/build.yml"

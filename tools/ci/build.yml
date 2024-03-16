@@ -1,0 +1,37 @@
+
+build:
+    stage: build
+    image: $CI_REGISTRY/wine-mono/wine-mono:debian-bookworm-build
+    interruptible: true
+    cache:
+        -
+            key: $CI_JOB_NAME-ccache
+            paths:
+                - ccache/
+    before_script:
+        - export BASEDIR="$PWD"
+        - export CCACHE_BASEDIR="$BASEDIR"
+        - export CCACHE_DIR="$BASEDIR/ccache"
+        - export CCACHE_COMPILERCHECK=content
+        - export PATH="/usr/lib/ccache:$PATH"
+        - git config --global --add safe.directory $CI_PROJECT_DIR
+        - rm -fr .git/rebase-merge  # in case a previous CI run failed in git rebase
+    script:
+        - "tools/ci/update-submodules.sh"
+        - "tools/ci/build.sh"
+    allow_failure:
+        exit_codes:
+            - 127
+    artifacts:
+        paths:
+            - wine-mono-*.msi
+            - image/
+            - tests/
+        expire_in: 1 week
+    artifacts:
+        name: build-failure-log
+        when: on_failure
+        paths:
+            - build.log
+        expire_in: 1 week
+
