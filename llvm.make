@@ -31,11 +31,11 @@ MINGW_arm64 ?= aarch64-w64-mingw32
 # automatically fetching and extracting llvm-mingw
 
 $(SRCDIR)/$(FETCH_LLVM_MINGW_ARCHIVE): $(SRCDIR)/llvm.make
-	wget '$(FETCH_LLVM_MINGW_URL)' -O $@ --no-use-server-timestamps
+	wget --no-verbose '$(FETCH_LLVM_MINGW_URL)' -O $@ --no-use-server-timestamps
 	touch $@
 
 $(FETCH_LLVM_MINGW)/.dir: $(SRCDIR)/$(FETCH_LLVM_MINGW_ARCHIVE)
-	cd $(SRCDIR); tar xvmf $(FETCH_LLVM_MINGW_ARCHIVE)
+	cd $(SRCDIR); tar xmf $(FETCH_LLVM_MINGW_ARCHIVE)
 	touch $@
 
 ifeq ($(DO_FETCH_LLVM_MINGW),1)
