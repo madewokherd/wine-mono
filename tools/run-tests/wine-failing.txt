@@ -1493,3 +1493,4 @@ MonoTests.System.ServiceModel.Description.MetadataResolverTest:Resolve5
 MonoTests.System.ServiceModel.Description.MetadataResolverTest:Resolve6
 MonoTests.System.ServiceModel.Description.MetadataResolverTest:ResolveBadUri
 MonoTests.System.ServiceModel.Description.MetadataResolverTest:ResolveNoEndpoint
+MonoTests.System.Net.HttpRequestStreamTest:Post_EmptyRequestStream
