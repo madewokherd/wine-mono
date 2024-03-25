@@ -359,7 +359,6 @@ x86.MonoTests.System.Drawing.TestBitmap:SetResolution_NegativeInfinity
 x86.MonoTests.System.Drawing.TestBitmap:SetResolution_Negative_X
 x86.MonoTests.System.Drawing.TestBitmap:SetResolution_Negative_Y
 x86.MonoTests.System.Drawing.TestRegion:GetHrgn_Null
-x86.MonoTests.System.Drawing.TestRegion:Intersect_383878
 x86.MonoTests.System.Drawing.TestRegion:IsVisible_IntIntIntIntNull
 x86.MonoTests.System.Drawing.TestRegion:IsVisible_RectangleFNull
 x86.MonoTests.System.Drawing.TestRegion:IsVisible_RectangleNull
@@ -751,7 +750,6 @@ x86_64.MonoTests.System.Drawing.GraphicsTest:BeginContainer_RectF
 x86_64.MonoTests.System.Drawing.GraphicsTest:ClipBounds_Transform_Scale_Strange
 x86_64.MonoTests.System.Drawing.GraphicsTest:Clip_MultiplyTransform_NoBoundsChange
 x86_64.MonoTests.System.Drawing.GraphicsTest:Clip_RotateTransform_BoundsChange_45
-x86_64.MonoTests.System.Drawing.GraphicsTest:Clip_TranslateTransform
 x86_64.MonoTests.System.Drawing.GraphicsTest:DefaultProperties
 x86_64.MonoTests.System.Drawing.GraphicsTest:DrawImage_ImageFloatFloat_Overflow
 x86_64.MonoTests.System.Drawing.GraphicsTest:DrawImage_ImageIntInt_Overflow
@@ -861,7 +859,6 @@ x86_64.MonoTests.System.Drawing.TestBitmap:SetResolution_NegativeInfinity
 x86_64.MonoTests.System.Drawing.TestBitmap:SetResolution_Negative_X
 x86_64.MonoTests.System.Drawing.TestBitmap:SetResolution_Negative_Y
 x86_64.MonoTests.System.Drawing.TestRegion:GetHrgn_Null
-x86_64.MonoTests.System.Drawing.TestRegion:Intersect_383878
 x86_64.MonoTests.System.Drawing.TestRegion:IsVisible_IntIntIntIntNull
 x86_64.MonoTests.System.Drawing.TestRegion:IsVisible_RectangleFNull
 x86_64.MonoTests.System.Drawing.TestRegion:IsVisible_RectangleNull
@@ -1217,7 +1214,6 @@ x86.MonoTests.System.Drawing.GraphicsTest:BeginContainer_RectF
 x86.MonoTests.System.Drawing.GraphicsTest:ClipBounds_Transform_Scale_Strange
 x86.MonoTests.System.Drawing.GraphicsTest:Clip_MultiplyTransform_NoBoundsChange
 x86.MonoTests.System.Drawing.GraphicsTest:Clip_RotateTransform_BoundsChange_45
-x86.MonoTests.System.Drawing.GraphicsTest:Clip_TranslateTransform
 x86.MonoTests.System.Drawing.GraphicsTest:DefaultProperties
 x86.MonoTests.System.Drawing.GraphicsTest:DrawImage_ImageFloatFloat_Overflow
 x86.MonoTests.System.Drawing.GraphicsTest:DrawImage_ImageIntInt_Overflow
@@ -1441,6 +1437,7 @@ MonoTests.System.Drawing.Drawing2D.GraphicsPathTest:IsOutlineVisible_Line_WithGr
 MonoTests.System.Windows.Forms.DataGridViewRowHeaderTest:MethodGetErrorIconBounds
 MonoTests.System.Windows.Forms.GroupBoxTest:AutoSize
 MonoTests.System.Windows.Forms.NumericUpDownTest:Height
+x86_64.MonoTests.System.Drawing.GraphicsTest:Rotate
 # definitely unreliable:
 delegate2
 x86_64.MonoTests.System.Threading.ThreadLocalTests:DisposeOnThreadExit
