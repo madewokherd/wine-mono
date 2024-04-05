@@ -293,6 +293,7 @@ static Uint32 initial_flightstick_devices[] = {
     MAKE_VIDPID(0x046d, 0xc215), /* Logitech Extreme 3D */
     MAKE_VIDPID(0x231d, 0x0126), /* Gunfighter Mk.III ‘Space Combat Edition’ (right) */
     MAKE_VIDPID(0x231d, 0x0127), /* Gunfighter Mk.III ‘Space Combat Edition’ (left) */
+    MAKE_VIDPID(0x362c, 0x0001), /* Yawman Arrow */
 };
 static SDL_vidpid_list flightstick_devices = {
     SDL_HINT_JOYSTICK_FLIGHTSTICK_DEVICES, 0, 0, NULL,
@@ -1313,13 +1314,15 @@ const char *SDL_JoystickName(SDL_Joystick *joystick)
     const SDL_SteamVirtualGamepadInfo *info;
 
     SDL_LockJoysticks();
-    info = SDL_GetJoystickInstanceVirtualGamepadInfo(joystick->instance_id);
-    if (info) {
-        retval = info->name;
-    } else {
+    {
         CHECK_JOYSTICK_MAGIC(joystick, NULL);
 
-        retval = joystick->name;
+        info = SDL_GetJoystickInstanceVirtualGamepadInfo(joystick->instance_id);
+        if (info) {
+            retval = info->name;
+        } else {
+            retval = joystick->name;
+        }
     }
     SDL_UnlockJoysticks();
 
@@ -3102,13 +3105,17 @@ Uint16 SDL_JoystickGetVendor(SDL_Joystick *joystick)
     const SDL_SteamVirtualGamepadInfo *info;
 
     SDL_LockJoysticks();
-    info = SDL_GetJoystickInstanceVirtualGamepadInfo(joystick->instance_id);
-    if (info) {
-        vendor = info->vendor_id;
-    } else {
-        SDL_JoystickGUID guid = SDL_JoystickGetGUID(joystick);
+    {
+        CHECK_JOYSTICK_MAGIC(joystick, 0);
 
-        SDL_GetJoystickGUIDInfo(guid, &vendor, NULL, NULL, NULL);
+        info = SDL_GetJoystickInstanceVirtualGamepadInfo(joystick->instance_id);
+        if (info) {
+            vendor = info->vendor_id;
+        } else {
+            SDL_JoystickGUID guid = SDL_JoystickGetGUID(joystick);
+
+            SDL_GetJoystickGUIDInfo(guid, &vendor, NULL, NULL, NULL);
+        }
     }
     SDL_UnlockJoysticks();
 
@@ -3121,13 +3128,17 @@ Uint16 SDL_JoystickGetProduct(SDL_Joystick *joystick)
     const SDL_SteamVirtualGamepadInfo *info;
 
     SDL_LockJoysticks();
-    info = SDL_GetJoystickInstanceVirtualGamepadInfo(joystick->instance_id);
-    if (info) {
-        product = info->product_id;
-    } else {
-        SDL_JoystickGUID guid = SDL_JoystickGetGUID(joystick);
+    {
+        CHECK_JOYSTICK_MAGIC(joystick, 0);
 
-        SDL_GetJoystickGUIDInfo(guid, NULL, &product, NULL, NULL);
+        info = SDL_GetJoystickInstanceVirtualGamepadInfo(joystick->instance_id);
+        if (info) {
+            product = info->product_id;
+        } else {
+            SDL_JoystickGUID guid = SDL_JoystickGetGUID(joystick);
+
+            SDL_GetJoystickGUIDInfo(guid, NULL, &product, NULL, NULL);
+        }
     }
     SDL_UnlockJoysticks();
 
