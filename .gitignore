@@ -23,3 +23,6 @@
 /System.Speech/src/System.Speech.dll
 /System.Speech/src/embeddedresources.flags
 /test-output.txt
+/build.log
+/usr/
+/wine-build.zip
