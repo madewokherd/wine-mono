@@ -49,10 +49,10 @@ MINGW_ENV=$(and $(MINGW_PATH),PATH=$(MINGW_PATH):$$PATH)
 CP_R=$(SRCDIR_ABS)/tools/copy_recursive.py
 RM_F=rm -f
 
-# dependency checks
-ifeq (,$(shell which $(WINE)))
-$(error '$(WINE)' command not found. Please install wine or specify its location in the WINE variable)
-endif
+# dependency checks - disabled for now because we may be using a container
+# ifeq (,$(shell which $(WINE)))
+# $(error '$(WINE)' command not found. Please install wine or specify its location in the WINE variable)
+# endif
 
 all: image targz msi tests tests-zip dbgsym
 .PHONY: all clean imagedir-targets tests tests-zip dbgsym
