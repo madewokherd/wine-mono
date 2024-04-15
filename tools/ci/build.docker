@@ -1,4 +1,4 @@
-# FROM debian:bookworm # FROM line will be added by CI process
+FROM debian:bookworm
 
 WORKDIR /tmp
 
