@@ -167,6 +167,8 @@ $(eval $(call MINGW_TEMPLATE,arm))
 $(eval $(call MINGW_TEMPLATE,arm64))
 endif
 
+include podman.make
+
 $(BUILDDIR)/fixupclr.exe: $(SRCDIR)/tools/fixupclr/fixupclr.c $(MINGW_DEPS)
 	$(MINGW_ENV) $(MINGW_x86_64)-gcc -municode -Wall $< -o $@ $(PDB_CFLAGS_x86_64) $(PDB_LDFLAGS_x86_64)
 
