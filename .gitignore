@@ -1,5 +1,4 @@
 .*.swp
-/.vagrant/
 /build/
 /image/
 /llvm-mingw-20240320-ucrt-ubuntu-20.04-x86_64.tar.xz
@@ -27,3 +26,4 @@
 /build.log
 /usr/
 /wine-build.zip
+/.wine-test-prefix

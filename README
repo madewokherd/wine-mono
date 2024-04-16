@@ -24,7 +24,7 @@ To build Wine Mono, you will need the following:
  * libgdiplus, to support Mono's resource compiler.
  * Optional: The zip or 7z command, for the tests-zip target only.
 
-When using the Vagrant build VM, only Vagrant is required on the host machine.
+When using the Podman build container, only Podman is required on the host machine.
 
 
 BUILD
@@ -33,20 +33,9 @@ To build Wine Mono, use the msi or bin target.
 
 $ make msi
 
-Optionally, a build VM can be automatically set up using the Vagrantfile included with the source distribution. To start the VM, run:
+To use a Podman container, prepend podman- to the build target.
 
-$ vagrant up
-$ vagrant ssh
-
-You can then cd to /vagrant and build from there.
-
-Note that the source code will be rsynced into the VM when it is first created. If you edit the source code on the host, you can update the VM by running:
-
-$ vagrant rsync
-
-Or, to have vagrant watch for changes:
-
-$ vagrant rsync-auto
+$ make podman-msi
 
 
 INSTALL

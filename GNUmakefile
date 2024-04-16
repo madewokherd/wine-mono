@@ -6,11 +6,7 @@ SRCDIR:=$(dir $(MAKEFILE_LIST))
 BUILDDIR=$(SRCDIR)/build
 IMAGEDIR=$(SRCDIR)/image
 
-ifeq ($(shell test -d $(SRCDIR)/output && echo y),y)
-OUTDIR=$(SRCDIR)/output
-else
 OUTDIR=$(SRCDIR)
-endif
 
 TESTS_OUTDIR=$(OUTDIR)/tests
 
