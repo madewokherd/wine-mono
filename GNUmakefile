@@ -67,6 +67,7 @@ The following targets are defined:
 	System.dll:   Build a single dll and place it in the image/ directory.
 	image:        Build the runtime locally image/ directory.
 	dev-setup:    Configure $$WINEPREFIX to use the image/ directory.
+	podman-*:     Run another target inside a podman container.
 endef
 
 define newline =

@@ -7,6 +7,7 @@
 /tests/
 /tools/tests/*.exe
 /tools/tests/*.dll
+/tools/ci/.podman-image-built
 /user-config.make
 /wine-mono-*.*.*-x86.msi
 /wine-mono-*.*.*-x86.tar.xz
