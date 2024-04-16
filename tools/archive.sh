@@ -30,7 +30,7 @@ recursivearchivefiles ()
         cd "$1"
     done
 
-    TEMPFILE=`tempfile`
+    TEMPFILE=`mktemp`
     git archive --format=tar --prefix="$2" "$3" > $TEMPFILE
     tar Af "$4" "$TEMPFILE"
     rm "$TEMPFILE"
