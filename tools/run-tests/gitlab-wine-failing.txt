@@ -1,0 +1,11 @@
+WineMono.Tests.System.Windows.Media.TextFormatting.TextFormatterTest:EmptyLineCollapsibleTest
+WineMono.Tests.System.Windows.Media.TextFormatting.TextFormatterTest:EmptyLineTest
+WineMono.Tests.System.Windows.Media.TextFormatting.TextFormatterTest:IndentTest
+WineMono.Tests.System.Windows.Media.TextFormatting.TextFormatterTest:InlineObjectTest
+WineMono.Tests.System.Windows.Media.TextFormatting.TextFormatterTest:NewlineCharacterCollapsibleTest
+WineMono.Tests.System.Windows.Media.TextFormatting.TextFormatterTest:OverflowTest
+WineMono.Tests.System.Windows.Media.TextFormatting.TextFormatterTest:SingleWordCollapsibleTest
+WineMono.Tests.System.Windows.Media.TextFormatting.TextFormatterTest:SingleWordTest
+WineMono.Tests.System.Windows.Media.TextFormatting.TextFormatterTest:WrapTest
+MonoTests.System.Windows.Forms.DataGridTableStyleTest:HeaderFontNull2
+MonoTests.System.Windows.Forms.FormTest:FormStartupPositionChangeTest
