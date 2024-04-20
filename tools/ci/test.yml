@@ -1,0 +1,42 @@
+linux-test:
+  stage: test
+  image: $CI_REGISTRY/wine/wine:debian-bookworm
+  interruptible: true
+  cache:
+    - key: wine-addons
+      paths:
+        - wine-addons/
+  needs:
+    - job: build
+  before_script:
+    - |
+    - export BASEDIR=$PWD
+    - export PATH=$BASEDIR/usr/local/bin:$PATH
+    - export DISPLAY=:0
+    - export LC_ALL=C.UTF-8
+    - export LP_NUM_THREADS=4
+    - export WINEDEBUG=err-all,fixme-all
+    - |
+      cat >$HOME/xorg.conf << EOF
+      Section "Device"
+        Identifier "dummy"
+        Driver "dummy"
+        VideoRam 32768
+      EndSection
+      EOF
+    - echo 'exec /usr/bin/fvwm -f config -c "Style * MwmDecor" -c "Style * UsePPosition" 2>/dev/null' >$HOME/.xinitrc
+    - startx -- -config $HOME/xorg.conf $DISPLAY &
+    - mkdir -p wine-addons
+    - tools/ci/download-addons.sh
+    - wget -nv -O wine-build.zip "https://gitlab.winehq.org/wine/wine/-/jobs/artifacts/master/download?job=build-daily-linux"
+    - unzip -q wine-build.zip
+    - mkdir -p $HOME/Documents $HOME/Desktop usr/local/share/wine/gecko
+    - cp -l $BASEDIR/wine-addons/*.msi usr/local/share/wine/gecko
+    - pulseaudio --start --exit-idle-time=-1
+    - WINEDLLOVERRIDES=mscoree= wine wineboot.exe -u
+    - wine reg add 'HKCU\Software\Wine\WineDbg' /v ShowCrashDialog /t REG_DWORD /d 0 /f
+    - wine reg add 'HKCU\Software\Wine\Mono' /v RuntimePath /d "$(wine winepath -w ${BASEDIR}/image)" /f
+    - wine64 regsvr32 /s mscoree
+    - wineserver -w
+  script:
+    - wine tests/run-tests.exe
