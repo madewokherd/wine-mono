@@ -218,20 +218,14 @@ clean-tests:
 clean: clean-tests
 
 test: tests image
+	$(MAKE) test-nobuild
+
+test-nobuild: build/removeuserinstalls-x86.exe
 	WINEPREFIX=$(BUILDDIR_ABS)/.wine-test-prefix $(WINE) reg add 'HKCU\Software\Wine\WineDbg' /v ShowCrashDialog /t REG_DWORD /d 0 /f
 	WINEPREFIX=$(BUILDDIR_ABS)/.wine-test-prefix $(MAKE) dev-setup
 	$(RM_F) test-output.txt
 	WINEPREFIX=$(BUILDDIR_ABS)/.wine-test-prefix $(WINE) explorer /desktop=wine-mono-test cmd /c '$(shell $(WINE) winepath -w $(TESTS_OUTDIR)/run-tests.exe) >test-output.txt 2>&1'
 	! grep -q 'The following tests failed but were not in fail-list:' test-output.txt
-
-test-nobuild: build/removeuserinstalls-x86.exe
-	WINEPREFIX=$(SRCDIR_ABS)/.wine-test-prefix $(WINE) reg add 'HKCU\Software\Wine\WineDbg' /v ShowCrashDialog /t REG_DWORD /d 0 /f
-	$(WINE) build/removeuserinstalls-x86.exe -a
-	$(WINE) msiexec /i '$(shell $(WINE) winepath -w $(SRCDIR)/wine-mono-$(MSI_VERSION)-x86.msi)'
-	$(RM_F) test-output.txt
-	WINEPREFIX=$(SRCDIR_ABS)/.wine-test-prefix $(WINE) explorer /desktop=wine-mono-test cmd /c '$(shell $(WINE) winepath -w $(SRCDIR)/tests/run-tests.exe) >test-output.txt 2>&1'
-	! grep -q 'The following tests failed but were not in fail-list:' test-output.txt
-
 
 clean-build-test-prefix:
 	-WINEPREFIX=$(BUILDDIR_ABS)/.wine-test-prefix wineserver -k
