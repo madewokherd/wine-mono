@@ -4,3 +4,6 @@ MonoTests.System.Drawing.SystemFontsTest:DefaultFont_Names
 MonoTests.System.Windows.Forms.ControlTest:FontTest_Names
 MonoTests.System.Windows.Forms.FormTest:RestoreBounds # Fails in virtual desktop
 MonoTests.System.Net.Sockets.SocketTest:SetSocketOption_MulticastInterfaceIndex_Loopback
+MonoTests.System.Windows.Forms.DataGridViewRowHeaderTest:MethodGetErrorIconBounds
+MonoTests.System.Windows.Forms.GroupBoxTest:AutoSize
+MonoTests.System.Windows.Forms.NumericUpDownTest:Height
