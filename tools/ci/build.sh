@@ -14,3 +14,5 @@ make "WINE=${WINE:-wine}" -q image || exit 127
 echo Checking for untracked files
 ! (git clean -nd|grep .) || exit 127
 
+rm build.log
+

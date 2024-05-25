@@ -23,15 +23,11 @@ build:
         exit_codes:
             - 127
     artifacts:
+        when: always
         paths:
             - wine-mono-*.msi
             - image/
             - tests/
-        expire_in: 1 week
-    artifacts:
-        name: build-failure-log
-        when: on_failure
-        paths:
             - build.log
         expire_in: 1 week
 
