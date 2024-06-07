@@ -13,7 +13,7 @@ dnl Set various version strings - taken gratefully from the GTk sources
 # See docs/release_checklist.md
 SDL_MAJOR_VERSION=2
 SDL_MINOR_VERSION=30
-SDL_MICRO_VERSION=2
+SDL_MICRO_VERSION=3
 SDL_VERSION=$SDL_MAJOR_VERSION.$SDL_MINOR_VERSION.$SDL_MICRO_VERSION
 
 SDL_BINARY_AGE=`expr $SDL_MINOR_VERSION \* 100 + $SDL_MICRO_VERSION`
@@ -936,38 +936,6 @@ fi
     AC_MSG_RESULT($have_lsxintrin_h_hdr)
     if test x$have_lsxintrin_h_hdr = xyes; then
         AC_DEFINE(HAVE_LSXINTRIN_H, 1, [ ])
-    fi
-
-    AC_ARG_ENABLE(lasx,
-[AS_HELP_STRING([--enable-lasx], [use LASX assembly routines [default=yes]])],
-                  , enable_LASX=yes)
-    if test x$enable_LASX = xyes; then
-        save_CFLAGS="$CFLAGS"
-        have_gcc_lasx=no
-        AC_MSG_CHECKING(for GCC -mlasx option)
-        lasx_CFLAGS="-mlasx"
-        CFLAGS="$save_CFLAGS $lasx_CFLAGS"
-
-        AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
-        #ifndef __loongarch_asx
-        #error Assembler CPP flag not enabled
-        #endif
-        ]], [])], [have_gcc_lasx=yes], [])
-        AC_MSG_RESULT($have_gcc_lasx)
-        CFLAGS="$save_CFLAGS"
-
-        if test x$have_gcc_lasx = xyes; then
-            EXTRA_CFLAGS="$EXTRA_CFLAGS $lasx_CFLAGS"
-            SUMMARY_math="${SUMMARY_math} lasx"
-        fi
-    fi
-
-    AC_MSG_CHECKING(for lasxintrin.h)
-    AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <lasxintrin.h>]])],
-       [have_lasxintrin_h_hdr=yes],[have_lasxintrin_h_hdr=no])
-    AC_MSG_RESULT($have_lasxintrin_h_hdr)
-    if test x$have_lasxintrin_h_hdr = xyes; then
-        AC_DEFINE(HAVE_LASXINTRIN_H, 1, [ ])
     fi
 
 dnl See if the OSS audio interface is supported
