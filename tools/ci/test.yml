@@ -30,6 +30,8 @@ linux-test:
     - tools/ci/download-addons.py
     - curl -s -S -L -o wine-build.zip "https://gitlab.winehq.org/wine/wine/-/jobs/artifacts/master/download?job=build-daily-linux"
     - unzip -q wine-build.zip
+    - curl -s -S -L -o wine-test.zip "https://gitlab.winehq.org/wine/wine/-/jobs/artifacts/master/download?job=build-daily-winetest"
+    - unzip -q wine-test.zip
     - mkdir -p $HOME/Documents $HOME/Desktop usr/local/share/wine/gecko
     - cp -l $BASEDIR/wine-addons/*.msi usr/local/share/wine/gecko
     - pulseaudio --start --exit-idle-time=-1
@@ -39,8 +41,12 @@ linux-test:
     - wine64 regsvr32 /s mscoree
     - wineserver -w
   script:
+    - wine winetest64.exe -c mscoree >winetest64.log 2>&1
+    - wine winetest.exe -c mscoree >winetest32.log 2>&1
     - wine tests/run-tests.exe -fail-list:tests/gitlab-wine-failing.txt >mono-tests.log 2>&1
   artifacts:
     when: always
     paths:
+        - winetest64.log
+        - winetest32.log
         - mono-tests.log
