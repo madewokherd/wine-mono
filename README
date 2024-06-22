@@ -42,11 +42,11 @@ INSTALL
 
 To install Wine Mono, run the generated msi file with msiexec:
 
-$ wine64 msiexec /i wine-mono-9.0.0-x86.msi
+$ wine msiexec /i wine-mono-9.0.0-x86.msi
 
-Note that if a Wine Mono with a version number >= to this file is already installed, that command will do nothing, so you may have to remove the existing version (using 'wine64 uninstaller') first.
+Note that if a Wine Mono with a version number >= to this file is already installed, that command will do nothing, so you may have to remove the existing version (using 'wine uninstaller') first.
 
-If the install succeeds, it won't output anything. You can use 'wine64 uninstaller' to verify that the version you expect is installed.
+If the install succeeds, it won't output anything. You can use 'wine uninstaller' to verify that the version you expect is installed.
 
 If you are building for development, you may find it more convenient to use the 'make dev' target, which builds a runtime in image/ and configures a wine prefix to use it. You can then rebuild individual dlls using their filename with no path. See 'make help' for details.
 
