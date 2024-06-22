@@ -3,9 +3,9 @@ Wine Mono is a package containing Mono and other projects, intended as a replace
 
 SOURCE CODE
 
-To obtain the source code, clone it from github:
+To obtain the source code, clone it from gitlab:
 
-$ git clone --recursive https://github.com/madewokherd/wine-mono.git
+$ git clone --recursive https://gitlab.winehq.org/wine-mono/wine-mono.git
 
 To get to the source code for a specific release, check out the appropriate tag, and update the submodules:
 
@@ -63,19 +63,19 @@ An installed Wine Mono contains the following:
 
 BUGS
 
-Bugs should be filed in the Wine bugzilla (http://bugs.winehq.org/) with product set to "Wine" and component set to "mscoree", or they can be filed as an issue on the wine-mono github.
+Bugs should be filed in the Wine bugzilla (http://bugs.winehq.org/) with product set to "Wine" and component set to "mscoree".
 
 
 PATCHES
 
-Patches that are not for a fork should be sent as a pull request to https://github.com/madewokherd/wine-mono.
+Patches to the top-level project should be sent as a merge request to https://gitlab.winehq.org/wine-mono/wine-mono.
 
-Patches to Mono should be sent as a pull request to https://github.com/madewokherd/mono.
+Patches to Mono should be sent as a merge request to https://gitlab.winehq.org/wine-mono/mono. Ideally, most MRs should be for the main branch, which does not contain Wine Mono's modifications. If the change is specific to Wine Wono, then the MR should be for the wine-mono branch.
 
-Changes to upstream projects that make sense only within the context of wine-mono and not in any other use case should be sent as a pull request to the appropriate fork.
+Changes to upstream projects that make sense only within the context of wine-mono and not for the project's general use case should be sent as a merge request to the appropriate fork in https://gitlab.winehq.org/wine-mono, on the wine-mono branch.
 
-FNA and related projects have been very responsive to pull requests, and it's worth sending changes upstream. monoDX is similar, even though it doesn't really have a separate use case.
+FNA and related projects have been very responsive to pull requests, and it's worth sending changes upstream to https://github.com/FNA-XNA/FNA.
 
-The mono-basic project is abandoned and PRs can be made directly to the fork. However, before doing any substantial work on mono-basic, it may be worth checking whether there's an implementation in dotnet/winforms or dotnet/runtime.
+Changes to mono-basic should be sent as a merge request to https://gitlab.winehq.org/wine-mono/mono-basic. However, before doing any substantial work on mono-basic, it may be worth checking whether there's an implementation in https://github.com/dotnet/winforms or https://github.com/dotnet/runtime.
 
 The winforms and wpf projects are not being updated from upstream, and have diverged significantly. Since they are supporting .NET Core, which adds new features and is not binary-compatible with .NET Framework, their use case is very different from ours. Any changes should be sent directly to the appropriate fork, but feel free to also send them upstream if it makes sense.
