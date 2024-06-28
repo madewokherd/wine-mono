@@ -87,7 +87,7 @@ endif()
 # See docs/release_checklist.md
 set(SDL_MAJOR_VERSION 2)
 set(SDL_MINOR_VERSION 30)
-set(SDL_MICRO_VERSION 3)
+set(SDL_MICRO_VERSION 4)
 set(SDL_VERSION "${SDL_MAJOR_VERSION}.${SDL_MINOR_VERSION}.${SDL_MICRO_VERSION}")
 
 # Set defaults preventing destination file conflicts
@@ -241,7 +241,7 @@ endif()
 if(UNIX OR MINGW OR MSYS OR (USE_CLANG AND NOT WINDOWS) OR VITA OR PSP OR PS2 OR N3DS)
   set(OPT_DEF_LIBC ON)
 endif()
-if(WINDOWS OR IOS OR TVOS)
+if(WINDOWS OR DARWIN OR MACOSX OR IOS OR TVOS)
   set(SDL_SYSTEM_ICONV_DEFAULT OFF)
 else()
   set(SDL_SYSTEM_ICONV_DEFAULT ON)
@@ -1810,13 +1810,11 @@ elseif(WINDOWS)
     check_include_file(d3d9.h HAVE_D3D_H)
     check_include_file(d3d11_1.h HAVE_D3D11_H)
     check_c_source_compiles("
-      #include <winsdkver.h>
-      #include <sdkddkver.h>
       #include <d3d12.h>
+      #include <d3d12sdklayers.h>
       ID3D12Device1 *device;
-      #if WDK_NTDDI_VERSION > 0x0A000008
-      int main(int argc, char **argv) { return 0; }
-      #endif" HAVE_D3D12_H)
+      int main(int argc, char **argv) {return 0; }
+      " HAVE_D3D12_H)
     check_include_file(ddraw.h HAVE_DDRAW_H)
     check_include_file(dsound.h HAVE_DSOUND_H)
     check_include_file(dinput.h HAVE_DINPUT_H)
