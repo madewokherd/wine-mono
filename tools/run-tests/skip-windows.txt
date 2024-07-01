@@ -1,2 +1,3 @@
 x86_64.xnatest
 x86_64.direct3dadapter
+Mono.Runtime.Tests

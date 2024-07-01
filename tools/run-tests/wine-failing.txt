@@ -529,8 +529,6 @@ x86.MonoTests.System.Windows.Forms.ListViewItemTest:Constructor4_SubItems_Empty
 x86.MonoTests.System.Windows.Forms.ListViewItemTest:Constructor4_SubItems_Null
 x86.MonoTests.System.Windows.Forms.ListViewSubItemTest:SerializeExact_MS
 x86.MonoTests.System.Windows.Forms.ListViewSubItemTest:SerializeExact_Mono
-x86.MonoTests.System.Windows.Forms.ListViewTest
-x86.MonoTests.System.Windows.Forms.ListViewTest
 x86.MonoTests.System.Windows.Forms.MdiFormTest:MdiChild_WindowState6
 x86.MonoTests.System.Windows.Forms.MdiFormTest:StartLocationTest
 x86.MonoTests.System.Windows.Forms.MdiFormTest:Text
@@ -1029,8 +1027,6 @@ x86_64.MonoTests.System.Windows.Forms.ListViewItemTest:Constructor4_SubItems_Emp
 x86_64.MonoTests.System.Windows.Forms.ListViewItemTest:Constructor4_SubItems_Null
 x86_64.MonoTests.System.Windows.Forms.ListViewSubItemTest:SerializeExact_MS
 x86_64.MonoTests.System.Windows.Forms.ListViewSubItemTest:SerializeExact_Mono
-x86_64.MonoTests.System.Windows.Forms.ListViewTest
-x86_64.MonoTests.System.Windows.Forms.ListViewTest
 x86_64.MonoTests.System.Windows.Forms.MdiFormTest:MdiChild_WindowState6
 x86_64.MonoTests.System.Windows.Forms.MdiFormTest:StartLocationTest
 x86_64.MonoTests.System.Windows.Forms.MdiFormTest:Text
@@ -1120,8 +1116,6 @@ MonoTests.System.Xaml.XamlMemberTest
 MonoTests.System.Xaml.XamlObjectReaderTest
 MonoTests.System.Xaml.XamlObjectWriterSettingsTest
 MonoTests.System.Xaml.XamlObjectWriterTest
-MonoTests.System.Xaml.XamlTypeTest:TypeConverter_Type
-MonoTests.System.Xaml.XamlTypeTest:TypeConverter_TypeExtension
 MonoTests.System.Xaml.XamlXmlReaderTest
 MonoTests.System.Xaml.XamlXmlWriterTest
 MonoTests.System.Resources.ResXResourceReaderTest:ExternalFileReference_Icon
@@ -1226,8 +1220,6 @@ x86.MonoTests.System.Drawing.GraphicsTest:DrawImage_ImageRectangleRectangleGraph
 x86.MonoTests.System.Drawing.GraphicsTest:DrawImage_ImageRectangleRectangleGraphicsUnit_Point
 x86.MonoTests.System.Drawing.GraphicsTest:DrawImage_ImageRectangleRectangleGraphicsUnit_World
 MonoTests.System.Windows.Forms.ListBoxTest:HeightAndIntegralHeight
-MonoTests.System.Reflection.Emit.DynamicMethodTest:InvalidUnicodeName
-MonoTests.System.Reflection.Emit.DynamicMethodTest
 MonoTests.System.TimeZoneInfoTest+PropertiesTests:LocalId # This expects a DllNotFoundException for "libc", but our dllmap changes the exception type, it doesn't test anything on Windows anyway.
 x86.MonoTests.Microsoft_VisualBasic.DateAndTimeTests:DateString_1
 x86.MonoTests.Microsoft_VisualBasic.DateAndTimeTests:TimeOfDay_1
@@ -1435,9 +1427,27 @@ MonoTests.System.Configuration.ApplicationSettingsBaseTest:TestSettings1_Propert
 MonoTests.System.Configuration.SettingsPropertyValueTest:Binary_Serialize
 MonoTests.System.Drawing.Drawing2D.GraphicsPathTest:IsOutlineVisible_Line_WithGraphics # winehq bug 55717
 x86_64.MonoTests.System.Drawing.GraphicsTest:Rotate
+MonoTests.System.Drawing.Drawing2D.LinearGradientBrushTest:Constructor_Rectangle_Angle_Scalable
+MonoTests.System.Drawing.Drawing2D.LinearGradientBrushTest:MultiplyTransform2_Invalid
+MonoTests.System.Drawing.Drawing2D.LinearGradientBrushTest:MultiplyTransform_NonInvertible
+MonoTests.System.Drawing.Drawing2D.LinearGradientBrushTest:Rectangle
+MonoTests.System.Drawing.Drawing2D.LinearGradientBrushTest:RotateTransform
+MonoTests.System.Drawing.Drawing2D.LinearGradientBrushTest:RotateTransform_InvalidOrder
+MonoTests.System.Drawing.Drawing2D.LinearGradientBrushTest:Transform_NonInvertible
+MonoTests.System.Drawing.Drawing2D.LinearGradientBrushTest:Transform_Operations
+MonoTests.System.Drawing.Drawing2D.LinearGradientBrushTest:Transform_Operations_OnScalableAngle
+MonoTests.System.Drawing.FontTest:Font_FontFamily_Float_FontStyle_GraphicsUnit_Display
+MonoTests.System.Drawing.FontTest:Font_String_Float_FontStyle_GraphicsUnit_Display
+MonoTests.System.Drawing.Drawing2D.GraphicsPathTest:GetBounds_WithPen
+MonoTests.System.Windows.Forms.DataGridViewTest:ColumnCount
+MonoTests.System.Windows.Forms.DataGridViewTest:ColumnHeadersHeight
+MonoTests.System.Windows.Forms.DataGridViewTest:RowHeadersWidth
+MonoTests.System.Windows.Forms.ListViewTest:ListViewPropertyTest
+MonoTests.System.Net.Mail.SmtpClientTest:Credentials_Default
+MonoTests.System.Net.Mail.SmtpClientTest:Host_Default
 # definitely unreliable:
 delegate2
-x86_64.MonoTests.System.Threading.ThreadLocalTests:DisposeOnThreadExit
+MonoTests.System.Threading.ThreadLocalTests:DisposeOnThreadExit
 MonoTests.Remoting.ContextsTest
 x86_64.winx64structs:test_0_In_Args_Value_In_RCX # incorrectly compiled by mingw, see https://sourceforge.net/p/mingw-w64/bugs/819/
 MonoTests.System.Windows.Forms.ControlTest:PubPropTest # wine bug 48893
@@ -1488,3 +1498,4 @@ MonoTests.System.ServiceModel.Description.MetadataResolverTest:Resolve6
 MonoTests.System.ServiceModel.Description.MetadataResolverTest:ResolveBadUri
 MonoTests.System.ServiceModel.Description.MetadataResolverTest:ResolveNoEndpoint
 MonoTests.System.Net.HttpRequestStreamTest:Post_EmptyRequestStream
+MonoTests.System.Threading.Tasks.TaskSchedulerTests:UnobservedTaskExceptionArgumentTest

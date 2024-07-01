@@ -11,3 +11,4 @@ MonoTests.System.Windows.Forms.GroupBoxTest:AutoSize
 MonoTests.System.Windows.Forms.GroupBoxTest
 MonoTests.System.Windows.Forms.NumericUpDownTest:Height
 MonoTests.System.Windows.Forms.NumericUpDownTest
+MonoTests.Remoting.IpcChannelTest:Bug609381

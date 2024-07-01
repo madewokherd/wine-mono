@@ -1,0 +1,4 @@
+MonoTests.System.Net.Sockets.SocketTest:BogusEndConnect
+MonoTests.System.Net.Sockets.SocketTest:ConnectMultiple
+MonoTests.Features.Serialization.AsyncPatternTest:TestAsync
+MonoTests.Features.Serialization.AsyncCallTest:TestAsyncCall

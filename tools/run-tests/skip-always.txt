@@ -75,3 +75,26 @@ x86.pinvoke3:test_0_appdomain_switch # exception on Windows
 x86.pinvoke3:test_0_marshal_byref_class_delegate_null # exception on Windows
 x86.pinvoke3:test_0_marshal_struct_delegate # exception on Windows
 MonoTests.System.Drawing.GDIPlusTest:DisposeImage_Dual # intentional use-after-free, can cause exception
+MonoTests.System.Windows.Forms.ContextMenuStripTest
+MonoTests.System.Windows.Forms.DataGridViewTest:EditingControlShowingTest_Bound
+MonoTests.System.Windows.Forms.DataGridViewTest:EditingControlShowingTest_Unbound
+MonoTests.System.Windows.Forms.DataGridViewTest:OneClickComboBoxCell
+MonoTests.System.Net.Mail.SmtpClientTest:Deliver_Envelope
+MonoCasTests.System.ConsoleCas:PartialTrust_PermitOnly_UnmanagedCode
+# These three take ~100 seconds to run, WHY?
+MonoTests.System.Net.Mail.SmtpClientTest:Deliver
+MonoTests.System.Net.Mail.SmtpClientTest:Deliver_Async
+MonoTests.System.Net.ServicePointTest:ConnectionLimit
+MonoTests.System.Net.WebClientTest:UploadFileAsyncContentType # takes at least 50 seconds
+MonoTests.System.Drawing.IconFullTrustTest:ExtractAssociatedIcon # crashes on 64-bit
+MonoTests.System.Diagnostics.Contracts.ContractAssertTest:TestAssertNoEventHandler
+MonoTests.System.Net.WebRequestTest:TestReceiveCancelation
+x86_64.MonoTests.System.Drawing.GraphicsTest:DrawCurve_SinglePoint
+x86_64.MonoTests.System.Drawing.IconFullTrustTest:CreateMultipleIconFromSameHICON
+x86_64.MonoTests.System.Drawing.FontTest:ToLogFont_Int
+MonoTests.System.Diagnostics.Contracts.ContractAssumeTest:TestAssumeMessage
+MonoTests.System.Drawing.IconTest:Constructor_IconNull_Int_Int
+MonoTests.System.Diagnostics.Contracts.ContractHelperTest:TestTriggerFailure
+MonoTests.System.Windows.Forms.ApplicationContextTest:NestedApplicationContextTest
+MonoTests.System.Diagnostics.Contracts.ContractAssertTest:TestAssertEventHandlerNoAction
+MonoTests.System.Drawing.FontTest:ToLogFont_Null

@@ -3,3 +3,5 @@ MonoTests.System.Windows.Forms.FormTest:FormStartupPositionChangeTest
 MonoTests.System.Windows.Forms.FormTest:FormStartupPositionTest # requires virtual desktop
 MonoTests.System.Windows.Forms.FormTest:MaximizedParentedFormTest # requires virtual desktop
 MonoTests.System.Net.Sockets.UdpClientTest:Available
+MonoTests.System.Net.Sockets.SocketTest:BogusEndConnect
+MonoTests.System.Net.Sockets.SocketTest:BeginConnectMultiple

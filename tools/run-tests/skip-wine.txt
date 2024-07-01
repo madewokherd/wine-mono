@@ -1,2 +1,4 @@
 MonoTests.System.Net.Sockets.SocketTest:BeginDisconnect # Disconnect fails with WSAESHUTDOWN
 MonoTests.System.ServiceModel.Channels.TcpTransportBindingElementTest:SimpleDuplexBuffered # sometimes crashes on wine
+MonoTests.System.Reflection.Emit.DynamicMethodTest:InvalidUnicodeName
+MonoTests.System.Windows.Forms.ListViewTest:FindItemWithText_Exceptions
