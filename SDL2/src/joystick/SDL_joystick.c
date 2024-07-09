@@ -2220,7 +2220,7 @@ void SDL_JoystickUpdate(void)
 int SDL_JoystickEventState(int state)
 {
 #ifdef SDL_EVENTS_DISABLED
-    return SDL_DISABLE;
+    return SDL_IGNORE;
 #else
     const Uint32 event_list[] = {
         SDL_JOYAXISMOTION, SDL_JOYBALLMOTION, SDL_JOYHATMOTION,
@@ -2745,6 +2745,11 @@ SDL_bool SDL_IsJoystickXboxSeriesX(Uint16 vendor_id, Uint16 product_id)
     }
     if (vendor_id == USB_VENDOR_GAMESIR) {
         if (product_id == USB_PRODUCT_GAMESIR_G7) {
+            return SDL_TRUE;
+        }
+    }
+    if (vendor_id == USB_VENDOR_ASUS) {
+        if (product_id == USB_PRODUCT_ROG_RAIKIRI) {
             return SDL_TRUE;
         }
     }
