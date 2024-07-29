@@ -22,6 +22,7 @@ class RunTests
 	List<string> skip_categories = new List<string> ();
 
 	int timeout = 300;
+	bool timeout_specified;
 
 	// actual results
 	List<string> passing_tests = new List<string> ();
@@ -657,7 +658,10 @@ class RunTests
 			else if (argument.StartsWith("-fail-list:"))
 				read_stringlist(argument.Substring(11), fail_list);
 			else if (argument.StartsWith("-timeout:"))
+			{
 				timeout = int.Parse(argument.Substring(9));
+				timeout_specified = true;
+			}
 			else if (argument == "-nodefaults")
 				nodefaults = true;
 			else if (!argument.StartsWith("-"))
@@ -728,6 +732,8 @@ class RunTests
 					read_stringlist(Path.Combine(BasePath, "wine-macos-passing.txt"), pass_list);
 					read_stringlist(Path.Combine(BasePath, "wine-macos-failing.txt"), fail_list);
 					read_testlist(Path.Combine(BasePath, "skip-macos.txt"), skip_list);
+					if (!timeout_specified)
+						timeout = 600;
 					break;
 				default:
 					Console.WriteLine($"unknown host OS: {sysname}");
