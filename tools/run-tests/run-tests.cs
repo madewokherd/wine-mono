@@ -21,6 +21,8 @@ class RunTests
 	Dictionary<string, List<string>> run_list = new Dictionary<string, List<string>> ();
 	List<string> skip_categories = new List<string> ();
 
+	int timeout = 300;
+
 	// actual results
 	List<string> passing_tests = new List<string> ();
 	List<string> failing_tests = new List<string> ();
@@ -207,7 +209,7 @@ class RunTests
 		p.Start();
 		Thread t = new Thread(process_mono_test_output);
 		t.Start(Tuple.Create(p, fulltestname, any_skips));
-		p.WaitForExit(5 * 60 * 1000); // 5 minutes
+		p.WaitForExit(timeout * 1000);
 		if (!p.HasExited)
 		{
 			test_timed_out = true;
@@ -336,7 +338,7 @@ class RunTests
 					p.StartInfo.UseShellExecute = false;
 					p.StartInfo.WorkingDirectory = Path.GetDirectoryName(filename);
 					p.Start();
-					p.WaitForExit(5 * 60 * 1000); // 5 minutes
+					p.WaitForExit(timeout * 1000);
 				}
 				finally
 				{
@@ -654,6 +656,8 @@ class RunTests
 				read_stringlist(argument.Substring(11), pass_list);
 			else if (argument.StartsWith("-fail-list:"))
 				read_stringlist(argument.Substring(11), fail_list);
+			else if (argument.StartsWith("-timeout:"))
+				timeout = int.Parse(argument.Substring(9));
 			else if (argument == "-nodefaults")
 				nodefaults = true;
 			else if (!argument.StartsWith("-"))
