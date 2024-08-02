@@ -1445,6 +1445,7 @@ MonoTests.System.Windows.Forms.DataGridViewTest:RowHeadersWidth
 MonoTests.System.Windows.Forms.ListViewTest:ListViewPropertyTest
 MonoTests.System.Net.Mail.SmtpClientTest:Credentials_Default
 MonoTests.System.Net.Mail.SmtpClientTest:Host_Default
+MonoTests.System.Drawing.ColorTest:WindowsSystemColors
 # definitely unreliable:
 delegate2
 MonoTests.System.Threading.ThreadLocalTests:DisposeOnThreadExit
