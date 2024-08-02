@@ -11,6 +11,7 @@
 */
 /* This is a simple example of using GLSL shaders with SDL */
 
+#include <stdlib.h>
 #include "SDL.h"
 
 #ifdef HAVE_OPENGL
@@ -228,7 +229,7 @@ static void DestroyShaderProgram(ShaderData *data)
     }
 }
 
-static SDL_bool InitShaders()
+static SDL_bool InitShaders(void)
 {
     int i;
 
@@ -282,7 +283,7 @@ static SDL_bool InitShaders()
     return SDL_TRUE;
 }
 
-static void QuitShaders()
+static void QuitShaders(void)
 {
     int i;
 

@@ -394,7 +394,7 @@ static Uint32 initial_wheel_devices[] = {
     MAKE_VIDPID(0x2433, 0xf301), /* Asetek SimSports Forte Wheelbase */
     MAKE_VIDPID(0x2433, 0xf303), /* Asetek SimSports La Prima Wheelbase */
     MAKE_VIDPID(0x2433, 0xf306), /* Asetek SimSports Tony Kannan Wheelbase */
-    MAKE_VIDPID(0x3416,	0x0301), /* Cammus C5 Wheelbase */
+    MAKE_VIDPID(0x3416, 0x0301), /* Cammus C5 Wheelbase */
     MAKE_VIDPID(0x346e, 0x0000), /* Moza R16/R21 Wheelbase */
     MAKE_VIDPID(0x346e, 0x0002), /* Moza R9 Wheelbase */
     MAKE_VIDPID(0x346e, 0x0004), /* Moza R5 Wheelbase */
@@ -1412,9 +1412,13 @@ int SDL_JoystickRumble(SDL_Joystick *joystick, Uint16 low_frequency_rumble, Uint
             retval = 0;
         } else {
             retval = joystick->driver->Rumble(joystick, low_frequency_rumble, high_frequency_rumble);
-            joystick->rumble_resend = SDL_GetTicks() + SDL_RUMBLE_RESEND_MS;
-            if (!joystick->rumble_resend) {
-                joystick->rumble_resend = 1;
+            if (retval == 0) {
+                joystick->rumble_resend = SDL_GetTicks() + SDL_RUMBLE_RESEND_MS;
+                if (joystick->rumble_resend == 0) {
+                    joystick->rumble_resend = 1;
+                }
+            } else {
+                joystick->rumble_resend = 0;
             }
         }
 
@@ -2177,12 +2181,14 @@ void SDL_JoystickUpdate(void)
 #endif /* SDL_JOYSTICK_HIDAPI */
 
     for (joystick = SDL_joysticks; joystick; joystick = joystick->next) {
-        if (joystick->attached) {
-            joystick->driver->Update(joystick);
+        if (!joystick->attached) {
+            continue;
+        }
 
-            if (joystick->delayed_guide_button) {
-                SDL_GameControllerHandleDelayedGuideButton(joystick);
-            }
+        joystick->driver->Update(joystick);
+
+        if (joystick->delayed_guide_button) {
+            SDL_GameControllerHandleDelayedGuideButton(joystick);
         }
 
         now = SDL_GetTicks();

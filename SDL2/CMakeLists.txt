@@ -87,7 +87,7 @@ endif()
 # See docs/release_checklist.md
 set(SDL_MAJOR_VERSION 2)
 set(SDL_MINOR_VERSION 30)
-set(SDL_MICRO_VERSION 5)
+set(SDL_MICRO_VERSION 6)
 set(SDL_VERSION "${SDL_MAJOR_VERSION}.${SDL_MINOR_VERSION}.${SDL_MICRO_VERSION}")
 
 # Set defaults preventing destination file conflicts
@@ -1775,14 +1775,6 @@ elseif(WINDOWS)
   if(WINDOWS_STORE)
     file(GLOB WINRT_SOURCE_FILES ${SDL2_SOURCE_DIR}/src/core/winrt/*.c ${SDL2_SOURCE_DIR}/src/core/winrt/*.cpp)
     list(APPEND SOURCE_FILES ${WINRT_SOURCE_FILES})
-  endif()
-
-  if(MSVC AND NOT SDL_LIBC)
-    # Prevent codegen that would use the VC runtime libraries.
-    set_property(DIRECTORY . APPEND PROPERTY COMPILE_OPTIONS "/GS-;/Gs1048576")
-    if(NOT ARCH_64 AND NOT CMAKE_GENERATOR_PLATFORM STREQUAL "ARM")
-      set_property(DIRECTORY . APPEND PROPERTY COMPILE_OPTIONS "/arch:SSE")
-    endif()
   endif()
 
   if(SDL_MISC)
@@ -3525,6 +3517,20 @@ if(SDL_TEST)
   target_include_directories(SDL2_test PRIVATE ${EXTRA_TEST_INCLUDES})
   set_property(TARGET SDL2_test APPEND PROPERTY COMPATIBLE_INTERFACE_STRING "SDL_VERSION")
   set_property(TARGET SDL2_test PROPERTY INTERFACE_SDL_VERSION "SDL2")
+endif()
+
+if(MSVC AND NOT SDL_LIBC)
+  set(targets SDL2)
+  if(TARGET SDL2-static)
+    list(APPEND targets SDL2-static)
+  endif()
+  if(TARGET SDL2_test)
+    list(APPEND targets SDL2_test)
+  endif()
+  set_property(TARGET ${targets} APPEND PROPERTY COMPILE_OPTIONS "/GS-;/Gs1048576")
+  if(NOT ARCH_64 AND NOT CMAKE_GENERATOR_PLATFORM STREQUAL "ARM")
+    set_property(TARGET ${targets} APPEND PROPERTY COMPILE_OPTIONS "/arch:SSE")
+  endif()
 endif()
 
 ##### Installation targets #####

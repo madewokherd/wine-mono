@@ -1,1 +1,1 @@
-release-2.30.5-0-g2eef7ca47
+release-2.30.6-0-gba2f78a00
