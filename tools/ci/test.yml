@@ -1,6 +1,8 @@
 linux-test:
   stage: test
   image: $CI_REGISTRY/wine/wine:debian-bookworm
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event' || $CI_PROJECT_NAMESPACE == 'wine-mono'
   interruptible: true
   cache:
     - key: wine-addons
