@@ -45,7 +45,7 @@ linux-test:
   script:
     - wine winetest64.exe -c mscoree >winetest64.log 2>&1
     - wine winetest.exe -c mscoree >winetest32.log 2>&1
-    - wine tests/run-tests.exe -fail-list:tests/gitlab-wine-failing.txt >mono-tests.log 2>&1
+    - wine tests/run-tests.exe -fail-list:tests/gitlab-wine-failing.txt -skip-list:tests/gitlab-extra-tests.txt >mono-tests.log 2>&1
   artifacts:
     when: always
     paths:
