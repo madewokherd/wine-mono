@@ -1500,3 +1500,4 @@ MonoTests.System.ServiceModel.Description.MetadataResolverTest:ResolveBadUri
 MonoTests.System.ServiceModel.Description.MetadataResolverTest:ResolveNoEndpoint
 MonoTests.System.Net.HttpRequestStreamTest:Post_EmptyRequestStream
 MonoTests.System.Threading.Tasks.TaskSchedulerTests:UnobservedTaskExceptionArgumentTest
+MonoTests.System.Net.HttpListener2Test:Test5
