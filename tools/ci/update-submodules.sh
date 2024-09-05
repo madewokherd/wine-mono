@@ -41,8 +41,8 @@ recursiveupdate ()
 		fi
 		
 		if ! test -e "$fullpath"/.git; then
-			# Try the wine-mono organization
-			git clone https://gitlab.winehq.org/wine-mono/"$urlbase" "$fullpath"
+			# Try the mono organization
+			git clone https://gitlab.winehq.org/mono/"$urlbase" "$fullpath"
 		fi
 		
 		if test ! -e "$fullpath"/.git -a x != x$CI_MERGE_REQUEST_SOURCE_PROJECT_URL; then
@@ -65,7 +65,7 @@ recursiveupdate ()
 		if test x"$(git rev-parse HEAD)" != x"$commit"; then
 			git fetch origin "$commit" ||
 				git fetch "$url" "$commit" ||
-				git fetch https://gitlab.winehq.org/wine-mono/"$urlbase" "$commit" ||
+				git fetch https://gitlab.winehq.org/mono/"$urlbase" "$commit" ||
 				git fetch "$(dirname "$CI_MERGE_REQUEST_SOURCE_PROJECT_URL")"/"$urlbase" "$commit" ||
 				(echo Unable to fetch commit "$commit" in "$fullpath"; exit 1)
 			git checkout -f $commit || exit 1

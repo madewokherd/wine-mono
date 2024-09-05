@@ -1,7 +1,7 @@
 build-image-build:
   stage: image
   rules:
-    - if: $CI_PIPELINE_SOURCE == 'push' && $CI_PROJECT_PATH == "wine-mono/wine-mono" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_PIPELINE_SOURCE == 'push' && $CI_PROJECT_PATH == "mono/wine-mono" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
       changes:
         - tools/ci/image.yml
         - tools/ci/build.docker
