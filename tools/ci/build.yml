@@ -1,9 +1,9 @@
 
 build:
     stage: build
-    image: $CI_REGISTRY/wine-mono/wine-mono:debian-bookworm-build
+    image: $CI_REGISTRY/mono/wine-mono:debian-bookworm-build
     rules:
-        - if: $CI_PIPELINE_SOURCE == 'merge_request_event' || $CI_PROJECT_NAMESPACE == 'wine-mono'
+        - if: $CI_PIPELINE_SOURCE == 'merge_request_event' || $CI_PROJECT_NAMESPACE == 'mono'
     interruptible: true
     cache:
         -
