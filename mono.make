@@ -48,7 +48,7 @@ IMAGEDIR_BUILD_TARGETS += $$(BUILDDIR)/mono-$(1)/support/.built
 libmono-2.0-$(1).dll: $$(BUILDDIR)/mono-$(1)/mono/mini/.built
 	mkdir -p "$$(IMAGEDIR)/bin"
 	$$(INSTALL_PE_$(1)) "$$(BUILDDIR)/mono-$(1)/mono/mini/.libs/libmonosgen-2.0.dll" "$$(IMAGEDIR)/bin/libmono-2.0-$(1).dll"
-	if test x1 = x$(ENABLE_DEBUG_SYMBOLS); then cp "$$(BUILDDIR)/mono-$(1)/mono/mini/libmono-2.0-$(1).pdb" "$$(IMAGEDIR)/bin/libmono-2.0-$(1).pdb"; fi
+	if test x1 = x$(ENABLE_DEBUG_SYMBOLS) -a x1 != x$(PREFER_DWARF_SYMBOLS); then cp "$$(BUILDDIR)/mono-$(1)/mono/mini/libmono-2.0-$(1).pdb" "$$(IMAGEDIR)/bin/libmono-2.0-$(1).pdb"; fi
 
 .PHONY: libmono-2.0-$(1).dll
 imagedir-targets: libmono-2.0-$(1).dll

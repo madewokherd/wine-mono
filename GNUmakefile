@@ -21,6 +21,7 @@ ENABLE_DOTNET_CORE_WPFGFX=1
 ENABLE_MONODX=1
 
 ENABLE_DEBUG_SYMBOLS=1
+PREFER_DWARF_SYMBOLS=0
 
 ENABLE_ARM=0
 
@@ -41,6 +42,7 @@ MONO_CFG_DIR=$(BUILDDIR_ABS)/mono-unix-install/etc
 MONO_ENV=PATH="$(MONO_BIN_PATH):$$PATH" LD_LIBRARY_PATH="$(MONO_LD_PATH):$$LD_LIBRARY_PATH" MONO_GAC_PREFIX="$(MONO_GAC_PREFIX)" MONO_CFG_DIR="$(MONO_CFG_DIR)"
 
 MINGW_ENV=$(and $(MINGW_PATH),PATH=$(MINGW_PATH):$$PATH)
+LLVM_MINGW_ENV=$(and $(LLVM_MINGW_PATH),PATH=$(LLVM_MINGW_PATH):$$PATH)
 
 CP_R=$(SRCDIR_ABS)/tools/copy_recursive.py
 RM_F=rm -f
@@ -98,9 +100,15 @@ clean: clean-build
 define MINGW_TEMPLATE =
 
 ifeq (1,$(ENABLE_DEBUG_SYMBOLS))
+  ifeq (1,$(PREFER_DWARF_SYMBOLS))
+INSTALL_PE_$(1)=do_install () { $$(MINGW_ENV) $$(MINGW_$(1))-objcopy --only-keep-debug "$$$$1" "$$$$(printf %s "$$$$2"|sed -e 's/\....$$$$/.dbg/')"; $$(MINGW_ENV) $$(MINGW_$(1))-objcopy --strip-all "$$$$1" "$$$$2"; $$(MINGW_ENV) $$(MINGW_$(1))-objcopy --add-gnu-debuglink="$$$$(printf %s "$$$$2"|sed -e 's/\....$$$$/.dbg/')" "$$$$2"; }; do_install
+PDB_CFLAGS_$(1)=-gdwarf-4 -g
+PDB_LDFLAGS_$(1)=
+  else
 INSTALL_PE_$(1)=do_install () { cp "$$$$(printf %s "$$$$1"|sed -e 's/\....$$$$/.pdb/')" "$$$$(printf %s "$$$$2"|sed -e 's/\....$$$$/.pdb/')"; cp "$$$$1" "$$$$2"; $$(MINGW_ENV) $$(MINGW_$(1))-strip "$$$$2"; }; do_install
 PDB_CFLAGS_$(1)=-gcodeview -g
 PDB_LDFLAGS_$(1)=-Wl,-pdb=
+  endif
 else
 INSTALL_PE_$(1)=do_install () { cp "$$$$1" "$$$$2"; $$(MINGW_ENV) $$(MINGW_$(1))-strip "$$$$2"; }; do_install
 endif
@@ -289,7 +297,7 @@ clean-msi:
 clean: clean-msi
 
 $(OUTDIR)/wine-mono-$(MSI_VERSION)-x86.tar.$(COMPRESSED_SUFFIX): $(BUILDDIR)/.imagedir-built
-	cd $(IMAGEDIR)/..; tar cf $(OUTDIR_ABS)/wine-mono-$(MSI_VERSION)-x86.tar.$(COMPRESSED_SUFFIX) --transform 's:^$(notdir $(IMAGEDIR_ABS)):wine-mono-$(MSI_VERSION):g' '--exclude=*.pdb' '--use-compress-program=$(COMPRESSOR)' $(notdir $(IMAGEDIR_ABS))
+	cd $(IMAGEDIR)/..; tar cf $(OUTDIR_ABS)/wine-mono-$(MSI_VERSION)-x86.tar.$(COMPRESSED_SUFFIX) --transform 's:^$(notdir $(IMAGEDIR_ABS)):wine-mono-$(MSI_VERSION):g' '--exclude=*.pdb' '--exclude=*.dbg' '--use-compress-program=$(COMPRESSOR)' $(notdir $(IMAGEDIR_ABS))
 
 bin: $(OUTDIR)/wine-mono-$(MSI_VERSION)-x86.tar.$(COMPRESSED_SUFFIX)
 .PHONY: bin
@@ -303,7 +311,7 @@ clean-targz:
 clean: clean-targz
 
 $(OUTDIR)/wine-mono-$(MSI_VERSION)-dbgsym.tar.$(COMPRESSED_SUFFIX): $(BUILDDIR)/.imagedir-built
-	cd $(IMAGEDIR)/..; find $(notdir $(IMAGEDIR_ABS)) -name '*.pdb'|tar cf $(OUTDIR_ABS)/wine-mono-$(MSI_VERSION)-dbgsym.tar.$(COMPRESSED_SUFFIX) --transform 's:^$(notdir $(IMAGEDIR_ABS)):wine-mono-$(MSI_VERSION):g' -T - '--use-compress-program=$(COMPRESSOR)'
+	cd $(IMAGEDIR)/..; find $(notdir $(IMAGEDIR_ABS)) -name '*.pdb' -o -name '*.dbg'|tar cf $(OUTDIR_ABS)/wine-mono-$(MSI_VERSION)-dbgsym.tar.$(COMPRESSED_SUFFIX) --transform 's:^$(notdir $(IMAGEDIR_ABS)):wine-mono-$(MSI_VERSION):g' -T - '--use-compress-program=$(COMPRESSOR)'
 
 dbgsym: $(OUTDIR)/wine-mono-$(MSI_VERSION)-dbgsym.tar.$(COMPRESSED_SUFFIX)
 .PHONY: dbgsym

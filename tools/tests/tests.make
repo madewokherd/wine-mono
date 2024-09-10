@@ -188,7 +188,7 @@ clean: clean-tools-tests
 define MINGW_TEMPLATE +=
 
 $$(BUILDDIR)/call-mixedmode-$(1).exe: $$(SRCDIR)/tools/tests/call-mixedmode.c $$(MINGW_DEPS)
-	$$(MINGW_ENV) $$(MINGW_$(1))-gcc $$(filter %.lib,$$^) $$< -o $$@
+	$$(LLVM_MINGW_ENV) $$(MINGW_$(1))-gcc $$(filter %.lib,$$^) $$< -o $$@
 
 tools-tests-all: $$(BUILDDIR)/call-mixedmode-$(1).exe $$(BUILDDIR)/call-method-$(1).exe
 
@@ -208,7 +208,7 @@ clean-call-method-$(1):
 clean-build: clean-call-method-$(1)
 
 $$(BUILDDIR)/winemonotest-$(1).dll: $$(SRCDIR)/tools/tests/winemonotest.c $$(MINGW_DEPS)
-	$$(MINGW_ENV) $$(MINGW_$(1))-gcc -shared -Wl,--kill-at $$(filter %.lib,$$^) -loleaut32 $$< -o $$@
+	$$(LLVM_MINGW_ENV) $$(MINGW_$(1))-gcc -shared -Wl,--kill-at $$(filter %.lib,$$^) -loleaut32 $$< -o $$@
 
 tools-tests-all: $$(BUILDDIR)/winemonotest-$(1).dll
 
@@ -218,7 +218,7 @@ clean-winemonotest-$(1):
 clean-build: clean-winemonotest-$(1)
 
 $$(BUILDDIR)/vtblgap-lib-$(1).dll: $$(SRCDIR)/tools/tests/vtblgap-lib.cpp $$(MINGW_DEPS)
-	$$(MINGW_ENV) $$(MINGW_$(1))-g++ -shared -luuid -lole32 $$< -static-libgcc -static-libstdc++ -o $$@
+	$$(LLVM_MINGW_ENV) $$(MINGW_$(1))-g++ -shared -luuid -lole32 $$< -static-libgcc -static-libstdc++ -o $$@
 
 tools-tests-all: $$(BUILDDIR)/vtblgap-lib-$(1).dll
 

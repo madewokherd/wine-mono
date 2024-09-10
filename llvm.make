@@ -10,7 +10,7 @@ FETCH_LLVM_MINGW=$(SRCDIR_ABS)/$(FETCH_LLVM_MINGW_DIRECTORY)
 
 AUTO_LLVM_MINGW?=1
 
-ifeq ($(origin MINGW_x86) $(origin MINGW_x86_64) $(origin MINGW_PATH) $(AUTO_LLVM_MINGW),undefined undefined undefined 1)
+ifeq ($(origin MINGW_x86) $(origin MINGW_x86_64) $(origin LLVM_MINGW_PATH) $(AUTO_LLVM_MINGW),undefined undefined undefined 1)
 
 #default: obtain llvm-mingw automatically
 
@@ -19,10 +19,11 @@ ifeq (x$(wildcard $(FETCH_LLVM_MINGW)/.dir),x)
 DO_FETCH_LLVM_MINGW=1
 endif
 
-MINGW_PATH = $(FETCH_LLVM_MINGW)/bin
+LLVM_MINGW_PATH = $(FETCH_LLVM_MINGW)/bin
 
 endif
 
+MINGW_PATH ?= $(LLVM_MINGW_PATH)
 MINGW_x86 ?= i686-w64-mingw32
 MINGW_x86_64 ?= x86_64-w64-mingw32
 MINGW_arm ?= armv7-w64-mingw32
