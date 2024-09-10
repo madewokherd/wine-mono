@@ -87,7 +87,7 @@ endif()
 # See docs/release_checklist.md
 set(SDL_MAJOR_VERSION 2)
 set(SDL_MINOR_VERSION 30)
-set(SDL_MICRO_VERSION 6)
+set(SDL_MICRO_VERSION 7)
 set(SDL_VERSION "${SDL_MAJOR_VERSION}.${SDL_MINOR_VERSION}.${SDL_MICRO_VERSION}")
 
 # Set defaults preventing destination file conflicts
@@ -3520,7 +3520,10 @@ if(SDL_TEST)
 endif()
 
 if(MSVC AND NOT SDL_LIBC)
-  set(targets SDL2)
+  set(targets )
+  if(TARGET SDL2)
+    list(APPEND targets SDL2)
+  endif()
   if(TARGET SDL2-static)
     list(APPEND targets SDL2-static)
   endif()
