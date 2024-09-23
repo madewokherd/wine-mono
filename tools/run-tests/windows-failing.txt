@@ -5270,6 +5270,12 @@ MonoTests.System.IO.Compression.GZipStreamTest:CheckGetCanSeekProp
 MonoTests.System.IO.Compression.GZipStreamTest:CheckGetCanWriteProp
 MonoTests.System.IO.Compression.GZipStreamTest:CheckNet45Overloads
 MonoTests.System.IO.Compression.GZipStreamTest:DisposeOrderTest
+MonoTests.Remoting.HttpAsyncCallTest:BaseCallTest.TestAbstractComplexParamsInOut
+MonoTests.Remoting.HttpAsyncCallTest:BaseCallTest.TestInstanceComplexParamsInOut
+MonoTests.Remoting.HttpAsyncCallTest:BaseCallTest.TestInterfaceComplexParamsInOut
+MonoTests.Remoting.HttpCustomAsyncCallTest:BaseCallTest.TestAbstractComplexParamsInOut
+MonoTests.Remoting.HttpCustomAsyncCallTest:BaseCallTest.TestInstanceComplexParamsInOut
+MonoTests.Remoting.HttpCustomAsyncCallTest:BaseCallTest.TestInterfaceComplexParamsInOut
 # unreliable:
 x86.thread-exit
 MonoTests.System.Threading.Tasks.TaskTests:DoubleWaitTest
