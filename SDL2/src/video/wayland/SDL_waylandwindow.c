@@ -1481,6 +1481,9 @@ void Wayland_ShowWindow(_THIS, SDL_Window *window)
      * HideWindow was called immediately before ShowWindow.
      */
     WAYLAND_wl_display_roundtrip(c->display);
+
+    /* Send an exposure event to signal that the client should draw. */
+    SDL_SendWindowEvent(window, SDL_WINDOWEVENT_EXPOSED, 0, 0);
 }
 
 static void Wayland_ReleasePopup(_THIS, SDL_Window *popup)
@@ -2023,6 +2026,11 @@ int Wayland_CreateWindow(_THIS, SDL_Window *window)
         }
     }
 
+    data->double_buffer = SDL_FALSE;
+    if (SDL_GetHintBoolean(SDL_HINT_VIDEO_DOUBLE_BUFFER, SDL_FALSE)) {
+        data->double_buffer = SDL_TRUE;
+    }
+
     data->outputs = NULL;
     data->num_outputs = 0;
 
@@ -2142,6 +2150,7 @@ static void Wayland_HandleResize(SDL_Window *window, int width, int height, floa
         window->w = 0;
         window->h = 0;
         SDL_SendWindowEvent(window, SDL_WINDOWEVENT_RESIZED, width, height);
+        SDL_SendWindowEvent(window, SDL_WINDOWEVENT_EXPOSED, 0, 0);
         window->w = width;
         window->h = height;
         data->needs_resize_event = SDL_FALSE;
