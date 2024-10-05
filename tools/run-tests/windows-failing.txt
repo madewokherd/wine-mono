@@ -1288,7 +1288,6 @@ x86.MonoTests.System.Drawing.ColorTranslatorTest:FromHtml_PoundInt
 x86.MonoTests.System.Drawing.ColorTranslatorTest:FromHtml_PoundNegative
 x86.MonoTests.System.Drawing.ColorTranslatorTest:FromHtml_PoundTooLarge
 x86.MonoTests.System.Drawing.ColorTranslatorTest:FromHtml_Unknown
-MonoTests.System.Drawing.Drawing2D.LinearGradientBrushTest:Constructor_Point_Point_Color_Color_1
 x86.MonoTests.System.Drawing.Drawing2D.PathGradientBrushTest:RotateTransform_Max
 x86.MonoTests.System.Drawing.Drawing2D.PathGradientBrushTest:RotateTransform_Min
 x86.MonoTests.System.Drawing.FontFamilyTest:FontFamily_String
