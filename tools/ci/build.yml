@@ -5,6 +5,7 @@ build:
     rules:
         - if: $CI_PIPELINE_SOURCE == 'merge_request_event' || $CI_PROJECT_NAMESPACE == 'mono'
     interruptible: true
+    timeout: 2h
     cache:
         -
             key: $CI_JOB_NAME-ccache
