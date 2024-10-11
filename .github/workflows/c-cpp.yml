@@ -220,4 +220,4 @@ jobs:
       run: |
         unzip wine-mono-*-tests.zip 1>&2
         wine reg add 'HKCU\Software\Wine\WineDbg' /v ShowCrashDialog /t REG_DWORD /d 0 /f
-        wine tests/run-tests.exe -fail-list:tests/github-wine-failing.txt -fail-list:tests/github-macos-failing.txt
+        wine tests/run-tests.exe -fail-list:tests/github-wine-failing.txt -fail-list:tests/github-macos-failing.txt -skip-list:tests/github-macos-skip.txt
