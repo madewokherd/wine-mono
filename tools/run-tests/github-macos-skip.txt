@@ -1,2 +1,3 @@
 MonoTests.System.Windows.Forms.FormThreadTest:TestThreadFormsInit
 MonoTests.System.Windows.Forms.ControlInvokeTest:InvokeTest
+MonoTests.System.Threading.ThreadApartmentTest:TestApartmentState
