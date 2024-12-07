@@ -33,7 +33,7 @@ $(SRCDIR)/monoDX/FixupConstructors/.built: $(BUILDDIR)/mono-unix/.installed $(MO
 	+$(MONO_ENV) $(MAKE) -C $(@D) MONO_CECIL_DLL=$(BUILDDIR_ABS)/mono-unix-install/lib/mono/gac/Mono.Cecil/0.11.1.0__0738eb9f132ed756/Mono.Cecil.dll
 	touch $@
 
-$(SRCDIR)/monoDX/Microsoft.DirectX/.built: $(BUILDDIR)/mono-unix/.installed $(MONODX_SRCS)
+$(SRCDIR)/monoDX/Microsoft.DirectX/.built: $(BUILDDIR)/mono-unix/.installed $(MONODX_SRCS) $(SRCDIR)/monoDX/FixupConstructors/.built
 	+$(MONO_ENV) $(MAKE) -C $(@D)
 	touch $@
 
