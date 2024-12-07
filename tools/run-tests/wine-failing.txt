@@ -126,6 +126,7 @@ MonoTests.Microsoft.Build.BuildEngine.BuildPropertyTest:TestClone5
 MonoTests.Microsoft.Build.BuildEngine.BuildPropertyTest:TestClone6
 MonoTests.Microsoft.Build.BuildEngine.BuildPropertyTest:TestCondition1
 MonoTests.Microsoft.Build.BuildEngine.EngineTest:TestGlobalProperties1
+MonoTests.System.Windows.Forms.CursorTest:CursorPropertyTag # Cursor.Current is null on Wine when process starts, Wine bug
 x86.MonoTests.Microsoft.Build.BuildEngine.EngineTest:TestGlobalProperties1a
 x86.MonoTests.Microsoft.Build.BuildEngine.EngineTest:TestGlobalProperties1b
 x86.MonoTests.Microsoft.Build.BuildEngine.EngineTest:TestGlobalProperties2
@@ -497,7 +498,6 @@ x86.MonoTests.System.Windows.Forms.ComboBoxTest:DropDownWidth
 x86.MonoTests.System.Windows.Forms.ComboBoxTest:ItemHeight
 x86.MonoTests.System.Windows.Forms.ComboBoxTest:SelectionWithAdd
 x86.MonoTests.System.Windows.Forms.ComboBoxTest:SelectionWithInsert
-x86.MonoTests.System.Windows.Forms.CursorTest:CursorPropertyTag
 x86.MonoTests.System.Windows.Forms.DataGridTextBoxTest:TestKeyPress_GridButNoColumns
 x86.MonoTests.System.Windows.Forms.DataGridViewLinkCellTest:Defaults
 x86.MonoTests.System.Windows.Forms.DateTimePickerTest:MaxDate_Invalid
@@ -995,7 +995,6 @@ x86_64.MonoTests.System.Windows.Forms.ComboBoxTest:DropDownWidth
 x86_64.MonoTests.System.Windows.Forms.ComboBoxTest:ItemHeight
 x86_64.MonoTests.System.Windows.Forms.ComboBoxTest:SelectionWithAdd
 x86_64.MonoTests.System.Windows.Forms.ComboBoxTest:SelectionWithInsert
-x86_64.MonoTests.System.Windows.Forms.CursorTest:CursorPropertyTag
 x86_64.MonoTests.System.Windows.Forms.DataGridTextBoxTest:TestKeyPress_GridButNoColumns
 x86_64.MonoTests.System.Windows.Forms.DataGridViewLinkCellTest:Defaults
 x86_64.MonoTests.System.Windows.Forms.DateTimePickerTest:MaxDate_Invalid
