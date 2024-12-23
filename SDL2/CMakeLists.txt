@@ -5,7 +5,7 @@ endif()
 # MSVC runtime library flags are selected by an abstraction.
 set(CMAKE_POLICY_DEFAULT_CMP0091 NEW)
 
-cmake_minimum_required(VERSION 3.0.0...3.5)
+cmake_minimum_required(VERSION 3.0.0...3.10)
 project(SDL2 C CXX)
 
 if(CMAKE_SOURCE_DIR STREQUAL PROJECT_SOURCE_DIR)
@@ -33,8 +33,8 @@ set(PKGCONFIG_DEPENDS)
 add_library(sdl-build-options INTERFACE)
 
 if(WINDOWS_STORE)
-  target_compile_definitions(sdl-build-options INTERFACE "-DSDL_BUILDING_WINRT=1")
-  target_compile_options(sdl-build-options INTERFACE "-ZW")
+  target_compile_definitions(sdl-build-options INTERFACE "-DSDL_BUILDING_WINRT=1" "WINAPI_FAMILY=WINAPI_FAMILY_APP")
+  target_compile_options(sdl-build-options INTERFACE "$<$<COMPILE_LANGUAGE:CXX>:-ZW>" "$<$<COMPILE_LANGUAGE:CXX>:-EHsc>")
 endif()
 
 # CMake 3.0 expands the "if(${A})" in "set(OFF 1);set(A OFF);if(${A})" to "if(1)"
@@ -87,7 +87,7 @@ endif()
 # See docs/release_checklist.md
 set(SDL_MAJOR_VERSION 2)
 set(SDL_MINOR_VERSION 30)
-set(SDL_MICRO_VERSION 9)
+set(SDL_MICRO_VERSION 10)
 set(SDL_VERSION "${SDL_MAJOR_VERSION}.${SDL_MINOR_VERSION}.${SDL_MICRO_VERSION}")
 
 # Set defaults preventing destination file conflicts
@@ -409,7 +409,7 @@ dep_option(SDL_SSE                 "Use SSE assembly routines" ON "SDL_ASSEMBLY;
 dep_option(SDL_SSE2                "Use SSE2 assembly routines" ON "SDL_ASSEMBLY;SDL_CPU_X86 OR SDL_CPU_X64" OFF)
 dep_option(SDL_SSE3                "Use SSE3 assembly routines" ON "SDL_ASSEMBLY;SDL_CPU_X86 OR SDL_CPU_X64" OFF)
 dep_option(SDL_MMX                 "Use MMX assembly routines" ON "SDL_ASSEMBLY;SDL_CPU_X86 OR SDL_CPU_X64" OFF)
-dep_option(SDL_3DNOW               "Use 3Dnow! MMX assembly routines" ON "SDL_ASSEMBLY;SDL_CPU_X86 OR SDL_CPU_X64" OFF)
+dep_option(SDL_3DNOW               "Use 3Dnow! MMX assembly routines" OFF "SDL_ASSEMBLY;SDL_CPU_X86 OR SDL_CPU_X64" OFF)
 dep_option(SDL_ALTIVEC             "Use Altivec assembly routines" ON "SDL_ASSEMBLY" OFF)
 dep_option(SDL_ARMSIMD             "Use SIMD assembly blitters on ARM" OFF "SDL_ASSEMBLY;SDL_CPU_ARM32" OFF)
 dep_option(SDL_ARMNEON             "Use NEON assembly blitters on ARM" OFF "SDL_ASSEMBLY;SDL_CPU_ARM32" OFF)
@@ -2665,6 +2665,11 @@ elseif(PSP)
     list(APPEND SOURCE_FILES ${PSP_THREAD_SOURCES})
     set(HAVE_SDL_THREADS TRUE)
   endif()
+  if(SDL_LOCALE)
+    file(GLOB PSP_LOCALE_SOURCES ${SDL2_SOURCE_DIR}/src/locale/psp/*.c)
+    list(APPEND SOURCE_FILES ${PSP_LOCALE_SOURCES})
+    set(HAVE_SDL_LOCALE TRUE)
+  endif()
   if(SDL_TIMERS)
     set(SDL_TIMER_PSP 1)
     file(GLOB PSP_TIMER_SOURCES ${SDL2_SOURCE_DIR}/src/timer/psp/*.c)
@@ -3053,8 +3058,8 @@ endif()
 
 # Compat helpers for the configuration files
 
-if(EXISTS "${PROJECT_SOURCE_DIR}/VERSION.txt")
-  file(READ "${PROJECT_SOURCE_DIR}/VERSION.txt" SDL_SOURCE_VERSION)
+if(EXISTS "${PROJECT_SOURCE_DIR}/REVISION.txt")
+  file(READ "${PROJECT_SOURCE_DIR}/REVISION.txt" SDL_SOURCE_VERSION)
   string(STRIP "${SDL_SOURCE_VERSION}" SDL_SOURCE_VERSION)
 endif()
 
