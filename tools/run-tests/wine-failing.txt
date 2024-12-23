@@ -239,8 +239,6 @@ x86.MonoTests.System.Drawing.Drawing2D.GraphicsPathTest:Reverse_Subpath_Marker
 x86.MonoTests.System.Drawing.Drawing2D.GraphicsPathTest:Reverse_Subpath_Marker_2
 x86.MonoTests.System.Drawing.Drawing2D.GraphicsPathTest:StartClose_AddClosedCurve
 x86.MonoTests.System.Drawing.Drawing2D.GraphicsPathTest:StartClose_AddPie
-x86.MonoTests.System.Drawing.Drawing2D.GraphicsPathTest:StartClose_AddRectangle
-x86.MonoTests.System.Drawing.Drawing2D.GraphicsPathTest:StartClose_AddRectangles
 x86.MonoTests.System.Drawing.Drawing2D.GraphicsPathTest:StartClose_AddString
 x86.MonoTests.System.Drawing.Drawing2D.GraphicsPathTest:Warp_Bilinear
 x86.MonoTests.System.Drawing.Drawing2D.GraphicsPathTest:Warp_Invalid
@@ -719,8 +717,6 @@ x86_64.MonoTests.System.Drawing.Drawing2D.GraphicsPathTest:Reverse_Subpath_Marke
 x86_64.MonoTests.System.Drawing.Drawing2D.GraphicsPathTest:Reverse_Subpath_Marker_2
 x86_64.MonoTests.System.Drawing.Drawing2D.GraphicsPathTest:StartClose_AddClosedCurve
 x86_64.MonoTests.System.Drawing.Drawing2D.GraphicsPathTest:StartClose_AddPie
-x86_64.MonoTests.System.Drawing.Drawing2D.GraphicsPathTest:StartClose_AddRectangle
-x86_64.MonoTests.System.Drawing.Drawing2D.GraphicsPathTest:StartClose_AddRectangles
 x86_64.MonoTests.System.Drawing.Drawing2D.GraphicsPathTest:StartClose_AddString
 x86_64.MonoTests.System.Drawing.Drawing2D.GraphicsPathTest:Warp_Bilinear
 x86_64.MonoTests.System.Drawing.Drawing2D.GraphicsPathTest:Warp_Invalid
