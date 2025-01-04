@@ -101,16 +101,16 @@ define MINGW_TEMPLATE =
 
 ifeq (1,$(ENABLE_DEBUG_SYMBOLS))
   ifeq (1,$(PREFER_DWARF_SYMBOLS))
-INSTALL_PE_$(1)=do_install () { $$(MINGW_ENV) $$(MINGW_$(1))-objcopy --only-keep-debug "$$$$1" "$$$$(printf %s "$$$$2"|sed -e 's/\....$$$$/.dbg/')"; $$(MINGW_ENV) $$(MINGW_$(1))-objcopy --strip-all "$$$$1" "$$$$2"; $$(MINGW_ENV) $$(MINGW_$(1))-objcopy --add-gnu-debuglink="$$$$(printf %s "$$$$2"|sed -e 's/\....$$$$/.dbg/')" "$$$$2"; }; do_install
+INSTALL_PE_$(1)=do_install () { $$(MINGW_ENV) $$(MINGW_$(1))-objcopy --only-keep-debug "$$$$1" "$$$$(printf %s "$$$$2"|sed -e 's/\....$$$$/.dbg/')"; $$(MINGW_ENV) $$(MINGW_$(1))-objcopy --strip-all "$$$$1" "$$$$2"; $$(MINGW_ENV) $$(MINGW_$(1))-objcopy --add-gnu-debuglink="$$$$(printf %s "$$$$2"|sed -e 's/\....$$$$/.dbg/')" "$$$$2"; tools/mark-wine-builtin.sh "$$$$2"; }; do_install
 PDB_CFLAGS_$(1)=-gdwarf-4 -g
 PDB_LDFLAGS_$(1)=
   else
-INSTALL_PE_$(1)=do_install () { cp "$$$$(printf %s "$$$$1"|sed -e 's/\....$$$$/.pdb/')" "$$$$(printf %s "$$$$2"|sed -e 's/\....$$$$/.pdb/')"; cp "$$$$1" "$$$$2"; $$(MINGW_ENV) $$(MINGW_$(1))-strip "$$$$2"; }; do_install
+INSTALL_PE_$(1)=do_install () { cp "$$$$(printf %s "$$$$1"|sed -e 's/\....$$$$/.pdb/')" "$$$$(printf %s "$$$$2"|sed -e 's/\....$$$$/.pdb/')"; cp "$$$$1" "$$$$2"; $$(MINGW_ENV) $$(MINGW_$(1))-strip "$$$$2"; tools/mark-wine-builtin.sh "$$$$2"; }; do_install
 PDB_CFLAGS_$(1)=-gcodeview -g
 PDB_LDFLAGS_$(1)=-Wl,-pdb=
   endif
 else
-INSTALL_PE_$(1)=do_install () { cp "$$$$1" "$$$$2"; $$(MINGW_ENV) $$(MINGW_$(1))-strip "$$$$2"; }; do_install
+INSTALL_PE_$(1)=do_install () { cp "$$$$1" "$$$$2"; $$(MINGW_ENV) $$(MINGW_$(1))-strip "$$$$2"; tools/mark-wine-builtin.sh "$$$$2"; }; do_install
 endif
 
 # installinf.exe
