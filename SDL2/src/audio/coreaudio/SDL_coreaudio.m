@@ -673,7 +673,21 @@ static OSStatus default_device_changed(AudioObjectID inObjectID, UInt32 inNumber
 #if DEBUG_COREAUDIO
     printf("COREAUDIO: default device changed for SDL audio device %p!\n", this);
 #endif
-    SDL_AtomicSet(&this->hidden->device_change_flag, 1); /* let the audioqueue thread pick up on this when safe to do so. */
+
+    /* due to a bug (?) in CoreAudio, this seems able to fire for a device pointer that's already closed, so check our list to make sure
+       the pointer is still valid before touching it. https://github.com/libsdl-org/SDL/issues/10432 */
+    if (open_devices) {
+        int i;
+        for (i = 0; i < num_open_devices; i++) {
+            SDL_AudioDevice *device = open_devices[i];
+            if (device == this) {
+                if (this->hidden) {
+                    SDL_AtomicSet(&this->hidden->device_change_flag, 1); /* let the audioqueue thread pick up on this when safe to do so. */
+                }
+                return noErr;
+            }
+        }
+    }
     return noErr;
 }
 #endif
@@ -807,8 +821,8 @@ static int assign_device_to_audioqueue(_THIS)
     result = AudioObjectGetPropertyData(this->hidden->deviceID, &prop, 0, NULL, &devuidsize, &devuid);
     CHECK_RESULT("AudioObjectGetPropertyData (kAudioDevicePropertyDeviceUID)");
     result = AudioQueueSetProperty(this->hidden->audioQueue, kAudioQueueProperty_CurrentDevice, &devuid, devuidsize);
+    CFRelease(devuid);  /* Release devuid; we're done with it and AudioQueueSetProperty should have retained if it wants to keep it. */
     CHECK_RESULT("AudioQueueSetProperty (kAudioQueueProperty_CurrentDevice)");
-
     return 1;
 }
 #endif
@@ -880,14 +894,25 @@ static int prepare_audioqueue(_THIS)
         //  L R C LFE Ls Rs
         layout.mChannelLayoutTag = kAudioChannelLayoutTag_DVD_12;
         break;
+#if (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 130000) || \
+    (defined(MAC_OS_X_VERSION_MAX_ALLOWED) && MAC_OS_X_VERSION_MAX_ALLOWED >= 101500)
     case 7:
         // L R C LFE Cs Ls Rs
-        layout.mChannelLayoutTag = kAudioChannelLayoutTag_WAVE_6_1;
+        if (@available(macOS 10.15, iOS 13, *)) {
+            layout.mChannelLayoutTag = kAudioChannelLayoutTag_WAVE_6_1;
+        } else {
+            return SDL_SetError("Unsupported audio channels");
+        }
         break;
     case 8:
         // L R C LFE Rls Rrs Ls Rs
-        layout.mChannelLayoutTag = kAudioChannelLayoutTag_WAVE_7_1;
+        if (@available(macOS 10.15, iOS 13, *)) {
+            layout.mChannelLayoutTag = kAudioChannelLayoutTag_WAVE_7_1;
+        } else {
+            return SDL_SetError("Unsupported audio channels");
+        }
         break;
+#endif
     default:
         return SDL_SetError("Unsupported audio channels");
     }
