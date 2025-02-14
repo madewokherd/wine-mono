@@ -98,3 +98,12 @@ MonoTests.System.Diagnostics.Contracts.ContractHelperTest:TestTriggerFailure
 MonoTests.System.Windows.Forms.ApplicationContextTest:NestedApplicationContextTest
 MonoTests.System.Diagnostics.Contracts.ContractAssertTest:TestAssertEventHandlerNoAction
 MonoTests.System.Drawing.FontTest:ToLogFont_Null
+x86.pinvoke2:test_0_calli_dynamic
+x86.pinvoke2:test_0_amd64_struct1_gen
+x86.pinvoke2:test_0_marshal_struct_gen
+x86.pinvoke2:test_0_marshal_lpstruct
+x86.pinvoke2:test_0_marshal_lpstruct_blittable
+x86.pinvoke2:test_0_marshal_delegate_struct
+x86.pinvoke2:test_0_return_vtype
+x86.pinvoke2:test_0_return_vtype_gen
+x86.pinvoke2:test_0_add_lib_to_name
