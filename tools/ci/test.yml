@@ -40,7 +40,7 @@ linux-test:
     - WINEDLLOVERRIDES=mscoree= wine wineboot.exe -u
     - wine reg add 'HKCU\Software\Wine\WineDbg' /v ShowCrashDialog /t REG_DWORD /d 0 /f
     - wine reg add 'HKCU\Software\Wine\Mono' /v RuntimePath /d "$(wine winepath -w ${BASEDIR}/image)" /f
-    - wine64 regsvr32 /s mscoree
+    - wine usr/local/lib/wine/x86_64-windows/regsvr32.exe /s mscoree
     - wineserver -w
   script:
     - wine winetest64.exe -c mscoree >winetest64.log 2>&1
