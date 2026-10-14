@@ -96,7 +96,7 @@ Bugs should be filed in the [Wine bugzilla](http://bugs.winehq.org/) with produc
 
 ### PATCHES
 
-Patches to the top-level project should be sent as a merge request to the [Wine Mono GitLab repository](https://gitlab.winehq.org/mono/wine-mono). There is also an [official mirror](https://github.com/wine-mono/wine-mono) on GitHub where Pull Requests can be sent. GitHub PRs create more work for the maintainer, so they're not ideal, but a little bit of extra work for the maintainer is preferable to losing contributions.
+Patches to the top-level project should be sent as a merge request to the [Wine Mono GitLab repository](https://gitlab.winehq.org/mono/wine-mono). Forking projects and sending MRs on the WineHQ GitLab requires creating a [User Verification Issue](https://gitlab.winehq.org/winehq/winehq/-/wikis/home). There is also an [official mirror](https://github.com/wine-mono/wine-mono) on GitHub where Pull Requests can be sent. GitHub PRs create more work for the maintainer, so they're not ideal, but a little bit of extra work for the maintainer is preferable to losing contributions.
 
 Patches to Mono should be sent as a merge request to the [Framework Mono GitLab repository](https://gitlab.winehq.org/mono/mono). Ideally, most MRs should be for the main branch. If the change is specific to Wine Mono, then the MR should be for the wine-mono branch.
 
